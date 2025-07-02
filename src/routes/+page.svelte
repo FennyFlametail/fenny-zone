@@ -37,7 +37,9 @@
 		} else {
 			// update query string when apps are opened and closed
 			url.searchParams.set('apps', apps.map((app) => app.metadata.name).join(','));
-			replaceState(url, {});
+			try {
+				replaceState(url, {});
+			} catch {}
 		}
 		initComplete = true;
 	});
