@@ -2,10 +2,16 @@
 	$semantic-root-element: '#root'
 );
 
+html {
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
 body {
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
+	touch-action: manipulation;
 }

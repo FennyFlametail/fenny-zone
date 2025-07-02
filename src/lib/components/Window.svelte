@@ -25,6 +25,7 @@
 	}
 
 	function startDrag(e: PointerEvent) {
+		console.debug('startDrag');
 		dragging.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
@@ -51,6 +52,7 @@
 	}
 </script>
 
+<!-- TODO implement resize that works on mobile -->
 <article
 	bind:this={element}
 	onpointerdown={focus}
@@ -68,28 +70,30 @@
 	</div>
 </article>
 
-<svelte:body onpointermove={drag} onpointerup={stopDrag} onpointercancel={stopDrag} />
+<svelte:body onpointermove={drag} onpointerup={stopDrag} />
 
 <style>
 	.window {
-		padding-top: 0;
+		transform: translate(var(--x), var(--y));
 		min-width: 200px;
 		min-height: 200px;
 		width: 600px;
 		height: 600px;
-		resize: both;
-		overflow: auto;
-		position: relative;
-		transform: translate(var(--x), var(--y));
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		touch-action: auto; /* needed for dragging to work */
 	}
 
 	.windowTitle {
+		flex: 0 0 auto;
+		margin: 0;
 		cursor: default;
-		position: sticky;
-		top: 0;
 	}
 
 	.windowContent {
-		padding-top: var(--pico-block-spacing-vertical);
+		padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+		overflow: auto;
 	}
 </style>
