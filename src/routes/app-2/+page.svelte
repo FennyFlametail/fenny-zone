@@ -1,5 +1,4 @@
 <script module>
-	export const name = 'App2';
 	export const title = 'App Two';
 </script>
 
