@@ -24,3 +24,11 @@ export function getFileIconContext() {
 		isDesktop: boolean;
 	};
 }
+
+const menubarContextKey = {};
+export function setMenubarContext(dismissMenu: () => void) {
+	setContext(menubarContextKey, { dismissMenu });
+}
+export function getMenubarContext() {
+	return getContext(menubarContextKey) as { dismissMenu: () => void };
+}

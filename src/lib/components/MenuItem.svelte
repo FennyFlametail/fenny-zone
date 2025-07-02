@@ -1,17 +1,31 @@
 <script lang="ts">
-	import type { MouseEventHandler } from 'svelte/elements';
+	import { getMenubarContext } from '$lib/context';
 
 	const {
 		title,
 		onclick
 	}: {
 		title: string;
-		onclick: MouseEventHandler<HTMLButtonElement>;
+		onclick: () => void;
 	} = $props();
+
+	const { dismissMenu } = getMenubarContext();
+
+	let selected = $state(false);
+	function setSelected() {
+		selected = true;
+	}
+	function triggerItem() {
+		if (selected) {
+			selected = false;
+			onclick();
+			dismissMenu();
+		}
+	}
 </script>
 
-<li class="menuItem">
-	<button {onclick}>{title}</button>
+<li class={['menuItem', { selected }]} onanimationend={triggerItem}>
+	<button onclick={setSelected}>{title}</button>
 </li>
 
 <style>
@@ -31,9 +45,23 @@
 			}
 		}
 
+		&.selected {
+			animation: 0.1s steps(2, jump-none) selectItem;
+		}
+
 		> * {
 			all: unset;
 			padding-inline: 22px;
+		}
+	}
+
+	@keyframes selectItem {
+		from {
+			background-color: transparent;
+			color: black;
+		}
+		to {
+			background-color: var(--accent-color);
 		}
 	}
 </style>

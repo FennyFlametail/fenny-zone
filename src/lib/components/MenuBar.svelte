@@ -2,17 +2,31 @@
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuItem from '$lib/components/MenuItem.svelte';
 	import { closeAll, arrangeWindows } from '$lib/components/WindowServer.svelte';
+	import { setMenubarContext } from '$lib/context';
 
-	let menubar: HTMLElement;
+	let menubar = $state<HTMLElement>();
 
-	function dismissMenu(e: MouseEvent) {
-		const openMenu = menubar.querySelector('details[open]');
-		if (!openMenu) return;
-		if (e.composedPath().some((el) => (el as Element).classList?.contains('menuName'))) {
+	function dismissMenu() {
+		const openMenu = menubar!.querySelector('details[open]');
+		if (!openMenu) return false;
+		openMenu.removeAttribute('open');
+		return true;
+	}
+	setMenubarContext(dismissMenu);
+
+	function dismissOnOutsideClick(e: MouseEvent) {
+		const path = e.composedPath();
+		if (path.some((el) => (el as Element).classList?.contains('menuItem'))) {
+			// MenuItem will dismiss the menu after its animation plays
+			return;
+		}
+
+		const dismissed = dismissMenu();
+
+		if (dismissed && path.some((el) => (el as Element).classList?.contains('menuName'))) {
+			// prevent the click from reaching the menu name and immediately reopening the menu
 			e.preventDefault();
 		}
-		// TODO flash menu item if clicked
-		openMenu.removeAttribute('open');
 	}
 </script>
 
@@ -30,7 +44,7 @@
 	</MenuCategory>
 </header>
 
-<svelte:body onclick={dismissMenu} />
+<svelte:body onclick={dismissOnOutsideClick} />
 
 <style>
 	.menubar,
