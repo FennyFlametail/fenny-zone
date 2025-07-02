@@ -1,7 +1,28 @@
+<script lang="ts">
+	let menubar: HTMLElement;
+
+	function menuHover(e: PointerEvent) {
+		let isOpenMenu = menubar.querySelector('details[open]');
+		if (!isOpenMenu) return;
+		const details = e.currentTarget as HTMLDetailsElement;
+		if (!details.open) {
+			// open this menu, which will close the currently open one
+			details.open = true;
+		}
+	}
+
+	function outsideClick(e: MouseEvent) {
+		// dismiss if clicking outside the menubar hierarchy
+		if (!e.composedPath().includes(menubar)) {
+			menubar.querySelector('details[open]')?.removeAttribute('open');
+		}
+	}
+</script>
+
 <div class="menubarShadow"></div>
 
-<header class="menubar">
-	<details class="menuWrapper" name="menubar">
+<header bind:this={menubar} class="menubar">
+	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
 		<summary class="menuName">
 			<span class="menuLogo">🦊</span>
 		</summary>
@@ -14,7 +35,7 @@
 			</li>
 		</menu>
 	</details>
-	<details class="menuWrapper" name="menubar">
+	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
 		<summary class="menuName">Menu 1</summary>
 		<menu class="menu">
 			<li class="menuItem">
@@ -25,7 +46,7 @@
 			</li>
 		</menu>
 	</details>
-	<details class="menuWrapper" name="menubar">
+	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
 		<summary class="menuName">Menu 2</summary>
 		<menu class="menu">
 			<li class="menuItem">
@@ -37,6 +58,8 @@
 		</menu>
 	</details>
 </header>
+
+<svelte:body onclick={outsideClick} />
 
 <style>
 	.menubar,
