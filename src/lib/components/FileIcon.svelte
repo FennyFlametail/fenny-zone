@@ -1,25 +1,30 @@
 <script lang="ts">
 	import type { MouseEventHandler } from 'svelte/elements';
-	import type { AppName } from '$lib/apps.svelte';
+	import apps, { type AppName } from '$lib/apps.svelte';
 	import { getFileIconContext } from '$lib/context';
 	import { openApp } from '$lib/components/WindowServer.svelte';
 
-	type FileIconProps = {
-		name: string;
-		icon: string;
-	} & (
+	const identifier = Symbol('FileIcon');
+
+	let {
+		appName,
+		href,
+		name,
+		icon
+	}:
 		| {
 				appName: AppName;
 				href?: never;
+				name?: never;
+				icon?: never;
 		  }
 		| {
 				appName?: never;
 				href: string;
-		  }
-	);
-
-	let { name, icon, appName, href }: FileIconProps = $props();
-	const isLink = $derived(href);
+				name: string;
+				icon: string;
+		  } = $props();
+	const app = appName && apps[appName];
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
@@ -27,43 +32,43 @@
 	const openAnimDuration = 200;
 
 	const onclick: MouseEventHandler<HTMLButtonElement | HTMLLinkElement> = (e) => {
-		if (isLink) e.preventDefault();
-		setSelectedIcon(name);
+		if (href) e.preventDefault();
+		setSelectedIcon(identifier);
 	};
 
 	const ondblclick: MouseEventHandler<HTMLButtonElement> = (e) => {
 		isOpen = true;
 		window.setTimeout(() => (isOpen = false), openAnimDuration);
-		isLink ? open(href, '_blank') : openApp(appName!);
+		href ? open(href, '_blank') : openApp(appName!);
 	};
 </script>
 
 <svelte:element
-	this={isLink ? 'a' : 'button'}
-	role={isLink ? 'link' : 'button'}
+	this={href ? 'a' : 'button'}
+	role={href ? 'link' : 'button'}
 	class={[
 		'fileIcon',
-		{ selected: getSelectedIcon() === name, open: isOpen, desktopIcon: isDesktop }
+		{ selected: getSelectedIcon() === identifier, open: isOpen, desktopIcon: isDesktop }
 	]}
 	{onclick}
 	{ondblclick}
-	href={isLink ? href : undefined}
-	target={isLink ? '_blank' : undefined}
+	href={href ?? undefined}
+	target={href ? '_blank' : undefined}
 >
 	<div class="fileIconImageWrapper">
-		<img class="fileIconImage" src={icon} alt={name} draggable="false" />
+		<img class="fileIconImage" src={app?.icon ?? icon} alt={app?.title ?? name} draggable="false" />
 		<img
 			class="fileIconImage fileIconImageZoom"
-			src={icon}
+			src={app?.icon ?? icon}
 			alt=""
 			draggable="false"
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
-		{#if isLink}
+		{#if href}
 			<img class="aliasIcon" src="icons/alias.png" alt="" draggable="false" />
 		{/if}
 	</div>
-	<div class="fileIconLabel">{name}</div>
+	<div class="fileIconLabel">{app?.title ?? name}</div>
 </svelte:element>
 
 <style>
@@ -129,6 +134,7 @@
 		line-height: 20px;
 		padding-inline: 15px;
 		text-align: center;
+		white-space: nowrap;
 
 		.desktopIcon & {
 			font-weight: 600;

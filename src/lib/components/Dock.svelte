@@ -8,7 +8,7 @@
 
 <footer class="dock">
 	<div class="dockSection">
-		<DockIcon icon="icons/finder.png" title="Finder" open />
+		<DockIcon icon="icons/finder.png" name="Finder" open />
 		{#each runningAppNames as name (name)}
 			<DockIcon appName={name} />
 		{/each}
@@ -16,7 +16,7 @@
 	<div class="dockSection">
 		<DockIcon appName="characters" />
 		<DockIcon appName="projects" />
-		<DockIcon icon="icons/trash.png" title="Trash" />
+		<DockIcon icon="icons/trash.png" name="Trash" />
 	</div>
 </footer>
 

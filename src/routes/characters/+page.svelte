@@ -4,8 +4,8 @@
 </script>
 
 <Finder>
-	<FileIcon name="Fenny" icon="icons/fenny.png" appName="readme" />
-	<FileIcon name="Aren" icon="icons/aren.png" appName="readme" />
-	<FileIcon name="Ceph" icon="icons/ceph.png" appName="readme" />
-	<FileIcon name="Nocturne" icon="icons/nocturne.png" appName="readme" />
+	<FileIcon name="Fenny" icon="icons/fenny.png" />
+	<FileIcon name="Aren" icon="icons/aren.png" />
+	<FileIcon name="Ceph" icon="icons/ceph.png" />
+	<FileIcon name="Nocturne" icon="icons/nocturne.png" />
 </Finder>

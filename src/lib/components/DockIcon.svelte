@@ -4,19 +4,19 @@
 
 	const {
 		appName,
-		title,
+		name,
 		icon,
 		open
 	}:
 		| {
 				appName: AppName;
-				title?: never;
+				name?: never;
 				icon?: never;
 				open?: never;
 		  }
 		| {
 				appName?: never;
-				title: string;
+				name: string;
 				icon: string;
 				open?: boolean;
 		  } = $props();
@@ -30,8 +30,8 @@
 </script>
 
 <button class={['dockIcon', { open: isOpen }]} {onclick}>
-	<span class="dockIconLabel">{app?.title ?? title}</span>
-	<img src={app?.icon ?? icon} alt={app?.title ?? title} class="dockIconImage" draggable="false" />
+	<span class="dockIconLabel">{app?.title ?? name}</span>
+	<img src={app?.icon ?? icon} alt={app?.title ?? name} class="dockIconImage" draggable="false" />
 </button>
 
 <style>

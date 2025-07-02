@@ -5,9 +5,9 @@
 </script>
 
 <Finder>
-	<FileIcon name="Toddspin" icon="icons/toddspin.png" appName="toddspin" />
-	<FileIcon name="Sauce" icon="icons/sauce.png" appName="sauce" />
-	<FileIcon name="Goat Game" icon="icons/goat.png" appName="goat" />
+	<FileIcon appName="toddspin" />
+	<FileIcon appName="sauce" />
+	<FileIcon appName="goat" />
 	<FileIcon
 		name="Better Bluesky"
 		icon="icons/stylus.png"

@@ -1,9 +1,10 @@
 import { setFileIconContext } from '$lib/context';
 
 export default function setupFileIconContainer(isDesktop = false) {
-	let selected = $state<string>();
+	let selected = $state<symbol>();
+	$inspect(selected);
 	const getSelectedIcon = () => selected;
-	const setSelectedIcon = (name: string) => (selected = name);
+	const setSelectedIcon = (identifier: symbol) => (selected = identifier);
 
 	setFileIconContext(getSelectedIcon, setSelectedIcon, isDesktop);
 

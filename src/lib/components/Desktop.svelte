@@ -13,7 +13,9 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
-	<FileIcon name="Readme" icon="icons/txt.png" appName="readme" />
+	<FileIcon appName="readme" />
+	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
+	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
