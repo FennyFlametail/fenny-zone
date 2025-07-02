@@ -1,8 +1,8 @@
 :root {
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--focus-box-shadow: 0 0 3px 2px #92b9db;
-	--panel-box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.75);
-	--panel-box-shadow-inactive: 0 3px 5px 0px rgba(0, 0, 0, 0.75);
+	--panel-box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.75);
+	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.75);
 	--pinstripe-bg: repeating-linear-gradient(
 		to bottom,
 		#ebecec,
@@ -32,7 +32,7 @@ body {
 	--menu-item-padding: 10px;
 	display: flex;
 	z-index: 10000;
-	box-shadow: var(--panel-box-shadow);
+	box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
 	border-top: 1px solid #d9d9d9;
 	border-bottom: 1px solid #bcbcbc;
 	border-top-right-radius: 9px;
