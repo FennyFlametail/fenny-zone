@@ -21,6 +21,7 @@
 		index: number;
 	} = $props();
 
+	let title = $state(app.metadata.name);
 	let element = $state<HTMLElement>();
 
 	let x = $state(0);
@@ -65,6 +66,10 @@
 		resizing.el = undefined;
 	}
 
+	export function isFocused() {
+		return focused === element;
+	}
+
 	export function focus() {
 		zIndex = ++maxZIndex;
 		focused = element;
@@ -75,8 +80,6 @@
 		y = 50 * index;
 		zIndex = 0;
 	}
-
-	let title = $state(app.metadata.name);
 
 	export function setTitle(newTitle: string) {
 		title = newTitle;
