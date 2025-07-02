@@ -5,16 +5,16 @@
 <script lang="ts">
 	import type AppInstance from '$lib/types/AppInstance';
 
-	let { src, title, _app }: { src: string; title: string; _app: AppInstance } = $props();
+	let { src, title, _app }: { src: string; title: string; _app?: AppInstance } = $props();
 
 	let iframe: HTMLIFrameElement;
 
-	$effect(() => _app.window?.setTitle(title));
+	$effect(() => _app?.window?.setTitle(title));
 
 	function iframeClickFocus() {
 		window.requestAnimationFrame(() => {
 			if (document.activeElement === iframe) {
-				_app.window?.focus();
+				_app?.window?.focus();
 			}
 		});
 	}
