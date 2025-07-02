@@ -4,8 +4,8 @@
 </script>
 
 <Finder>
-	<FileIcon name="Fenny" icon="icons/fenny.png" onopen={() => console.debug('Fenny')} />
-	<FileIcon name="Aren" icon="icons/aren.png" onopen={() => console.debug('Aren')} />
-	<FileIcon name="Ceph" icon="icons/ceph.png" onopen={() => console.debug('Ceph')} />
-	<FileIcon name="Nocturne" icon="icons/nocturne.png" onopen={() => console.debug('Nocturne')} />
+	<FileIcon name="Fenny" icon="icons/fenny.png" appName="readme" />
+	<FileIcon name="Aren" icon="icons/aren.png" appName="readme" />
+	<FileIcon name="Ceph" icon="icons/ceph.png" appName="readme" />
+	<FileIcon name="Nocturne" icon="icons/nocturne.png" appName="readme" />
 </Finder>

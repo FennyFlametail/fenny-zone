@@ -1,23 +1,25 @@
 <script lang="ts">
 	import type { MouseEventHandler } from 'svelte/elements';
 	import { getFileIconContext } from '$lib/context';
+	import type { AppName } from '$lib/types/AppTypes';
+	import { openApp } from '$lib/components/WindowServer.svelte';
 
 	type FileIconProps = {
 		name: string;
 		icon: string;
 	} & (
 		| {
-				onopen: MouseEventHandler<HTMLButtonElement>;
+				appName: AppName;
 				href?: never;
 		  }
 		| {
-				onopen?: never;
+				appName?: never;
 				href: string;
 		  }
 	);
 
-	let { name, icon, onopen, href }: FileIconProps = $props();
-	const isLink = $derived(!onopen);
+	let { name, icon, appName, href }: FileIconProps = $props();
+	const isLink = $derived(href);
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
@@ -32,7 +34,7 @@
 	const ondblclick: MouseEventHandler<HTMLButtonElement> = (e) => {
 		isOpen = true;
 		window.setTimeout(() => (isOpen = false), openAnimDuration);
-		isLink ? open(href, '_blank') : onopen?.(e);
+		isLink ? open(href, '_blank') : openApp(appName!);
 	};
 </script>
 
