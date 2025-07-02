@@ -2,7 +2,7 @@
 	import Character from '$lib/components/apps/Character.svelte';
 </script>
 
-<Character image="characters/nocturne.webp">
+<Character image="/characters/nocturne.webp">
 	<ul>
 		<li>Name: Nocturne Blackmoon</li>
 		<li>Species: goat</li>

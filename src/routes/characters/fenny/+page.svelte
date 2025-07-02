@@ -2,7 +2,7 @@
 	import Character from '$lib/components/apps/Character.svelte';
 </script>
 
-<Character image="characters/fenny.webp">
+<Character image="/characters/fenny.webp">
 	<ul>
 		<li>Name: Fenny Flametail</li>
 		<li>Species: red-fennec fox</li>

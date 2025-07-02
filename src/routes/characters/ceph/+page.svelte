@@ -2,7 +2,7 @@
 	import Character from '$lib/components/apps/Character.svelte';
 </script>
 
-<Character image="characters/ceph.webp">
+<Character image="/characters/ceph.webp">
 	<ul>
 		<li>Name: Ceph Azulux</li>
 		<li>Species: Luxray</li>
