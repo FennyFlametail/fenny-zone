@@ -9,6 +9,12 @@
 	}) as Readonly<Record<AppName, RunningApp>>;
 	export const getRunningApps = () => runningApps;
 
+	let desktopFocused = $state(false);
+	export const isDesktopFocused = () => desktopFocused;
+	export function focusDesktop() {
+		desktopFocused = true;
+	}
+
 	export function openApp(appName: AppName, position?: Partial<Position>) {
 		const app = apps[appName];
 		if (app.instance) {
@@ -38,6 +44,7 @@
 			}
 		});
 		app.instance.position.zIndex = Object.keys(runningApps).length - 1;
+		desktopFocused = false;
 	}
 
 	export function closeApp(appName: AppName) {

@@ -24,7 +24,12 @@
 </script>
 
 <script lang="ts">
-	import { closeApp, focusApp, getRunningApps } from '$lib/components/WindowServer.svelte';
+	import {
+		closeApp,
+		focusApp,
+		getRunningApps,
+		isDesktopFocused
+	} from '$lib/components/WindowServer.svelte';
 	import { setAppContext } from '$lib/context';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -44,7 +49,9 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1);
+	let focused = $derived(
+		!isDesktopFocused() && app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1
+	);
 	export function isFocused() {
 		return focused;
 	}

@@ -1,13 +1,18 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
-	import { openApp } from '$lib/components/WindowServer.svelte';
+	import { focusDesktop, openApp } from '$lib/components/WindowServer.svelte';
 	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
 	const { onClickIconContainer } = setupFileIconContainer(true);
+
+	function onclick(e: MouseEvent) {
+		focusDesktop();
+		onClickIconContainer(e);
+	}
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="desktop" onclick={onClickIconContainer}>
+<div class="desktop" {onclick}>
 	<FileIcon name="Macintosh HD" icon="icons/textedit.png" onopen={() => openApp('readme')} />
 	<FileIcon name="TextEdit" icon="icons/textedit.png" onopen={() => openApp('readme')} />
 	<FileIcon name="Fenny" icon="icons/fenny.png" onopen={() => console.debug('Fenny')} />
