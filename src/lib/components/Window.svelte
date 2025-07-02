@@ -21,8 +21,8 @@
 
 	let x = $state(0);
 	let y = $state(0);
-	let width = $state(600);
-	let height = $state(600);
+	let width = $state(500);
+	let height = $state(500);
 	let zIndex = $state(0);
 
 	let lastX = $state(0);
