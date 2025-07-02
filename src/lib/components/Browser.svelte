@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context';
 	import { dragging, resizing } from '$lib/components/Window.svelte';
-	import { focusApp } from '$lib/components/WindowServer.svelte';
+	import { focusApp, getFocusedApp } from '$lib/components/WindowServer.svelte';
 
 	const { appName, app } = getAppContext();
 	let { src }: { src: string } = $props();
+
+	let isFocused = $derived(getFocusedApp() === app);
 </script>
 
 <iframe {src} title={app.title}></iframe>
@@ -12,8 +14,8 @@
 	class={[
 		'cover',
 		{
-			solid: dragging.el || resizing.el || !app.instance?.window?.isFocused(),
-			visible: !app.instance?.window?.isFocused()
+			solid: dragging.el || resizing.el || !isFocused,
+			visible: !isFocused
 		}
 	]}
 	onclick={() => focusApp(appName)}

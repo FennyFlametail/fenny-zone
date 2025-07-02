@@ -15,6 +15,14 @@
 		desktopFocused = true;
 	}
 
+	export function getFocusedApp() {
+		if (desktopFocused) return;
+		return Object.values(runningApps).find(
+			(app) => app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1
+		);
+	}
+
+
 	export function openApp(appName: AppName, position?: Partial<Position>) {
 		const app = apps[appName];
 		if (app.instance) {

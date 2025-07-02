@@ -27,8 +27,7 @@
 	import {
 		closeApp,
 		focusApp,
-		getRunningApps,
-		isDesktopFocused
+		getFocusedApp
 	} from '$lib/components/WindowServer.svelte';
 	import { setAppContext } from '$lib/context';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
@@ -49,12 +48,7 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(
-		!isDesktopFocused() && app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1
-	);
-	export function isFocused() {
-		return focused;
-	}
+	let focused = $derived(app === getFocusedApp());
 
 	let allowDrag = $state(true);
 	function blockDrag() {
