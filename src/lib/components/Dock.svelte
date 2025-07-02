@@ -10,8 +10,16 @@
 		class="ui"
 		onclick={() =>
 			openApp(apps.Browser, {
-				src: 'https://toddspin.fenny.zone',
-				title: 'Toddspin'
+				props: {
+					src: 'https://toddspin.fenny.zone'
+				},
+				metadata: {
+					title: 'Toddspin'
+				},
+				position: {
+					x: 100,
+					y: 100
+				}
 			})}>Open Browser</button
 	>
 	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>

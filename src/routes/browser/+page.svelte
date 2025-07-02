@@ -6,11 +6,9 @@
 	import { dragging, resizing } from '$lib/components/Window.svelte';
 	import type RunningApp from '$lib/types/RunningApp';
 
-	let { src, title, _app }: { src: string; title: string; _app?: RunningApp } = $props();
+	let { _app, src }: { _app?: RunningApp; src: string } = $props();
 
 	let iframe: HTMLIFrameElement;
-
-	$effect(() => _app?.setTitle(title));
 
 	function stopMoveAndDrag() {
 		if (_app?.window?.isFocused()) {
@@ -28,7 +26,8 @@
 	}
 </script>
 
-<iframe bind:this={iframe} onpointerover={stopMoveAndDrag} {src} {title}></iframe>
+<iframe bind:this={iframe} onpointerover={stopMoveAndDrag} {src} title={_app?.metadata.title}
+></iframe>
 
 <svelte:window onblur={iframeClickFocus} />
 

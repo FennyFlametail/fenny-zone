@@ -1,25 +1,41 @@
 import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
 import * as apps from '$lib/apps';
-import { getInitialPosition } from '$lib/components/Window.svelte';
-import type RunningApp from '$lib/types/RunningApp';
+import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
+import type { AppMetadata, default as RunningApp } from '$lib/types/RunningApp';
 import { nanoid } from 'nanoid';
 import { tick, type ComponentProps } from 'svelte';
 
 export const runningApps: RunningApp[] = $state([]);
 
 export function openApp<T extends (typeof apps)[keyof typeof apps]>(
-	{ default: Component, ...metadata }: T,
-	props?: ComponentProps<T['default']>
+	{ default: Component, ...defaultMetadata }: T,
+	{
+		props,
+		metadata,
+		position
+	}: {
+		props?: ComponentProps<T['default']>;
+		metadata?: Partial<AppMetadata>;
+		position?: Partial<Position>;
+	} = {}
 ) {
 	runningApps.push({
 		id: nanoid(),
 		Component,
-		metadata,
-		setTitle(title) {
-			this.metadata.title = title;
+		metadata: {
+			...defaultMetadata,
+			...metadata
 		},
-		position: getInitialPosition(),
+		setTitle(title) {
+			if (this.metadata.title) {
+				this.metadata.title = title;
+			}
+		},
+		position: {
+			...getInitialPosition(),
+			...position
+		},
 		// TODO way to pass props to pages in URL when directly navigating
 		props: props
 	});
