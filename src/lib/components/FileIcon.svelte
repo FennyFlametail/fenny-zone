@@ -4,12 +4,14 @@
 	let {
 		name,
 		icon,
+		alias,
 		selected = $bindable(false),
 		onselect,
 		onopen
 	}: {
 		name: string;
 		icon: string;
+		alias?: boolean;
 		selected: boolean;
 		onselect: MouseEventHandler<HTMLButtonElement>;
 		onopen: MouseEventHandler<HTMLButtonElement>;
@@ -35,6 +37,9 @@
 			draggable="false"
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
+		{#if alias}
+			<img class="aliasIcon" src="icons/alias.png" alt="" draggable="false" />
+		{/if}
 	</div>
 	<div class="fileIconLabel">{name}</div>
 </button>
@@ -52,11 +57,11 @@
 	}
 
 	.fileIconContainer {
-		position: relative;
-		width: 64px;
-		height: 64px;
+		display: grid;
+		width: 68px;
+		height: 68px;
 		margin: 2.5px;
-		padding: 2.5px;
+		padding: 5px;
 		border-radius: 4px;
 
 		.selected & {
@@ -65,11 +70,7 @@
 	}
 
 	.fileIconImage {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
+		grid-area: 1 / 1;
 		object-fit: contain;
 	}
 
@@ -92,6 +93,10 @@
 			scale: 4;
 			opacity: 0;
 		}
+	}
+
+	.aliasIcon {
+		grid-area: 1 / 1;
 	}
 
 	.fileIconLabel {

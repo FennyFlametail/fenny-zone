@@ -32,6 +32,7 @@
 		name="Nocturne"
 		icon="icons/textedit.png"
 		selected={selected === 'Nocturne'}
+		alias
 		onselect={() => (selected = 'Nocturne')}
 		onopen={() => console.debug('Nocturne')}
 	/>
