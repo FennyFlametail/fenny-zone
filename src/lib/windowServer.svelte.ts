@@ -16,7 +16,7 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 		position?: Partial<Position>;
 	} = {}
 ) {
-	const { default: Component, ...defaultMetadata } = app;
+	const { default: Component, metadata: defaultMetadata } = app;
 	const { props, metadata, position } = options;
 	const instance: RunningApp = {
 		id: nanoid(),

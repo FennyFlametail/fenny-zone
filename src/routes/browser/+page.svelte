@@ -1,6 +1,9 @@
 <script module lang="ts">
-	export const title = 'Browser';
-	export const icon = 'icons/safari.png';
+	import type { AppMetadata } from '$lib/types/RunningApp';
+	export const metadata: AppMetadata = {
+		title: 'Browser',
+		icon: 'icons/safari.png'
+	};
 </script>
 
 <script lang="ts">

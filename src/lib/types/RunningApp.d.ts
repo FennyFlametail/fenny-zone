@@ -4,7 +4,7 @@ import type { ComponentProps } from 'svelte';
 
 export interface AppMetadata {
 	title: string;
-	icon?: string;
+	icon: string;
 }
 
 export default interface RunningApp<

@@ -13,8 +13,10 @@
 		options?: Parameters<typeof openApp<T>>[1];
 	} = $props();
 
-	const title = options?.metadata?.title ?? app.title;
-	const icon = options?.metadata?.icon ?? (app as any).icon ?? 'icons/placeholder.png';
+	const { title, icon } = {
+		...app.metadata,
+		...options?.metadata
+	};
 
 	let instance = $state<RunningApp>();
 

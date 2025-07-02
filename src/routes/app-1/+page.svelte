@@ -1,5 +1,9 @@
 <script module lang="ts">
-	export const title = 'App One';
+	import type { AppMetadata } from '$lib/types/RunningApp';
+	export const metadata: AppMetadata = {
+		title: 'App One',
+		icon: 'icons/placeholder.png'
+	};
 </script>
 
 <p>
