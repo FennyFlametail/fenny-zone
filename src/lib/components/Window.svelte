@@ -9,9 +9,11 @@
 
 	const {
 		app = $bindable(),
+		index,
 		close
 	}: {
 		app: AppInstance;
+		index: number;
 		close: () => void;
 	} = $props();
 
@@ -64,8 +66,8 @@
 	}
 
 	export function resetPosition() {
-		x = 0;
-		y = 0;
+		x = 50 * index;
+		y = 50 * index;
 		zIndex = 0;
 	}
 </script>
@@ -94,10 +96,8 @@
 
 <style>
 	.window {
-		background-color: white;
-		border: 1px solid black;
+		grid-area: 1 / 1;
 		transform: translate(var(--x), var(--y));
-		position: relative;
 		overflow: hidden;
 		min-width: 200px;
 		min-height: 200px;
@@ -105,12 +105,14 @@
 		height: var(--height);
 		display: flex;
 		flex-direction: column;
+		background-color: white;
+		border: 1px solid black;
 		touch-action: auto; /* needed for touch dragging to work */
 	}
 
 	.windowTitle {
-		background-color: lightgray;
 		flex: 0 0 auto;
+		background-color: lightgray;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
@@ -126,7 +128,7 @@
 		right: 0;
 		width: 30px;
 		height: 30px;
-		cursor: nwse-resize;
 		background-color: gray;
+		cursor: nwse-resize;
 	}
 </style>

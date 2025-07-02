@@ -4,7 +4,8 @@
 	import Desktop from '$lib/components/Desktop.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 	import type AppMetadata from '$lib/types/AppMetadata';
-	import { untrack, type Component } from 'svelte';
+	import { nanoid } from 'nanoid';
+	import { tick, untrack, type Component } from 'svelte';
 
 	import * as App1 from './app-1/+page.svelte';
 	import * as App2 from './app-2/+page.svelte';
@@ -14,12 +15,12 @@
 
 	function openApp({ default: Component, ...metadata }: { default: Component } & AppMetadata) {
 		apps.push({
+			id: nanoid(),
 			Component,
 			metadata
 		});
 	}
 
-	// FIXME closing windows makes the other windows move
 	function closeApp(app: AppInstance) {
 		apps.splice(apps.indexOf(app), 1);
 	}
@@ -34,6 +35,7 @@
 				.split(',')
 				.map((name) => allApps.find((app) => app.name === name));
 			appsToOpen.forEach((app) => app && openApp(app));
+			tick().then(resetApps);
 		} else {
 			// update query string when apps are opened and closed
 			url.searchParams.set('apps', apps.map((app) => app.metadata.name).join(','));
@@ -52,7 +54,7 @@
 <header class="menubar">
 	<button onclick={() => openApp(App1)}>Open App1</button>
 	<button onclick={() => openApp(App2)}>Open App2</button>
-	<button onclick={() => resetApps()}>Reset App Positions</button>
+	<button onclick={resetApps}>Reset App Positions</button>
 </header>
 <Desktop bind:apps {closeApp} />
 <footer class="dock">Dock goes here</footer>

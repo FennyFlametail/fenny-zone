@@ -9,18 +9,15 @@
 </script>
 
 <main class={['desktop', (dragging.el || resizing.el) && 'noSelect']}>
-	{#each apps as app, i}
-		<Window bind:this={app.window} bind:app={apps[i]} close={() => closeApp(app)} />
+	{#each apps as app, i (app.id)}
+		<Window bind:this={app.window} bind:app={apps[i]} index={i} close={() => closeApp(app)} />
 	{/each}
 </main>
 
 <style>
 	.desktop {
 		padding: 25px;
-		/* TODO placement of newly opened windows could be handled better, probably with JavaScript */
 		display: grid;
-		grid-template-columns: repeat(auto-fill, 100px);
-		grid-auto-rows: 100px;
 		flex-grow: 1;
 		background-color: lightskyblue;
 	}
