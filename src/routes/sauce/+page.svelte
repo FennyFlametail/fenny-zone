@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import Browser from '$lib/components/Browser.svelte';
-	import type { AppMetadata } from '$lib/types/RunningApp';
+	import type { AppMetadata } from '$lib/types/App';
 	export const metadata: AppMetadata = {
 		key: 'sauce',
 		title: 'CLICK FOR SAUCE',

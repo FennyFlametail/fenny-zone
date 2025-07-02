@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { dragging, resizing } from '$lib/components/Window.svelte';
-	import type RunningApp from '$lib/types/RunningApp';
+	import type { RunningApp } from '$lib/types/App';
 	import { focusApp } from '$lib/windowServer.svelte';
 	import { getContext } from 'svelte';
 

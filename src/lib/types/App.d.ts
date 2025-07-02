@@ -1,5 +1,7 @@
-import type { App } from '$lib/apps';
+import type apps from '$lib/apps';
 import type { default as Window, Position } from '$lib/components/Window.svelte';
+
+export type App = (typeof apps)[number];
 
 export interface AppMetadata {
 	key: string;
@@ -7,7 +9,7 @@ export interface AppMetadata {
 	icon: string;
 }
 
-export default interface RunningApp {
+export interface RunningApp {
 	id: string;
 	Component: App['default'];
 	metadata: AppMetadata;

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { desktopPadding } from '$lib/components/Desktop.svelte';
-	import type RunningApp from '$lib/types/RunningApp';
+	import type { RunningApp } from '$lib/types/App';
 	import { closeApp, focusApp, runningApps } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 	import { setContext } from 'svelte';

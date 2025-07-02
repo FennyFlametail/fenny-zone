@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid';
 import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
-import apps, { type App } from '$lib/apps';
+import apps from '$lib/apps';
 import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
-import type RunningApp from '$lib/types/RunningApp';
+import type { App, RunningApp } from '$lib/types/App';
 
 export const runningApps: RunningApp[] = $state([]);
 
