@@ -2,34 +2,51 @@
 	import type { MouseEventHandler } from 'svelte/elements';
 	import { getFileIconContext } from '$lib/context';
 
-	let {
-		name,
-		icon,
-		alias,
-		onopen
-	}: {
+	type FileIconProps = {
 		name: string;
 		icon: string;
-		alias?: boolean;
-		onopen: MouseEventHandler<HTMLButtonElement>;
-	} = $props();
+	} & (
+		| {
+				onopen: MouseEventHandler<HTMLButtonElement>;
+				href?: never;
+		  }
+		| {
+				onopen?: never;
+				href: string;
+		  }
+	);
+
+	let { name, icon, onopen, href }: FileIconProps = $props();
+	const isLink = $derived(!onopen);
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
-	let open = $state(false);
+	let isOpen = $state(false);
 	const openAnimDuration = 200;
 
+	const onclick: MouseEventHandler<HTMLButtonElement | HTMLLinkElement> = (e) => {
+		if (isLink) e.preventDefault();
+		setSelectedIcon(name);
+	};
+
 	const ondblclick: MouseEventHandler<HTMLButtonElement> = (e) => {
-		open = true;
-		window.setTimeout(() => (open = false), openAnimDuration);
-		onopen(e);
+		isOpen = true;
+		window.setTimeout(() => (isOpen = false), openAnimDuration);
+		isLink ? open(href, '_blank') : onopen?.(e);
 	};
 </script>
 
-<button
-	class={['fileIcon', { selected: getSelectedIcon() === name, open, desktopIcon: isDesktop }]}
-	onclick={() => setSelectedIcon(name)}
+<svelte:element
+	this={isLink ? 'a' : 'button'}
+	role={isLink ? 'link' : 'button'}
+	class={[
+		'fileIcon',
+		{ selected: getSelectedIcon() === name, open: isOpen, desktopIcon: isDesktop }
+	]}
+	{onclick}
 	{ondblclick}
+	href={isLink ? href : undefined}
+	target={isLink ? '_blank' : undefined}
 >
 	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon} alt={name} draggable="false" />
@@ -40,23 +57,23 @@
 			draggable="false"
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
-		{#if alias}
+		{#if isLink}
 			<img class="aliasIcon" src="icons/alias.png" alt="" draggable="false" />
 		{/if}
 	</div>
 	<div class="fileIconLabel">{name}</div>
-</button>
+</svelte:element>
 
 <style>
 	.fileIcon {
+		all: unset;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		background: none;
-		border: none;
 		-webkit-user-select: none;
 		user-select: none;
+		cursor: default;
 	}
 
 	.fileIconImageWrapper {

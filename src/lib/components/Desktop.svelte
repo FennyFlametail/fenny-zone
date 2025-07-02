@@ -13,12 +13,8 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
-	<FileIcon name="Macintosh HD" icon="icons/textedit.png" onopen={() => openApp('readme')} />
-	<FileIcon name="TextEdit" icon="icons/textedit.png" onopen={() => openApp('readme')} />
+	<FileIcon name="Bluesky" icon="icons/finder.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon name="Fenny" icon="icons/fenny.png" onopen={() => console.debug('Fenny')} />
-	<FileIcon name="Aren" icon="icons/aren.png" onopen={() => console.debug('Aren')} />
-	<FileIcon name="Ceph" icon="icons/ceph.png" onopen={() => console.debug('Ceph')} />
-	<FileIcon name="Nocturne" icon="icons/nocturne.png" onopen={() => console.debug('Nocturne')} />
 </div>
 
 <style>
