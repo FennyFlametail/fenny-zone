@@ -46,8 +46,6 @@
 	bind:this={windowRef}
 	onpointerdown={focus}
 	class="window"
-	style:width="40vw"
-	style:height="40vw"
 	style:--deltaX={`${deltaX}px`}
 	style:--deltaY={`${deltaY}px`}
 	style:z-index={zIndex}
@@ -55,13 +53,20 @@
 	<header class="windowTitle" onpointerdown={startDrag}>
 		{appRef?.title ?? 'App'}
 	</header>
-	<App bind:this={appRef} />
+	<div class="windowContent">
+		<App bind:this={appRef} />
+	</div>
 </article>
 
 <svelte:body onpointermove={drag} onpointerup={stopDrag} onpointercancel={stopDrag} />
 
 <style>
 	.window {
+		padding-top: 0;
+		min-width: 200px;
+		min-height: 200px;
+		width: 600px;
+		height: 600px;
 		resize: both;
 		overflow: auto;
 		position: relative;
@@ -70,5 +75,11 @@
 
 	.windowTitle {
 		cursor: default;
+		position: sticky;
+		top: 0;
+	}
+
+	.windowContent {
+		padding-top: var(--pico-block-spacing-vertical);
 	}
 </style>
