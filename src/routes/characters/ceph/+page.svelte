@@ -32,14 +32,13 @@
 			Favorite drink: Calpico or matcha latte
 			<ul>
 				<li>prefers tea to coffee</li>
-				<li>drinks too many energy drinks</li>
 			</ul>
 		</li>
 		<li>Favorite ice cream flavor: mango</li>
 		<li>Favorite music genres: electronic (hardcore, DNB, chiptune), video game soundtracks</li>
 		<li>
-			Clothing style: tight-fitting, futuristic, techwear-adjacent but with more color, often
-			space/star designs
+			Clothing style: tight-fitting, techwear-adjacent but with more color, sometimes with
+			space or star designs
 			<ul>
 				<li>always wears his pendant, sometimes attached to a collar</li>
 			</ul>
