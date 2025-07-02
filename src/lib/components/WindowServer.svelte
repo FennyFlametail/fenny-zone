@@ -2,6 +2,9 @@
 	import apps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 	import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 
+	// FIXME fixes a build error - see FileIcon.svelte
+	export { default as apps } from '$lib/apps.svelte'
+
 	const runningApps = $derived.by(() => {
 		if (!apps) return {};
 		return Object.fromEntries(Object.entries(apps).filter(([, app]) => app.instance));

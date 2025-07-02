@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { MouseEventHandler } from 'svelte/elements';
-	import apps, { type AppName } from '$lib/apps.svelte';
+	import { type AppName } from '$lib/apps.svelte';
 	import { getFileIconContext } from '$lib/context';
-	import { openApp } from '$lib/components/WindowServer.svelte';
+	// FIXME importing apps from here instead of apps.svelte fixes this build error, find a better solution https://github.com/sveltejs/kit/issues/10745
+	import { apps, openApp } from '$lib/components/WindowServer.svelte';
 
 	const identifier = Symbol('FileIcon');
 
