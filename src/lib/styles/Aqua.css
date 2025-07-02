@@ -203,7 +203,7 @@ ellipse 60% 70% at center bottom,
 			--lightness: 0.8;
 		}
 
-		.windowControls:is(:hover, :focus-visible) & {
+		.windowControls:is(:hover, :focus-visible, :has(.windowButton:active)) & {
 			visibility: visible;
 		}
 	}

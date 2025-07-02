@@ -43,6 +43,12 @@
 		return focused;
 	}
 
+	let allowDrag = $state(true);
+
+	function blockDrag() {
+		allowDrag = false;
+	}
+
 	function startDrag(e: PointerEvent) {
 		dragging.el = element;
 		lastX = e.screenX;
@@ -56,7 +62,7 @@
 	}
 
 	function pointerMove(e: PointerEvent) {
-		if (dragging.el === element) {
+		if (dragging.el === element && allowDrag) {
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 
@@ -74,6 +80,7 @@
 	}
 
 	function pointerUp() {
+		allowDrag = true;
 		dragging.el = undefined;
 		resizing.el = undefined;
 	}
@@ -106,13 +113,14 @@
 				class={['windowButton', 'close', app.modified && 'modified']}
 				aria-label="Close"
 				onclick={() => closeApp(appName)}
+				onpointerdown={blockDrag}
 			>
 				<X class="windowButtonGlyph" size={14} />
 			</button>
-			<button class="windowButton minimize" aria-label="Minimize">
+			<button class="windowButton minimize" aria-label="Minimize" onpointerdown={blockDrag}>
 				<Minus class="windowButtonGlyph" size={14} />
 			</button>
-			<button class="windowButton maximize" aria-label="Maximize">
+			<button class="windowButton maximize" aria-label="Maximize" onpointerdown={blockDrag}>
 				<Plus class="windowButtonGlyph" size={14} />
 			</button>
 		</div>
