@@ -13,8 +13,19 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
-	<FileIcon name="Bluesky" icon="icons/finder.png" href="https://bsky.app/profile/fenny.zone" />
-	<FileIcon name="Fenny" icon="icons/fenny.png" onopen={() => console.debug('Fenny')} />
+	<FileIcon name="Readme" icon="icons/txt.png" onopen={() => openApp('readme')} />
+	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
+	<FileIcon
+		name="FurAffinity"
+		icon="icons/furaffinity.png"
+		href="https://www.furaffinity.net/user/fuzzyfennekin"
+	/>
+	<FileIcon name="Telegram" icon="icons/telegram.png" href="https://t.me/FennyFlametail" />
+	<FileIcon
+		name="HowLongToBeat"
+		icon="icons/hltb.png"
+		href="https://howlongtobeat.com/user/FennyFlametail/"
+	/>
 </div>
 
 <style>
