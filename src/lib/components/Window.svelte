@@ -4,34 +4,36 @@
 </script>
 
 <script lang="ts">
-	import { type Component } from 'svelte';
-	const { App } = $props();
+	import type AppInstance from '$lib/types/AppInstance';
 
-	type ComponentWithTitle = Component & { title: string };
-	let windowRef: HTMLElement;
-	let appRef: ComponentWithTitle = $state() as ComponentWithTitle;
+	const {
+		app = $bindable(),
+		close
+	}: {
+		app: AppInstance;
+		close: () => void;
+	} = $props();
+
+	let element: HTMLElement;
 
 	let lastX = $state(0);
 	let lastY = $state(0);
-	let deltaX = $state(0);
-	let deltaY = $state(0);
-	let zIndex = $state(0);
 
 	function focus() {
-		zIndex = ++maxZIndex;
+		app.zIndex = ++maxZIndex;
 	}
 
 	function startDrag(e: PointerEvent) {
-		dragging.el = windowRef;
+		dragging.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function drag(e: PointerEvent) {
-		if (dragging.el !== windowRef) return;
+		if (dragging.el !== element) return;
 
-		deltaX += e.screenX - lastX;
-		deltaY += e.screenY - lastY;
+		app.x += e.screenX - lastX;
+		app.y += e.screenY - lastY;
 
 		lastX = e.screenX;
 		lastY = e.screenY;
@@ -42,25 +44,26 @@
 	}
 
 	export function resetPosition() {
-		deltaX = 0;
-		deltaY = 0;
-		zIndex = 0;
+		app.x = 0;
+		app.y = 0;
+		app.zIndex = 0;
 	}
 </script>
 
 <article
-	bind:this={windowRef}
+	bind:this={element}
 	onpointerdown={focus}
 	class="window"
-	style:--deltaX={`${deltaX}px`}
-	style:--deltaY={`${deltaY}px`}
-	style:z-index={zIndex}
+	style:--x={`${app.x}px`}
+	style:--y={`${app.y}px`}
+	style:z-index={app.zIndex}
 >
 	<header class="windowTitle" onpointerdown={startDrag}>
-		{appRef?.title ?? 'App'}
+		<button onclick={close}>X</button>
+		{app.App?.title ?? 'App'}
 	</header>
 	<div class="windowContent">
-		<App bind:this={appRef} />
+		<app.App />
 	</div>
 </article>
 
@@ -76,7 +79,7 @@
 		resize: both;
 		overflow: auto;
 		position: relative;
-		transform: translate(var(--deltaX), var(--deltaY));
+		transform: translate(var(--x), var(--y));
 	}
 
 	.windowTitle {

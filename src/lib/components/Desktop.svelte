@@ -1,19 +1,15 @@
 <script lang="ts">
 	import '$lib/app.scss';
 	import Window, { dragging } from '$lib/components/Window.svelte';
-	import type { Component } from 'svelte';
+	import type AppInstance from '$lib/types/AppInstance';
 
-	const { apps }: { apps: Component[] } = $props();
-	const windowRefs: Window[] = [];
-
-	export function resetApps() {
-		windowRefs.forEach((ref) => ref.resetPosition());
-	}
+	const { apps = $bindable(), closeApp }: { apps: AppInstance[]; closeApp: (i: number) => void } =
+		$props();
 </script>
 
 <main class={['desktop', dragging.el && 'noSelect']}>
-	{#each apps as App, i}
-		<Window bind:this={windowRefs[i]} {App} />
+	{#each apps as app, i}
+		<Window bind:this={apps[i].window} bind:app={apps[i]} close={() => closeApp(i)} />
 	{/each}
 </main>
 
