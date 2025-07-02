@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Finder from '$lib/components/Finder.svelte';
+	import Finder from '$lib/components/apps/Finder.svelte';
 	import FileIcon from '$lib/components/FileIcon.svelte';
 </script>
 
