@@ -230,6 +230,7 @@ ellipse 60% 70% at center bottom,
 		padding-inline: 14px;
 		min-width: 91px;
 		height: 28px;
+		-webkit-user-select: none;
 		user-select: none;
 		white-space: nowrap;
 

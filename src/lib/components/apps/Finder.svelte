@@ -31,6 +31,8 @@
 		justify-content: center;
 		border-bottom: 1px solid #8c8c8c;
 		font-size: 12px;
+		-webkit-user-select: none;
+		user-select: none;
 	}
 
 	.finderIcons {
