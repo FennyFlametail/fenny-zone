@@ -125,6 +125,9 @@
 			} catch (err) {
 				console.warn('(loadState) error', err);
 			}
+		} else {
+			// open the readme on first load
+			openApp('readme');
 		}
 	}
 
