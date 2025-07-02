@@ -99,7 +99,9 @@
 	.fileIconImage {
 		grid-area: 1 / 1;
 		width: 100%;
+		min-width: 0;
 		height: 100%;
+		min-height: 0;
 		object-fit: contain;
 	}
 
