@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.scss';
 	import Window, { dragging, resizing } from '$lib/components/Window.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 
@@ -17,7 +16,7 @@
 
 <style>
 	.desktop {
-		padding-inline: var(--pico-block-spacing-horizontal);
+		padding: 25px;
 		/* TODO placement of newly opened windows could be handled better, probably with JavaScript */
 		display: grid;
 		grid-template-columns: repeat(auto-fill, 100px);

@@ -94,6 +94,8 @@
 
 <style>
 	.window {
+		background-color: white;
+		border: 1px solid black;
 		transform: translate(var(--x), var(--y));
 		position: relative;
 		overflow: hidden;
@@ -103,21 +105,18 @@
 		height: var(--height);
 		display: flex;
 		flex-direction: column;
-		margin: 0;
-		padding: 0;
-		touch-action: auto; /* needed for dragging to work */
+		touch-action: auto; /* needed for touch dragging to work */
 	}
 
 	.windowTitle {
+		background-color: lightgray;
 		flex: 0 0 auto;
-		margin: 0;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
 	}
 
 	.windowContent {
-		padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
 		overflow: auto;
 	}
 
