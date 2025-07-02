@@ -24,11 +24,7 @@
 </script>
 
 <script lang="ts">
-	import {
-		closeApp,
-		focusApp,
-		getFocusedApp
-	} from '$lib/components/WindowServer.svelte';
+	import { closeApp, focusApp, getFocusedApp } from '$lib/components/WindowServer.svelte';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import { setAppContext } from '$lib/context';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -48,7 +44,7 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app === getFocusedApp());
+	let focused = $derived(app === getFocusedApp().app);
 
 	let allowDrag = $state(true);
 	function blockDrag() {

@@ -1,12 +1,12 @@
-import type { AppEntry, AppName } from '$lib/apps.svelte';
+import type { AppName, RunningApp } from '$lib/apps.svelte';
 import { getContext, setContext } from 'svelte';
 
 const appContextKey = {};
-export function setAppContext(appName: AppName, app: AppEntry) {
+export function setAppContext(appName: AppName, app: RunningApp) {
 	setContext(appContextKey, { appName, app });
 }
 export function getAppContext() {
-	return getContext(appContextKey) as { appName: AppName; app: AppEntry };
+	return getContext(appContextKey) as { appName: AppName; app: RunningApp };
 }
 
 const fileIconContextKey = {};

@@ -6,7 +6,7 @@
 	const { appName, app } = getAppContext();
 	let { src }: { src: string } = $props();
 
-	let isFocused = $derived(getFocusedApp() === app);
+	let isFocused = $derived(app === getFocusedApp().app);
 </script>
 
 <iframe {src} title={app.title}></iframe>
