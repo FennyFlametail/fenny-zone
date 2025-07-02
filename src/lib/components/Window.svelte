@@ -23,7 +23,7 @@
 	let y = $state(0);
 	let width = $state(500);
 	let height = $state(500);
-	let zIndex = $state(0);
+	let zIndex = $state(++maxZIndex);
 
 	let lastX = $state(0);
 	let lastY = $state(0);
