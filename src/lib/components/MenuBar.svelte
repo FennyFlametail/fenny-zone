@@ -53,6 +53,7 @@
 
 	.menubar {
 		--menu-item-padding: 10px;
+		flex-shrink: 0;
 		display: flex;
 		z-index: 10000;
 		padding-inline: 20px;

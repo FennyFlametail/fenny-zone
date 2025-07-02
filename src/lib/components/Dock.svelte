@@ -19,6 +19,7 @@
 
 <style>
 	.dock {
+		flex-shrink: 0;
 		z-index: 10000;
 	}
 </style>

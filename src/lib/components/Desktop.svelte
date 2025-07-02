@@ -26,8 +26,9 @@
 
 <style>
 	.desktop {
+		flex: 1 1 auto;
+		min-height: 0;
 		display: grid;
-		flex-grow: 1;
 		background-color: lightskyblue;
 	}
 
