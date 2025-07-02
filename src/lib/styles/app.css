@@ -100,8 +100,8 @@ body {
 	grid-template:
 		'menubar' var(--menubar-height) 'desktop' auto;
 	background-color: black;
-	width: 100vw;
-	height: 100vh;
+	width: 100svw;
+	height: 100svh;
 	overflow: hidden;
 	touch-action: manipulation;
 	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
