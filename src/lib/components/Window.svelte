@@ -8,7 +8,7 @@
 	import type AppInstance from '$lib/types/AppInstance';
 
 	const {
-		app = $bindable(),
+		app,
 		index,
 		close
 	}: {

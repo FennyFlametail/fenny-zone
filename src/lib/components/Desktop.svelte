@@ -10,7 +10,7 @@
 
 <main class={['desktop', (dragging.el || resizing.el) && 'noSelect']}>
 	{#each apps as app, i (app.id)}
-		<Window bind:this={app.window} bind:app={apps[i]} index={i} close={() => closeApp(app)} />
+		<Window bind:this={app.window} {app} index={i} close={() => closeApp(app)} />
 	{/each}
 </main>
 
