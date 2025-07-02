@@ -4,29 +4,33 @@
 </script>
 
 <footer class="dock">
-	<!-- TODO link open indicators to running apps -->
-	{#each Object.values(apps) as app}
-		<DockIcon {app} />
-	{/each}
-	{#each { length: 7 }}
-		<DockIcon
-			app={apps.Browser}
-			options={{
-				props: {
-					src: 'https://toddspin.fenny.zone'
-				},
-				metadata: {
-					title: 'Toddspin',
-					icon: 'icons/toddspin.png'
-				},
-				position: {
-					x: 100,
-					y: 100
-				}
-			}}
-			open
-		/>
-	{/each}
+	<DockIcon
+		app={apps.Browser}
+		options={{
+			props: {
+				src: 'https://sauce.fenny.zone/'
+			},
+			metadata: {
+				title: 'CLICK FOR SAUCE'
+			}
+		}}
+	/>
+	<DockIcon
+		app={apps.Browser}
+		options={{
+			props: {
+				src: 'https://toddspin.fenny.zone'
+			},
+			metadata: {
+				title: 'Toddspin',
+				icon: 'icons/toddspin.png'
+			},
+			position: {
+				x: 100,
+				y: 100
+			}
+		}}
+	/>
 </footer>
 
 <style>

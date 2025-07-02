@@ -1,25 +1,42 @@
 <script lang="ts" generics="T extends (typeof apps)[keyof typeof apps]">
 	import type * as apps from '$lib/apps';
-	import { openApp } from '$lib/windowServer.svelte';
+	import type RunningApp from '$lib/types/RunningApp';
+	import { focusApp, openApp, runningApps } from '$lib/windowServer.svelte';
 
 	const {
 		app,
-		options,
-		open = false
+		options
 	}: {
 		app: T;
 		options?: Parameters<typeof openApp<T>>[1];
-		open?: boolean;
 	} = $props();
 
 	const title = options?.metadata?.title ?? app.title;
 	const icon = options?.metadata?.icon ?? (app as any).icon ?? 'icons/placeholder.png';
+
+	let instance = $state<RunningApp>();
+
+	function onclick() {
+		if (instance) {
+			focusApp(instance);
+		} else {
+			instance = openApp(app, options);
+		}
+	}
+
+	function onAppClose(e: CustomEvent<RunningApp>) {
+		if (e.detail.id === instance?.id) {
+			instance = undefined;
+		}
+	}
 </script>
 
-<button class={['dockIcon', { open }]} onclick={() => openApp(app, options)}>
+<button class={['dockIcon', { open: instance }]} {onclick}>
 	<span class="dockIconLabel">{title}</span>
 	<img src={icon} alt={title} class="dockIconImage" draggable="false" />
 </button>
+
+<svelte:window {onAppClose} />
 
 <style>
 	/* TODO better focus indicator */

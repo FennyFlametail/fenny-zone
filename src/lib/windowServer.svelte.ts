@@ -8,7 +8,7 @@ import type { ComponentProps } from 'svelte';
 
 export const runningApps: RunningApp[] = $state([]);
 
-export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
+export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	app: T,
 	options: {
 		props?: ComponentProps<T['default']>;
@@ -18,14 +18,14 @@ export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
 ) {
 	const { default: Component, ...defaultMetadata } = app;
 	const { props, metadata, position } = options;
-	runningApps.push({
+	const instance: RunningApp = {
 		id: nanoid(),
 		Component,
 		metadata: {
 			...defaultMetadata,
 			...metadata
 		},
-		setTitle(title) {
+		setTitle(title?: string) {
 			if (title) this.metadata.title = title;
 		},
 		position: {
@@ -34,7 +34,10 @@ export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
 		},
 		// TODO way to pass props to pages in URL when directly navigating
 		props
-	});
+	};
+
+	runningApps.push(instance);
+	return instance;
 }
 
 export function focusApp(app: RunningApp) {
@@ -50,7 +53,12 @@ export function focusApp(app: RunningApp) {
 
 export function closeApp(app: RunningApp) {
 	const oldZIndex = app.position.zIndex;
-	runningApps.splice(runningApps.indexOf(app), 1);
+	const [closedApp] = runningApps.splice(runningApps.indexOf(app), 1);
+	window.dispatchEvent(
+		new CustomEvent('AppClose', {
+			detail: closedApp
+		})
+	);
 	// find all apps with a higher z-index and lower it
 	runningApps.forEach((app) => {
 		if (app.position.zIndex > oldZIndex) {
