@@ -3,16 +3,11 @@
 </script>
 
 <script lang="ts">
-	const { src, title }: { src: string; title: string } = $props();
-
-	function onload(e: Event) {
-		const target = e.target as HTMLIFrameElement;
-		console.debug(target.contentDocument?.title);
-		// TODO override window title with site title
-	}
+	let { src, title }: { src: string; title: string } = $props();
+	export const _windowTitle = title;
 </script>
 
-<iframe {onload} {src} {title}></iframe>
+<iframe {src} {title}></iframe>
 
 <style>
 	iframe {

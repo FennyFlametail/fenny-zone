@@ -12,7 +12,7 @@
 			openApp(apps.Browser, {
 				src: 'https://toddspin.fenny.zone',
 				title: 'Toddspin'
-			})}>Open Toddspin</button
+			})}>Open Browser</button
 	>
 	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>
 </footer>

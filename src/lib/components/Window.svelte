@@ -9,9 +9,9 @@
 </script>
 
 <script lang="ts">
-	import { closeApp } from '$lib/windowServer.svelte';
-	import { X, Minus, Plus } from 'lucide-svelte';
 	import type AppInstance from '$lib/types/AppInstance';
+	import { closeApp } from '$lib/windowServer.svelte';
+	import { Minus, Plus, X } from 'lucide-svelte';
 
 	const {
 		app,
@@ -101,11 +101,11 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.metadata.name}</h2>
+			<h2 class="windowTitle">{app.instance?._windowTitle ?? app.metadata.name}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">
-		<app.Component {...app.props} />
+		<app.Component bind:this={app.instance} {...app.props} />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

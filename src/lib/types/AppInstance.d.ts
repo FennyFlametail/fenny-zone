@@ -8,5 +8,8 @@ export default interface AppInstance<T extends (typeof apps)[keyof typeof apps] 
 	Component: T['default'];
 	metadata: AppMetadata;
 	window?: Window;
+	instance?: {
+		_windowTitle?: string;
+	};
 	props?: ComponentProps<T>;
 }
