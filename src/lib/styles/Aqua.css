@@ -23,46 +23,42 @@ body {
 	font-family: 'Lunasima', sans-serif;
 }
 
+@font-face {
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+	font-family: 'Lunasima';
+}
+
+@font-face {
+	font-weight: bold;
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+	font-family: 'Lunasima';
+}
+
 /* #region Menubar */
 .menubar {
 	--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
 	--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
 	--menu-option-active-bg: #336fcb;
-	--menu-item-padding: 10px;
-	display: flex;
-	z-index: 10000;
 	box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
 	border-top: 1px solid #d9d9d9;
 	border-bottom: 1px solid #bcbcbc;
 	border-top-right-radius: 9px;
 	border-top-left-radius: 9px;
 	background-image: linear-gradient(to bottom, #ffffff, #f0f0f0 50%, #e8e8e8 50%, #ffffff);
-	padding-inline: 20px;
-	height: 30px;
-	user-select: none;
-}
-
-.menuWrapper {
-	cursor: default;
 }
 
 .menuName {
-	display: flex;
-	align-items: center;
-	padding-inline: var(--menu-item-padding);
-	height: 100%;
-	line-height: 1;
-	list-style-type: none;
-	-webkit-user-select: none;
-	user-select: none;
-
 	&:active,
 	&:focus-visible,
 	[open] & {
 		@media (forced-colors: none) {
-			outline: none;
 			background: var(--menu-item-active-bg);
-			color: white;
 		}
 	}
 
@@ -87,11 +83,7 @@ body {
 }
 
 .menu {
-	position: absolute;
 	box-shadow: var(--panel-box-shadow);
-	padding: 0;
-	padding-block: 4px;
-	list-style-type: none;
 
 	@media not (prefers-reduced-transparency: reduce) {
 		&::before {
@@ -99,43 +91,15 @@ body {
 		}
 	}
 
-	@media (forced-colors: active) {
-		border: 1px solid ButtonBorder;
-		/* TODO fix text color */
-		background-color: Canvas;
-	}
-
 	&::before {
-		/* background on separate layer to control opacity */
-		position: absolute;
-		top: 0;
-		left: 0;
 		background: var(--pinstripe-bg);
-		width: 100%;
-		height: 100%;
-		content: '';
 	}
 }
 
 .menuItem {
-	position: relative;
-	white-space: nowrap;
-
 	&:hover,
 	&:focus-within {
-		outline: none;
 		background: var(--menu-option-active-bg);
-		color: white;
-
-		@media (forced-colors: active) {
-			background: CanvasText;
-			color: Canvas;
-		}
-	}
-
-	> * {
-		all: unset;
-		padding-inline: 22px;
 	}
 }
 /* #endregion */
@@ -147,7 +111,6 @@ body {
 
 /* #region Dock */
 .dock {
-	z-index: 10000;
 }
 /* #endregion */
 
@@ -165,13 +128,9 @@ body {
 }
 
 .windowTitlebar {
-	position: relative;
 	justify-content: space-between;
 	border-bottom: 1px solid #8c8c8c;
 	background: linear-gradient(to bottom, #f9f9f9 1px, #efefef 1px, #cacaca);
-	padding-inline: 12px;
-	height: 32px;
-	text-align: center;
 
 	.window.inactive & {
 		background: transparent;
@@ -179,16 +138,8 @@ body {
 	}
 }
 
-.windowControls {
-	gap: 10px;
-	z-index: 1;
-}
-
 .windowButton {
 	--inset-shadow: inset 0 0 1px 2px rgba(0, 0, 0, 0.5);
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	box-shadow:
 		var(--inset-shadow),
 		0 1px 1px white;
@@ -260,23 +211,11 @@ body {
 }
 
 .windowTitleSection {
-	display: flex;
 	position: absolute;
 	top: 0;
 	left: 0;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5rem;
 	width: 100%;
 	height: 100%;
-}
-
-.windowTitle {
-	font-weight: normal;
-	font-size: 16px;
-}
-
-.windowContent {
 }
 
 .windowResizeHandle {
@@ -438,24 +377,5 @@ button.ui {
 	to {
 		filter: brightness(0.9) saturate(1.5);
 	}
-}
-/* #endregion */
-
-/* #region Fonts */
-@font-face {
-	src:
-		local('Lucida Grande'),
-		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
-	font-family: 'Lunasima';
-}
-
-@font-face {
-	font-weight: bold;
-	src:
-		local('Lucida Grande'),
-		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
-	font-family: 'Lunasima';
 }
 /* #endregion */

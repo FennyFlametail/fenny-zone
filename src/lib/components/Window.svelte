@@ -135,7 +135,11 @@
 
 	.windowTitlebar {
 		flex: 0 0 auto;
+		height: 32px;
+		position: relative;
 		display: flex;
+		gap: 0.5rem;
+		padding-inline: 12px;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
@@ -145,6 +149,31 @@
 		align-self: center;
 		display: flex;
 		align-items: center;
+		gap: 10px;
+		z-index: 1;
+	}
+
+	.windowButton {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.window.inactive & {
+			opacity: 0.5;
+		}
+	}
+
+	.windowTitleSection {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		white-space: nowrap;
+	}
+
+	.windowTitle {
+		font-weight: normal;
+		font-size: 16px;
 	}
 
 	.windowContent {

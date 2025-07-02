@@ -38,11 +38,88 @@
 
 <style>
 	.menubar {
+		--menu-item-padding: 10px;
+		display: flex;
+		z-index: 10000;
+		height: 30px;
+		padding-inline: 20px;
 		-webkit-user-select: none;
 		user-select: none;
 	}
 
-	a {
-		-webkit-user-drag: none;
+	.menuWrapper {
+		cursor: default;
+	}
+
+	.menuName {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		line-height: 1;
+		padding-inline: var(--menu-item-padding);
+		list-style-type: none;
+
+		&:active,
+		&:focus-visible,
+		[open] & {
+			@media (forced-colors: none) {
+				outline: none;
+				background: black;
+				color: white;
+			}
+		}
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+	}
+
+	.menu {
+		position: absolute;
+		padding: 4px 0;
+		list-style-type: none;
+
+		@media (forced-colors: active) {
+			border: 1px solid ButtonBorder;
+			/* TODO fix text color */
+			background-color: Canvas;
+		}
+
+		&::before {
+			/* background on separate layer to control opacity */
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: white;
+			width: 100%;
+			height: 100%;
+			content: '';
+		}
+	}
+
+	.menuItem {
+		position: relative;
+		white-space: nowrap;
+
+		&:hover,
+		&:focus-within {
+			outline: none;
+			background: black;
+			color: white;
+
+			@media (forced-colors: active) {
+				background: CanvasText;
+				color: Canvas;
+			}
+		}
+
+		> * {
+			all: unset;
+			padding-inline: 22px;
+		}
+
+		a {
+			-webkit-user-drag: none;
+		}
 	}
 </style>

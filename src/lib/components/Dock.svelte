@@ -16,3 +16,9 @@
 	>
 	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>
 </footer>
+
+<style>
+	.dock {
+		z-index: 10000;
+	}
+</style>
