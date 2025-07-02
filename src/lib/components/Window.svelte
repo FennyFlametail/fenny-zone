@@ -17,12 +17,15 @@
 	import type RunningApp from '$lib/types/RunningApp';
 	import { closeApp, focusApp, runningApps } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
+	import { setContext } from 'svelte';
 
 	let {
 		app
 	}: {
 		app: RunningApp;
 	} = $props();
+
+	setContext('app', app);
 
 	let element = $state<HTMLElement>();
 
@@ -108,7 +111,7 @@
 		</hgroup>
 	</header>
 	<div class="windowContent">
-		<app.Component bind:this={app.instance} {...app.props} _app={app} />
+		<app.Component bind:this={app.instance} />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

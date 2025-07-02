@@ -1,24 +1,17 @@
-import type * as apps from '$lib/apps';
+import type { App } from '$lib/apps';
 import type { default as Window, Position } from '$lib/components/Window.svelte';
-import type { ComponentProps } from 'svelte';
 
 export interface AppMetadata {
+	key: string;
 	title: string;
 	icon: string;
 }
 
-export default interface RunningApp<
-	T extends (typeof apps)[keyof typeof apps] = {
-		default: (typeof apps)[keyof typeof apps]['default'];
-	}
-> {
+export default interface RunningApp {
 	id: string;
-	Component: T['default'];
+	Component: App['default'];
 	metadata: AppMetadata;
-	/** convenience function to avoid optional unwrapping */
-	setTitle: (title?: string) => void;
 	window?: Window;
 	position: Position;
 	instance?: Record<string, unknown>;
-	props?: ComponentProps<T['default']>;
 }

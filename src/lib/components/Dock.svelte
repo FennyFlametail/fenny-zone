@@ -1,36 +1,12 @@
 <script lang="ts">
-	import * as apps from '$lib/apps';
+	import apps from '$lib/apps';
 	import DockIcon from '$lib/components/DockIcon.svelte';
 </script>
 
 <footer class="dock">
-	<DockIcon
-		app={apps.Browser}
-		options={{
-			props: {
-				src: 'https://sauce.fenny.zone/'
-			},
-			metadata: {
-				title: 'CLICK FOR SAUCE'
-			}
-		}}
-	/>
-	<DockIcon
-		app={apps.Browser}
-		options={{
-			props: {
-				src: 'https://toddspin.fenny.zone'
-			},
-			metadata: {
-				title: 'Toddspin',
-				icon: 'icons/toddspin.png'
-			},
-			position: {
-				x: 100,
-				y: 100
-			}
-		}}
-	/>
+	{#each apps as app}
+		<DockIcon {app} />
+	{/each}
 </footer>
 
 <style>

@@ -1,39 +1,21 @@
+import { nanoid } from 'nanoid';
 import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
-import * as apps from '$lib/apps';
+import apps, { type App } from '$lib/apps';
 import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
-import type { AppMetadata, default as RunningApp } from '$lib/types/RunningApp';
-import { nanoid } from 'nanoid';
-import type { ComponentProps } from 'svelte';
+import type RunningApp from '$lib/types/RunningApp';
 
 export const runningApps: RunningApp[] = $state([]);
 
-export function openApp<T extends (typeof apps)[keyof typeof apps]>(
-	app: T,
-	options: {
-		props?: ComponentProps<T['default']>;
-		metadata?: Partial<AppMetadata>;
-		position?: Partial<Position>;
-	} = {}
-) {
-	const { default: Component, metadata: defaultMetadata } = app;
-	const { props, metadata, position } = options;
+export function openApp<T extends App>(app: T, position?: Partial<Position>) {
 	const instance: RunningApp = {
 		id: nanoid(),
-		Component,
-		metadata: {
-			...defaultMetadata,
-			...metadata
-		},
-		setTitle(title?: string) {
-			if (title) this.metadata.title = title;
-		},
+		Component: app.default,
+		metadata: app.metadata,
 		position: {
 			...getInitialPosition(runningApps.length),
 			...position
-		},
-		// TODO way to pass props to pages in URL when directly navigating
-		props
+		}
 	};
 
 	runningApps.push(instance);
@@ -77,11 +59,11 @@ export function resetApps() {
 
 export async function loadAppsFromQueryString() {
 	const url = new URL(page.url);
-	const promises = [...url.searchParams.entries()].map(async ([name, optionString]) => {
-		const app = apps[name as keyof typeof apps];
+	const promises = [...url.searchParams.entries()].map(async ([key, positionString]) => {
+		const app = apps.find((app) => app.metadata.key === key);
 		if (!app) return;
-		const options = optionString ? JSON.parse(optionString) : {};
-		openApp(app, options);
+		const position = positionString ? JSON.parse(positionString) : {};
+		openApp(app, position);
 	});
 	await Promise.all(promises);
 }
@@ -89,15 +71,7 @@ export async function loadAppsFromQueryString() {
 export function updateQueryString() {
 	const params = new URLSearchParams();
 	runningApps.forEach((app) => {
-		const name = Object.entries(apps).find(([, module]) => module.default === app.Component)![0];
-		params.append(
-			name,
-			JSON.stringify({
-				props: app.props,
-				position: app.position,
-				metadata: app.metadata
-			})
-		);
+		params.append(app.metadata.key, JSON.stringify(app.position));
 	});
 	const url = new URL(page.url);
 	url.search = params.toString();

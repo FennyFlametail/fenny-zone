@@ -1,31 +1,23 @@
-<script lang="ts" generics="T extends (typeof apps)[keyof typeof apps]">
-	import { isEqual } from 'es-toolkit';
+<script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import type * as apps from '$lib/apps';
+	import type { App } from '$lib/apps';
 	import type RunningApp from '$lib/types/RunningApp';
 	import { focusApp, openApp, runningApps } from '$lib/windowServer.svelte';
 
 	const {
-		app,
-		options
+		app
 	}: {
-		app: T;
-		options?: Parameters<typeof openApp<T>>[1];
+		app: App;
 	} = $props();
-
-	const { title, icon } = {
-		...app.metadata,
-		...options?.metadata
-	};
 
 	let instance = $state<RunningApp>();
 
 	onMount(async () => {
 		await tick();
-		// on page load, check if a running app has the same props
-		for (const app of runningApps) {
-			if (isEqual(app.props, options?.props)) {
-				instance = app;
+		// on page load, check if there is a running instance of the app
+		for (const runningApp of runningApps) {
+			if (runningApp.Component === app.default) {
+				instance = runningApp;
 				break;
 			}
 		}
@@ -35,7 +27,7 @@
 		if (instance) {
 			focusApp(instance);
 		} else {
-			instance = openApp(app, options);
+			instance = openApp(app);
 		}
 	}
 
@@ -47,8 +39,8 @@
 </script>
 
 <button class={['dockIcon', { open: instance }]} {onclick}>
-	<span class="dockIconLabel">{title}</span>
-	<img src={icon} alt={title} class="dockIconImage" draggable="false" />
+	<span class="dockIconLabel">{app.metadata.title}</span>
+	<img src={app.metadata.icon} alt={app.metadata.title} class="dockIconImage" draggable="false" />
 </button>
 
 <svelte:window {onAppClose} />
