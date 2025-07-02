@@ -81,7 +81,7 @@ to bottom,
 
 	/* #region Desktop */
 	.desktop {
-		background-image: url('wallpaper.jpg');
+		background-image: url('/wallpaper.jpg');
 		background-color: #3d6ea8;
 	}
 	/* #endregion */
