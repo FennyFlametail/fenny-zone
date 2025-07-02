@@ -30,7 +30,10 @@
 		flex: 1 1 auto;
 		min-height: 0;
 		display: grid;
-		background-color: lightskyblue;
+		background-color: #3d6ea8;
+		background: url('wallpaper.jpg');
+		background-size: cover;
+		background-position: top center;
 	}
 
 	.noSelect {
