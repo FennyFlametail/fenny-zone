@@ -7,6 +7,12 @@ export interface AppMetadata {
 	key: string;
 	title: string;
 	icon: string;
+	size?: {
+		/** @default 500 */
+		width?: number;
+		/** @default 500 */
+		height?: number;
+	};
 }
 
 export interface RunningApp {

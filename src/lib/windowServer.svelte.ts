@@ -14,6 +14,7 @@ export function openApp<T extends App>(app: T, position?: Partial<Position>) {
 		metadata: app.metadata,
 		position: {
 			...getInitialPosition(runningApps.length),
+			...app.metadata.size,
 			...position
 		}
 	};

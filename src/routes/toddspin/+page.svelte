@@ -4,7 +4,10 @@
 	export const metadata: AppMetadata = {
 		key: 'toddspin',
 		title: 'Toddspin',
-		icon: 'icons/toddspin.png'
+		icon: 'icons/toddspin.png',
+		size: {
+			height: 800
+		}
 	};
 </script>
 
