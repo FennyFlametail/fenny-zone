@@ -38,6 +38,7 @@
 	.dock {
 		--padding: 7.5px;
 		--icon-size: 64px;
+		z-index: 10000;
 		position: absolute;
 		bottom: 0;
 		align-self: center;
