@@ -16,7 +16,7 @@
 	export function openApp(appName: AppName, position?: Partial<Position>) {
 		const app = apps[appName];
 		if (app.instance) {
-			console.warn(`(openApp) ${appName} is already running!`);
+			focusApp(appName);
 		} else {
 			app.instance = {
 				position: {

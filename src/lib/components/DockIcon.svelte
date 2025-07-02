@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { focusApp, openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
+	import { openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
 	import type { AppEntry, AppName } from '$lib/types/AppTypes';
 
 	const {
@@ -11,7 +11,7 @@
 	} = $props();
 
 	function onclick() {
-		getRunningApps()[appName] ? focusApp(appName) : openApp(appName);
+		openApp(appName);
 	}
 </script>
 
@@ -82,10 +82,7 @@
 			translate: -50%;
 			white-space: nowrap;
 			color: white;
-			text-shadow:
-				black 0 1px 1px,
-				black 0 1px 3px,
-				black 0 1px 5px;
+			text-shadow: var(--label-shadow);
 		}
 	}
 
