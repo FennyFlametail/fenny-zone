@@ -6,6 +6,9 @@
 	import Window, { dragging, resizing } from '$lib/components/Window.svelte';
 	import { runningApps, updateQueryString } from '$lib/windowServer.svelte';
 
+	// TODO this fixes windowServer.resetApps, find out why
+	$inspect(runningApps).with(() => {});
+
 	function onpointerup() {
 		setTimeout(() => updateQueryString(), 100);
 	}

@@ -68,8 +68,11 @@
 	}
 
 	export function resetPosition() {
-		app.position.x = 50 * index;
-		app.position.y = 50 * index;
+		app.position = {
+			...getInitialPosition(),
+			x: 50 * index,
+			y: 50 * index
+		};
 	}
 </script>
 
