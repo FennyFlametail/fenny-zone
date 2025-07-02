@@ -1,21 +1,20 @@
 <script lang="ts">
 	import type { MouseEventHandler } from 'svelte/elements';
+	import { getFileIconContext } from '$lib/context';
 
 	let {
 		name,
 		icon,
 		alias,
-		selected = $bindable(false),
-		onselect,
 		onopen
 	}: {
 		name: string;
 		icon: string;
 		alias?: boolean;
-		selected: boolean;
-		onselect: MouseEventHandler<HTMLButtonElement>;
 		onopen: MouseEventHandler<HTMLButtonElement>;
 	} = $props();
+
+	const { getSelected, onselect } = getFileIconContext();
 
 	let open = $state(false);
 	const openAnimDuration = 200;
@@ -27,7 +26,11 @@
 	};
 </script>
 
-<button class={['fileIcon', { selected, open }]} onclick={onselect} {ondblclick}>
+<button
+	class={['fileIcon', { selected: getSelected() === name, open }]}
+	onclick={() => onselect(name)}
+	{ondblclick}
+>
 	<div class="fileIconContainer">
 		<img class="fileIconImage" src={icon} alt={name} draggable="false" />
 		<img

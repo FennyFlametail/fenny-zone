@@ -1,6 +1,13 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { setFileIconContext } from '$lib/context';
+
 	const { children }: { children: Snippet } = $props();
+
+	let selected = $state<string>();
+	const getSelected = () => selected;
+	const onselect = (name: string) => (selected = name);
+	setFileIconContext(getSelected, onselect);
 </script>
 
 <div class="finder">
