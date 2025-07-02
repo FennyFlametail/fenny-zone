@@ -1,4 +1,4 @@
-<script module>
+<script module lang="ts">
 	export const dragging: { el?: HTMLElement } = $state({});
 	export const resizing: { el?: HTMLElement } = $state({});
 	let maxZIndex = 0;
@@ -9,6 +9,7 @@
 </script>
 
 <script lang="ts">
+	import { desktopPadding } from '$lib/components/Desktop.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 	import { closeApp } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -49,6 +50,8 @@
 		if (dragging.el === element) {
 			x += e.screenX - lastX;
 			y += e.screenY - lastY;
+
+			y = Math.max(y, desktopPadding * -1);
 
 			lastX = e.screenX;
 			lastY = e.screenY;

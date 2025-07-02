@@ -41,11 +41,14 @@ body {
 }
 
 /* #region Menubar */
+.menubarShadow {
+	box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
 .menubar {
 	--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
 	--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
 	--menu-option-active-bg: #336fcb;
-	box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
 	border-top: 1px solid #d9d9d9;
 	border-bottom: 1px solid #bcbcbc;
 	border-top-right-radius: 9px;

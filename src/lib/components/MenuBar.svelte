@@ -1,3 +1,5 @@
+<div class="menubarShadow"></div>
+
 <header class="menubar">
 	<details class="menuWrapper" name="menubar">
 		<summary class="menuName">
@@ -37,11 +39,22 @@
 </header>
 
 <style>
+	.menubar,
+	.menubarShadow {
+		height: 30px;
+	}
+
+	.menubarShadow {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+	}
+
 	.menubar {
 		--menu-item-padding: 10px;
 		display: flex;
 		z-index: 10000;
-		height: 30px;
 		padding-inline: 20px;
 		-webkit-user-select: none;
 		user-select: none;
