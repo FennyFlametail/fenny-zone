@@ -23,260 +23,249 @@ body {
 	font-family: 'Lunasima', sans-serif;
 }
 
-@font-face {
-	src:
-		local('Lucida Grande'),
-		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
-	font-family: 'Lunasima';
-}
+#root {
+	/* #region Menubar */
+	.menubarShadow {
+		box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
+	}
 
-@font-face {
-	font-weight: bold;
-	src:
-		local('Lucida Grande'),
-		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
-	font-family: 'Lunasima';
-}
+	.menubar {
+		--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
+		--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
+		--menu-option-active-bg: #336fcb;
+		border-top: 1px solid #d9d9d9;
+		border-bottom: 1px solid #bcbcbc;
+		border-top-right-radius: 9px;
+		border-top-left-radius: 9px;
+		background-image: linear-gradient(to bottom, #ffffff, #f0f0f0 50%, #e8e8e8 50%, #ffffff);
+	}
 
-/* #region Menubar */
-.menubarShadow {
-	box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
-}
+	.menuName {
+		&:active,
+		&:focus-visible,
+		[open] & {
+			@media (forced-colors: none) {
+				background: var(--menu-item-active-bg);
+			}
+		}
 
-.menubar {
-	--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
-	--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
-	--menu-option-active-bg: #336fcb;
-	border-top: 1px solid #d9d9d9;
-	border-bottom: 1px solid #bcbcbc;
-	border-top-right-radius: 9px;
-	border-top-left-radius: 9px;
-	background-image: linear-gradient(to bottom, #ffffff, #f0f0f0 50%, #e8e8e8 50%, #ffffff);
-}
-
-.menuName {
-	&:active,
-	&:focus-visible,
-	[open] & {
-		@media (forced-colors: none) {
-			background: var(--menu-item-active-bg);
+		&::-webkit-details-marker {
+			display: none;
 		}
 	}
 
-	&::-webkit-details-marker {
-		display: none;
-	}
-}
-
-.menuLogo {
-	background: linear-gradient(135deg, #3dadff, #1666ee);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-
-	.menuName:active &,
-	.menuName:focus-visible &,
-	[open] & {
-		background: linear-gradient(to top, white, white);
+	.menuLogo {
+		background: linear-gradient(135deg, #3dadff, #1666ee);
 		-webkit-background-clip: text;
 		background-clip: text;
+		color: transparent;
+
+		.menuName:active &,
+		.menuName:focus-visible &,
+		[open] & {
+			background: linear-gradient(to top, white, white);
+			-webkit-background-clip: text;
+			background-clip: text;
+		}
 	}
-}
 
-.menu {
-	box-shadow: var(--panel-box-shadow);
+	.menu {
+		box-shadow: var(--panel-box-shadow);
 
-	@media not (prefers-reduced-transparency: reduce) {
+		@media not (prefers-reduced-transparency: reduce) {
+			&::before {
+				opacity: 0.95;
+			}
+		}
+
 		&::before {
-			opacity: 0.95;
+			background: var(--pinstripe-bg);
 		}
 	}
 
-	&::before {
+	.menuItem {
+		&:hover,
+		&:focus-within {
+			background: var(--menu-option-active-bg);
+		}
+	}
+	/* #endregion */
+
+	/* #region Desktop */
+	.desktop {
+	}
+	/* #endregion */
+
+	/* #region Dock */
+	.dock {
+	}
+	/* #endregion */
+
+	/* #region Window */
+	.window {
+		box-shadow: var(--panel-box-shadow);
+		border: 1px solid rgba(0, 0, 0, 0.33);
+		border-top-right-radius: 9px;
+		border-top-left-radius: 9px;
 		background: var(--pinstripe-bg);
+
+		&.inactive {
+			box-shadow: var(--panel-box-shadow-inactive);
+		}
 	}
-}
 
-.menuItem {
-	&:hover,
-	&:focus-within {
-		background: var(--menu-option-active-bg);
-	}
-}
-/* #endregion */
-
-/* #region Desktop */
-.desktop {
-}
-/* #endregion */
-
-/* #region Dock */
-.dock {
-}
-/* #endregion */
-
-/* #region Window */
-.window {
-	box-shadow: var(--panel-box-shadow);
-	border: 1px solid rgba(0, 0, 0, 0.33);
-	border-top-right-radius: 9px;
-	border-top-left-radius: 9px;
-	background: var(--pinstripe-bg);
-
-	&.inactive {
-		box-shadow: var(--panel-box-shadow-inactive);
-	}
-}
-
-.windowTitlebar {
-	justify-content: space-between;
-	border-top-right-radius: inherit;
-	border-top-left-radius: inherit;
-	/* 1px line at bottom because border-bottom doesn't render right in Safari */
-	background: linear-gradient(
-		to bottom,
-		#f9f9f9 1px,
-		#efefef 1px,
-		#cacaca calc(100% - 1px),
-		#8c8c8c calc(100% - 1px)
-	);
-
-	.window.inactive & {
-		background: linear-gradient(to bottom, transparent calc(100% - 1px), #8c8c8c calc(100% - 1px));
-		color: var(--text-secondary);
-	}
-}
-
-.windowButton {
-	--inset-shadow: inset 0 0 1px 2px rgba(0, 0, 0, 0.5);
-	box-shadow:
-		var(--inset-shadow),
-		0 1px 1px white;
-	border: none;
-	border-radius: 9999px;
-	background: radial-gradient(
-			ellipse 60% 40% at center top,
-			white,
-			rgba(255, 255, 255, 0.8),
-			transparent
-		),
-		radial-gradient(
-			ellipse 60% 70% at center bottom,
-			rgba(255, 255, 255, 1),
-			rgba(255, 255, 255, 0.8),
-			transparent
+	.windowTitlebar {
+		justify-content: space-between;
+		border-top-right-radius: inherit;
+		border-top-left-radius: inherit;
+		/* 1px line at bottom because border-bottom doesn't render right in Safari */
+		background: linear-gradient(
+			to bottom,
+			#f9f9f9 1px,
+			#efefef 1px,
+			#cacaca calc(100% - 1px),
+			#8c8c8c calc(100% - 1px)
 		);
-	background-color: var(--background-color);
-	background-blend-mode: normal, overlay;
-	padding: 0;
-	width: 18px;
-	height: 18px;
 
-	@media (forced-colors: active) {
-		&:enabled {
-			border: 1px solid ButtonBorder;
+		.window.inactive & {
+			background: linear-gradient(
+				to bottom,
+				transparent calc(100% - 1px),
+				#8c8c8c calc(100% - 1px)
+			);
+			color: var(--text-secondary);
 		}
 	}
 
-	.window.inactive & {
-		--background-color: #b5b5b5 !important;
-		opacity: 0.5;
-	}
-
-	&:active {
-		/* TODO don't darken border */
-		filter: brightness(0.75);
-	}
-
-	&:disabled {
-		--background-color: transparent !important;
+	.windowButton {
+		--inset-shadow: inset 0 0 1px 2px rgba(0, 0, 0, 0.5);
 		box-shadow:
-			inset 0 0 1px 1.5px rgba(0, 0, 0, 0.25),
+			var(--inset-shadow),
 			0 1px 1px white;
-	}
+		border: none;
+		border-radius: 9999px;
+		background: radial-gradient(
+				ellipse 60% 40% at center top,
+				white,
+				rgba(255, 255, 255, 0.8),
+				transparent
+			),
+			radial-gradient(
+				ellipse 60% 70% at center bottom,
+				rgba(255, 255, 255, 1),
+				rgba(255, 255, 255, 0.8),
+				transparent
+			);
+		background-color: var(--background-color);
+		background-blend-mode: normal, overlay;
+		padding: 0;
+		width: 18px;
+		height: 18px;
 
-	&.close {
-		--background-color: #c44a44;
-	}
+		@media (forced-colors: active) {
+			&:enabled {
+				border: 1px solid ButtonBorder;
+			}
+		}
 
-	&.minimize {
-		--background-color: #e89e28;
-	}
+		.window.inactive & {
+			--background-color: #b5b5b5 !important;
+			opacity: 0.5;
+		}
 
-	&.maximize {
-		--background-color: #6aa71e;
-	}
-}
+		&:active {
+			/* TODO don't darken border */
+			filter: brightness(0.75);
+		}
 
-.windowButtonGlyph {
-	--lightness: 0.9;
-	transform: translateZ(0);
-	visibility: hidden;
-	mix-blend-mode: multiply;
-	color: hsl(from var(--background-color) h s calc(l * var(--lightness)));
-	stroke-width: 4;
-	stroke-linecap: square;
+		&:disabled {
+			--background-color: transparent !important;
+			box-shadow:
+				inset 0 0 1px 1.5px rgba(0, 0, 0, 0.25),
+				0 1px 1px white;
+		}
 
-	.windowButton.minimize & {
-		--lightness: 0.8;
-	}
+		&.close {
+			--background-color: #c44a44;
+		}
 
-	.windowControls:is(:hover, :focus-visible) & {
-		visibility: visible;
-	}
-}
+		&.minimize {
+			--background-color: #e89e28;
+		}
 
-.windowTitleSection {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-/* #endregion */
-
-/* #region Widgets */
-button.ui {
-	--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
-	--border-gradient: #8b8b8b, #505050;
-	--border-active-gradient: #272798, #616161;
-	box-shadow: var(--widget-box-shadow);
-	border: 1px solid transparent;
-	border-radius: 9999px;
-	background: linear-gradient(to bottom, var(--button-gradient)),
-		linear-gradient(to bottom, var(--border-gradient));
-	background-clip: padding-box, border-box;
-	padding-inline: 14px;
-	min-width: 91px;
-	height: 28px;
-	user-select: none;
-	white-space: nowrap;
-
-	&:focus-visible {
-		@media (forced-colors: none) {
-			--border-gradient: #6f89a0, #6f89a0;
-			outline: none;
-			box-shadow: var(--focus-box-shadow);
+		&.maximize {
+			--background-color: #6aa71e;
 		}
 	}
 
-	&:active {
-		--button-gradient: var(--button-active-gradient);
-		--border-gradient: var(--border-active-gradient);
-	}
+	.windowButtonGlyph {
+		--lightness: 0.9;
+		transform: translateZ(0);
+		visibility: hidden;
+		mix-blend-mode: multiply;
+		color: hsl(from var(--background-color) h s calc(l * var(--lightness)));
+		stroke-width: 4;
+		stroke-linecap: square;
 
-	&.primary:not(.window.inactive .primary) {
-		--button-gradient: var(--button-active-gradient);
-		--border-gradient: var(--border-active-gradient);
+		.windowButton.minimize & {
+			--lightness: 0.8;
+		}
 
-		&:not(:active) {
-			animation: 0.5s linear infinite alternate darken;
+		.windowControls:is(:hover, :focus-visible) & {
+			visibility: visible;
 		}
 	}
+
+	.windowTitleSection {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	/* #endregion */
+
+	/* #region Widgets */
+	button.ui {
+		--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
+		--border-gradient: #8b8b8b, #505050;
+		--border-active-gradient: #272798, #616161;
+		box-shadow: var(--widget-box-shadow);
+		border: 1px solid transparent;
+		border-radius: 9999px;
+		background: linear-gradient(to bottom, var(--button-gradient)),
+			linear-gradient(to bottom, var(--border-gradient));
+		background-clip: padding-box, border-box;
+		padding-inline: 14px;
+		min-width: 91px;
+		height: 28px;
+		user-select: none;
+		white-space: nowrap;
+
+		&:focus-visible {
+			@media (forced-colors: none) {
+				--border-gradient: #6f89a0, #6f89a0;
+				outline: none;
+				box-shadow: var(--focus-box-shadow);
+			}
+		}
+
+		&:active {
+			--button-gradient: var(--button-active-gradient);
+			--border-gradient: var(--border-active-gradient);
+		}
+
+		&.primary:not(.window.inactive .primary) {
+			--button-gradient: var(--button-active-gradient);
+			--border-gradient: var(--border-active-gradient);
+
+			&:not(:active) {
+				animation: 0.5s linear infinite alternate darken;
+			}
+		}
+	}
+	/* #endregion */
 }
-/* #endregion */
 
 /* #region Scrollbar */
 ::-webkit-scrollbar {
@@ -383,7 +372,7 @@ button.ui {
 }
 /* #endregion */
 
-/* #region Keyframes */
+/* #region Declarations */
 @keyframes darken {
 	from {
 		filter: brightness(1) saturate(1);
@@ -391,5 +380,22 @@ button.ui {
 	to {
 		filter: brightness(0.9) saturate(1.5);
 	}
+}
+
+@font-face {
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+	font-family: 'Lunasima';
+}
+
+@font-face {
+	font-weight: bold;
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+	font-family: 'Lunasima';
 }
 /* #endregion */

@@ -73,7 +73,9 @@
 		padding-inline: var(--menu-item-padding);
 		list-style-type: none;
 
-		:where(&:active, &:focus-visible, [open] &) {
+		&:active,
+		&:focus-visible,
+		[open] & {
 			@media (forced-colors: none) {
 				outline: none;
 				background: black;
@@ -113,7 +115,8 @@
 		position: relative;
 		white-space: nowrap;
 
-		:where(&:hover, &:focus-within) {
+		&:hover,
+		&:focus-within {
 			outline: none;
 			background: black;
 			color: white;
