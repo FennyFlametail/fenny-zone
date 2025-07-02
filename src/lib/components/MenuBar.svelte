@@ -8,7 +8,7 @@
 				<button>Menu Item Button</button>
 			</li>
 			<li class="menuItem">
-				<a class="menuItem" href="/">Menu Item Link</a>
+				<a class="menuItem" href="/" draggable="false">Menu Item Link</a>
 			</li>
 		</menu>
 	</details>
@@ -19,7 +19,7 @@
 				<button>Menu Item Button</button>
 			</li>
 			<li class="menuItem">
-				<a class="menuItem" href="/">Menu Item Link</a>
+				<a class="menuItem" href="/" draggable="false">Menu Item Link</a>
 			</li>
 		</menu>
 	</details>
@@ -30,8 +30,19 @@
 				<button>Menu Item Button</button>
 			</li>
 			<li class="menuItem">
-				<a class="menuItem" href="/">Menu Item Link</a>
+				<a class="menuItem" href="/" draggable="false">Menu Item Link</a>
 			</li>
 		</menu>
 	</details>
 </header>
+
+<style>
+	.menubar {
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
+	a {
+		-webkit-user-drag: none;
+	}
+</style>

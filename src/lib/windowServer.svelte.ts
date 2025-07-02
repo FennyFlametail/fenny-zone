@@ -15,6 +15,7 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 		id: nanoid(),
 		Component,
 		metadata,
+		// TODO way to pass props to pages in URL when directly navigating
 		props
 	});
 
