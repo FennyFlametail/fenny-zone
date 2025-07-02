@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GooglyEyes from '$lib/components/GooglyEyes.svelte';
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
 	import MenuItem from '$lib/components/MenuItem.svelte';
@@ -42,6 +43,7 @@
 		<MenuItem title="Close All Windows" onclick={closeAll} />
 	</MenuCategory>
 	<div class="spacer"></div>
+	<GooglyEyes />
 	<MenuClock />
 </header>
 

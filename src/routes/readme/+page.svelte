@@ -5,13 +5,13 @@
 
 Click one of the folders in the dock at the bottom of the screen, or just poke around!
 
-This site is a work in progress! Planned features include:
+TO-DO:
 - more content
+- better mobile layout
 - themes
-- a better mobile layout
-- support for most functionality without JavaScript
+- more functionality without JavaScript
 
-It'll be done when it's done™`
+Googly eyes shamelessly copied from Sindre Sorhus: https://sindresorhus.com/googly-eyes`
 	);
 </script>
 
