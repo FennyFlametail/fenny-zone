@@ -8,6 +8,7 @@ export interface AppEntry {
 	url?: string;
 	title: string;
 	icon: string;
+	hideInRunningApps?: boolean;
 	defaultSize?: {
 		/** @default 500 */
 		width?: number;

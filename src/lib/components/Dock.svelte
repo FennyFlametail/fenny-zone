@@ -1,13 +1,26 @@
 <script lang="ts">
 	import DockIcon from '$lib/components/DockIcon.svelte';
+	import { getRunningApps } from '$lib/components/WindowServer.svelte';
+	import type { AppName, RunningApp } from '$lib/types/AppTypes';
+
+	const appsToShow = $derived(
+		Object.entries(getRunningApps()).filter(([, app]) => !app.hideInRunningApps) as [
+			AppName,
+			RunningApp
+		][]
+	);
 </script>
 
 <footer class="dock">
 	<div class="dockSection">
 		<DockIcon icon="icons/finder.png" title="Finder" open />
+		{#each appsToShow as [name]}
+			<DockIcon appName={name} />
+		{/each}
 	</div>
 	<div class="dockSection">
 		<DockIcon appName="characters" />
+		<DockIcon appName="projects" />
 		<DockIcon icon="icons/trash.png" title="Trash" />
 	</div>
 </footer>

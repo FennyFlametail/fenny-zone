@@ -91,6 +91,8 @@
 
 	.fileIconImage {
 		grid-area: 1 / 1;
+		width: 100%;
+		height: 100%;
 		object-fit: contain;
 	}
 
@@ -124,6 +126,7 @@
 	.fileIconLabel {
 		line-height: 20px;
 		padding-inline: 15px;
+		text-align: center;
 
 		.desktopIcon & {
 			font-weight: 600;
