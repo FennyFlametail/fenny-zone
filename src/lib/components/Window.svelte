@@ -44,17 +44,15 @@
 	}
 
 	function pointerMove(e: PointerEvent) {
-		const zoomRatio = screen.width / innerWidth;
-
 		if (dragging.el === element) {
-			x += (e.screenX - lastX) / zoomRatio;
-			y += (e.screenY - lastY) / zoomRatio;
+			x += e.screenX - lastX;
+			y += e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (resizing.el === element) {
-			width += (e.screenX - lastX) / zoomRatio;
-			height += (e.screenY - lastY) / zoomRatio;
+			width += e.screenX - lastX;
+			height += e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
