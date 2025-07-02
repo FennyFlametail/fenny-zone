@@ -51,6 +51,7 @@ body {
 	align-items: center;
 	padding-inline: var(--menu-item-padding);
 	height: 100%;
+	line-height: 1;
 	list-style-type: none;
 	-webkit-user-select: none;
 	user-select: none;
@@ -67,6 +68,21 @@ body {
 
 	&::-webkit-details-marker {
 		display: none;
+	}
+}
+
+.menuLogo {
+	background: linear-gradient(135deg, #3dadff, #1666ee);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+
+	.menuName:active &,
+	.menuName:focus-visible &,
+	[open] & {
+		background: linear-gradient(to top, white, white);
+		-webkit-background-clip: text;
+		background-clip: text;
 	}
 }
 
