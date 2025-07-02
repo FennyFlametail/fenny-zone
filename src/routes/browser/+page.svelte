@@ -1,5 +1,6 @@
 <script module lang="ts">
 	export const title = 'Browser';
+	export const icon = 'icons/safari.png';
 </script>
 
 <script lang="ts">
@@ -27,6 +28,7 @@
 	}
 </script>
 
+<!-- TODO: idea, cover up the iframe with an invisible div while dragging or resizing to avoid jank -->
 <iframe bind:this={iframe} onpointerover={stopMoveAndDrag} {src} title={_app?.metadata.title}
 ></iframe>
 

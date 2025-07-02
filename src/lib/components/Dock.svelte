@@ -1,33 +1,48 @@
 <script lang="ts">
 	import * as apps from '$lib/apps';
-	import { openApp, resetApps } from '$lib/windowServer.svelte';
+	import DockIcon from '$lib/components/DockIcon.svelte';
 </script>
 
 <footer class="dock">
-	<button class="ui" onclick={() => openApp(apps.App1)}>Open App1</button>
-	<button class="ui" onclick={() => openApp(apps.App2)}>Open App2</button>
-	<button
-		class="ui"
-		onclick={() =>
-			openApp(apps.Browser, {
+	<!-- TODO link open indicators to running apps -->
+	{#each Object.values(apps) as app}
+		<DockIcon {app} />
+	{/each}
+	{#each { length: 7 }}
+		<DockIcon
+			app={apps.Browser}
+			options={{
 				props: {
 					src: 'https://toddspin.fenny.zone'
 				},
 				metadata: {
-					title: 'Toddspin'
+					title: 'Toddspin',
+					icon: 'icons/toddspin.png'
 				},
 				position: {
 					x: 100,
 					y: 100
 				}
-			})}>Open Browser</button
-	>
-	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>
+			}}
+			open
+		/>
+	{/each}
 </footer>
 
 <style>
+	/* TODO shrink if wider than window */
 	.dock {
-		flex-shrink: 0;
-		z-index: 10000;
+		--padding: 7.5px;
+		--icon-size: 64px;
+		position: absolute;
+		bottom: 0;
+		align-self: center;
+		display: flex;
+		align-items: flex-end;
+		height: calc(var(--icon-size) + var(--padding) * 2);
+		padding: var(--padding) calc(var(--padding) / 2);
+		background-color: #ffffff66;
+		border: 1px solid #ffffff26;
+		box-shadow: 0 0 0 1px #00000026;
 	}
 </style>

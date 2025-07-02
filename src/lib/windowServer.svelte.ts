@@ -4,22 +4,20 @@ import * as apps from '$lib/apps';
 import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 import type { AppMetadata, default as RunningApp } from '$lib/types/RunningApp';
 import { nanoid } from 'nanoid';
-import { type ComponentProps } from 'svelte';
+import type { ComponentProps } from 'svelte';
 
 export const runningApps: RunningApp[] = $state([]);
 
 export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
-	{ default: Component, ...defaultMetadata }: T,
-	{
-		props,
-		metadata,
-		position
-	}: {
+	app: T,
+	options: {
 		props?: ComponentProps<T['default']>;
 		metadata?: Partial<AppMetadata>;
 		position?: Partial<Position>;
 	} = {}
 ) {
+	const { default: Component, ...defaultMetadata } = app;
+	const { props, metadata, position } = options;
 	runningApps.push({
 		id: nanoid(),
 		Component,
