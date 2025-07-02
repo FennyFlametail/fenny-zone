@@ -58,7 +58,7 @@
 		left: 0;
 		top: 0;
 		width: 100%;
-		box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
+		box-shadow: 0 -5px 10px 10px rgb(0 0 0 / 50%);
 	}
 
 	.menubar {
