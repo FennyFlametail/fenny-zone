@@ -1,21 +1,21 @@
 import type { Component } from 'svelte';
 import Window, { type Position } from '$lib/components/Window.svelte';
-import Finder from '$lib/components/apps/Finder.svelte';
-import TextEdit from '$lib/components/apps/TextEdit.svelte';
 import BrowserPage from '../routes/[browser=browser]/+page.svelte';
 import CharactersPage from '../routes/characters/+page.svelte';
 import ProjectsPage from '../routes/projects/+page.svelte';
 import ReadmePage from '../routes/readme/+page.svelte';
 
 export interface AppEntry {
-	/** Apps will be grouped by their parent icon in the Dock */
-	// TODO implement grouping
-	parent?: AppEntry;
+	/** Page doesn't matter for parent apps */
 	Page: Component<any>;
-	/** The browser page will redirect to this URL if you visit the route directly */
-	url?: string;
+	/** Parent apps can't be launched directlly */
+	isParent?: boolean;
+	/** Apps will be grouped by their parent icon in the Dock */
+	parent?: keyof typeof apps;
 	title: string;
 	icon: string;
+	/** Apps using the browser page will redirect to this URL if you visit the route directly */
+	url?: string;
 	defaultSize?: {
 		/** @default 500 */
 		width?: number;
@@ -30,34 +30,40 @@ export interface AppEntry {
 }
 export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
 
-const baseApps = {
+const apps = $state({
 	Finder: {
-		Page: Finder,
+		Page: ReadmePage,
+		isParent: true,
 		title: 'Finder',
 		icon: 'icons/finder.png'
 	},
 	TextEdit: {
-		Page: TextEdit,
-		title: 'TextEdit',
-		icon: 'icons/textedit.pnng'
-	}
-} as const;
-
-const apps = $state({
-	readme: {
 		Page: ReadmePage,
-		title: 'Readme',
+		isParent: true,
+		title: 'TextEdit',
 		icon: 'icons/textedit.png'
 	},
+	Trash: {
+		Page: ReadmePage,
+		isParent: true,
+		title: 'Trash',
+		icon: 'icons/trash.png'
+	},
+	readme: {
+		parent: 'TextEdit',
+		Page: ReadmePage,
+		title: 'Readme',
+		icon: 'icons/txt.png'
+	},
 	characters: {
-		parent: baseApps.Finder,
+		parent: 'Finder',
 		Page: CharactersPage,
 		title: 'Characters',
 		icon: 'icons/folder-characters.png'
 	},
 	// TODO character pages here
 	projects: {
-		parent: baseApps.Finder,
+		parent: 'Finder',
 		Page: ProjectsPage,
 		title: 'Projects',
 		icon: 'icons/folder-projects.png'
@@ -89,7 +95,7 @@ const apps = $state({
 		},
 		url: 'https://monty-hall.fenny.zone'
 	}
-}) satisfies Record<string, AppEntry>;
+});
 
 export type AppName = keyof typeof apps;
 export default apps as Record<AppName, AppEntry>;

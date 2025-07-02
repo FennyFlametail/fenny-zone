@@ -1,37 +1,30 @@
 <script lang="ts">
 	import apps, { type AppName } from '$lib/apps.svelte';
-	import { openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
+	import { getRunningApps, openApp } from '$lib/components/WindowServer.svelte';
 
 	const {
 		appName,
-		name,
-		icon,
 		open
-	}:
-		| {
-				appName: AppName;
-				name?: never;
-				icon?: never;
-				open?: never;
-		  }
-		| {
-				appName?: never;
-				name: string;
-				icon: string;
-				open?: boolean;
-		  } = $props();
+	}: {
+		appName: AppName;
+		open?: boolean;
+	} = $props();
 
-	const app = appName && apps[appName];
-	const isOpen = $derived(open ?? (appName && getRunningApps()[appName]));
-
+	const app = apps[appName];
 	function onclick() {
-		appName && openApp(appName);
+		openApp(appName);
 	}
+
+	const isOpen = $derived.by(() => {
+		if (typeof open === 'boolean') return open;
+		if (app.isParent) return Object.values(getRunningApps()).some((app) => app.parent === appName);
+		return Object.keys(getRunningApps()).includes(appName);
+	});
 </script>
 
 <button class={['dockIcon', { open: isOpen }]} {onclick}>
-	<span class="dockIconLabel">{app?.title ?? name}</span>
-	<img src={app?.icon ?? icon} alt={app?.title ?? name} class="dockIconImage" draggable="false" />
+	<span class="dockIconLabel">{app.title}</span>
+	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
 </button>
 
 <style>

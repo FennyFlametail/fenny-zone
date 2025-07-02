@@ -1,22 +1,32 @@
 <script lang="ts">
-	import type { AppName } from '$lib/apps.svelte';
+	import { type AppName } from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
 	import { getRunningApps } from '$lib/components/WindowServer.svelte';
 
-	const runningAppNames = $derived(Object.keys(getRunningApps()) as AppName[]);
+	const appsByParent = $derived(
+		Map.groupBy(Object.entries(getRunningApps()), ([, app]) => app.parent)
+	);
 </script>
 
 <footer class="dock">
 	<div class="dockSection">
-		<DockIcon icon="icons/finder.png" name="Finder" open />
-		{#each runningAppNames as name (name)}
-			<DockIcon appName={name} />
+		<DockIcon appName="Finder" open={true} />
+		{#each appsByParent as [parent, apps] (parent)}
+			{#if parent}
+				{#if parent !== 'Finder'}
+					<DockIcon appName={parent} />
+				{/if}
+			{:else}
+				{#each apps as [name]}
+					<DockIcon appName={name as AppName} />
+				{/each}
+			{/if}
 		{/each}
 	</div>
 	<div class="dockSection">
-		<DockIcon appName="characters" />
-		<DockIcon appName="projects" />
-		<DockIcon icon="icons/trash.png" name="Trash" />
+		<DockIcon appName="characters" open={false} />
+		<DockIcon appName="projects" open={false} />
+		<DockIcon appName="Trash" open={false} />
 	</div>
 </footer>
 

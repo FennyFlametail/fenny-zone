@@ -17,14 +17,26 @@
 	export function getFocusedApp() {
 		if (desktopFocused) return;
 		return Object.values(runningApps).find(
-			(app) => app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1
+			(app) => app.instance.position.zIndex === Object.keys(runningApps).length - 1
 		);
 	}
 
-
 	export function openApp(appName: AppName, position?: Partial<Position>) {
 		const app = apps[appName];
-		if (app.instance) {
+		if (app.isParent) {
+			// focus all the apps that have this app as their parent
+			const childApps = Object.entries(runningApps)
+				.filter(([, runningApp]) => runningApp.parent === appName)
+				.sort(
+					([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex
+				);
+			childApps.forEach(([name]) => focusApp(name as AppName));
+
+			if (appName === 'Finder' && !childApps.length) {
+				// special case for Finder: if there aren't any windows open, open the Characters folder
+				openApp('characters');
+			}
+		} else if (app.instance) {
 			focusApp(appName);
 		} else {
 			app.instance = {
@@ -126,8 +138,6 @@
 
 <script lang="ts">
 	import Window, { dragging, resizing } from '$lib/components/Window.svelte';
-
-	const runningApps = $derived(getRunningApps());
 
 	// TODO this fixes windowServer.resetApps, find out why
 	$inspect(runningApps).with(() => {});

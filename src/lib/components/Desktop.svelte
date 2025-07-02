@@ -15,8 +15,6 @@
 <div class="desktop" {onclick}>
 	<FileIcon appName="readme" />
 	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
-	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
-	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
 		icon="icons/furaffinity.png"
