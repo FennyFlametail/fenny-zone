@@ -20,8 +20,7 @@
 
 body {
 	background-color: black;
-	/* TODO install Lunasima font */
-	font-family: 'Lucida Grande', var(--font-Lunasima), sans-serif;
+	font-family: 'Lunasima', sans-serif;
 }
 
 /* #region Menubar */
@@ -413,5 +412,18 @@ button.ui {
 	to {
 		filter: brightness(0.9) saturate(1.5);
 	}
+}
+/* #endregion */
+
+/* #region Fonts */
+@font-face {
+	src: local('Lucida Grande'), local('Lunasima'), url('/fonts/Lunasima-Regular.ttf');
+	font-family: 'Lunasima';
+}
+
+@font-face {
+	font-weight: bold;
+	src: local('Lucida Grande'), local('Lunasima'), url('/fonts/Lunasima-Regular.ttf');
+	font-family: 'Lunasima';
 }
 /* #endregion */
