@@ -13,7 +13,7 @@
 			</ul>
 		</li>
 		<li>Height: 5 ft 2 in</li>
-		<li>Pronouns: he/they</li>
+		<li>Pronouns: he/him</li>
 		<li>Orientation: gay</li>
 		<li>
 			Personality: timid, anxious, thoughtful, usually quiet but can get excited about things he
