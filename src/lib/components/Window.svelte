@@ -17,11 +17,14 @@
 
 	let element: HTMLElement;
 
+	let x = $state(0);
+	let y = $state(0);
 	let lastX = $state(0);
 	let lastY = $state(0);
+	let zIndex = $state(0);
 
 	function focus() {
-		app.zIndex = ++maxZIndex;
+		zIndex = ++maxZIndex;
 	}
 
 	function startDrag(e: PointerEvent) {
@@ -34,8 +37,8 @@
 	function drag(e: PointerEvent) {
 		if (dragging.el !== element) return;
 
-		app.x += e.screenX - lastX;
-		app.y += e.screenY - lastY;
+		x += e.screenX - lastX;
+		y += e.screenY - lastY;
 
 		lastX = e.screenX;
 		lastY = e.screenY;
@@ -46,9 +49,9 @@
 	}
 
 	export function resetPosition() {
-		app.x = 0;
-		app.y = 0;
-		app.zIndex = 0;
+		x = 0;
+		y = 0;
+		zIndex = 0;
 	}
 </script>
 
@@ -57,9 +60,9 @@
 	bind:this={element}
 	onpointerdown={focus}
 	class="window"
-	style:--x={`${app.x}px`}
-	style:--y={`${app.y}px`}
-	style:z-index={app.zIndex}
+	style:--x={`${x}px`}
+	style:--y={`${y}px`}
+	style:z-index={zIndex}
 >
 	<header class="windowTitle" onpointerdown={startDrag}>
 		<button onclick={close}>X</button>

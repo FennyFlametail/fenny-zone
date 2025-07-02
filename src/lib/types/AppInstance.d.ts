@@ -6,7 +6,4 @@ export default interface AppInstance {
 	App: Component;
 	appBinding?: AppMetadata;
 	window?: Window;
-	x: number;
-	y: number;
-	zIndex: number;
 }
