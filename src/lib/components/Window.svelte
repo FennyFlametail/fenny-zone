@@ -75,6 +75,12 @@
 		y = 50 * index;
 		zIndex = 0;
 	}
+
+	let title = $state(app.metadata.name);
+
+	export function setTitle(newTitle: string) {
+		title = newTitle;
+	}
 </script>
 
 <article
@@ -101,11 +107,11 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.instance?._windowTitle ?? app.metadata.name}</h2>
+			<h2 class="windowTitle">{title}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">
-		<app.Component bind:this={app.instance} {...app.props} />
+		<app.Component bind:this={app.instance} {...app.props} _app={app} />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

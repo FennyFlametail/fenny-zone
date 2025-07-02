@@ -3,11 +3,26 @@
 </script>
 
 <script lang="ts">
-	let { src, title }: { src: string; title: string } = $props();
-	export const _windowTitle = title;
+	import type AppInstance from '$lib/types/AppInstance';
+
+	let { src, title, _app }: { src: string; title: string; _app: AppInstance } = $props();
+
+	let iframe: HTMLIFrameElement;
+
+	$effect(() => _app.window?.setTitle(title));
+
+	function iframeClickFocus() {
+		window.requestAnimationFrame(() => {
+			if (document.activeElement === iframe) {
+				_app.window?.focus();
+			}
+		});
+	}
 </script>
 
-<iframe {src} {title}></iframe>
+<iframe bind:this={iframe} {src} {title}></iframe>
+
+<svelte:window onblur={iframeClickFocus} />
 
 <style>
 	iframe {
