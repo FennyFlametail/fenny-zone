@@ -3,8 +3,6 @@
 	import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 
-	export const windowPadding = 25;
-
 	const runningApps = $derived.by(() => {
 		if (!apps) return {};
 		return Object.fromEntries(Object.entries(apps).filter(([, app]) => app.instance));
@@ -18,8 +16,7 @@
 		} else {
 			app.instance = {
 				position: {
-					...getInitialPosition(Object.keys(runningApps).length),
-					...app.defaultSize,
+					...getInitialPosition(app.defaultSize, Object.keys(runningApps).length),
 					...position
 				}
 			};
@@ -109,15 +106,15 @@
 
 	const runningApps = $derived(getRunningApps());
 
+	// TODO this fixes windowServer.resetApps, find out why
+	$inspect(runningApps).with(() => {});
+
 	function onpointerup() {
 		setTimeout(() => saveState(), 100);
 	}
 </script>
 
-<main
-	class={['windowLayer', (dragging.el || resizing.el) && 'noSelect']}
-	style:padding={windowPadding + 'px'}
->
+<main class={['windowLayer', (dragging.el || resizing.el) && 'noSelect']}>
 	{#each Object.entries(runningApps) as [appName, app], i (appName)}
 		<Window bind:this={app.instance.window} appName={appName as AppName} {app} />
 	{/each}

@@ -1,11 +1,22 @@
 <script module lang="ts">
-	export const getInitialPosition = (zIndex: number) => ({
-		x: 0,
-		y: 0,
-		width: 500,
-		height: 500,
-		zIndex
-	});
+	interface Size {
+		width?: number;
+		height?: number;
+	}
+
+	export const getInitialPosition = (initialSize: Size | undefined, zIndex: number) => {
+		const width = initialSize?.width ?? 500;
+		const height = initialSize?.height ?? 500;
+
+		return {
+			x: Math.max(window.innerWidth / 2 - width / 2, 0),
+			y: Math.max(window.innerHeight / 2 - height * 0.75, 0),
+			width,
+			height,
+			zIndex
+		};
+	};
+
 	export type Position = ReturnType<typeof getInitialPosition>;
 
 	export const dragging: { el?: HTMLElement } = $state({});
@@ -13,12 +24,7 @@
 </script>
 
 <script lang="ts">
-	import {
-		windowPadding,
-		closeApp,
-		focusApp,
-		getRunningApps
-	} from '$lib/components/WindowServer.svelte';
+	import { closeApp, focusApp, getRunningApps } from '$lib/components/WindowServer.svelte';
 	import { setAppContext } from '$lib/context';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -66,8 +72,6 @@
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 
-			app.instance.position.y = Math.max(app.instance.position.y, windowPadding * -1);
-
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (resizing.el === element) {
@@ -87,13 +91,7 @@
 
 	export function resetPosition() {
 		const zIndex = app.instance.position.zIndex;
-		app.instance.position = {
-			...getInitialPosition(zIndex),
-			...app.defaultSize,
-			x: 50 * zIndex,
-			y: 50 * zIndex,
-			zIndex
-		};
+		app.instance.position = getInitialPosition(app.defaultSize, zIndex);
 	}
 </script>
 
