@@ -102,13 +102,13 @@
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
 			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(app)}>
-				<X class="windowButtonGlyph" size={15} />
+				<X class="windowButtonGlyph" size={14} />
 			</button>
 			<button class="windowButton minimize" aria-label="Minimize">
-				<Minus class="windowButtonGlyph" size={15} />
+				<Minus class="windowButtonGlyph" size={14} />
 			</button>
 			<button class="windowButton maximize" aria-label="Maximize">
-				<Plus class="windowButtonGlyph" size={15} />
+				<Plus class="windowButtonGlyph" size={14} />
 			</button>
 		</div>
 		<hgroup class="windowTitleSection">

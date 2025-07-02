@@ -160,6 +160,7 @@ body {
 			rgba(255, 255, 255, 0.8),
 			transparent
 		);
+	background-color: var(--background-color);
 	background-blend-mode: normal, overlay;
 	padding: 0;
 	width: 18px;
@@ -172,8 +173,8 @@ body {
 	}
 
 	.window.inactive & {
+		--background-color: #b5b5b5 !important;
 		opacity: 0.5;
-		background-color: #b5b5b5 !important;
 	}
 
 	&:active {
@@ -182,31 +183,37 @@ body {
 	}
 
 	&:disabled {
+		--background-color: transparent !important;
 		box-shadow:
 			inset 0 0 1px 1.5px rgba(0, 0, 0, 0.25),
 			0 1px 1px white;
-		background-color: transparent !important;
 	}
 
 	&.close {
-		background-color: #c44a44;
+		--background-color: #c44a44;
 	}
 
 	&.minimize {
-		background-color: #e89e28;
+		--background-color: #e89e28;
 	}
 
 	&.maximize {
-		background-color: #6aa71e;
+		--background-color: #6aa71e;
 	}
 }
 
 .windowButtonGlyph {
+	--lightness: 0.9;
+	transform: translateZ(0);
 	visibility: hidden;
-	opacity: 0.4;
 	mix-blend-mode: multiply;
-	color: black;
+	color: hsl(from var(--background-color) h s calc(l * var(--lightness)));
 	stroke-width: 4;
+	stroke-linecap: square;
+
+	.windowButton.minimize & {
+		--lightness: 0.8;
+	}
 
 	.windowControls:is(:hover, :focus-visible) & {
 		visibility: visible;
