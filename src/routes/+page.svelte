@@ -19,6 +19,7 @@
 			Component,
 			metadata
 		});
+		tick().then(() => apps.at(-1)?.window?.focus());
 	}
 
 	function closeApp(app: AppInstance) {
