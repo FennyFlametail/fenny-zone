@@ -36,24 +36,26 @@
 		-webkit-user-select: none;
 		user-select: none;
 
-		&:hover {
-			margin-bottom: 10px;
-			width: calc(var(--icon-size) * 2);
-			height: calc(var(--icon-size) * 2);
-		}
+		@media not (prefers-reduced-motion: reduce) {
+			&:hover {
+				margin-bottom: 10px;
+				width: calc(var(--icon-size) * 2);
+				height: calc(var(--icon-size) * 2);
+			}
 
-		/* icons next to hovered */
-		:global(&:has(+ &:hover), &:hover + &) {
-			margin-bottom: 10px;
-			width: calc(var(--icon-size) * 1.8);
-			height: calc(var(--icon-size) * 1.8);
-		}
+			/* icons next to hovered */
+			:global(&:has(+ &:hover), &:hover + &) {
+				margin-bottom: 10px;
+				width: calc(var(--icon-size) * 1.8);
+				height: calc(var(--icon-size) * 1.8);
+			}
 
-		/* icons two away from hovered */
-		:global(&:has(+ & + &:hover), &:hover + & + &) {
-			margin-bottom: 5px;
-			width: calc(var(--icon-size) * 1.4);
-			height: calc(var(--icon-size) * 1.4);
+			/* icons two away from hovered */
+			:global(&:has(+ & + &:hover), &:hover + & + &) {
+				margin-bottom: 5px;
+				width: calc(var(--icon-size) * 1.4);
+				height: calc(var(--icon-size) * 1.4);
+			}
 		}
 
 		/* open indicator */
