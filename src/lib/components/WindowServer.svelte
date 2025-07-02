@@ -1,7 +1,5 @@
 <script module lang="ts">
-	import { replaceState } from '$app/navigation';
-	import { page } from '$app/state';
-	import apps from '$lib/apps.svelte';
+		import apps from '$lib/apps.svelte';
 	import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 
@@ -77,28 +75,32 @@
 		Object.values(runningApps).forEach((app) => app.instance.window?.resetPosition());
 	}
 
-	export async function loadAppsFromQueryString() {
-		const url = new URL(page.url);
-		const promises = [...url.searchParams.entries()].map(async ([appName, positionString]) => {
+const storageKey = 'windowState';
+
+	export async function loadState() {
+		const stateString = localStorage.getItem(storageKey);
+if (stateString) {
+			try {
+		const state = JSON.parse(stateString);
+				Object.entries(state).forEach(([appName, position]) => {
 			const app = apps[appName as AppName];
 			if (!app) {
 				console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 				return;
 			}
-			const position = positionString ? JSON.parse(positionString) : {};
-			openApp(appName as AppName, position);
+			openApp(appName as AppName, position as Position);
 		});
-		await Promise.all(promises);
+		} catch (err) {
+				console.warn('(loadState) error', err);
+}
+		}
 	}
 
-	export function updateQueryString() {
-		const params = new URLSearchParams();
-		Object.entries(runningApps).forEach(([appName, app]) => {
-			params.append(appName, JSON.stringify(app.instance.position));
-		});
-		const url = new URL(page.url);
-		url.search = params.toString();
-		replaceState(url, {});
+	export function saveState() {
+		const state = Object.fromEntries(
+		Object.entries(runningApps).map(([appName, app]) => [appName, app.instance.position])
+		);
+		localStorage.setItem(storageKey, JSON.stringify(state));
 	}
 </script>
 
@@ -108,7 +110,7 @@
 	const runningApps = $derived(getRunningApps());
 
 	function onpointerup() {
-		setTimeout(() => updateQueryString(), 100);
+		setTimeout(() => saveState(), 100);
 	}
 </script>
 
