@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export const name = 'App One';
+	export const title = 'App One';
 </script>
 
 <p>

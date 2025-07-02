@@ -1,4 +1,12 @@
 <script module lang="ts">
+	export const getInitialPosition = () => ({
+		x: 0,
+		y: 0,
+		width: 500,
+		height: 500
+	});
+	export type Position = ReturnType<typeof getInitialPosition>;
+
 	export const dragging: { el?: HTMLElement } = $state({});
 	export const resizing: { el?: HTMLElement } = $state({});
 	let maxZIndex = 0;
@@ -10,25 +18,20 @@
 
 <script lang="ts">
 	import { desktopPadding } from '$lib/components/Desktop.svelte';
-	import type AppInstance from '$lib/types/AppInstance';
+	import type RunningApp from '$lib/types/RunningApp';
 	import { closeApp } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
-	const {
+	let {
 		app,
 		index
 	}: {
-		app: AppInstance;
+		app: RunningApp;
 		index: number;
 	} = $props();
 
-	let title = $state(app.metadata.name);
 	let element = $state<HTMLElement>();
 
-	let x = $state(0);
-	let y = $state(0);
-	let width = $state(500);
-	let height = $state(500);
 	let zIndex = $state(++maxZIndex);
 
 	let lastX = $state(0);
@@ -48,16 +51,16 @@
 
 	function pointerMove(e: PointerEvent) {
 		if (dragging.el === element) {
-			x += e.screenX - lastX;
-			y += e.screenY - lastY;
+			app.position.x += e.screenX - lastX;
+			app.position.y += e.screenY - lastY;
 
-			y = Math.max(y, desktopPadding * -1);
+			app.position.y = Math.max(app.position.y, desktopPadding * -1);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (resizing.el === element) {
-			width += e.screenX - lastX;
-			height += e.screenY - lastY;
+			app.position.width += e.screenX - lastX;
+			app.position.height += e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -79,13 +82,9 @@
 	}
 
 	export function resetPosition() {
-		x = 50 * index;
-		y = 50 * index;
+		app.position.x = 50 * index;
+		app.position.y = 50 * index;
 		zIndex = 0;
-	}
-
-	export function setTitle(newTitle: string) {
-		title = newTitle;
 	}
 </script>
 
@@ -93,10 +92,10 @@
 	bind:this={element}
 	onpointerdown={focus}
 	class={['window', focused !== element && 'inactive']}
-	style:--x={`${x}px`}
-	style:--y={`${y}px`}
-	style:--width={`${width}px`}
-	style:--height={`${height}px`}
+	style:--x={`${app.position.x}px`}
+	style:--y={`${app.position.y}px`}
+	style:--width={`${app.position.width}px`}
+	style:--height={`${app.position.height}px`}
 	style:z-index={zIndex}
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
@@ -113,7 +112,7 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{title}</h2>
+			<h2 class="windowTitle">{app.metadata.title}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">

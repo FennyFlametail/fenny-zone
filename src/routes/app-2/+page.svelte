@@ -1,5 +1,14 @@
 <script module lang="ts">
-	export const name = 'App Two';
+	export const title = 'App Two';
+</script>
+
+<script lang="ts">
+	import type RunningApp from '$lib/types/RunningApp';
+	const { _app }: { _app?: RunningApp } = $props();
+	$effect(() => {
+		const timeout = setTimeout(() => _app?.setTitle('Test'), 1000);
+		return () => clearTimeout(timeout);
+	});
 </script>
 
 <p>

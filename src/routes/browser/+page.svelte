@@ -1,16 +1,16 @@
 <script module lang="ts">
-	export const name = 'Browser';
+	export const title = 'Browser';
 </script>
 
 <script lang="ts">
 	import { dragging, resizing } from '$lib/components/Window.svelte';
-	import type AppInstance from '$lib/types/AppInstance';
+	import type RunningApp from '$lib/types/RunningApp';
 
-	let { src, title, _app }: { src: string; title: string; _app?: AppInstance } = $props();
+	let { src, title, _app }: { src: string; title: string; _app?: RunningApp } = $props();
 
 	let iframe: HTMLIFrameElement;
 
-	$effect(() => _app?.window?.setTitle(title));
+	$effect(() => _app?.setTitle(title));
 
 	function stopMoveAndDrag() {
 		if (_app?.window?.isFocused()) {

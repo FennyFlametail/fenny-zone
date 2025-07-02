@@ -1,11 +1,12 @@
 import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
 import * as apps from '$lib/apps';
-import type AppInstance from '$lib/types/AppInstance';
+import { getInitialPosition } from '$lib/components/Window.svelte';
+import type RunningApp from '$lib/types/RunningApp';
 import { nanoid } from 'nanoid';
 import { tick, type ComponentProps } from 'svelte';
 
-export const runningApps: AppInstance[] = $state([]);
+export const runningApps: RunningApp[] = $state([]);
 
 export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	{ default: Component, ...metadata }: T,
@@ -15,8 +16,12 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 		id: nanoid(),
 		Component,
 		metadata,
+		setTitle(title) {
+			this.metadata.title = title;
+		},
+		position: getInitialPosition(),
 		// TODO way to pass props to pages in URL when directly navigating
-		props
+		props: props
 	});
 
 	tick().then(() => {
@@ -25,7 +30,7 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	});
 }
 
-export function closeApp(app: AppInstance) {
+export function closeApp(app: RunningApp) {
 	runningApps.splice(runningApps.indexOf(app), 1);
 	updateQueryString();
 }
