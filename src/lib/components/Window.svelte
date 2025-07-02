@@ -78,6 +78,7 @@
 		if (dragging.el === element && allowDrag) {
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
+			app.instance.position.y = Math.max(app.instance.position.y, 0);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
