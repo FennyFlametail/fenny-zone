@@ -1,5 +1,11 @@
 @use '@picocss/pico/scss/pico' with (
-	$semantic-root-element: '#root',
-	$enable-semantic-container: true,
-	$enable-responsive-spacings: true
+	$semantic-root-element: '#root'
 );
+
+body {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
