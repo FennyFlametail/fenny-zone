@@ -9,17 +9,12 @@
 
 	export const dragging: { el?: HTMLElement } = $state({});
 	export const resizing: { el?: HTMLElement } = $state({});
-	let maxZIndex = 0;
-	let focused = $state<HTMLElement>();
-	export function unfocus() {
-		focused = undefined;
-	}
 </script>
 
 <script lang="ts">
 	import { desktopPadding } from '$lib/components/Desktop.svelte';
 	import type RunningApp from '$lib/types/RunningApp';
-	import { closeApp, updateQueryString } from '$lib/windowServer.svelte';
+	import { closeApp, focusApp, runningApps } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {
@@ -32,10 +27,10 @@
 
 	let element = $state<HTMLElement>();
 
-	let zIndex = $state(++maxZIndex);
-
 	let lastX = $state(app.position.x);
 	let lastY = $state(app.position.y);
+
+	let focused = $derived(runningApps.at(-1) === app);
 
 	function startDrag(e: PointerEvent) {
 		dragging.el = element;
@@ -70,34 +65,23 @@
 	function pointerUp() {
 		dragging.el = undefined;
 		resizing.el = undefined;
-		updateQueryString();
-	}
-
-	export function isFocused() {
-		return focused === element;
-	}
-
-	export function focus() {
-		zIndex = ++maxZIndex;
-		focused = element;
 	}
 
 	export function resetPosition() {
 		app.position.x = 50 * index;
 		app.position.y = 50 * index;
-		zIndex = 0;
 	}
 </script>
 
 <article
 	bind:this={element}
-	onpointerdown={focus}
-	class={['window', focused !== element && 'inactive']}
+	onpointerdown={() => focusApp(app)}
+	class={['window', !focused && 'inactive']}
 	style:--x={`${app.position.x}px`}
 	style:--y={`${app.position.y}px`}
 	style:--width={`${app.position.width}px`}
 	style:--height={`${app.position.height}px`}
-	style:z-index={zIndex}
+	style:z-index={index}
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">

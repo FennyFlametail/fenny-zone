@@ -4,11 +4,11 @@ import * as apps from '$lib/apps';
 import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 import type { AppMetadata, default as RunningApp } from '$lib/types/RunningApp';
 import { nanoid } from 'nanoid';
-import { tick, type ComponentProps } from 'svelte';
+import { type ComponentProps } from 'svelte';
 
 export const runningApps: RunningApp[] = $state([]);
 
-export function openApp<T extends (typeof apps)[keyof typeof apps]>(
+export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	{ default: Component, ...defaultMetadata }: T,
 	{
 		props,
@@ -40,39 +40,36 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 		props: props
 	});
 
-	tick().then(() => {
-		runningApps.at(-1)?.window?.focus();
-		updateQueryString();
-	});
+	return runningApps.at(-1)!;
+}
+
+export function focusApp(app: RunningApp) {
+	runningApps.push(...runningApps.splice(runningApps.indexOf(app), 1));
 }
 
 export function closeApp(app: RunningApp) {
 	runningApps.splice(runningApps.indexOf(app), 1);
-	updateQueryString();
 }
 
 export function resetApps() {
 	runningApps.forEach((app) => app.window?.resetPosition());
-	updateQueryString();
 }
 
-export function loadAppsFromQueryString() {
+export async function loadAppsFromQueryString() {
 	const url = new URL(page.url);
-	[...url.searchParams.entries()].forEach(([name, optionString]) => {
+	const promises = [...url.searchParams.entries()].map(async ([name, optionString]) => {
 		const app = apps[name as keyof typeof apps];
 		if (!app) return;
 		const options = optionString ? JSON.parse(optionString) : {};
-		openApp(app, options);
+		await openApp(app, options);
 	});
-	tick().then(runningApps.at(-1)?.window?.focus);
+	await Promise.all(promises);
 }
 
 export function updateQueryString() {
 	const params = new URLSearchParams();
 	runningApps.forEach((app) => {
-		const index = Object.values(apps).findIndex((module) => module.default === app.Component);
-		const name = Object.keys(apps)[index];
-		// TODO save and restore focus order
+		const name = Object.entries(apps).find(([, module]) => module.default === app.Component)![0];
 		params.append(
 			name,
 			JSON.stringify({
