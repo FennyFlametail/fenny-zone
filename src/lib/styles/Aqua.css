@@ -427,13 +427,19 @@ button.ui {
 
 /* #region Fonts */
 @font-face {
-	src: local('Lucida Grande'), local('Lunasima'), url('/fonts/Lunasima-Regular.ttf');
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
 	font-family: 'Lunasima';
 }
 
 @font-face {
 	font-weight: bold;
-	src: local('Lucida Grande'), local('Lunasima'), url('/fonts/Lunasima-Regular.ttf');
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('/fonts/Lunasima-Regular.ttf') format('truetype');
 	font-family: 'Lunasima';
 }
 /* #endregion */
