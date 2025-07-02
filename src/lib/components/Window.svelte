@@ -40,6 +40,12 @@
 	function stopDrag() {
 		dragging.el = null;
 	}
+
+	export function resetPosition() {
+		deltaX = 0;
+		deltaY = 0;
+		zIndex = 0;
+	}
 </script>
 
 <article

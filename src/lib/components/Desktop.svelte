@@ -4,11 +4,16 @@
 	import type { Component } from 'svelte';
 
 	const { apps }: { apps: Component[] } = $props();
+	const windowRefs: Window[] = [];
+
+	export function resetApps() {
+		windowRefs.forEach((ref) => ref.resetPosition());
+	}
 </script>
 
 <main class={['desktop', dragging.el && 'noSelect']}>
-	{#each apps as App}
-		<Window {App} />
+	{#each apps as App, i}
+		<Window bind:this={windowRefs[i]} {App} />
 	{/each}
 </main>
 

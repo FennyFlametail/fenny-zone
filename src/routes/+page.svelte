@@ -5,13 +5,15 @@
 	import App2 from './app-2/+page.svelte';
 
 	const apps: Component[] = $state([]);
+	let desktopRef: Desktop;
 </script>
 
 <header class="menubar">
 	<button onclick={() => apps.push(App1)}>Open App1</button>
 	<button onclick={() => apps.push(App2)}>Open App2</button>
+	<button onclick={() => desktopRef.resetApps()}>Reset App Positions</button>
 </header>
-<Desktop {apps} />
+<Desktop bind:this={desktopRef} {apps} />
 <footer class="dock">Dock goes here</footer>
 
 <style>
