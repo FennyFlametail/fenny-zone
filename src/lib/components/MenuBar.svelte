@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { closeAll, resetApps } from '$lib/components/WindowServer.svelte';
+	import { closeAll, arrangeWindows } from '$lib/components/WindowServer.svelte';
 
 	let menubar: HTMLElement;
 
@@ -45,10 +45,10 @@
 		<summary class="menuName">Window</summary>
 		<menu class="menu">
 			<li class="menuItem">
-				<button onclick={closeAll}>Close All Windows</button>
+				<button onclick={arrangeWindows}>Arrange Windows</button>
 			</li>
 			<li class="menuItem">
-				<button onclick={resetApps}>Reset Window Positions</button>
+				<button onclick={closeAll}>Close All Windows</button>
 			</li>
 		</menu>
 	</details>

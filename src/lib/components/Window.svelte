@@ -57,7 +57,6 @@
 	}
 
 	let allowDrag = $state(true);
-
 	function blockDrag() {
 		allowDrag = false;
 	}
@@ -95,11 +94,6 @@
 		allowDrag = true;
 		dragging.el = undefined;
 		resizing.el = undefined;
-	}
-
-	export function resetPosition() {
-		const zIndex = app.instance.position.zIndex;
-		app.instance.position = getInitialPosition(app.defaultSize, zIndex);
 	}
 </script>
 

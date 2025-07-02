@@ -75,9 +75,17 @@
 		Object.keys(runningApps).forEach((appName) => closeApp(appName as AppName));
 	}
 
-	export function resetApps() {
-		console.debug(runningApps);
-		Object.values(runningApps).forEach((app) => app.instance.window?.resetPosition());
+	export function arrangeWindows() {
+		Object.values(runningApps)
+			.sort((a, b) => a.instance.position.zIndex - b.instance.position.zIndex)
+			.forEach(
+				(app, index) =>
+					(app.instance.position = {
+						...getInitialPosition(app.defaultSize, app.instance.position.zIndex),
+						x: 25 * (index + 1),
+						y: 25 * (index + 1)
+					})
+			);
 	}
 
 	const storageKey = 'windowState';
