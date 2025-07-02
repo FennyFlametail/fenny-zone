@@ -63,6 +63,10 @@ export function closeApp(app: RunningApp) {
 	});
 }
 
+export function closeAll() {
+	[...runningApps].forEach(closeApp);
+}
+
 export function resetApps() {
 	runningApps.forEach((app) => app.window?.resetPosition());
 }

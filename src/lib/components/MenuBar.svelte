@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { closeAll, resetApps } from '$lib/windowServer.svelte';
+
 	let menubar: HTMLElement;
 
 	function menuHover(e: PointerEvent) {
@@ -11,16 +13,20 @@
 		}
 	}
 
-	function outsideClick(e: MouseEvent) {
-		// dismiss if clicking outside the menubar hierarchy
-		if (!e.composedPath().includes(menubar)) {
-			menubar.querySelector('details[open]')?.removeAttribute('open');
+	function dismissMenu(e: MouseEvent) {
+		const openMenu = menubar.querySelector('details[open]');
+		if (!openMenu) return;
+		if (e.composedPath().some((el) => (el as Element).classList?.contains('menuName'))) {
+			e.preventDefault();
 		}
+		// TODO flash menu item if clicked
+		openMenu.removeAttribute('open');
 	}
 </script>
 
 <div class="menubarShadow"></div>
 
+<!-- TODO better keyboard navigation (inert?) -->
 <header bind:this={menubar} class="menubar">
 	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
 		<summary class="menuName">
@@ -36,30 +42,19 @@
 		</menu>
 	</details>
 	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
-		<summary class="menuName">Menu 1</summary>
+		<summary class="menuName">Window</summary>
 		<menu class="menu">
 			<li class="menuItem">
-				<button>Menu Item Button</button>
+				<button onclick={closeAll}>Close All Windows</button>
 			</li>
 			<li class="menuItem">
-				<a class="menuItem" href="/" draggable="false">Menu Item Link</a>
-			</li>
-		</menu>
-	</details>
-	<details class="menuWrapper" name="menubar" onpointerenter={menuHover}>
-		<summary class="menuName">Menu 2</summary>
-		<menu class="menu">
-			<li class="menuItem">
-				<button>Menu Item Button</button>
-			</li>
-			<li class="menuItem">
-				<a class="menuItem" href="/" draggable="false">Menu Item Link</a>
+				<button onclick={resetApps}>Reset Window Positions</button>
 			</li>
 		</menu>
 	</details>
 </header>
 
-<svelte:body onclick={outsideClick} />
+<svelte:body onclick={dismissMenu} />
 
 <style>
 	.menubar,
@@ -111,6 +106,7 @@
 		}
 	}
 
+	/* TODO fade menu when closing */
 	.menu {
 		position: absolute;
 		padding: 4px 0;
