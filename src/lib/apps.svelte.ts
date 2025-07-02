@@ -2,6 +2,10 @@ import type { Component } from 'svelte';
 import Window, { type Position } from '$lib/components/Window.svelte';
 import BrowserPage from '../routes/[browser=browser]/+page.svelte';
 import CharactersPage from '../routes/characters/+page.svelte';
+import FennyPage from '../routes/characters/fenny/+page.svelte';
+import ArenPage from '../routes/characters/aren/+page.svelte';
+import CephPage from '../routes/characters/ceph/+page.svelte';
+import NocturnePage from '../routes/characters/nocturne/+page.svelte';
 import ProjectsPage from '../routes/projects/+page.svelte';
 import ReadmePage from '../routes/readme/+page.svelte';
 
@@ -61,7 +65,26 @@ const apps = $state({
 		title: 'Characters',
 		icon: 'icons/folder-characters.png'
 	},
-	// TODO character pages here
+	fenny: {
+		Page: FennyPage,
+		title: 'Fenny',
+		icon: 'icons/fenny.png'
+	},
+	aren: {
+		Page: ArenPage,
+		title: 'Aren',
+		icon: 'icons/aren.png'
+	},
+	ceph: {
+		Page: CephPage,
+		title: 'Ceph',
+		icon: 'icons/ceph.png'
+	},
+	nocturne: {
+		Page: NocturnePage,
+		title: 'Nocturne',
+		icon: 'icons/nocturne.png'
+	},
 	projects: {
 		parent: 'Finder',
 		Page: ProjectsPage,
