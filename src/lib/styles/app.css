@@ -76,6 +76,7 @@ h6 {
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.7);
 	--accent-color: blue;
 	--selection-color: lightskyblue;
+	--menubar-height: 30px;
 
 	accent-color: var(--accent-color);
 	::selection {
@@ -89,8 +90,10 @@ html {
 }
 
 body {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template:
+		'menubar' var(--menubar-height)
+		'desktop' auto;
 	background-color: black;
 	width: 100vw;
 	height: 100vh;

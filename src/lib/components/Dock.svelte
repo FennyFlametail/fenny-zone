@@ -16,9 +16,10 @@
 		--padding: 7.5px;
 		--icon-size: 64px;
 		z-index: 10000;
-		position: absolute;
+		position: fixed;
 		bottom: 0;
-		align-self: center;
+		left: 50%;
+		translate: -50%;
 		display: flex;
 		align-items: flex-end;
 		height: calc(var(--icon-size) + var(--padding) * 2);

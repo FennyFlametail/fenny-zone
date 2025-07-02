@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { closeAll, resetApps } from '$lib/windowServer.svelte';
+	import { closeAll, resetApps } from '$lib/components/WindowServer.svelte';
 
 	let menubar: HTMLElement;
 
@@ -59,7 +59,7 @@
 <style>
 	.menubar,
 	.menubarShadow {
-		height: 30px;
+		height: var(--menubar-height);
 	}
 
 	.menubarShadow {

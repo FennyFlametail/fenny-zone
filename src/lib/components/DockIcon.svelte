@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { focusApp, openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
 	import type { AppEntry, AppName } from '$lib/types/AppTypes';
-	import { focusApp, openApp, getRunningApps } from '$lib/windowServer.svelte';
 
 	const {
 		appName,

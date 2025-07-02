@@ -13,10 +13,14 @@
 </script>
 
 <script lang="ts">
-	import { desktopPadding } from '$lib/components/Desktop.svelte';
+	import {
+		windowPadding,
+		closeApp,
+		focusApp,
+		getRunningApps
+	} from '$lib/components/WindowServer.svelte';
 	import { setAppContext } from '$lib/context';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
-	import { closeApp, focusApp, getRunningApps } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {
@@ -56,7 +60,7 @@
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 
-			app.instance.position.y = Math.max(app.instance.position.y, desktopPadding * -1);
+			app.instance.position.y = Math.max(app.instance.position.y, windowPadding * -1);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
