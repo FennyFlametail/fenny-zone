@@ -2,14 +2,14 @@ import type { AppEntry } from '$lib/types/AppTypes';
 import BrowserPage from '../routes/[browser=browser]/+page.svelte';
 
 const apps = $state({
-	goat: {
+	toddspin: {
 		Page: BrowserPage,
-		title: 'Monty Hall Problem',
-		icon: 'icons/goat.png',
+		title: 'Toddspin',
+		icon: 'icons/toddspin.png',
 		defaultSize: {
 			height: 800
 		},
-		url: 'https://monty-hall.fenny.zone'
+		url: 'https://toddspin.fenny.zone'
 	},
 	sauce: {
 		Page: BrowserPage,
@@ -20,14 +20,15 @@ const apps = $state({
 		},
 		url: 'https://sauce.fenny.zone'
 	},
-	toddspin: {
+	goat: {
 		Page: BrowserPage,
-		title: 'Toddspin',
-		icon: 'icons/toddspin.png',
+		title: 'Monty Hall Problem',
+		icon: 'icons/goat.png',
 		defaultSize: {
 			height: 800
 		},
-		url: 'https://toddspin.fenny.zone'
+		url: 'https://monty-hall.fenny.zone'
+	},
 	}
 }) satisfies Record<string, AppEntry>;
 
