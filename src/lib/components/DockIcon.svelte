@@ -1,14 +1,15 @@
 <script lang="ts">
+	import apps from '$lib/apps.svelte';
 	import { openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
-	import type { AppEntry, AppName } from '$lib/types/AppTypes';
+	import type { AppName } from '$lib/types/AppTypes';
 
 	const {
-		appName,
-		app
+		appName
 	}: {
 		appName: AppName;
-		app: AppEntry;
 	} = $props();
+
+	const app = apps[appName];
 
 	function onclick() {
 		openApp(appName);
@@ -44,14 +45,26 @@
 			}
 
 			/* icons next to hovered */
-			:global(&:has(+ &:hover), &:hover + &) {
+			:global(
+				.dockSection:has(+ .dockSection &:nth-child(1):hover) &:nth-last-child(1),
+				&:has(+ &:hover),
+				&:hover + &,
+				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(1)
+			) {
 				margin-bottom: 10px;
 				width: calc(var(--icon-size) * 1.8);
 				height: calc(var(--icon-size) * 1.8);
 			}
 
 			/* icons two away from hovered */
-			:global(&:has(+ & + &:hover), &:hover + & + &) {
+			:global(
+				.dockSection:has(+ .dockSection &:nth-child(1):hover) &:nth-last-child(2),
+				.dockSection:has(+ .dockSection &:nth-child(2):hover) &:nth-last-child(1),
+				&:has(+ & + &:hover),
+				&:hover + & + &,
+				.dockSection:has(&:nth-last-child(2):hover) + .dockSection &:nth-child(1),
+				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(2)
+			) {
 				margin-bottom: 5px;
 				width: calc(var(--icon-size) * 1.4);
 				height: calc(var(--icon-size) * 1.4);

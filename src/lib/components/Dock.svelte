@@ -1,13 +1,18 @@
 <script lang="ts">
-	import apps from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
-	import type { AppName } from '$lib/types/AppTypes';
 </script>
 
 <footer class="dock">
-	{#each Object.entries(apps) as [appName, app]}
-		<DockIcon appName={appName as AppName} {app} />
-	{/each}
+	<div class="dockSection">
+		<DockIcon appName="characters" />
+		<DockIcon appName="characters" />
+		<DockIcon appName="characters" />
+	</div>
+	<div class="dockSection">
+		<DockIcon appName="goat" />
+		<DockIcon appName="goat" />
+		<DockIcon appName="goat" />
+	</div>
 </footer>
 
 <style>
@@ -21,11 +26,36 @@
 		left: 50%;
 		translate: -50%;
 		display: flex;
-		align-items: flex-end;
+		gap: 1px;
 		height: calc(var(--icon-size) + var(--padding) * 2);
-		padding: var(--padding) calc(var(--padding) / 2);
+		box-shadow: 0 0 0 1px #00000026;
+	}
+
+	.dockSection {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		padding-block: var(--padding);
 		background-color: #ffffff66;
 		border: 1px solid #ffffff26;
-		box-shadow: 0 0 0 1px #00000026;
+
+		&:first-child {
+			padding-inline-start: calc(var(--padding) / 2);
+
+			:global(.dockIcon:last-child) {
+				/* extend the icon a bit to cover the gap between dock sections */
+				padding-inline-end: calc(var(--padding) + 2px);
+				margin-inline-end: -2px;
+			}
+		}
+
+		&:last-child {
+			padding-inline-end: calc(var(--padding) / 2);
+
+			:global(.dockIcon:first-child) {
+				padding-inline-start: calc(var(--padding) + 1px);
+				margin-inline-start: -1px;
+			}
+		}
 	}
 </style>

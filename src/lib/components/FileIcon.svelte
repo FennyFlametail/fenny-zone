@@ -48,6 +48,7 @@
 </button>
 
 <style>
+	/* TODO better focus indicator */
 	.fileIcon {
 		display: flex;
 		flex-direction: column;
