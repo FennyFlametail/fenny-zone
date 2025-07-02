@@ -1,12 +1,12 @@
 :root {
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--pinstripe-bg: repeating-linear-gradient(
-		to bottom,
-		#ebecec,
-		#ebecec 2px,
-		#eff0f0 2px,
-		#eff0f0 4px
-	);
+to bottom,
+			#ebecec,
+			#ebecec 2px,
+			#eff0f0 2px,
+			#eff0f0 4px
+);
 	--pulse-overlay-bg: radial-gradient(rgba(0, 0, 0, 0.1), transparent);
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
@@ -100,19 +100,19 @@
 		border-top-left-radius: inherit;
 		/* 1px line at bottom because border-bottom doesn't render right in Safari */
 		background: linear-gradient(
-			to bottom,
-			#f9f9f9 1px,
-			#efefef 1px,
-			#cacaca calc(100% - 1px),
-			#8c8c8c calc(100% - 1px)
-		);
+to bottom,
+				#f9f9f9 1px,
+				#efefef 1px,
+				#cacaca calc(100% - 1px),
+				#8c8c8c calc(100% - 1px)
+);
 
 		.window.inactive & {
 			background: linear-gradient(
-				to bottom,
-				transparent calc(100% - 1px),
-				#8c8c8c calc(100% - 1px)
-			);
+to bottom,
+					transparent calc(100% - 1px),
+					#8c8c8c calc(100% - 1px)
+);
 			color: var(--text-secondary);
 		}
 	}
@@ -125,17 +125,17 @@
 		border: none;
 		border-radius: 9999px;
 		background: radial-gradient(
-				ellipse 60% 40% at center top,
+ellipse 60% 40% at center top,
 				white,
 				rgba(255, 255, 255, 0.8),
 				transparent
-			),
+),
 			radial-gradient(
-				ellipse 60% 70% at center bottom,
+ellipse 60% 70% at center bottom,
 				rgba(255, 255, 255, 1),
 				rgba(255, 255, 255, 0.8),
 				transparent
-			);
+);
 		background-color: var(--background-color);
 		background-blend-mode: normal, overlay;
 		padding: 0;
@@ -148,9 +148,8 @@
 			}
 		}
 
-		.window.inactive & {
+		.window.inactive .windowControls:not(:hover, :focus-visible) & {
 			--background-color: #b5b5b5 !important;
-			opacity: 0.5;
 		}
 
 		&:active {
@@ -316,7 +315,7 @@
 ::-webkit-scrollbar-button {
 	--button-dir: bottom;
 	--border-color: #969696;
-	--arrow-bg: /* left */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0wIDMuNSA2IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
+	--arrow-bg: 		/* left */ 		url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0wIDMuNSA2IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 	display: block;
 	border-left: 1px solid var(--border-color);
 	background:
@@ -341,18 +340,18 @@
 }
 
 ::-webkit-scrollbar-button:increment {
-	--arrow-bg: /* right */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im02IDMuNS02IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
+	--arrow-bg: 		/* right */ 		url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im02IDMuNS02IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 }
 
 ::-webkit-scrollbar-button:vertical {
 	--button-dir: right;
-	--arrow-bg: /* up */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgMCAzLjUgNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
+	--arrow-bg: 		/* up */ 		url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgMCAzLjUgNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 	border-top: 1px solid var(--border-color);
 	border-left: none;
 }
 
 ::-webkit-scrollbar-button:vertical:increment {
-	--arrow-bg: /* down */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgNiAzLjUtNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
+	--arrow-bg: 		/* down */ 		url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgNiAzLjUtNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 }
 
 ::-webkit-scrollbar-button:start {

@@ -172,7 +172,7 @@
 		justify-content: center;
 		align-items: center;
 
-		.window.inactive & {
+		.window.inactive .windowControls:not(:hover, :focus-visible) & {
 			opacity: 0.5;
 		}
 	}
