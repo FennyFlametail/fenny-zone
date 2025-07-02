@@ -146,11 +146,11 @@
 
 	.windowTitlebar {
 		flex: 0 0 auto;
-		height: 32px;
+		height: 28px;
 		position: relative;
 		display: flex;
 		gap: 0.5rem;
-		padding-inline: 12px;
+		padding-inline: 10px;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
@@ -160,7 +160,7 @@
 		align-self: center;
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 8px;
 		z-index: 1;
 	}
 
@@ -191,6 +191,7 @@
 		flex-grow: 1;
 		position: relative;
 		overflow: auto;
+		overscroll-behavior: none;
 	}
 
 	.windowResizeHandle {
