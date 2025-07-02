@@ -1,5 +1,6 @@
-<script lang="ts">
-	export const title = 'App 2️⃣';
+<script module>
+	export const name = 'App2';
+	export const title = 'App Two';
 </script>
 
 <p>

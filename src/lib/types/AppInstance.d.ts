@@ -3,7 +3,7 @@ import type AppMetadata from '$lib/types/AppMetadata';
 import type { Component } from 'svelte';
 
 export default interface AppInstance {
-	App: Component;
-	appBinding?: AppMetadata;
+	Component: Component;
+	metadata: AppMetadata;
 	window?: Window;
 }

@@ -1,15 +1,18 @@
 <script lang="ts">
 	import Desktop from '$lib/components/Desktop.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
+	import type AppMetadata from '$lib/types/AppMetadata';
 	import type { Component } from 'svelte';
-	import App1 from './app-1/+page.svelte';
-	import App2 from './app-2/+page.svelte';
+
+	import * as App1 from './app-1/+page.svelte';
+	import * as App2 from './app-2/+page.svelte';
 
 	let apps: AppInstance[] = $state([]);
 
-	function openApp(component: Component) {
+	function openApp({ default: Component, ...metadata }: { default: Component } & AppMetadata) {
 		apps.push({
-			App: component
+			Component,
+			metadata
 		});
 	}
 

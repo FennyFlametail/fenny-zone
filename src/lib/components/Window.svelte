@@ -6,7 +6,6 @@
 
 <script lang="ts">
 	import type AppInstance from '$lib/types/AppInstance';
-	import type AppMetadata from '$lib/types/AppMetadata';
 
 	const {
 		app = $bindable(),
@@ -83,10 +82,10 @@
 >
 	<header class="windowTitle" onpointerdown={startDrag}>
 		<button onclick={close}>X</button>
-		{app.appBinding?.title ?? 'App'}
+		{app.metadata.title}
 	</header>
 	<div class="windowContent">
-		<app.App bind:this={app.appBinding as AppMetadata} />
+		<app.Component />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>
