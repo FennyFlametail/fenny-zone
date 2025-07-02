@@ -5,6 +5,7 @@
 <script lang="ts">
 	import { dragging, resizing } from '$lib/components/Window.svelte';
 	import type RunningApp from '$lib/types/RunningApp';
+	import { focusApp } from '$lib/windowServer.svelte';
 
 	let { _app, src }: { _app?: RunningApp; src: string } = $props();
 
@@ -20,7 +21,7 @@
 	function iframeClickFocus() {
 		window.requestAnimationFrame(() => {
 			if (document.activeElement === iframe) {
-				_app?.window?.focus();
+				focusApp(_app!);
 			}
 		});
 	}

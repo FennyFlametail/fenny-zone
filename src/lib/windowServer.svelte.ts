@@ -33,22 +33,34 @@ export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
 			}
 		},
 		position: {
-			...getInitialPosition(),
+			...getInitialPosition(runningApps.length),
 			...position
 		},
 		// TODO way to pass props to pages in URL when directly navigating
 		props: props
 	});
-
-	return runningApps.at(-1)!;
 }
 
 export function focusApp(app: RunningApp) {
-	runningApps.push(...runningApps.splice(runningApps.indexOf(app), 1));
+	const oldZIndex = app.position.zIndex;
+	// find all apps with a higher z-index and lower it
+	runningApps.forEach((app) => {
+		if (app.position.zIndex > oldZIndex) {
+			app.position.zIndex--;
+		}
+	});
+	app.position.zIndex = runningApps.length - 1;
 }
 
 export function closeApp(app: RunningApp) {
+	const oldZIndex = app.position.zIndex;
 	runningApps.splice(runningApps.indexOf(app), 1);
+	// find all apps with a higher z-index and lower it
+	runningApps.forEach((app) => {
+		if (app.position.zIndex > oldZIndex) {
+			app.position.zIndex--;
+		}
+	});
 }
 
 export function resetApps() {

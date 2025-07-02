@@ -1,9 +1,10 @@
 <script module lang="ts">
-	export const getInitialPosition = () => ({
+	export const getInitialPosition = (zIndex: number) => ({
 		x: 0,
 		y: 0,
 		width: 500,
-		height: 500
+		height: 500,
+		zIndex
 	});
 	export type Position = ReturnType<typeof getInitialPosition>;
 
@@ -18,11 +19,9 @@
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {
-		app,
-		index
+		app
 	}: {
 		app: RunningApp;
-		index: number;
 	} = $props();
 
 	let element = $state<HTMLElement>();
@@ -30,7 +29,10 @@
 	let lastX = $state(app.position.x);
 	let lastY = $state(app.position.y);
 
-	let focused = $derived(runningApps.at(-1) === app);
+	let focused = $derived(app.position.zIndex === runningApps.length - 1);
+	export function isFocused() {
+		return focused;
+	}
 
 	function startDrag(e: PointerEvent) {
 		dragging.el = element;
@@ -68,10 +70,12 @@
 	}
 
 	export function resetPosition() {
+		const zIndex = app.position.zIndex;
 		app.position = {
-			...getInitialPosition(),
-			x: 50 * index,
-			y: 50 * index
+			...getInitialPosition(zIndex),
+			x: 50 * zIndex,
+			y: 50 * zIndex,
+			zIndex
 		};
 	}
 </script>
@@ -84,7 +88,7 @@
 	style:--y={`${app.position.y}px`}
 	style:--width={`${app.position.width}px`}
 	style:--height={`${app.position.height}px`}
-	style:z-index={index}
+	style:z-index={app.position.zIndex}
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
@@ -100,7 +104,7 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.metadata.title}</h2>
+			<h2 class="windowTitle">{app.position.zIndex}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">

@@ -19,7 +19,7 @@
 	style:padding={desktopPadding + 'px'}
 >
 	{#each runningApps as app, i (app.id)}
-		<Window bind:this={app.window} {app} index={i} />
+		<Window bind:this={app.window} {app} />
 	{/each}
 </main>
 
