@@ -1,7 +1,11 @@
 <script module>
-	export const dragging: { el: HTMLElement | null } = $state({ el: null });
-	export const resizing: { el: HTMLElement | null } = $state({ el: null });
+	export const dragging: { el?: HTMLElement } = $state({});
+	export const resizing: { el?: HTMLElement } = $state({});
 	let maxZIndex = 0;
+	let focused = $state<HTMLElement>();
+	export function unfocus() {
+		focused = undefined;
+	}
 </script>
 
 <script lang="ts">
@@ -17,7 +21,7 @@
 		close: () => void;
 	} = $props();
 
-	let element: HTMLElement;
+	let element = $state<HTMLElement>();
 
 	let x = $state(0);
 	let y = $state(0);
@@ -41,15 +45,17 @@
 	}
 
 	function pointerMove(e: PointerEvent) {
+		const zoomRatio = screen.width / innerWidth;
+
 		if (dragging.el === element) {
-			x += e.screenX - lastX;
-			y += e.screenY - lastY;
+			x += (e.screenX - lastX) / zoomRatio;
+			y += (e.screenY - lastY) / zoomRatio;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (resizing.el === element) {
-			width += e.screenX - lastX;
-			height += e.screenY - lastY;
+			width += (e.screenX - lastX) / zoomRatio;
+			height += (e.screenY - lastY) / zoomRatio;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -57,12 +63,13 @@
 	}
 
 	function pointerUp() {
-		dragging.el = null;
-		resizing.el = null;
+		dragging.el = undefined;
+		resizing.el = undefined;
 	}
 
-	function focus() {
+	export function focus() {
 		zIndex = ++maxZIndex;
+		focused = element;
 	}
 
 	export function resetPosition() {
@@ -75,16 +82,24 @@
 <article
 	bind:this={element}
 	onpointerdown={focus}
-	class="window"
+	class={['window', focused !== element && 'inactive']}
 	style:--x={`${x}px`}
 	style:--y={`${y}px`}
 	style:--width={`${width}px`}
 	style:--height={`${height}px`}
 	style:z-index={zIndex}
 >
-	<header class="windowTitle" onpointerdown={startDrag}>
-		<button onclick={close}>X</button>
-		{app.metadata.title}
+	<header class="windowTitlebar" onpointerdown={startDrag}>
+		<div class="windowControls">
+			<!-- TODO glyphs on hover -->
+			<button class="windowButton close" aria-label="Close" onclick={close}></button>
+			<button class="windowButton minimize" aria-label="Minimize"></button>
+			<button class="windowButton maximize" aria-label="Maximize"></button>
+		</div>
+		<hgroup class="windowTitleSection">
+			<!-- TODO window icons -->
+			<h2 class="windowTitle">{app.metadata.title}</h2>
+		</hgroup>
 	</header>
 	<div class="windowContent">
 		<app.Component />
@@ -98,27 +113,33 @@
 	.window {
 		grid-area: 1 / 1;
 		transform: translate(var(--x), var(--y));
-		overflow: hidden;
 		min-width: 200px;
 		min-height: 200px;
 		width: var(--width);
 		height: var(--height);
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
 		background-color: white;
-		border: 1px solid black;
 		touch-action: auto; /* needed for touch dragging to work */
 	}
 
-	.windowTitle {
+	.windowTitlebar {
 		flex: 0 0 auto;
-		background-color: lightgray;
+		display: flex;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
 	}
 
+	.windowControls {
+		display: flex;
+		align-items: center;
+		/* z-index: 1; */
+	}
+
 	.windowContent {
+		flex-grow: 1;
 		overflow: auto;
 	}
 
@@ -128,7 +149,7 @@
 		right: 0;
 		width: 30px;
 		height: 30px;
-		background-color: gray;
+		background-color: lightgray;
 		cursor: nwse-resize;
 	}
 </style>

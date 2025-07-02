@@ -35,7 +35,10 @@
 				.split(',')
 				.map((name) => allApps.find((app) => app.name === name));
 			appsToOpen.forEach((app) => app && openApp(app));
-			tick().then(resetApps);
+			tick().then(() => {
+				resetApps();
+				apps.at(-1)?.window?.focus();
+			});
 		} else {
 			// update query string when apps are opened and closed
 			url.searchParams.set('apps', apps.map((app) => app.metadata.name).join(','));
@@ -51,17 +54,35 @@
 	}
 </script>
 
+<!-- TODO move to own component -->
 <header class="menubar">
-	<button onclick={() => openApp(App1)}>Open App1</button>
-	<button onclick={() => openApp(App2)}>Open App2</button>
-	<button onclick={resetApps}>Reset App Positions</button>
+	<details class="menuWrapper" name="menubar">
+		<summary class="menuName">Menu 1</summary>
+		<menu class="menu">
+			<li class="menuItem">
+				<button>Menu Item Button</button>
+			</li>
+			<li class="menuItem">
+				<a class="menuItem" href="/">Menu Item Link</a>
+			</li>
+		</menu>
+	</details>
+	<details class="menuWrapper" name="menubar">
+		<summary class="menuName">Menu 2</summary>
+		<menu class="menu">
+			<li class="menuItem">
+				<button>Menu Item Button</button>
+			</li>
+			<li class="menuItem">
+				<a class="menuItem" href="/">Menu Item Link</a>
+			</li>
+		</menu>
+	</details>
 </header>
 <Desktop bind:apps {closeApp} />
-<footer class="dock">Dock goes here</footer>
-
-<style>
-	.menubar,
-	.dock {
-		background-color: lightgreen;
-	}
-</style>
+<!-- TODO move to own component -->
+<footer class="dock">
+	<button class="ui" onclick={() => openApp(App1)}>Open App1</button>
+	<button class="ui" onclick={() => openApp(App2)}>Open App2</button>
+	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>
+</footer>
