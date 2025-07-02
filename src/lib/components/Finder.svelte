@@ -8,9 +8,19 @@
 	const getSelected = () => selected;
 	const onselect = (name: string) => (selected = name);
 	setFileIconContext(getSelected, onselect);
+
+	function onclick(e: MouseEvent) {
+		if (
+			!e.composedPath().some((el) => el instanceof Element && el.classList.contains('fileIcon'))
+		) {
+			selected = undefined;
+		}
+	}
 </script>
 
-<div class="finder">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="finder" {onclick}>
 	<!-- TODO show icon in title bar -->
 	{@render children()}
 </div>
