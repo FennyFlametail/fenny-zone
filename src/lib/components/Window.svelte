@@ -10,6 +10,7 @@
 
 <script lang="ts">
 	import { closeApp } from '$lib/windowServer.svelte';
+	import { X, Minus, Plus } from 'lucide-svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 
 	const {
@@ -88,10 +89,15 @@
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
-			<!-- TODO glyphs on hover -->
-			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(app)}></button>
-			<button class="windowButton minimize" aria-label="Minimize"></button>
-			<button class="windowButton maximize" aria-label="Maximize"></button>
+			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(app)}>
+				<X class="windowButtonGlyph" size={15} />
+			</button>
+			<button class="windowButton minimize" aria-label="Minimize">
+				<Minus class="windowButtonGlyph" size={15} />
+			</button>
+			<button class="windowButton maximize" aria-label="Maximize">
+				<Plus class="windowButtonGlyph" size={15} />
+			</button>
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
@@ -130,6 +136,7 @@
 	}
 
 	.windowControls {
+		align-self: center;
 		display: flex;
 		align-items: center;
 	}
