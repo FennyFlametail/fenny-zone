@@ -104,7 +104,7 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.position.zIndex}</h2>
+			<h2 class="windowTitle">{app.metadata.title}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">
