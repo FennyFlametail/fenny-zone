@@ -11,8 +11,10 @@
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--text-secondary: rgba(0, 0, 0, 0.5);
+	--focus-box-shadow: 0 0 3px 2px #92b9db;
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
-	accent-color: #3471cf;
+	--accent-color: #3471cf;
+	--selection-color: #b5d5ff;
 }
 
 #root {

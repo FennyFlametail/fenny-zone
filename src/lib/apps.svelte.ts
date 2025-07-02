@@ -1,8 +1,14 @@
 import type { AppEntry } from '$lib/types/AppTypes';
 import BrowserPage from '../routes/[browser=browser]/+page.svelte';
+import CharactersPage from '../routes/characters/+page.svelte';
 import ReadmePage from '../routes/readme/+page.svelte';
 
 const apps = $state({
+	characters: {
+		Page: CharactersPage,
+		title: 'Characters',
+		icon: 'icons/finder.png'
+	},
 	readme: {
 		Page: ReadmePage,
 		title: 'README',

@@ -10,10 +10,10 @@
 	});
 </script>
 
-<textarea class="textedit" bind:value={text}></textarea>
+<textarea class="textEdit" bind:value={text}></textarea>
 
 <style>
-	textarea {
+	.textEdit {
 		display: block;
 		width: 100%;
 		height: 100%;

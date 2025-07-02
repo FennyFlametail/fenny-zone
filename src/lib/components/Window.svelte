@@ -113,7 +113,6 @@
 			</button>
 		</div>
 		<hgroup class="windowTitleSection">
-			<!-- TODO window icons -->
 			<h2 class="windowTitle">{app.title}</h2>
 		</hgroup>
 	</header>

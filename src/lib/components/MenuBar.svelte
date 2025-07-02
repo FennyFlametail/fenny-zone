@@ -98,7 +98,7 @@
 		[open] & {
 			@media (forced-colors: none) {
 				outline: none;
-				background: black;
+				background: var(--accent-color);
 				color: white;
 			}
 		}
@@ -140,7 +140,7 @@
 		&:hover,
 		&:focus-within {
 			outline: none;
-			background: black;
+			background: var(--accent-color);
 			color: white;
 
 			@media (forced-colors: active) {
