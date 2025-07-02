@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/app.scss';
-	import Window, { dragging } from '$lib/components/Window.svelte';
+	import Window, { dragging, resizing } from '$lib/components/Window.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 
 	const {
@@ -9,7 +9,7 @@
 	}: { apps: AppInstance[]; closeApp: (app: AppInstance) => void } = $props();
 </script>
 
-<main class={['desktop', dragging.el && 'noSelect']}>
+<main class={['desktop', (dragging.el || resizing.el) && 'noSelect']}>
 	{#each apps as app, i}
 		<Window bind:this={app.window} bind:app={apps[i]} close={() => closeApp(app)} />
 	{/each}

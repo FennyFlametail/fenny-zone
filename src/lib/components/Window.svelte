@@ -1,5 +1,6 @@
 <script module>
 	export const dragging: { el: HTMLElement | null } = $state({ el: null });
+	export const resizing: { el: HTMLElement | null } = $state({ el: null });
 	let maxZIndex = 0;
 </script>
 
@@ -19,33 +20,48 @@
 
 	let x = $state(0);
 	let y = $state(0);
-	let lastX = $state(0);
-	let lastY = $state(0);
+	let width = $state(600);
+	let height = $state(600);
 	let zIndex = $state(0);
 
-	function focus() {
-		zIndex = ++maxZIndex;
-	}
+	let lastX = $state(0);
+	let lastY = $state(0);
 
 	function startDrag(e: PointerEvent) {
-		console.debug('startDrag');
 		dragging.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
-	function drag(e: PointerEvent) {
-		if (dragging.el !== element) return;
-
-		x += e.screenX - lastX;
-		y += e.screenY - lastY;
-
+	function startResize(e: PointerEvent) {
+		resizing.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
-	function stopDrag() {
+	function pointerMove(e: PointerEvent) {
+		if (dragging.el === element) {
+			x += e.screenX - lastX;
+			y += e.screenY - lastY;
+
+			lastX = e.screenX;
+			lastY = e.screenY;
+		} else if (resizing.el === element) {
+			width += e.screenX - lastX;
+			height += e.screenY - lastY;
+
+			lastX = e.screenX;
+			lastY = e.screenY;
+		}
+	}
+
+	function pointerUp() {
 		dragging.el = null;
+		resizing.el = null;
+	}
+
+	function focus() {
+		zIndex = ++maxZIndex;
 	}
 
 	export function resetPosition() {
@@ -55,13 +71,14 @@
 	}
 </script>
 
-<!-- TODO implement resize that works on mobile -->
 <article
 	bind:this={element}
 	onpointerdown={focus}
 	class="window"
 	style:--x={`${x}px`}
 	style:--y={`${y}px`}
+	style:--width={`${width}px`}
+	style:--height={`${height}px`}
 	style:z-index={zIndex}
 >
 	<header class="windowTitle" onpointerdown={startDrag}>
@@ -71,17 +88,20 @@
 	<div class="windowContent">
 		<app.App bind:this={app.appBinding as AppMetadata} />
 	</div>
+	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>
 
-<svelte:body onpointermove={drag} onpointerup={stopDrag} />
+<svelte:body onpointermove={pointerMove} onpointerup={pointerUp} />
 
 <style>
 	.window {
 		transform: translate(var(--x), var(--y));
+		position: relative;
+		overflow: hidden;
 		min-width: 200px;
 		min-height: 200px;
-		width: 600px;
-		height: 600px;
+		width: var(--width);
+		height: var(--height);
 		display: flex;
 		flex-direction: column;
 		margin: 0;
@@ -92,11 +112,23 @@
 	.windowTitle {
 		flex: 0 0 auto;
 		margin: 0;
+		-webkit-user-select: none;
+		user-select: none;
 		cursor: default;
 	}
 
 	.windowContent {
 		padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
 		overflow: auto;
+	}
+
+	.windowResizeHandle {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 30px;
+		height: 30px;
+		cursor: nwse-resize;
+		background-color: gray;
 	}
 </style>
