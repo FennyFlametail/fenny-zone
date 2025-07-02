@@ -1,15 +1,6 @@
 <script lang="ts">
-	import { type Component } from 'svelte';
-	import type AppMetadata from '$lib/types/AppMetadata';
 	import * as apps from '$lib/apps';
-
-	const {
-		openApp,
-		resetApps
-	}: {
-		openApp: (args: { default: Component } & AppMetadata) => void;
-		resetApps: () => void;
-	} = $props();
+	import { openApp, resetApps } from '$lib/windowServer.svelte';
 </script>
 
 <footer class="dock">

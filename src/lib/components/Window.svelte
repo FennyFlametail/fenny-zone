@@ -9,16 +9,15 @@
 </script>
 
 <script lang="ts">
+	import { closeApp } from '$lib/windowServer.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 
 	const {
 		app,
-		index,
-		close
+		index
 	}: {
 		app: AppInstance;
 		index: number;
-		close: () => void;
 	} = $props();
 
 	let element = $state<HTMLElement>();
@@ -92,7 +91,7 @@
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
 			<!-- TODO glyphs on hover -->
-			<button class="windowButton close" aria-label="Close" onclick={close}></button>
+			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(app)}></button>
 			<button class="windowButton minimize" aria-label="Minimize"></button>
 			<button class="windowButton maximize" aria-label="Maximize"></button>
 		</div>

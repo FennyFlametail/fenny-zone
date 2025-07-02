@@ -1,6 +1,6 @@
 <script lang="ts">
-	import '$lib/app.css';
-	import '$lib/Aqua.css';
+	import '$lib/styles/app.css';
+	import '$lib/styles/Aqua.css';
 	const { children } = $props();
 </script>
 
