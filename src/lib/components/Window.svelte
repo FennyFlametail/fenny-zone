@@ -19,7 +19,7 @@
 <script lang="ts">
 	import { desktopPadding } from '$lib/components/Desktop.svelte';
 	import type RunningApp from '$lib/types/RunningApp';
-	import { closeApp } from '$lib/windowServer.svelte';
+	import { closeApp, updateQueryString } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {
@@ -34,8 +34,8 @@
 
 	let zIndex = $state(++maxZIndex);
 
-	let lastX = $state(0);
-	let lastY = $state(0);
+	let lastX = $state(app.position.x);
+	let lastY = $state(app.position.y);
 
 	function startDrag(e: PointerEvent) {
 		dragging.el = element;
@@ -70,6 +70,7 @@
 	function pointerUp() {
 		dragging.el = undefined;
 		resizing.el = undefined;
+		updateQueryString();
 	}
 
 	export function isFocused() {

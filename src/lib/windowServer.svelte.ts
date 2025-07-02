@@ -41,8 +41,8 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	});
 
 	tick().then(() => {
-		updateQueryString();
 		runningApps.at(-1)?.window?.focus();
+		updateQueryString();
 	});
 }
 
@@ -53,29 +53,34 @@ export function closeApp(app: RunningApp) {
 
 export function resetApps() {
 	runningApps.forEach((app) => app.window?.resetPosition());
+	updateQueryString();
 }
 
 export function loadAppsFromQueryString() {
-	// open apps from query string on page load
 	const url = new URL(page.url);
-	[...url.searchParams.entries()].forEach(([name, propString]) => {
+	[...url.searchParams.entries()].forEach(([name, optionString]) => {
 		const app = apps[name as keyof typeof apps];
 		if (!app) return;
-		const props = propString ? JSON.parse(propString) : {};
-		openApp(app, props);
+		const options = optionString ? JSON.parse(optionString) : {};
+		openApp(app, options);
 	});
-	tick().then(() => {
-		resetApps();
-		runningApps.at(-1)?.window?.focus();
-	});
+	tick().then(runningApps.at(-1)?.window?.focus);
 }
 
-function updateQueryString() {
+export function updateQueryString() {
 	const params = new URLSearchParams();
 	runningApps.forEach((app) => {
 		const index = Object.values(apps).findIndex((module) => module.default === app.Component);
 		const name = Object.keys(apps)[index];
-		params.append(name, JSON.stringify(app.props) ?? '');
+		// TODO save and restore focus order
+		params.append(
+			name,
+			JSON.stringify({
+				props: app.props,
+				position: app.position,
+				metadata: app.metadata
+			})
+		);
 	});
 	const url = new URL(page.url);
 	url.search = params.toString();
