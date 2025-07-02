@@ -1,9 +1,7 @@
 <script lang="ts">
 	import TextEdit from '$lib/components/apps/TextEdit.svelte';
 	let text = $state(
-		`Welcome to fenny.zone! 🦊❤️
-
-Click one of the folders in the dock at the bottom of the screen, or just poke around!
+		`Welcome to fenny.zone! 🦊❤️ This site is a work-in-progress, but feel free to poke around!
 
 TO-DO:
 - more content
