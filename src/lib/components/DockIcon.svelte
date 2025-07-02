@@ -4,21 +4,35 @@
 	import type { AppName } from '$lib/types/AppTypes';
 
 	const {
-		appName
-	}: {
-		appName: AppName;
-	} = $props();
+		appName,
+		title,
+		icon,
+		open
+	}:
+		| {
+				appName: AppName;
+				title?: never;
+				icon?: never;
+				open?: never;
+		  }
+		| {
+				appName?: never;
+				title: string;
+				icon: string;
+				open?: boolean;
+		  } = $props();
 
-	const app = apps[appName];
+	const app = appName && apps[appName];
+	const isOpen = $derived(open ?? (appName && getRunningApps()[appName]));
 
 	function onclick() {
-		openApp(appName);
+		appName && openApp(appName);
 	}
 </script>
 
-<button class={['dockIcon', { open: getRunningApps()[appName] }]} {onclick}>
-	<span class="dockIconLabel">{app.title}</span>
-	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
+<button class={['dockIcon', { open: isOpen }]} {onclick}>
+	<span class="dockIconLabel">{app?.title ?? title}</span>
+	<img src={app?.icon ?? icon} alt={app?.title ?? title} class="dockIconImage" draggable="false" />
 </button>
 
 <style>

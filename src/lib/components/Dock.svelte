@@ -4,14 +4,11 @@
 
 <footer class="dock">
 	<div class="dockSection">
-		<DockIcon appName="characters" />
-		<DockIcon appName="characters" />
-		<DockIcon appName="characters" />
+		<DockIcon icon="icons/finder.png" title="Finder" open />
 	</div>
 	<div class="dockSection">
-		<DockIcon appName="goat" />
-		<DockIcon appName="goat" />
-		<DockIcon appName="goat" />
+		<DockIcon appName="characters" />
+		<DockIcon icon="icons/trash.png" title="Trash" />
 	</div>
 </footer>
 
