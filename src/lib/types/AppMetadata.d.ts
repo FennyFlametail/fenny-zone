@@ -1,3 +1,3 @@
 export default interface AppMetadata {
-	title: string;
+	name: string;
 }

@@ -101,11 +101,11 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.metadata.title}</h2>
+			<h2 class="windowTitle">{app.metadata.name}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">
-		<app.Component />
+		<app.Component {...app.props} />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

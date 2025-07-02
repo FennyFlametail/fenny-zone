@@ -6,5 +6,13 @@
 <footer class="dock">
 	<button class="ui" onclick={() => openApp(apps.App1)}>Open App1</button>
 	<button class="ui" onclick={() => openApp(apps.App2)}>Open App2</button>
+	<button
+		class="ui"
+		onclick={() =>
+			openApp(apps.Browser, {
+				src: 'https://toddspin.fenny.zone',
+				title: 'Toddspin'
+			})}>Open Toddspin</button
+	>
 	<button class="ui primary" onclick={resetApps}>Reset App Positions</button>
 </footer>

@@ -2,17 +2,20 @@ import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
 import * as apps from '$lib/apps';
 import type AppInstance from '$lib/types/AppInstance';
-import type AppMetadata from '$lib/types/AppMetadata';
 import { nanoid } from 'nanoid';
-import { tick, type Component } from 'svelte';
+import { tick, type ComponentProps } from 'svelte';
 
 export const runningApps: AppInstance[] = $state([]);
 
-export function openApp({ default: Component, ...metadata }: { default: Component } & AppMetadata) {
+export function openApp<T extends (typeof apps)[keyof typeof apps]>(
+	{ default: Component, ...metadata }: T,
+	props?: ComponentProps<T['default']>
+) {
 	runningApps.push({
 		id: nanoid(),
 		Component,
-		metadata
+		metadata,
+		props
 	});
 
 	tick().then(() => {
@@ -33,10 +36,12 @@ export function resetApps() {
 export function loadAppsFromQueryString() {
 	// open apps from query string on page load
 	const url = new URL(page.url);
-	const paramsApps = url.searchParams.get('apps') ?? '';
-
-	const appsToOpen = paramsApps.split(',').map((name) => apps[name as keyof typeof apps]);
-	appsToOpen.forEach((app) => app && openApp(app));
+	[...url.searchParams.entries()].forEach(([name, propString]) => {
+		const app = apps[name as keyof typeof apps];
+		if (!app) return;
+		const props = propString ? JSON.parse(propString) : {};
+		openApp(app, props);
+	});
 	tick().then(() => {
 		resetApps();
 		runningApps.at(-1)?.window?.focus();
@@ -44,15 +49,13 @@ export function loadAppsFromQueryString() {
 }
 
 function updateQueryString() {
+	const params = new URLSearchParams();
+	runningApps.forEach((app) => {
+		const index = Object.values(apps).findIndex((module) => module.default === app.Component);
+		const name = Object.keys(apps)[index];
+		params.append(name, JSON.stringify(app.props) ?? '');
+	});
 	const url = new URL(page.url);
-	url.searchParams.set(
-		'apps',
-		runningApps
-			.map((app) => {
-				const index = Object.values(apps).findIndex((module) => module.default === app.Component);
-				return Object.keys(apps)[index];
-			})
-			.join(',')
-	);
+	url.search = params.toString();
 	replaceState(url, {});
 }
