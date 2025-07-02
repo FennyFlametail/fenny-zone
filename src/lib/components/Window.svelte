@@ -134,7 +134,6 @@
 		height: var(--height);
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
 		background-color: white;
 		touch-action: auto; /* needed for touch dragging to work */
 	}
@@ -189,11 +188,10 @@
 
 	.windowResizeHandle {
 		position: absolute;
-		bottom: 0;
-		right: 0;
-		width: 30px;
-		height: 30px;
-		background-color: lightgray;
+		bottom: -5px;
+		right: -5px;
+		width: 10px;
+		height: 10px;
 		cursor: nwse-resize;
 	}
 </style>

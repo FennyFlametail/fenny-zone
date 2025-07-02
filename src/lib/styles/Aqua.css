@@ -1,8 +1,8 @@
 :root {
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--focus-box-shadow: 0 0 3px 2px #92b9db;
-	--panel-box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.75);
-	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.75);
+	--panel-box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.7);
+	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.7);
 	--pinstripe-bg: repeating-linear-gradient(
 		to bottom,
 		#ebecec,
@@ -120,7 +120,7 @@ body {
 /* #region Window */
 .window {
 	box-shadow: var(--panel-box-shadow);
-	border: 1px solid rgba(0, 0, 0, 0.25);
+	border: 1px solid rgba(0, 0, 0, 0.33);
 	border-top-right-radius: 9px;
 	border-top-left-radius: 9px;
 	background: var(--pinstripe-bg);
@@ -132,11 +132,19 @@ body {
 
 .windowTitlebar {
 	justify-content: space-between;
-	border-bottom: 1px solid #8c8c8c;
-	background: linear-gradient(to bottom, #f9f9f9 1px, #efefef 1px, #cacaca);
+	border-top-right-radius: inherit;
+	border-top-left-radius: inherit;
+	/* 1px line at bottom because border-bottom doesn't render right in Safari */
+	background: linear-gradient(
+		to bottom,
+		#f9f9f9 1px,
+		#efefef 1px,
+		#cacaca calc(100% - 1px),
+		#8c8c8c calc(100% - 1px)
+	);
 
 	.window.inactive & {
-		background: transparent;
+		background: linear-gradient(to bottom, transparent calc(100% - 1px), #8c8c8c calc(100% - 1px));
 		color: var(--text-secondary);
 	}
 }
@@ -227,10 +235,6 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
-.windowResizeHandle {
-	/* TODO style resize handle */
-}
 /* #endregion */
 
 /* #region Widgets */
@@ -295,7 +299,6 @@ button.ui {
 ::-webkit-scrollbar-thumb {
 	--border-color: #0139b3;
 	--cap-dir: bottom;
-	/* TODO could do this more accurately with two half circles */
 	--cap-gradient: #0139b3bd, transparent 7.5px, transparent calc(100% - 7.5px), #0139b3bd;
 	--scrollbar-dir: right;
 	--scrollbar-gradient: #0139b3, #75a7e0, #96bfe9, #95bde9, #8ebbeb, #579be7, #6cabf3, #7cbbff,
@@ -350,7 +353,8 @@ button.ui {
 }
 
 ::-webkit-scrollbar-button:active {
-	--button-gradient: #99a4de, #9fc2ea 40%, #4487d3 40%, #6abdf7;
+	--button-gradient: #1c6bc8, #5252b6, #97a2dc, #a3bae6, #a4c7eb, #afceee, #a4c6eb, #4287d3,
+		#5090d6, #5896da, #629ee0, #6eacec, #80c1ff, #83caff, #6dc3ff;
 	--border-color: #2068c6;
 }
 
