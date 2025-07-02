@@ -1,7 +1,13 @@
 import type { AppEntry } from '$lib/types/AppTypes';
 import BrowserPage from '../routes/[browser=browser]/+page.svelte';
+import ReadmePage from '../routes/readme/+page.svelte';
 
 const apps = $state({
+	readme: {
+		Page: ReadmePage,
+		title: 'README',
+		icon: 'icons/textedit.png'
+	},
 	toddspin: {
 		Page: BrowserPage,
 		title: 'Toddspin',
@@ -28,7 +34,6 @@ const apps = $state({
 			height: 800
 		},
 		url: 'https://monty-hall.fenny.zone'
-	},
 	}
 }) satisfies Record<string, AppEntry>;
 

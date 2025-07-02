@@ -98,7 +98,11 @@
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
-			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(appName)}>
+			<button
+				class={['windowButton', 'close', app.modified && 'modified']}
+				aria-label="Close"
+				onclick={() => closeApp(appName)}
+			>
 				<X class="windowButtonGlyph" size={14} />
 			</button>
 			<button class="windowButton minimize" aria-label="Minimize">

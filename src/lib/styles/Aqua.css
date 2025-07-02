@@ -187,6 +187,15 @@ body {
 
 		&.close {
 			--background-color: #c44a44;
+
+			&.modified::after {
+				position: absolute;
+				border-radius: 50%;
+				background: hsl(from var(--background-color) h s calc(l * 0.75));
+				width: 8px;
+				height: 8px;
+				content: '';
+			}
 		}
 
 		&.minimize {
@@ -206,6 +215,10 @@ body {
 		color: hsl(from var(--background-color) h s calc(l * var(--lightness)));
 		stroke-width: 4;
 		stroke-linecap: square;
+
+		.windowButton.modified & {
+			display: none;
+		}
 
 		.windowButton.minimize & {
 			--lightness: 0.8;

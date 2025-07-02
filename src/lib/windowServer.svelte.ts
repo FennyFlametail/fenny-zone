@@ -48,6 +48,12 @@ export function closeApp(appName: AppName) {
 		console.warn(`(closeApp) ${appName} isn't running!`);
 		return;
 	}
+
+	if (app.modified && !confirm('Discard unsaved changes?')) {
+		// TODO proper sheet for confirmation
+		return;
+	}
+
 	const oldZIndex = app.instance.position.zIndex;
 	app.instance = undefined;
 
@@ -64,7 +70,7 @@ export function closeAll() {
 }
 
 export function resetApps() {
-	console.debug(runningApps)
+	console.debug(runningApps);
 	Object.values(runningApps).forEach((app) => app.instance.window?.resetPosition());
 }
 
