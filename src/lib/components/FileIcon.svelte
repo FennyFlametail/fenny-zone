@@ -82,9 +82,12 @@
 		visibility: hidden;
 		opacity: 0.5;
 
-		.open & {
-			visibility: visible;
-			animation: var(--openAnimDuration) linear iconOpen;
+		@media not (prefers-reduced-motion: reduce) {
+			.open & {
+				/* FIXME animation should show above titlebar */
+				visibility: visible;
+				animation: var(--openAnimDuration) linear iconOpen;
+			}
 		}
 	}
 
