@@ -34,6 +34,8 @@
 		border: none;
 		transition: 0.25s ease;
 		transition-property: width, height, margin-bottom;
+		-webkit-user-select: none;
+		user-select: none;
 
 		&:active img {
 			filter: brightness(0.5);
