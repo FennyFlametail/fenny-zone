@@ -1,26 +1,15 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { setFileIconContext } from '$lib/context';
+	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
 
 	const { children }: { children: Snippet } = $props();
 
-	let selected = $state<string>();
-	const getSelected = () => selected;
-	const onselect = (name: string) => (selected = name);
-	setFileIconContext(getSelected, onselect);
-
-	function onclick(e: MouseEvent) {
-		if (
-			!e.composedPath().some((el) => el instanceof Element && el.classList.contains('fileIcon'))
-		) {
-			selected = undefined;
-		}
-	}
+	const { onClickIconContainer } = setupFileIconContainer();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="finder" {onclick}>
+<div class="finder" onclick={onClickIconContainer}>
 	<!-- TODO show icon in title bar -->
 	{@render children()}
 </div>

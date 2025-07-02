@@ -1,5 +1,5 @@
 <script module lang="ts">
-		import apps from '$lib/apps.svelte';
+	import apps from '$lib/apps.svelte';
 	import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
 	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 
@@ -75,30 +75,30 @@
 		Object.values(runningApps).forEach((app) => app.instance.window?.resetPosition());
 	}
 
-const storageKey = 'windowState';
+	const storageKey = 'windowState';
 
 	export async function loadState() {
 		const stateString = localStorage.getItem(storageKey);
-if (stateString) {
+		if (stateString) {
 			try {
-		const state = JSON.parse(stateString);
+				const state = JSON.parse(stateString);
 				Object.entries(state).forEach(([appName, position]) => {
-			const app = apps[appName as AppName];
-			if (!app) {
-				console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
-				return;
-			}
-			openApp(appName as AppName, position as Position);
-		});
-		} catch (err) {
+					const app = apps[appName as AppName];
+					if (!app) {
+						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
+						return;
+					}
+					openApp(appName as AppName, position as Position);
+				});
+			} catch (err) {
 				console.warn('(loadState) error', err);
-}
+			}
 		}
 	}
 
 	export function saveState() {
 		const state = Object.fromEntries(
-		Object.entries(runningApps).map(([appName, app]) => [appName, app.instance.position])
+			Object.entries(runningApps).map(([appName, app]) => [appName, app.instance.position])
 		);
 		localStorage.setItem(storageKey, JSON.stringify(state));
 	}
@@ -129,6 +129,11 @@ if (stateString) {
 	.windowLayer {
 		grid-area: desktop;
 		display: grid;
+		pointer-events: none; /* allow clicks to fall through to the desktop */
+
+		> :global(*) {
+			pointer-events: auto;
+		}
 	}
 
 	.noSelect {

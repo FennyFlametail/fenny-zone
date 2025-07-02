@@ -14,7 +14,7 @@
 		onopen: MouseEventHandler<HTMLButtonElement>;
 	} = $props();
 
-	const { getSelected, onselect } = getFileIconContext();
+	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
 	let open = $state(false);
 	const openAnimDuration = 200;
@@ -27,11 +27,11 @@
 </script>
 
 <button
-	class={['fileIcon', { selected: getSelected() === name, open }]}
-	onclick={() => onselect(name)}
+	class={['fileIcon', { selected: getSelectedIcon() === name, open, desktopIcon: isDesktop }]}
+	onclick={() => setSelectedIcon(name)}
 	{ondblclick}
 >
-	<div class="fileIconContainer">
+	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon} alt={name} draggable="false" />
 		<img
 			class="fileIconImage fileIconImageZoom"
@@ -59,7 +59,7 @@
 		user-select: none;
 	}
 
-	.fileIconContainer {
+	.fileIconImageWrapper {
 		display: grid;
 		width: 68px;
 		height: 68px;
@@ -106,10 +106,21 @@
 		line-height: 20px;
 		padding-inline: 15px;
 
+		.desktopIcon & {
+			font-weight: 600;
+			color: white;
+			text-shadow: var(--label-shadow);
+		}
+
 		.selected & {
 			background: var(--accent-color);
 			color: white;
 			border-radius: 9999px;
+
+			.desktopIcon & {
+				text-shadow: none;
+				box-shadow: 0 1px 0 0 rgb(0 0 0 / 50%);
+			}
 
 			:global(.window.inactive) & {
 				background: rgb(0 0 0 / 20%);

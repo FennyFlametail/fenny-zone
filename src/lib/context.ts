@@ -11,14 +11,16 @@ export function getAppContext() {
 
 const fileIconContextKey = {};
 export function setFileIconContext(
-	getSelected: () => string | undefined,
-	onselect: (name: string) => void
+	getSelectedIcon: () => string | undefined,
+	setSelectedIcon: (name: string) => void,
+	isDesktop: boolean
 ) {
-	setContext(fileIconContextKey, { getSelected, onselect });
+	setContext(fileIconContextKey, { getSelectedIcon, setSelectedIcon, isDesktop });
 }
 export function getFileIconContext() {
 	return getContext(fileIconContextKey) as {
-		getSelected: () => string | undefined;
-		onselect: (name: string) => void;
+		getSelectedIcon: () => string | undefined;
+		setSelectedIcon: (name: string) => void;
+		isDesktop: boolean;
 	};
 }

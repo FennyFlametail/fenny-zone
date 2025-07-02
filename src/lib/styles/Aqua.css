@@ -86,11 +86,6 @@
 	}
 	/* #endregion */
 
-	/* #region Dock */
-	.dock {
-	}
-	/* #endregion */
-
 	/* #region Window */
 	.window {
 		border: 1px solid rgba(0, 0, 0, 0.33);
