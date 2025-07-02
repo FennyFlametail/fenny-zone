@@ -1,4 +1,5 @@
-<script lang="ts">
+<script lang="ts" generics="T extends (typeof apps)[keyof typeof apps]">
+	import type * as apps from '$lib/apps';
 	import { openApp } from '$lib/windowServer.svelte';
 
 	const {
@@ -6,13 +7,13 @@
 		options,
 		open = false
 	}: {
-		app: Parameters<typeof openApp>[0];
-		options?: Parameters<typeof openApp>[1];
+		app: T;
+		options?: Parameters<typeof openApp<T>>[1];
 		open?: boolean;
 	} = $props();
 
 	const title = options?.metadata?.title ?? app.title;
-	const icon = options?.metadata?.icon ?? app.icon ?? 'icons/placeholder.png';
+	const icon = options?.metadata?.icon ?? (app as any).icon ?? 'icons/placeholder.png';
 </script>
 
 <button class={['dockIcon', { open }]} onclick={() => openApp(app, options)}>
@@ -45,14 +46,14 @@
 		}
 
 		/* icons next to hovered */
-		:global(&:has(+ .dockIcon:hover), &:hover + &) {
+		:global(&:has(+ &:hover), &:hover + &) {
 			margin-bottom: 10px;
 			width: calc(var(--icon-size) * 1.8);
 			height: calc(var(--icon-size) * 1.8);
 		}
 
 		/* icons two away from hovered */
-		:global(&:has(+ .dockIcon + .dockIcon:hover), &:hover + & + &) {
+		:global(&:has(+ & + &:hover), &:hover + & + &) {
 			margin-bottom: 5px;
 			width: calc(var(--icon-size) * 1.4);
 			height: calc(var(--icon-size) * 1.4);

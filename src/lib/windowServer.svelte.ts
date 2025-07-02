@@ -26,16 +26,14 @@ export async function openApp<T extends (typeof apps)[keyof typeof apps]>(
 			...metadata
 		},
 		setTitle(title) {
-			if (this.metadata.title) {
-				this.metadata.title = title;
-			}
+			if (title) this.metadata.title = title;
 		},
 		position: {
 			...getInitialPosition(runningApps.length),
 			...position
 		},
 		// TODO way to pass props to pages in URL when directly navigating
-		props: props
+		props
 	});
 }
 
