@@ -67,6 +67,7 @@
 		left: 0;
 		top: 0;
 		width: 100%;
+		box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
 	}
 
 	.menubar {
@@ -74,6 +75,7 @@
 		flex-shrink: 0;
 		display: flex;
 		z-index: 10000;
+		background-color: white;
 		padding-inline: 20px;
 		-webkit-user-select: none;
 		user-select: none;
@@ -111,6 +113,7 @@
 		position: absolute;
 		padding: 4px 0;
 		list-style-type: none;
+		box-shadow: var(--panel-box-shadow);
 
 		@media (forced-colors: active) {
 			border: 1px solid ButtonBorder;

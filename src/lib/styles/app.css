@@ -71,6 +71,12 @@ h6 {
 
 /* My styles */
 
+:root {
+	--focus-box-shadow: 0 0 3px 2px #92b9db;
+	--panel-box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.7);
+	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.7);
+}
+
 html {
 	overflow: hidden;
 	overscroll-behavior: none;
@@ -79,9 +85,10 @@ html {
 body {
 	display: flex;
 	flex-direction: column;
+	background-color: black;
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
 	touch-action: manipulation;
-	font-family: system-ui, sans-serif;
+	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
 }

@@ -10,7 +10,7 @@
 	const runningApps = $derived(getRunningApps());
 
 	// TODO this fixes windowServer.resetApps, find out why
-	// $inspect(runningApps).with(() => {});
+	$inspect(runningApps).with(() => {});
 
 	function onpointerup() {
 		setTimeout(() => updateQueryString(), 100);
@@ -33,8 +33,7 @@
 		flex: 1 1 auto;
 		min-height: 0;
 		display: grid;
-		background-color: #3d6ea8;
-		background: url('wallpaper.jpg');
+		background: gray;
 		background-size: cover;
 		background-position: top center;
 	}

@@ -1,8 +1,5 @@
 :root {
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
-	--focus-box-shadow: 0 0 3px 2px #92b9db;
-	--panel-box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.7);
-	--panel-box-shadow-inactive: 0 3px 5px 0 rgba(0, 0, 0, 0.7);
 	--pinstripe-bg: repeating-linear-gradient(
 		to bottom,
 		#ebecec,
@@ -18,17 +15,8 @@
 	accent-color: #3471cf;
 }
 
-body {
-	background-color: black;
-	font-family: 'Lunasima', sans-serif;
-}
-
 #root {
 	/* #region Menubar */
-	.menubarShadow {
-		box-shadow: 0 -5px 10px 10px rgba(0, 0, 0, 0.5);
-	}
-
 	.menubar {
 		--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
 		--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
@@ -70,8 +58,6 @@ body {
 	}
 
 	.menu {
-		box-shadow: var(--panel-box-shadow);
-
 		@media not (prefers-reduced-transparency: reduce) {
 			&::before {
 				opacity: 0.95;
@@ -93,6 +79,8 @@ body {
 
 	/* #region Desktop */
 	.desktop {
+		background: url('wallpaper.jpg');
+		background-color: #3d6ea8;
 	}
 	/* #endregion */
 
@@ -103,15 +91,10 @@ body {
 
 	/* #region Window */
 	.window {
-		box-shadow: var(--panel-box-shadow);
 		border: 1px solid rgba(0, 0, 0, 0.33);
 		border-top-right-radius: 9px;
 		border-top-left-radius: 9px;
 		background: var(--pinstripe-bg);
-
-		&.inactive {
-			box-shadow: var(--panel-box-shadow-inactive);
-		}
 	}
 
 	.windowTitlebar {

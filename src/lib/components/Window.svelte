@@ -136,7 +136,12 @@
 		display: flex;
 		flex-direction: column;
 		background-color: white;
+		box-shadow: var(--panel-box-shadow);
 		touch-action: auto; /* needed for touch dragging to work */
+
+		&.inactive {
+			box-shadow: var(--panel-box-shadow-inactive);
+		}
 	}
 
 	.windowTitlebar {
