@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Desktop from '$lib/components/Desktop.svelte';
-	import type AppComponent from '$lib/types/AppComponent';
 	import type AppInstance from '$lib/types/AppInstance';
+	import type { Component } from 'svelte';
 	import App1 from './app-1/+page.svelte';
 	import App2 from './app-2/+page.svelte';
 
 	let apps: AppInstance[] = $state([]);
 
-	function openApp(component: AppComponent) {
+	function openApp(component: Component) {
 		apps.push({
 			App: component,
 			x: 0,
@@ -17,8 +17,8 @@
 	}
 
 	// FIXME closing windows makes the other windows move
-	function closeApp(i: number) {
-		apps.splice(i, 1);
+	function closeApp(app: AppInstance) {
+		apps.splice(apps.indexOf(app), 1);
 	}
 
 	function resetApps() {

@@ -1,8 +1,10 @@
 import type Window from '$lib/components/Window.svelte';
-import type { AppComponent } from '$lib/types/AppComponent';
+import type AppMetadata from '$lib/types/AppMetadata';
+import type { Component } from 'svelte';
 
 export default interface AppInstance {
-	App: AppComponent;
+	App: Component;
+	appBinding?: AppMetadata;
 	window?: Window;
 	x: number;
 	y: number;

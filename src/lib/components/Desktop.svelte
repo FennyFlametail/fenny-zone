@@ -3,13 +3,15 @@
 	import Window, { dragging } from '$lib/components/Window.svelte';
 	import type AppInstance from '$lib/types/AppInstance';
 
-	const { apps = $bindable(), closeApp }: { apps: AppInstance[]; closeApp: (i: number) => void } =
-		$props();
+	const {
+		apps = $bindable(),
+		closeApp
+	}: { apps: AppInstance[]; closeApp: (app: AppInstance) => void } = $props();
 </script>
 
 <main class={['desktop', dragging.el && 'noSelect']}>
 	{#each apps as app, i}
-		<Window bind:this={apps[i].window} bind:app={apps[i]} close={() => closeApp(i)} />
+		<Window bind:this={app.window} bind:app={apps[i]} close={() => closeApp(app)} />
 	{/each}
 </main>
 
