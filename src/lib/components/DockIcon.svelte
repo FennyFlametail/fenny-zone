@@ -1,4 +1,6 @@
 <script lang="ts" generics="T extends (typeof apps)[keyof typeof apps]">
+	import { isEqual } from 'es-toolkit';
+	import { onMount, tick } from 'svelte';
 	import type * as apps from '$lib/apps';
 	import type RunningApp from '$lib/types/RunningApp';
 	import { focusApp, openApp, runningApps } from '$lib/windowServer.svelte';
@@ -15,6 +17,17 @@
 	const icon = options?.metadata?.icon ?? (app as any).icon ?? 'icons/placeholder.png';
 
 	let instance = $state<RunningApp>();
+
+	onMount(async () => {
+		await tick();
+		// on page load, check if a running app has the same props
+		for (const app of runningApps) {
+			if (isEqual(app.props, options?.props)) {
+				instance = app;
+				break;
+			}
+		}
+	});
 
 	function onclick() {
 		if (instance) {
@@ -79,6 +92,7 @@
 		}
 
 		/* open indicator */
+		/* TODO fade in/out? */
 		&.open::after {
 			position: fixed;
 			bottom: 1px;

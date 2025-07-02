@@ -37,7 +37,7 @@ export function openApp<T extends (typeof apps)[keyof typeof apps]>(
 	};
 
 	runningApps.push(instance);
-	return instance;
+	return runningApps.at(-1);
 }
 
 export function focusApp(app: RunningApp) {
@@ -81,7 +81,7 @@ export async function loadAppsFromQueryString() {
 		const app = apps[name as keyof typeof apps];
 		if (!app) return;
 		const options = optionString ? JSON.parse(optionString) : {};
-		await openApp(app, options);
+		openApp(app, options);
 	});
 	await Promise.all(promises);
 }
