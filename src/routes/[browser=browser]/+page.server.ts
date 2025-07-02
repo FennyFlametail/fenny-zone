@@ -1,5 +1,4 @@
-import apps from '$lib/apps.svelte';
-import type { AppName } from '$lib/types/AppTypes';
+import apps, { type AppName } from '$lib/apps.svelte';
 import { error, redirect, type LoadEvent } from '@sveltejs/kit';
 
 export function load({ route, params }: LoadEvent) {

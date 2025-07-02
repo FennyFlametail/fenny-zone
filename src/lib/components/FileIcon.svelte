@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MouseEventHandler } from 'svelte/elements';
+	import type { AppName } from '$lib/apps.svelte';
 	import { getFileIconContext } from '$lib/context';
-	import type { AppName } from '$lib/types/AppTypes';
 	import { openApp } from '$lib/components/WindowServer.svelte';
 
 	type FileIconProps = {

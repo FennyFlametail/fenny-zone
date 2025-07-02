@@ -1,7 +1,6 @@
 <script lang="ts">
-	import apps from '$lib/apps.svelte';
+	import apps, { type AppName } from '$lib/apps.svelte';
 	import { openApp, getRunningApps } from '$lib/components/WindowServer.svelte';
-	import type { AppName } from '$lib/types/AppTypes';
 
 	const {
 		appName,

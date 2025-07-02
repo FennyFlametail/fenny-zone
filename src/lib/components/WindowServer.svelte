@@ -1,7 +1,6 @@
 <script module lang="ts">
-	import apps from '$lib/apps.svelte';
+	import apps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 	import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
-	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 
 	const runningApps = $derived.by(() => {
 		if (!apps) return {};

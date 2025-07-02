@@ -29,8 +29,8 @@
 		focusApp,
 		getFocusedApp
 	} from '$lib/components/WindowServer.svelte';
+	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import { setAppContext } from '$lib/context';
-	import type { AppName, RunningApp } from '$lib/types/AppTypes';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {

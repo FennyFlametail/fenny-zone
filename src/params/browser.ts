@@ -1,5 +1,4 @@
-import apps from '$lib/apps.svelte';
-import type { AppName } from '$lib/types/AppTypes';
+import apps, { type AppName } from '$lib/apps.svelte';
 import type { ParamMatcher } from '@sveltejs/kit';
 
 const browserRoutes = Object.entries(apps)

@@ -1,4 +1,4 @@
-import type { AppEntry, AppName } from '$lib/types/AppTypes';
+import type { AppEntry, AppName } from '$lib/apps.svelte';
 import { getContext, setContext } from 'svelte';
 
 const appContextKey = {};
