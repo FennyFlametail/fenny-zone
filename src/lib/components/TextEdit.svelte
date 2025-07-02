@@ -10,7 +10,8 @@
 	});
 </script>
 
-<textarea class="textEdit" bind:value={text}></textarea>
+<!-- TODO disabled editing for now -->
+<textarea class="textEdit" bind:value={text} disabled></textarea>
 
 <style>
 	.textEdit {
