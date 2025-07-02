@@ -4,7 +4,7 @@
 	export const metadata: AppMetadata = {
 		key: 'sauce',
 		title: 'CLICK FOR SAUCE',
-		icon: 'icons/safari.png'
+		icon: 'icons/sauce.png'
 	};
 </script>
 

@@ -60,10 +60,6 @@
 		-webkit-user-select: none;
 		user-select: none;
 
-		&:active img {
-			filter: brightness(0.5);
-		}
-
 		&:hover {
 			margin-bottom: 10px;
 			width: calc(var(--icon-size) * 2);
@@ -112,6 +108,15 @@
 				black 0 1px 1px,
 				black 0 1px 3px,
 				black 0 1px 5px;
+		}
+	}
+
+	.dockIconImage {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		&:active {
+			filter: brightness(0.5);
 		}
 	}
 </style>
