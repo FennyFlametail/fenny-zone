@@ -36,6 +36,20 @@
 <style>
 	.menuCategory {
 		cursor: default;
+
+		&:not([open])::details-content {
+			content-visibility: visible;
+			transition-property: opacity, display;
+			transition-duration: 0.1s;
+			transition-behavior: allow-discrete;
+			opacity: 0;
+			display: none;
+			pointer-events: none;
+		}
+
+		&:is([open] ~ &, :global(:has(~ [open])))::details-content {
+			transition: none;
+		}
 	}
 
 	.menuName {
@@ -61,7 +75,6 @@
 		}
 	}
 
-	/* TODO fade menu when closing */
 	.menu {
 		position: absolute;
 		padding: 4px 0;
