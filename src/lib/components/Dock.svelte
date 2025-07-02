@@ -13,7 +13,6 @@
 </footer>
 
 <style>
-	/* TODO shrink if wider than window */
 	.dock {
 		--padding: 7.5px;
 		--icon-size: 64px;

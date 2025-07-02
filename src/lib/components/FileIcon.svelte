@@ -48,7 +48,6 @@
 </button>
 
 <style>
-	/* TODO better focus indicator */
 	.fileIcon {
 		display: flex;
 		flex-direction: column;
@@ -84,7 +83,6 @@
 
 		@media not (prefers-reduced-motion: reduce) {
 			.open & {
-				/* FIXME animation should show above titlebar */
 				visibility: visible;
 				animation: var(--openAnimDuration) linear iconOpen;
 			}

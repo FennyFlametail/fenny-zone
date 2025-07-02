@@ -63,8 +63,8 @@
 			return;
 		}
 
+		// placeholder
 		if (app.instance?.modified && !confirm('Discard unsaved changes?')) {
-			// TODO proper sheet for confirmation
 			return;
 		}
 

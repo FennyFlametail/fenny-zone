@@ -36,7 +36,6 @@
 </button>
 
 <style>
-	/* TODO better focus indicator */
 	.dockIcon {
 		flex-shrink: 0;
 		width: var(--icon-size);
@@ -86,7 +85,6 @@
 		}
 
 		/* open indicator */
-		/* TODO fade in/out? */
 		&.open::after {
 			position: fixed;
 			bottom: 1px;
@@ -98,7 +96,6 @@
 		}
 	}
 
-	/* TODO fade out */
 	.dockIconLabel {
 		display: none;
 

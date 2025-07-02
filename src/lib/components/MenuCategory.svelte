@@ -83,7 +83,6 @@
 
 		@media (forced-colors: active) {
 			border: 1px solid ButtonBorder;
-			/* TODO fix text color */
 			background-color: Canvas;
 		}
 

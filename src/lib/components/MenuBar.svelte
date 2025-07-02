@@ -33,10 +33,8 @@
 
 <div class="menubarShadow"></div>
 
-<!-- TODO better keyboard navigation (inert?) -->
 <header bind:this={menubar} class="menubar">
 	<MenuCategory {menubar} title="🦊" isLogo={true}>
-		<!-- TODO about screen -->
 		<MenuItem title="About This Site" onclick={() => {}} />
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
