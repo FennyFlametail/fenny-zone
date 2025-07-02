@@ -65,7 +65,7 @@
 		[open] & {
 			@media (forced-colors: none) {
 				outline: none;
-				background: var(--accent-color);
+				background-color: var(--accent-color);
 				color: white;
 			}
 		}
@@ -92,7 +92,7 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			background: white;
+			background-color: white;
 			width: 100%;
 			height: 100%;
 			content: '';

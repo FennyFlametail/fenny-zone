@@ -24,7 +24,7 @@
 <style>
 	.desktop {
 		grid-area: desktop;
-		background: gray;
+		background-color: gray;
 		background-size: cover;
 		background-position: top center;
 		display: grid;

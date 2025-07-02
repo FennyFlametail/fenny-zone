@@ -22,11 +22,11 @@
 		&:hover,
 		&:focus-within {
 			outline: none;
-			background: var(--accent-color);
+			background-color: var(--accent-color);
 			color: white;
 
 			@media (forced-colors: active) {
-				background: CanvasText;
+				background-color: CanvasText;
 				color: Canvas;
 			}
 		}

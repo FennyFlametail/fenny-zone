@@ -1,6 +1,6 @@
 :root {
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
-	--pinstripe-bg: repeating-linear-gradient(
+	--pinstripe-bg-image: repeating-linear-gradient(
 to bottom,
 			#ebecec,
 			#ebecec 2px,
@@ -20,9 +20,9 @@ to bottom,
 #root {
 	/* #region Menubar */
 	.menubar {
-		--menu-button-bg: linear-gradient(135deg, #3dadff, #1666ee);
-		--menu-item-active-bg: linear-gradient(to bottom, #237ee9, #015cd8);
-		--menu-option-active-bg: #336fcb;
+		--menu-button-bg-image: linear-gradient(135deg, #3dadff, #1666ee);
+		--menu-item-active-bg-image: linear-gradient(to bottom, #237ee9, #015cd8);
+		--menu-option-active-bg-color: #336fcb;
 		border-top: 1px solid #d9d9d9;
 		border-bottom: 1px solid #bcbcbc;
 		border-top-right-radius: 9px;
@@ -35,7 +35,7 @@ to bottom,
 		&:focus-visible,
 		[open] & {
 			@media (forced-colors: none) {
-				background: var(--menu-item-active-bg);
+				background-image: var(--menu-item-active-bg-image);
 			}
 		}
 
@@ -45,7 +45,7 @@ to bottom,
 	}
 
 	.menuLogo {
-		background: linear-gradient(135deg, #3dadff, #1666ee);
+		background-image: linear-gradient(135deg, #3dadff, #1666ee);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
@@ -53,7 +53,7 @@ to bottom,
 		.menuName:active &,
 		.menuName:focus-visible &,
 		[open] & {
-			background: linear-gradient(to top, white, white);
+			background-image: linear-gradient(to top, white, white);
 			-webkit-background-clip: text;
 			background-clip: text;
 		}
@@ -67,21 +67,21 @@ to bottom,
 		}
 
 		&::before {
-			background: var(--pinstripe-bg);
+			background-image: var(--pinstripe-bg-image);
 		}
 	}
 
 	.menuItem {
 		&:hover,
 		&:focus-within {
-			background: var(--menu-option-active-bg);
+			background-color: var(--menu-option-active-bg-color);
 		}
 	}
 	/* #endregion */
 
 	/* #region Desktop */
 	.desktop {
-		background: url('wallpaper.jpg');
+		background-image: url('wallpaper.jpg');
 		background-color: #3d6ea8;
 	}
 	/* #endregion */
@@ -91,7 +91,7 @@ to bottom,
 		border: 1px solid rgba(0, 0, 0, 0.33);
 		border-top-right-radius: 9px;
 		border-top-left-radius: 9px;
-		background: var(--pinstripe-bg);
+		background-image: var(--pinstripe-bg-image);
 	}
 
 	.windowTitlebar {
@@ -99,7 +99,7 @@ to bottom,
 		border-top-right-radius: inherit;
 		border-top-left-radius: inherit;
 		/* 1px line at bottom because border-bottom doesn't render right in Safari */
-		background: linear-gradient(
+		background-image: linear-gradient(
 to bottom,
 				#f9f9f9 1px,
 				#efefef 1px,
@@ -108,7 +108,7 @@ to bottom,
 );
 
 		.window.inactive & {
-			background: linear-gradient(
+			background-image: linear-gradient(
 to bottom,
 					transparent calc(100% - 1px),
 					#8c8c8c calc(100% - 1px)
@@ -124,7 +124,7 @@ to bottom,
 			0 1px 1px white;
 		border: none;
 		border-radius: 9999px;
-		background: radial-gradient(
+		background-image: radial-gradient(
 ellipse 60% 40% at center top,
 				white,
 				rgba(255, 255, 255, 0.8),
@@ -170,7 +170,7 @@ ellipse 60% 70% at center bottom,
 			&.modified::after {
 				position: absolute;
 				border-radius: 50%;
-				background: hsl(from var(--background-color) h s calc(l * 0.75));
+				background-color: hsl(from var(--background-color) h s calc(l * 0.75));
 				width: 8px;
 				height: 8px;
 				content: '';
@@ -225,7 +225,7 @@ ellipse 60% 70% at center bottom,
 		box-shadow: var(--widget-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
-		background: linear-gradient(to bottom, var(--button-gradient)),
+		background-image: linear-gradient(to bottom, var(--button-gradient)),
 			linear-gradient(to bottom, var(--border-gradient));
 		background-clip: padding-box, border-box;
 		padding-inline: 14px;
@@ -270,7 +270,7 @@ ellipse 60% 70% at center bottom,
 	--track-dir: right;
 	--track-gradient: #b8b8b8, #c0c0c0, #c8c8c8, #d3d3d3, #dbdbdb, #e4e4e4, #ebebeb, #ebebeb, #f1f1f1,
 		#f6f6f6, #fafafa, #fbfbfb, #fcfcfc, #f9f9f9, #f4f4f4, #efefef;
-	background: linear-gradient(to var(--track-dir), var(--track-gradient));
+	background-image: linear-gradient(to var(--track-dir), var(--track-gradient));
 }
 
 ::-webkit-scrollbar-track:horizontal {
@@ -295,7 +295,7 @@ ellipse 60% 70% at center bottom,
 
 @media (forced-colors: active) {
 	::-webkit-scrollbar-thumb {
-		background: CanvasText !important;
+		background-color: CanvasText !important;
 	}
 }
 
@@ -303,7 +303,7 @@ ellipse 60% 70% at center bottom,
 	--border-color: #8b8b8b;
 	--cap-gradient: rgba(0, 0, 0, 0.25), transparent 7.5px, transparent calc(100% - 7.5px),
 		rgba(0, 0, 0, 0.25);
-	background: linear-gradient(to var(--cap-dir), var(--cap-gradient)),
+	background-image: linear-gradient(to var(--cap-dir), var(--cap-gradient)),
 		linear-gradient(to var(--scrollbar-dir), var(--button-gradient));
 }
 

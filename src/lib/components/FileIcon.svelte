@@ -69,7 +69,7 @@
 		border-radius: 4px;
 
 		.selected & {
-			background: rgb(0 0 0 / 25%);
+			background-color: rgb(0 0 0 / 25%);
 		}
 	}
 
@@ -117,7 +117,7 @@
 		}
 
 		.selected & {
-			background: var(--accent-color);
+			background-color: var(--accent-color);
 			color: white;
 			border-radius: 9999px;
 
@@ -127,7 +127,7 @@
 			}
 
 			:global(.window.inactive) & {
-				background: rgb(0 0 0 / 20%);
+				background-color: rgb(0 0 0 / 20%);
 				color: black;
 			}
 		}

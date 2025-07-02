@@ -86,7 +86,7 @@ h6 {
 	accent-color: var(--accent-color);
 
 	::selection {
-		background: var(--selection-color);
+		background-color: var(--selection-color);
 	}
 }
 
