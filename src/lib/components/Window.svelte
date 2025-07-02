@@ -14,25 +14,27 @@
 
 <script lang="ts">
 	import { desktopPadding } from '$lib/components/Desktop.svelte';
-	import type { RunningApp } from '$lib/types/AppTypes';
-	import { closeApp, focusApp, runningApps } from '$lib/windowServer.svelte';
+	import { setAppContext } from '$lib/context';
+	import type { AppName, RunningApp } from '$lib/types/AppTypes';
+	import { closeApp, focusApp, getRunningApps } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
-	import { setContext } from 'svelte';
 
 	let {
+		appName,
 		app
 	}: {
+		appName: AppName;
 		app: RunningApp;
 	} = $props();
 
-	setContext('app', app);
+	setAppContext(appName, app);
 
 	let element = $state<HTMLElement>();
 
-	let lastX = $state(app.position.x);
-	let lastY = $state(app.position.y);
+	let lastX = $state(app.instance.position.x);
+	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app.position.zIndex === runningApps.length - 1);
+	let focused = $derived(app.instance.position.zIndex === Object.keys(getRunningApps()).length - 1);
 	export function isFocused() {
 		return focused;
 	}
@@ -51,16 +53,16 @@
 
 	function pointerMove(e: PointerEvent) {
 		if (dragging.el === element) {
-			app.position.x += e.screenX - lastX;
-			app.position.y += e.screenY - lastY;
+			app.instance.position.x += e.screenX - lastX;
+			app.instance.position.y += e.screenY - lastY;
 
-			app.position.y = Math.max(app.position.y, desktopPadding * -1);
+			app.instance.position.y = Math.max(app.instance.position.y, desktopPadding * -1);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (resizing.el === element) {
-			app.position.width += e.screenX - lastX;
-			app.position.height += e.screenY - lastY;
+			app.instance.position.width += e.screenX - lastX;
+			app.instance.position.height += e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -73,9 +75,10 @@
 	}
 
 	export function resetPosition() {
-		const zIndex = app.position.zIndex;
-		app.position = {
+		const zIndex = app.instance.position.zIndex;
+		app.instance.position = {
 			...getInitialPosition(zIndex),
+			...app.defaultSize,
 			x: 50 * zIndex,
 			y: 50 * zIndex,
 			zIndex
@@ -85,17 +88,17 @@
 
 <article
 	bind:this={element}
-	onpointerdown={() => focusApp(app)}
+	onpointerdown={() => focusApp(appName)}
 	class={['window', !focused && 'inactive']}
-	style:--x={`${app.position.x}px`}
-	style:--y={`${app.position.y}px`}
-	style:--width={`${app.position.width}px`}
-	style:--height={`${app.position.height}px`}
-	style:z-index={app.position.zIndex}
+	style:--x={`${app.instance.position.x}px`}
+	style:--y={`${app.instance.position.y}px`}
+	style:--width={`${app.instance.position.width}px`}
+	style:--height={`${app.instance.position.height}px`}
+	style:z-index={app.instance.position.zIndex}
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
-			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(app)}>
+			<button class="windowButton close" aria-label="Close" onclick={() => closeApp(appName)}>
 				<X class="windowButtonGlyph" size={14} />
 			</button>
 			<button class="windowButton minimize" aria-label="Minimize">
@@ -107,11 +110,11 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<!-- TODO window icons -->
-			<h2 class="windowTitle">{app.metadata.title}</h2>
+			<h2 class="windowTitle">{app.title}</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">
-		<app.Component bind:this={app.instance} />
+		<app.Page />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

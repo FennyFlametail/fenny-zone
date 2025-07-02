@@ -4,10 +4,13 @@
 
 <script lang="ts">
 	import Window, { dragging, resizing } from '$lib/components/Window.svelte';
-	import { runningApps, updateQueryString } from '$lib/windowServer.svelte';
+	import type { AppName } from '$lib/types/AppTypes';
+	import { getRunningApps, updateQueryString } from '$lib/windowServer.svelte';
+
+	const runningApps = $derived(getRunningApps());
 
 	// TODO this fixes windowServer.resetApps, find out why
-	$inspect(runningApps).with(() => {});
+	// $inspect(runningApps).with(() => {});
 
 	function onpointerup() {
 		setTimeout(() => updateQueryString(), 100);
@@ -18,8 +21,8 @@
 	class={['desktop', (dragging.el || resizing.el) && 'noSelect']}
 	style:padding={desktopPadding + 'px'}
 >
-	{#each runningApps as app, i (app.id)}
-		<Window bind:this={app.window} {app} />
+	{#each Object.entries(runningApps) as [appName, app], i (appName)}
+		<Window bind:this={app.instance.window} appName={appName as AppName} {app} />
 	{/each}
 </main>
 

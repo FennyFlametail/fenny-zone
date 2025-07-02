@@ -1,48 +1,24 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
-	import type { App, RunningApp } from '$lib/types/AppTypes';
-	import { focusApp, openApp, runningApps } from '$lib/windowServer.svelte';
+	import type { AppEntry, AppName } from '$lib/types/AppTypes';
+	import { focusApp, openApp, getRunningApps } from '$lib/windowServer.svelte';
 
 	const {
+		appName,
 		app
 	}: {
-		app: App;
+		appName: AppName;
+		app: AppEntry;
 	} = $props();
 
-	let instance = $state<RunningApp>();
-
-	onMount(async () => {
-		await tick();
-		// on page load, check if there is a running instance of the app
-		for (const runningApp of runningApps) {
-			if (runningApp.Component === app.default) {
-				instance = runningApp;
-				break;
-			}
-		}
-	});
-
 	function onclick() {
-		if (instance) {
-			focusApp(instance);
-		} else {
-			instance = openApp(app);
-		}
-	}
-
-	function onAppClose(e: CustomEvent<RunningApp>) {
-		if (e.detail.id === instance?.id) {
-			instance = undefined;
-		}
+		getRunningApps()[appName] ? focusApp(appName) : openApp(appName);
 	}
 </script>
 
-<button class={['dockIcon', { open: instance }]} {onclick}>
-	<span class="dockIconLabel">{app.metadata.title}</span>
-	<img src={app.metadata.icon} alt={app.metadata.title} class="dockIconImage" draggable="false" />
+<button class={['dockIcon', { open: getRunningApps()[appName] }]} {onclick}>
+	<span class="dockIconLabel">{app.title}</span>
+	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
 </button>
-
-<svelte:window {onAppClose} />
 
 <style>
 	/* TODO better focus indicator */

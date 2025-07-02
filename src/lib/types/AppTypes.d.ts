@@ -1,25 +1,25 @@
-import type apps from '$lib/apps';
-import type { default as Window, Position } from '$lib/components/Window.svelte';
+import type apps from '$lib/apps.svelte';
+import type { Position, default as Window } from '$lib/components/Window.svelte';
+import type { Component } from 'svelte';
 
-export type App = (typeof apps)[number];
-
-export interface AppMetadata {
-	key: string;
+export interface AppEntry {
+	Page: Component<any>;
+	/** the browser page will redirect to this URL if you visit the route directly */
+	url?: string;
 	title: string;
 	icon: string;
-	size?: {
+	defaultSize?: {
 		/** @default 500 */
 		width?: number;
 		/** @default 500 */
 		height?: number;
 	};
+	instance?: {
+		window?: Window;
+		position: Position;
+	};
 }
 
-export interface RunningApp {
-	id: string;
-	Component: App['default'];
-	metadata: AppMetadata;
-	window?: Window;
-	position: Position;
-	instance?: Record<string, unknown>;
-}
+export type AppName = keyof typeof apps;
+
+export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };

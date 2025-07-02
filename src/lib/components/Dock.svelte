@@ -1,11 +1,12 @@
 <script lang="ts">
-	import apps from '$lib/apps';
+	import apps from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
+	import type { AppName } from '$lib/types/AppTypes';
 </script>
 
 <footer class="dock">
-	{#each apps as app}
-		<DockIcon {app} />
+	{#each Object.entries(apps) as [appName, app]}
+		<DockIcon appName={appName as AppName} {app} />
 	{/each}
 </footer>
 
