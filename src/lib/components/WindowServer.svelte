@@ -26,6 +26,7 @@
 					...position
 				}
 			};
+			desktopFocused = false;
 		}
 		return app.instance;
 	}
