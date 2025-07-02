@@ -3,7 +3,7 @@ import { replaceState } from '$app/navigation';
 import { page } from '$app/state';
 import apps from '$lib/apps';
 import { getInitialPosition, type Position } from '$lib/components/Window.svelte';
-import type { App, RunningApp } from '$lib/types/App';
+import type { App, RunningApp } from '$lib/types/AppTypes';
 
 export const runningApps: RunningApp[] = $state([]);
 

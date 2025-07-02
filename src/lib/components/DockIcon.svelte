@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import type { App, RunningApp } from '$lib/types/App';
+	import type { App, RunningApp } from '$lib/types/AppTypes';
 	import { focusApp, openApp, runningApps } from '$lib/windowServer.svelte';
 
 	const {
