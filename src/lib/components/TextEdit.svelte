@@ -6,11 +6,10 @@
 
 	const initialText = text;
 	$effect(() => {
-		app.modified = text !== initialText;
+		app.instance!.modified = text !== initialText;
 	});
 </script>
 
-<!-- TODO disabled editing for now -->
 <textarea class="textEdit" bind:value={text} disabled></textarea>
 
 <style>

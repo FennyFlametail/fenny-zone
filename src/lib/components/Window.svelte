@@ -108,7 +108,7 @@
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
 			<button
-				class={['windowButton', 'close', app.modified && 'modified']}
+				class={['windowButton', 'close', app.instance?.modified && 'modified']}
 				aria-label="Close"
 				onclick={() => closeApp(appName)}
 				onpointerdown={blockDrag}

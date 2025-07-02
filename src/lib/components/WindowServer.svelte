@@ -47,7 +47,7 @@
 			return;
 		}
 
-		if (app.modified && !confirm('Discard unsaved changes?')) {
+		if (app.instance?.modified && !confirm('Discard unsaved changes?')) {
 			// TODO proper sheet for confirmation
 			return;
 		}
