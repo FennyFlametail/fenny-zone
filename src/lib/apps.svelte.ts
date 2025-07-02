@@ -7,11 +7,11 @@ const apps = $state({
 	characters: {
 		Page: CharactersPage,
 		title: 'Characters',
-		icon: 'icons/finder.png'
+		icon: 'icons/folder-characters.png'
 	},
 	readme: {
 		Page: ReadmePage,
-		title: 'README',
+		title: 'Readme',
 		icon: 'icons/textedit.png'
 	},
 	toddspin: {
