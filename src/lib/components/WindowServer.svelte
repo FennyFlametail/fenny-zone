@@ -64,9 +64,9 @@
 		}
 
 		// placeholder
-		if (app.instance?.modified && !confirm('Discard unsaved changes?')) {
-			return;
-		}
+		// if (app.instance?.modified && !confirm('Discard unsaved changes?')) {
+		// 	return;
+		// }
 
 		const oldZIndex = app.instance.position.zIndex;
 		app.instance = undefined;

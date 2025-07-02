@@ -10,7 +10,7 @@
 	});
 </script>
 
-<textarea class="textEdit" bind:value={text} disabled></textarea>
+<textarea class="textEdit" bind:value={text}></textarea>
 
 <style>
 	.textEdit {
