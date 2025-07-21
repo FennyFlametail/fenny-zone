@@ -1,6 +1,7 @@
 <script lang="ts">
 	import apps, { type AppName } from '$lib/apps.svelte';
 	import { getRunningApps, openApp } from '$lib/components/WindowServer.svelte';
+	import type { MouseEventHandler } from 'svelte/elements';
 
 	const {
 		appName,
@@ -11,9 +12,10 @@
 	} = $props();
 
 	const app = apps[appName];
-	function onclick() {
+	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+		e.preventDefault();
 		openApp(appName);
-	}
+	};
 
 	const isOpen = $derived.by(() => {
 		if (typeof open === 'boolean') return open;
@@ -22,16 +24,17 @@
 	});
 </script>
 
-<button class={['dockIcon', { open: isOpen }]} {onclick}>
+<a class={['dockIcon', { open: isOpen }]} {onclick} href={app.route}>
 	<span class="dockIconLabel">{app.title}</span>
 	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
-</button>
+</a>
 
 <style>
 	.dockIcon {
 		flex-shrink: 0;
 		width: var(--icon-size);
 		height: var(--icon-size);
+		text-align: center;
 		position: relative;
 		box-sizing: content-box;
 		padding: 0 calc(var(--padding) / 2);
@@ -39,6 +42,7 @@
 		border: none;
 		transition: 0.25s ease;
 		transition-property: width, height, margin-bottom;
+		cursor: default;
 		-webkit-user-select: none;
 		user-select: none;
 
