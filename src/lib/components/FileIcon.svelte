@@ -29,38 +29,36 @@
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
-	let isOpen = $state(false);
+	let launching = $state(false);
 	const openAnimDuration = 200;
 
-	const onclick: MouseEventHandler<HTMLButtonElement | HTMLLinkElement> = (e) => {
-		if (href) e.preventDefault();
+	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+		e.preventDefault();
 		setSelectedIcon(identifier);
 	};
 
-	const ondblclick: MouseEventHandler<HTMLButtonElement> = (e) => {
-		isOpen = true;
-		window.setTimeout(() => (isOpen = false), openAnimDuration);
+	const ondblclick: MouseEventHandler<HTMLAnchorElement> = () => {
+		launching = true;
+		window.setTimeout(() => (launching = false), openAnimDuration);
 		href ? open(href, '_blank') : openApp(appName!);
 	};
 </script>
 
-<svelte:element
-	this={href ? 'a' : 'button'}
-	role={href ? 'link' : 'button'}
+<a
 	class={[
 		'fileIcon',
-		{ selected: getSelectedIcon() === identifier, open: isOpen, desktopIcon: isDesktop }
+		{ selected: getSelectedIcon() === identifier, launching, desktopIcon: isDesktop }
 	]}
 	{onclick}
 	{ondblclick}
-	href={href ?? undefined}
-	target={href ? '_blank' : undefined}
+	href={href ?? app?.route}
+	target="_blank"
 >
 	<div class="fileIconImageWrapper">
-		<img class="fileIconImage" src={app?.icon ?? icon} alt={app?.title ?? name} draggable="false" />
+		<img class="fileIconImage" src={icon ?? app?.icon} alt={name ?? app?.title} draggable="false" />
 		<img
 			class="fileIconImage fileIconImageZoom"
-			src={app?.icon ?? icon}
+			src={icon ?? app?.icon}
 			alt=""
 			draggable="false"
 			style:--openAnimDuration={`${openAnimDuration}ms`}
@@ -69,8 +67,8 @@
 			<img class="aliasIcon" src="icons/alias.png" alt="" draggable="false" />
 		{/if}
 	</div>
-	<div class="fileIconLabel">{app?.title ?? name}</div>
-</svelte:element>
+	<div class="fileIconLabel">{name ?? app?.title}</div>
+</a>
 
 <style>
 	.fileIcon {
@@ -111,7 +109,7 @@
 		opacity: 0.5;
 
 		@media not (prefers-reduced-motion: reduce) {
-			.open & {
+			.launching & {
 				visibility: visible;
 				animation: var(--openAnimDuration) linear iconOpen;
 			}
