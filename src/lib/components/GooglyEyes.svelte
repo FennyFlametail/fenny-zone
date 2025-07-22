@@ -1,6 +1,8 @@
 <script lang="ts">
-	let container: HTMLDivElement;
-	let eyes = [] as unknown as [HTMLDivElement, HTMLDivElement];
+	import { browser } from '$app/environment';
+
+	let container = $state<HTMLDivElement>();
+	let eyes = $state([]) as unknown as [HTMLDivElement, HTMLDivElement];
 
 	function findEyeCenter() {
 		eyes.forEach((eye) => {
@@ -13,8 +15,8 @@
 	$effect(findEyeCenter);
 
 	function onpointermove(e: PointerEvent) {
-		container.style.setProperty('--mouseX', `${e.clientX}px`);
-		container.style.setProperty('--mouseY', `${e.clientY}px`);
+		container!.style.setProperty('--mouseX', `${e.clientX}px`);
+		container!.style.setProperty('--mouseY', `${e.clientY}px`);
 	}
 
 	let blink = $state(false);
@@ -32,10 +34,12 @@
 	}
 </script>
 
-<div class={['container', { blink }]} bind:this={container}>
-	<div class="eye" bind:this={eyes[0]}></div>
-	<div class="eye" bind:this={eyes[1]}></div>
-</div>
+{#if browser}
+	<div class={['container', { blink }]} bind:this={container}>
+		<div class="eye" bind:this={eyes[0]}></div>
+		<div class="eye" bind:this={eyes[1]}></div>
+	</div>
+{/if}
 
 <svelte:window onresize={findEyeCenter} />
 <svelte:body {onpointermove} {onmousedown} />
