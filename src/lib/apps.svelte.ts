@@ -1,13 +1,13 @@
 import type { Component } from 'svelte';
 import Window, { type Position } from '$lib/components/Window.svelte';
-import BrowserPage from '../routes/[browser=browser]/+page.svelte';
-import CharactersPage from '../routes/characters/+page.svelte';
-import FennyPage from '../routes/characters/fenny/+page.svelte';
-import ArenPage from '../routes/characters/aren/+page.svelte';
-import CephPage from '../routes/characters/ceph/+page.svelte';
-import NocturnePage from '../routes/characters/nocturne/+page.svelte';
-import ProjectsPage from '../routes/projects/+page.svelte';
-import ReadmePage from '../routes/readme/+page.svelte';
+import Browser from '$lib/components/apps/Browser.svelte';
+import Characters from '$lib/components/pages/Characters.svelte';
+import Fenny from '$lib/components/pages/characters/Fenny.svelte';
+import Aren from '$lib/components/pages/characters/Aren.svelte';
+import Ceph from '$lib/components/pages/characters/Ceph.svelte';
+import Nocturne from '$lib/components/pages/characters/Nocturne.svelte';
+import Projects from '$lib/components/pages/Projects.svelte';
+import Readme from '$lib/components/pages/Readme.svelte';
 
 export interface AppEntry {
 	/** Page doesn't matter for parent apps */
@@ -18,9 +18,9 @@ export interface AppEntry {
 	parent?: keyof typeof apps;
 	title: string;
 	icon: string;
-	/** Route doesn't matter for parent apps or browser pages */
+	/** Route doesn't matter for parent apps */
 	route: string;
-	/** Apps using the browser page will redirect to this URL if you visit the route directly */
+	/** Used for the Browser component */
 	url?: string;
 	defaultSize?: {
 		/** @default 500 */
@@ -38,75 +38,76 @@ export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] }
 
 const apps = $state({
 	Finder: {
-		Page: ReadmePage,
+		// FIXME remove unnecessary Page from parents
+		Page: Readme,
 		isParent: true,
 		title: 'Finder',
-		icon: 'icons/finder.png',
+		icon: '/icons/finder.png',
 		route: ''
 	},
 	TextEdit: {
-		Page: ReadmePage,
+		Page: Readme,
 		isParent: true,
 		title: 'TextEdit',
-		icon: 'icons/textedit.png',
+		icon: '/icons/textedit.png',
 		route: ''
 	},
 	Trash: {
-		Page: ReadmePage,
+		Page: Readme,
 		isParent: true,
 		title: 'Trash',
-		icon: 'icons/trash.png',
+		icon: '/icons/trash.png',
 		route: ''
 	},
 	readme: {
 		parent: 'TextEdit',
-		Page: ReadmePage,
+		Page: Readme,
 		title: 'Readme',
-		icon: 'icons/txt.png',
+		icon: '/icons/txt.png',
 		route: 'readme'
 	},
 	characters: {
 		parent: 'Finder',
-		Page: CharactersPage,
+		Page: Characters,
 		title: 'Characters',
-		icon: 'icons/folder-characters.png',
+		icon: '/icons/folder-characters.png',
 		route: 'characters'
 	},
 	fenny: {
-		Page: FennyPage,
+		Page: Fenny,
 		title: 'Fenny',
-		icon: 'icons/fenny.png',
+		icon: '/icons/fenny.png',
 		route: 'characters/fenny'
 	},
 	aren: {
-		Page: ArenPage,
+		Page: Aren,
 		title: 'Aren',
-		icon: 'icons/aren.png',
+		icon: '/icons/aren.png',
 		route: 'characters/aren'
 	},
 	ceph: {
-		Page: CephPage,
+		Page: Ceph,
 		title: 'Ceph',
-		icon: 'icons/ceph.png',
+		icon: '/icons/ceph.png',
 		route: 'characters/ceph'
 	},
 	nocturne: {
-		Page: NocturnePage,
+		Page: Nocturne,
 		title: 'Nocturne',
-		icon: 'icons/nocturne.png',
+		icon: '/icons/nocturne.png',
 		route: 'characters/nocturne'
 	},
 	projects: {
 		parent: 'Finder',
-		Page: ProjectsPage,
+		Page: Projects,
 		title: 'Projects',
-		icon: 'icons/folder-projects.png',
+		icon: '/icons/folder-projects.png',
 		route: 'projects'
 	},
 	toddspin: {
-		Page: BrowserPage,
+		Page: Browser,
 		title: 'Toddspin',
-		icon: 'icons/toddspin.png',
+		icon: '/icons/toddspin.png',
 		route: 'toddspin',
 		defaultSize: {
 			height: 800
@@ -114,9 +115,9 @@ const apps = $state({
 		url: 'https://toddspin.fenny.zone'
 	},
 	sauce: {
-		Page: BrowserPage,
+		Page: Browser,
 		title: 'CLICK FOR SAUCE',
-		icon: 'icons/sauce.png',
+		icon: '/icons/sauce.png',
 		route: 'sauce',
 		defaultSize: {
 			width: 600
@@ -124,9 +125,9 @@ const apps = $state({
 		url: 'https://sauce.fenny.zone'
 	},
 	goat: {
-		Page: BrowserPage,
+		Page: Browser,
 		title: 'Goat Game',
-		icon: 'icons/goat.png',
+		icon: '/icons/goat.png',
 		route: 'goat',
 		defaultSize: {
 			height: 800

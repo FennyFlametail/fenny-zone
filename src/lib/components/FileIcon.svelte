@@ -64,7 +64,7 @@
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
 		{#if href}
-			<img class="aliasIcon" src="icons/alias.png" alt="" draggable="false" />
+			<img class="aliasIcon" src="/icons/alias.png" alt="" draggable="false" />
 		{/if}
 	</div>
 	<div class="fileIconLabel">{name ?? app?.title}</div>

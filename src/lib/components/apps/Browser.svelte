@@ -4,12 +4,11 @@
 	import { focusApp, getFocusedApp } from '$lib/components/WindowServer.svelte';
 
 	const { appName, app } = getAppContext();
-	let { src }: { src: string } = $props();
 
 	let isFocused = $derived(app === getFocusedApp().app);
 </script>
 
-<iframe {src} title={app.title}></iframe>
+<iframe src={app.url} title={app.title}></iframe>
 <div
 	class={[
 		'cover',

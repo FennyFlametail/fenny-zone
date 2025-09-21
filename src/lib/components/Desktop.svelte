@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
-	import { focusDesktop, openApp } from '$lib/components/WindowServer.svelte';
+	import { focusDesktop } from '$lib/components/WindowServer.svelte';
 	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
 	const { onClickIconContainer } = setupFileIconContainer(true);
 
@@ -14,16 +14,16 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
 	<FileIcon appName="readme" />
-	<FileIcon name="Bluesky" icon="icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
+	<FileIcon name="Bluesky" icon="/icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
-		icon="icons/furaffinity.png"
+		icon="/icons/furaffinity.png"
 		href="https://www.furaffinity.net/user/fuzzyfennekin"
 	/>
-	<FileIcon name="Telegram" icon="icons/telegram.png" href="https://t.me/FennyFlametail" />
+	<FileIcon name="Telegram" icon="/icons/telegram.png" href="https://t.me/FennyFlametail" />
 	<FileIcon
 		name="HowLongToBeat"
-		icon="icons/hltb.png"
+		icon="/icons/hltb.png"
 		href="https://howlongtobeat.com/user/FennyFlametail/"
 	/>
 </div>

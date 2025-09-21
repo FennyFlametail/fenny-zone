@@ -1,7 +1,9 @@
 <script lang="ts">
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
-	const { children } = $props();
+	import type { LayoutProps } from './$types';
+
+	const { children, data }: LayoutProps = $props();
 </script>
 
 {@render children()}
