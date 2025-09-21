@@ -1,6 +1,6 @@
 <script lang="ts">
 	import apps, { type AppName } from '$lib/apps.svelte';
-	import { getRunningApps, openApp } from '$lib/components/WindowServer.svelte';
+	import { getRunningApps, openApp } from '$lib/windowServer.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	const {

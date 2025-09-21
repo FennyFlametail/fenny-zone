@@ -1,32 +1,7 @@
-<script module lang="ts">
-	interface Size {
-		width?: number;
-		height?: number;
-	}
-
-	export const getInitialPosition = (initialSize: Size | undefined, zIndex: number) => {
-		const width = initialSize?.width ?? 500;
-		const height = initialSize?.height ?? 500;
-
-		return {
-			x: Math.max(window.innerWidth / 2 - width / 2, 0),
-			y: Math.max(window.innerHeight / 2 - height * 0.75, 0),
-			width,
-			height,
-			zIndex
-		};
-	};
-
-	export type Position = ReturnType<typeof getInitialPosition>;
-
-	export const dragging: { el?: HTMLElement } = $state({});
-	export const resizing: { el?: HTMLElement } = $state({});
-</script>
-
 <script lang="ts">
-	import { closeApp, focusApp, getFocusedApp } from '$lib/components/WindowServer.svelte';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import { setAppContext } from '$lib/context';
+	import { closeApp, dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	let {

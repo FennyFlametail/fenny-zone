@@ -3,8 +3,8 @@
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
 	import MenuItem from '$lib/components/MenuItem.svelte';
-	import { closeAll, arrangeWindows } from '$lib/components/WindowServer.svelte';
 	import { setMenubarContext } from '$lib/context';
+	import { arrangeWindows, closeAll } from '$lib/windowServer.svelte';
 
 	let menubar = $state<HTMLElement>();
 

@@ -2,7 +2,8 @@
 	import Desktop from '$lib/components/Desktop.svelte';
 	import Dock from '$lib/components/Dock.svelte';
 	import MenuBar from '$lib/components/MenuBar.svelte';
-	import WindowServer, { loadState } from '$lib/components/WindowServer.svelte';
+	import WindowLayer from '$lib/components/WindowLayer.svelte';
+	import { loadState } from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
 
 	onMount(loadState);
@@ -10,5 +11,5 @@
 
 <MenuBar />
 <Desktop />
-<WindowServer />
+<WindowLayer />
 <Dock />

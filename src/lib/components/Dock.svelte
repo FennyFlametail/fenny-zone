@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type AppName } from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
-	import { getRunningApps } from '$lib/components/WindowServer.svelte';
+	import { getRunningApps } from '$lib/windowServer.svelte';
 
 	const appsByParent = $derived(
 		Map.groupBy(Object.entries(getRunningApps()), ([, app]) => app.parent)

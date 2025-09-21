@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context';
-	import { dragging, resizing } from '$lib/components/Window.svelte';
-	import { focusApp, getFocusedApp } from '$lib/components/WindowServer.svelte';
+	import { dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
 
 	const { appName, app } = getAppContext();
 
