@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
@@ -20,9 +21,11 @@
 		if (initialApp) {
 			openApp(initialApp);
 			saveState();
-			goto('/', {
-				replaceState: true
-			});
+			if (!dev) {
+				goto('/', {
+					replaceState: true
+				});
+			}
 		} else {
 			loadState();
 		}
