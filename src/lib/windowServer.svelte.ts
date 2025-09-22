@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import apps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 
 // FIXME fixes a build error - see FileIcon.svelte
@@ -59,7 +60,7 @@ export function openApp(appName: AppName, position?: Partial<Position>) {
 		};
 		desktopFocused = false;
 	}
-	return app.instance;
+	return app;
 }
 
 export function focusApp(appName: AppName) {
@@ -158,9 +159,12 @@ export const getInitialPosition = (initialSize: Size | undefined, zIndex: number
 	const width = initialSize?.width ?? 500;
 	const height = initialSize?.height ?? 500;
 
+	const innerWidth = browser ? window.innerWidth : 0;
+	const innerHeight = browser ? window.innerHeight : 0;
+
 	return {
-		x: Math.max(window.innerWidth / 2 - width / 2, 0),
-		y: Math.max(window.innerHeight / 2 - height * 0.75, 0),
+		x: Math.max(innerWidth / 2 - width / 2, 0),
+		y: Math.max(innerHeight / 2 - height * 0.75, 0),
 		width,
 		height,
 		zIndex

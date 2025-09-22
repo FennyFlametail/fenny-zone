@@ -46,51 +46,51 @@ const apps = $state<Record<AppName, AppEntry>>({
 		Page: Readme,
 		title: 'Readme',
 		icon: '/icons/txt.png',
-		route: 'readme'
+		route: '/readme'
 	},
 	characters: {
 		parent: 'Finder',
 		Page: Characters,
 		title: 'Characters',
 		icon: '/icons/folder-characters.png',
-		route: 'characters'
+		route: '/characters'
 	},
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
 		icon: '/icons/fenny.png',
-		route: 'characters/fenny'
+		route: '/characters/fenny'
 	},
 	aren: {
 		Page: Aren,
 		title: 'Aren',
 		icon: '/icons/aren.png',
-		route: 'characters/aren'
+		route: '/characters/aren'
 	},
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
 		icon: '/icons/ceph.png',
-		route: 'characters/ceph'
+		route: '/characters/ceph'
 	},
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
 		icon: '/icons/nocturne.png',
-		route: 'characters/nocturne'
+		route: '/characters/nocturne'
 	},
 	projects: {
 		parent: 'Finder',
 		Page: Projects,
 		title: 'Projects',
 		icon: '/icons/folder-projects.png',
-		route: 'projects'
+		route: '/projects'
 	},
 	toddspin: {
 		Page: Browser,
 		title: 'Toddspin',
 		icon: '/icons/toddspin.png',
-		route: 'toddspin',
+		route: '/toddspin',
 		defaultSize: {
 			height: 800
 		},
@@ -100,7 +100,7 @@ const apps = $state<Record<AppName, AppEntry>>({
 		Page: Browser,
 		title: 'CLICK FOR SAUCE',
 		icon: '/icons/sauce.png',
-		route: 'sauce',
+		route: '/sauce',
 		defaultSize: {
 			width: 600
 		},
@@ -110,7 +110,7 @@ const apps = $state<Record<AppName, AppEntry>>({
 		Page: Browser,
 		title: 'Goat Game',
 		icon: '/icons/goat.png',
-		route: 'goat',
+		route: '/goat',
 		defaultSize: {
 			height: 800
 		},

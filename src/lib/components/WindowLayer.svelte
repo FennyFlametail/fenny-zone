@@ -1,9 +1,32 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
-	import { dragging, getRunningApps, resizing, saveState } from '$lib/windowServer.svelte';
+	import {
+		dragging,
+		getRunningApps,
+		loadState,
+		openApp,
+		resizing,
+		saveState
+	} from '$lib/windowServer.svelte';
+	import { onMount } from 'svelte';
+
+	const { initialApp }: { initialApp?: AppName } = $props();
 
 	const runningApps = $derived(getRunningApps());
+
+	onMount(() => {
+		if (initialApp) {
+			openApp(initialApp);
+			saveState();
+			goto('/', {
+				replaceState: true
+			});
+		} else {
+			loadState();
+		}
+	});
 
 	function onpointerup() {
 		setTimeout(() => saveState(), 100);

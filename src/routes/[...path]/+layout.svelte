@@ -3,7 +3,7 @@
 	import '$lib/styles/Aqua.css';
 	import type { LayoutProps } from './$types';
 
-	const { children, data }: LayoutProps = $props();
+	const { children }: LayoutProps = $props();
 </script>
 
 {@render children()}
