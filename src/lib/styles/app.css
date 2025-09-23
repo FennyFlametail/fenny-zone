@@ -72,10 +72,19 @@ h6 {
 
 /* My styles */
 
+@property --dock-height {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 0;
+}
+
 :root {
 	--accent-color: blue;
 	--selection-color: lightskyblue;
 	--menubar-height: 30px;
+	--dock-padding: 7.5px;
+	--dock-icon-size: 64px;
+	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 	--label-shadow:

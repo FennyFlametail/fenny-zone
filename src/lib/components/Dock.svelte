@@ -30,8 +30,8 @@
 
 <style>
 	.dock {
-		--padding: 7.5px;
-		--icon-size: 64px;
+		--padding: var(--dock-padding);
+		--icon-size: var(--dock-icon-size);
 		z-index: 10000;
 		position: fixed;
 		bottom: 0;
@@ -39,7 +39,7 @@
 		translate: -50%;
 		display: flex;
 		gap: 1px;
-		height: calc(var(--icon-size) + var(--padding) * 2);
+		height: var(--dock-height);
 		box-shadow: 0 0 0 1px #00000026;
 	}
 

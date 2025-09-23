@@ -179,11 +179,15 @@ export const getInitialPosition = (initialPosition?: Partial<Position>) => {
 	const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
 	const y = initialPosition?.y ?? innerHeight / 2 - height * 0.75;
 
+	const root = getComputedStyle(document.documentElement);
+	const menubarHeight = parseInt(root.getPropertyValue('--menubar-height'));
+	const dockHeight = parseInt(root.getPropertyValue('--dock-height'));
+
 	return {
 		x: Math.min(Math.max(x, 0), innerWidth),
 		y: Math.min(Math.max(y, 0), innerHeight),
 		width: Math.min(width, innerWidth),
-		height: Math.min(height, innerHeight),
+		height: Math.min(height, innerHeight - menubarHeight - dockHeight),
 		zIndex: initialPosition?.zIndex ?? 0
 	};
 };
