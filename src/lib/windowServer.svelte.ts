@@ -53,10 +53,11 @@ export function openApp(appName: AppName, position?: Partial<Position>) {
 		focusApp(appName);
 	} else {
 		app.instance = {
-			position: {
-				...getInitialPosition(app.defaultSize, Object.keys(runningApps).length),
+			position: getInitialPosition({
+				...app.defaultSize,
+				zIndex: Object.keys(runningApps).length,
 				...position
-			}
+			})
 		};
 		desktopFocused = false;
 	}
@@ -111,11 +112,12 @@ export function arrangeWindows() {
 	Object.values(runningApps)
 		.sort((a, b) => a.instance.position.zIndex - b.instance.position.zIndex)
 		.forEach((app, index) => {
-			app.instance.position = {
-				...getInitialPosition(app.defaultSize, app.instance.position.zIndex),
+			app.instance.position = getInitialPosition({
+				...app.defaultSize,
 				x: 25 * (index + 1),
-				y: 25 * (index + 1)
-			};
+				y: 25 * (index + 1),
+				zIndex: app.instance.position.zIndex
+			});
 		});
 }
 
@@ -150,28 +152,31 @@ export function saveState() {
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-interface Size {
-	width?: number;
-	height?: number;
+export interface Position {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	zIndex: number;
 }
 
-export const getInitialPosition = (initialSize: Size | undefined, zIndex: number) => {
-	const width = initialSize?.width ?? 500;
-	const height = initialSize?.height ?? 500;
-
+export const getInitialPosition = (initialPosition?: Partial<Position>) => {
 	const innerWidth = browser ? window.innerWidth : 0;
 	const innerHeight = browser ? window.innerHeight : 0;
 
+	const width = initialPosition?.width ?? 500;
+	const height = initialPosition?.height ?? 500;
+	const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
+	const y = initialPosition?.y ?? innerHeight / 2 - height * 0.75;
+
 	return {
-		x: Math.max(innerWidth / 2 - width / 2, 0),
-		y: Math.max(innerHeight / 2 - height * 0.75, 0),
-		width,
-		height,
-		zIndex
+		x: Math.min(Math.max(x, 0), innerWidth),
+		y: Math.min(Math.max(y, 0), innerHeight),
+		width: Math.min(width, innerWidth),
+		height: Math.min(height, innerHeight),
+		zIndex: initialPosition?.zIndex ?? 0
 	};
 };
-
-export type Position = ReturnType<typeof getInitialPosition>;
 
 export const dragging: { el?: HTMLElement } = $state({});
 export const resizing: { el?: HTMLElement } = $state({});
