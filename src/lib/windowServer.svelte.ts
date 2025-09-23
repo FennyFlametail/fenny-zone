@@ -6,8 +6,11 @@ export { default as apps } from '$lib/apps.svelte';
 
 const runningApps = $derived.by(() => {
 	if (!apps) return {};
-	// FIXME this doesn't take launch order into account
-	return Object.fromEntries(Object.entries(apps).filter(([, app]) => app.instance));
+	return Object.fromEntries(
+		Object.entries(apps)
+			.filter(([, app]) => app.instance)
+			.sort(([, appA], [, appB]) => appA.instance!.launchOrder - appB.instance!.launchOrder)
+	);
 }) as Readonly<Record<AppName, RunningApp>>;
 export const getRunningApps = () => runningApps;
 
@@ -42,6 +45,8 @@ export function getFocusedApp(): {
 	};
 }
 
+let launchCount = 0;
+
 export function openApp(appName: AppName, position?: Partial<Position>) {
 	const app = apps[appName];
 	const childApps = Object.entries(runningApps)
@@ -61,7 +66,8 @@ export function openApp(appName: AppName, position?: Partial<Position>) {
 				...app.defaultSize,
 				zIndex: Object.keys(runningApps).length,
 				...position
-			})
+			}),
+			launchOrder: launchCount++
 		};
 		desktopFocused = false;
 	}

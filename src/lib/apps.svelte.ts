@@ -43,6 +43,7 @@ export interface AppEntry {
 	instance?: {
 		window?: Window;
 		position: Position;
+		launchOrder: number;
 		modified?: boolean;
 	};
 }
