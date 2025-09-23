@@ -1,6 +1,6 @@
 <script lang="ts">
 	import apps, { type AppName } from '$lib/apps.svelte';
-	import { getRunningApps, openApp } from '$lib/windowServer.svelte';
+	import { getAppsByParent, openApp } from '$lib/windowServer.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	const {
@@ -19,8 +19,7 @@
 
 	const isOpen = $derived.by(() => {
 		if (typeof open === 'boolean') return open;
-		if (app.isParent) return Object.values(getRunningApps()).some((app) => app.parent === appName);
-		return Object.keys(getRunningApps()).includes(appName);
+		return getAppsByParent().get(appName)?.length;
 	});
 </script>
 

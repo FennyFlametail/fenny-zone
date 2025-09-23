@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import { setAppContext } from '$lib/context';
 	import { closeApp, dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
@@ -90,7 +91,11 @@
 			</button>
 		</div>
 		<hgroup class="windowTitleSection">
-			<h2 class="windowTitle">{app.title}</h2>
+			<h2 class="windowTitle">
+				{app.title}{dev
+					? ` - ${Math.round(app.instance.position.width)}x${Math.round(app.instance.position.height)}`
+					: null}
+			</h2>
 		</hgroup>
 	</header>
 	<div class="windowContent">

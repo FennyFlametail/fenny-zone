@@ -25,19 +25,40 @@ export type AppName =
 	| 'sauce'
 	| 'goat';
 
+export interface AppEntry {
+	Page?: Component<any>;
+	title: string;
+	icon: string;
+	route?: string;
+	/** Apps will be grouped by their parent icon in the Dock */
+	parent?: AppName;
+	/** Used for the Browser component */
+	url?: string;
+	defaultSize?: {
+		/** @default 500 */
+		width?: number;
+		/** @default 500 */
+		height?: number;
+	};
+	instance?: {
+		window?: Window;
+		position: Position;
+		modified?: boolean;
+	};
+}
+
+export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
+
 const apps = $state<Record<AppName, AppEntry>>({
 	Finder: {
-		isParent: true,
 		title: 'Finder',
 		icon: '/icons/finder.png'
 	},
 	TextEdit: {
-		isParent: true,
 		title: 'TextEdit',
 		icon: '/icons/textedit.png'
 	},
 	Trash: {
-		isParent: true,
 		title: 'Trash',
 		icon: '/icons/trash.png'
 	},
@@ -91,65 +112,30 @@ const apps = $state<Record<AppName, AppEntry>>({
 		title: 'Toddspin',
 		icon: '/icons/toddspin.png',
 		route: '/toddspin',
+		url: 'https://toddspin.fenny.zone',
 		defaultSize: {
 			height: 800
-		},
-		url: 'https://toddspin.fenny.zone'
+		}
 	},
 	sauce: {
 		Page: Browser,
 		title: 'CLICK FOR SAUCE',
 		icon: '/icons/sauce.png',
 		route: '/sauce',
+		url: 'https://sauce.fenny.zone',
 		defaultSize: {
 			width: 600
-		},
-		url: 'https://sauce.fenny.zone'
+		}
 	},
 	goat: {
 		Page: Browser,
 		title: 'Goat Game',
 		icon: '/icons/goat.png',
 		route: '/goat',
+		url: 'https://monty-hall.fenny.zone',
 		defaultSize: {
 			height: 800
-		},
-		url: 'https://monty-hall.fenny.zone'
+		}
 	}
 });
 export default apps;
-
-export type AppEntry = {
-	/** Parent apps can't be launched directly */
-	isParent?: boolean;
-	/** Apps will be grouped by their parent icon in the Dock */
-	parent?: AppName;
-	title: string;
-	icon: string;
-	/** Used for the Browser component */
-	url?: string;
-	defaultSize?: {
-		/** @default 500 */
-		width?: number;
-		/** @default 500 */
-		height?: number;
-	};
-	instance?: {
-		window?: Window;
-		position: Position;
-		modified?: boolean;
-	};
-} & (
-	| {
-			isParent: true;
-			Page?: never;
-			route?: never;
-	  }
-	| {
-			isParent?: false;
-			Page: Component<any>;
-			route: string;
-	  }
-);
-
-export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };

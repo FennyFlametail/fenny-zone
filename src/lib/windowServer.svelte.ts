@@ -6,9 +6,15 @@ export { default as apps } from '$lib/apps.svelte';
 
 const runningApps = $derived.by(() => {
 	if (!apps) return {};
+	// FIXME this doesn't take launch order into account
 	return Object.fromEntries(Object.entries(apps).filter(([, app]) => app.instance));
 }) as Readonly<Record<AppName, RunningApp>>;
 export const getRunningApps = () => runningApps;
+
+const appsByParent = $derived(
+	Map.groupBy(Object.entries(runningApps), ([appName, app]) => app.parent ?? (appName as AppName))
+);
+export const getAppsByParent = () => appsByParent;
 
 let desktopFocused = $state(false);
 export const isDesktopFocused = () => desktopFocused;
@@ -38,17 +44,15 @@ export function getFocusedApp(): {
 
 export function openApp(appName: AppName, position?: Partial<Position>) {
 	const app = apps[appName];
-	if (app.isParent) {
+	const childApps = Object.entries(runningApps)
+		.filter(([, runningApp]) => runningApp.parent === appName)
+		.sort(([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex);
+	if (childApps.length) {
 		// focus all the apps that have this app as their parent
-		const childApps = Object.entries(runningApps)
-			.filter(([, runningApp]) => runningApp.parent === appName)
-			.sort(([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex);
 		childApps.forEach(([name]) => focusApp(name as AppName));
-
-		if (appName === 'Finder' && !childApps.length) {
-			// special case for Finder: if there aren't any windows open, open the Characters folder
-			openApp('characters');
-		}
+	} else if (appName === 'Finder' && !childApps.length) {
+		// special case for Finder: if there aren't any windows open, open the Characters folder
+		openApp('characters');
 	} else if (app.instance) {
 		focusApp(appName);
 	} else {
