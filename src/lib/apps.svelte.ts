@@ -81,25 +81,41 @@ const apps = $state<Record<AppName, AppEntry>>({
 		Page: Fenny,
 		title: 'Fenny',
 		icon: '/icons/fenny.png',
-		route: '/characters/fenny'
+		route: '/characters/fenny',
+		defaultSize: {
+			width: 800,
+			height: 850
+		}
 	},
 	aren: {
 		Page: Aren,
 		title: 'Aren',
 		icon: '/icons/aren.png',
-		route: '/characters/aren'
+		route: '/characters/aren',
+		defaultSize: {
+			width: 800,
+			height: 700
+		}
 	},
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
 		icon: '/icons/ceph.png',
-		route: '/characters/ceph'
+		route: '/characters/ceph',
+		defaultSize: {
+			width: 800,
+			height: 950
+		}
 	},
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
 		icon: '/icons/nocturne.png',
-		route: '/characters/nocturne'
+		route: '/characters/nocturne',
+		defaultSize: {
+			width: 800,
+			height: 1050
+		}
 	},
 	projects: {
 		parent: 'Finder',
@@ -135,6 +151,7 @@ const apps = $state<Record<AppName, AppEntry>>({
 		route: '/goat',
 		url: 'https://monty-hall.fenny.zone',
 		defaultSize: {
+			width: 600,
 			height: 800
 		}
 	}
