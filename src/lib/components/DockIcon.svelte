@@ -89,6 +89,10 @@
 			border-right: 4px solid transparent;
 			border-bottom: 5px solid black;
 		}
+
+		@media (scripting: none) {
+			cursor: pointer;
+		}
 	}
 
 	.dockIconLabel {

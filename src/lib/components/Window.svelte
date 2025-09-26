@@ -4,6 +4,7 @@
 	import { setAppContext } from '$lib/context';
 	import { closeApp, dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	let {
 		appName,
@@ -21,6 +22,9 @@
 	let lastY = $state(app.instance.position.y);
 
 	let focused = $derived(app === getFocusedApp().app);
+	// used to focus single window when JavaScript is disabled
+	let ssr = $state(true);
+	onMount(() => (ssr = false));
 
 	let allowDrag = $state(true);
 	function blockDrag() {
@@ -66,7 +70,7 @@
 <article
 	bind:this={element}
 	onpointerdown={() => focusApp(appName)}
-	class={['window', !focused && 'inactive']}
+	class={['window', !focused && !ssr && 'inactive']}
 	style:--x={`${app.instance.position.x}px`}
 	style:--y={`${app.instance.position.y}px`}
 	style:--width={`${app.instance.position.width}px`}
@@ -122,6 +126,16 @@
 
 		&.inactive {
 			box-shadow: var(--panel-box-shadow-inactive);
+		}
+
+		@media (scripting: none) {
+			position: absolute;
+			left: max(0px, 50vw - var(--width) / 2);
+			/* space between the menubar and Dock */
+			--safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
+			top: max(0px, (var(--safe-height) / 2 - var(--height) / 2) * (2/3));
+			max-width: 100vw;
+			max-height: calc(100vh - var(--menubar-height) - var(--dock-height));
 		}
 	}
 

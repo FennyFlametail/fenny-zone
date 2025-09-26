@@ -1,9 +1,10 @@
 import { browser } from '$app/environment';
 import apps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 
-// FIXME fixes a build error - see FileIcon.svelte
+// fixes a build error - see FileIcon.svelte
 export { default as apps } from '$lib/apps.svelte';
 
+// FIXME state being kept on server between reloads
 const runningApps = $derived.by(() => {
 	if (!apps) return {};
 	return Object.fromEntries(
@@ -71,7 +72,7 @@ export function openApp(appName: AppName, position?: Partial<Position>) {
 		};
 		desktopFocused = false;
 	}
-	return app;
+	return app as RunningApp;
 }
 
 export function focusApp(appName: AppName) {
@@ -170,22 +171,35 @@ export interface Position {
 	zIndex: number;
 }
 
-export const getInitialPosition = (initialPosition?: Partial<Position>) => {
-	const innerWidth = browser ? window.innerWidth : 0;
-	const innerHeight = browser ? window.innerHeight : 0;
-
-	const width = initialPosition?.width ?? 500;
-	const height = initialPosition?.height ?? 500;
-	const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
-	const y = initialPosition?.y ?? innerHeight / 2 - height * 0.75;
+export const getInitialPosition = (initialPosition?: Partial<Position>): Position => {
+	// apps are only SSRed if JavaScript is disabled
+	// in this case, position and max width/height are set through CSS
+	// (because the server can't access innerHeight/innerWidth)
+	if (!browser) {
+		return {
+			x: 0,
+			y: 0,
+			width: initialPosition?.width ?? 500,
+			height: initialPosition?.height ?? 500,
+			zIndex: 0
+		};
+	}
 
 	const root = getComputedStyle(document.documentElement);
 	const menubarHeight = parseInt(root.getPropertyValue('--menubar-height'));
 	const dockHeight = parseInt(root.getPropertyValue('--dock-height'));
 
+	/* space between the menubar and Dock */
+	const safeHeight = innerHeight - menubarHeight - dockHeight;
+
+	const width = initialPosition?.width ?? 500;
+	const height = initialPosition?.height ?? 500;
+	const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
+	const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
+
 	return {
-		x: Math.min(Math.max(x, 0), innerWidth),
-		y: Math.min(Math.max(y, 0), innerHeight),
+		x: Math.max(0, Math.min(x, innerWidth)),
+		y: Math.max(0, Math.min(y, innerHeight)),
 		width: Math.min(width, innerWidth),
 		height: Math.min(height, innerHeight - menubarHeight - dockHeight),
 		zIndex: initialPosition?.zIndex ?? 0

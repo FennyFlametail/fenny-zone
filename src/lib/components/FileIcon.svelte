@@ -52,7 +52,6 @@
 	{onclick}
 	{ondblclick}
 	href={href ?? app?.route}
-	target="_blank"
 >
 	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon ?? app?.icon} alt={name ?? app?.title} draggable="false" />
@@ -80,6 +79,10 @@
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
+
+		@media (scripting: none) {
+			cursor: pointer;
+		}
 	}
 
 	.fileIconImageWrapper {
