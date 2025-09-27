@@ -52,6 +52,7 @@
 	{onclick}
 	{ondblclick}
 	href={href ?? app?.route}
+	target={href || app?.url ? '_blank' : '_self'}
 >
 	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon ?? app?.icon} alt={name ?? app?.title} draggable="false" />
