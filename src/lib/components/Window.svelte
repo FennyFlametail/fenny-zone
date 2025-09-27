@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -80,14 +80,17 @@
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
-			<button
+			<svelte:element
+				this={browser ? 'button' : 'a'}
+				role={browser ? 'button' : 'link'}
 				class={['windowButton', 'close', app.instance?.modified && 'modified']}
 				aria-label="Close"
 				onclick={() => windowServer.closeApp(appName)}
 				onpointerdown={blockDrag}
+				href="/"
 			>
 				<X class="windowButtonGlyph" size={14} />
-			</button>
+			</svelte:element>
 			<button class="windowButton minimize" aria-label="Minimize" onpointerdown={blockDrag}>
 				<Minus class="windowButtonGlyph" size={14} />
 			</button>
@@ -164,10 +167,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-
-		.window.inactive .windowControls:not(:hover, :focus-visible) & {
-			opacity: 0.5;
-		}
 	}
 
 	.windowTitleSection {
