@@ -19,19 +19,44 @@
 		container!.style.setProperty('--mouseY', `${e.clientY}px`);
 	}
 
-	let blink = $state(false);
-	let blinkStartTimeout = $state<number>();
-	let blinkResetTimeout = $state<number>();
+	/*
+	 * on pointerdown: start blink
+	 * on pointerup:
+	 * - if >=200ms have passed: stop blink when pointer released
+	 * - if <200ms: stop blink when 200ms pass
+	 */
 
-	function onmousedown() {
-		blink = false;
-		clearTimeout(blinkStartTimeout);
-		blinkStartTimeout = setTimeout(() => {
-			blink = true;
-			clearTimeout(blinkResetTimeout);
-			blinkResetTimeout = setTimeout(() => (blink = false), 200);
-		}, 50);
+	let pointerdown = $state(false);
+	let blink = $state(false);
+	let minBlinkTimePassed = $state(false);
+
+	function onpointerdown(e: PointerEvent) {
+		pointerdown = true;
+		blink = true;
+		minBlinkTimePassed = false;
+		window.setTimeout(() => {
+			minBlinkTimePassed = true;
+			// right clicks don't trigger the onpointerup event when released
+			// if (e.button === 2) {
+			// 	blink = false;
+			// }
+		}, 200);
+
+		// for touch devices
+		container!.style.setProperty('--mouseX', `${e.clientX}px`);
+		container!.style.setProperty('--mouseY', `${e.clientY}px`);
 	}
+
+	function onpointerup() {
+		pointerdown = false;
+		if (minBlinkTimePassed) blink = false;
+	}
+
+	$effect(() => {
+		if (minBlinkTimePassed && !pointerdown) {
+			blink = false;
+		}
+	});
 </script>
 
 {#if browser}
@@ -42,7 +67,7 @@
 {/if}
 
 <svelte:window onresize={findEyeCenter} />
-<svelte:body {onpointermove} {onmousedown} />
+<svelte:body {onpointermove} {onpointerdown} {onpointerup} oncontextmenu={onpointerup} />
 
 <style>
 	.container {
