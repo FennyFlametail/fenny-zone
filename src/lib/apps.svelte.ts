@@ -50,7 +50,7 @@ export interface AppEntry {
 
 export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
 
-const apps = $state<Record<AppName, AppEntry>>({
+const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
 		icon: '/icons/finder.png'
@@ -156,4 +156,4 @@ const apps = $state<Record<AppName, AppEntry>>({
 		}
 	}
 });
-export default apps;
+export default getApps;

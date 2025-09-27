@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getAppContext } from '$lib/context';
-	import { dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
+	import { getAppContext, getWindowServerContext } from '$lib/context';
 
+	const windowServer = getWindowServerContext();
 	const { appName, app } = getAppContext();
 
-	let isFocused = $derived(app === getFocusedApp().app);
+	let isFocused = $derived(app === windowServer.getFocusedApp().app);
 </script>
 
 <iframe src={app.url} title={app.title}></iframe>
@@ -12,11 +12,11 @@
 	class={[
 		'cover',
 		{
-			solid: dragging.el || resizing.el || !isFocused,
+			solid: windowServer.dragging.el || windowServer.resizing.el || !isFocused,
 			visible: !isFocused
 		}
 	]}
-	onclick={() => focusApp(appName)}
+	onclick={() => windowServer.focusApp(appName)}
 	aria-hidden="true"
 ></div>
 

@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { type AppName } from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
-	import { getAppsByParent } from '$lib/windowServer.svelte';
+	import { getWindowServerContext } from '$lib/context';
 
-	const appsByParent = $derived(getAppsByParent());
+	const windowServer = getWindowServerContext();
 </script>
 
 <footer class="dock">
 	<div class="dockSection">
 		<DockIcon appName="Finder" open={true} />
-		{#each appsByParent as [parent, apps] (parent)}
+		{#each windowServer.appsByParent as [parent, apps] (parent)}
 			{#if parent}
 				{#if parent !== 'Finder'}
 					<DockIcon appName={parent} />

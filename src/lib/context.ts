@@ -1,5 +1,14 @@
 import type { AppName, RunningApp } from '$lib/apps.svelte';
+import type WindowServer from '$lib/windowServer.svelte';
 import { getContext, setContext } from 'svelte';
+
+const windowServerContextKey = {};
+export function setWindowServerContext(windowServer: WindowServer) {
+	setContext(windowServerContextKey, windowServer);
+}
+export function getWindowServerContext() {
+	return getContext(windowServerContextKey) as WindowServer;
+}
 
 const appContextKey = {};
 export function setAppContext(appName: AppName, app: RunningApp) {

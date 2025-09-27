@@ -3,8 +3,9 @@
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
 	import MenuItem from '$lib/components/MenuItem.svelte';
-	import { setMenubarContext } from '$lib/context';
-	import { arrangeWindows, closeAll } from '$lib/windowServer.svelte';
+	import { getWindowServerContext, setMenubarContext } from '$lib/context';
+
+	const windowServer = getWindowServerContext();
 
 	let menubar = $state<HTMLElement>();
 
@@ -39,8 +40,8 @@
 		<MenuItem title="About This Site" onclick={() => {}} />
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
-		<MenuItem title="Arrange Windows" onclick={arrangeWindows} />
-		<MenuItem title="Close All Windows" onclick={closeAll} />
+		<MenuItem title="Arrange Windows" onclick={windowServer.arrangeWindows} />
+		<MenuItem title="Close All Windows" onclick={windowServer.closeAll} />
 	</MenuCategory>
 	<div class="spacer"></div>
 	<GooglyEyes />

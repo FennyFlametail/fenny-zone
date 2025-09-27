@@ -1,11 +1,13 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
+	import { getWindowServerContext } from '$lib/context';
 	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
-	import { focusDesktop } from '$lib/windowServer.svelte';
+
+	const windowServer = getWindowServerContext();
 	const { onClickIconContainer } = setupFileIconContainer(true);
 
 	function onclick(e: MouseEvent) {
-		focusDesktop();
+		windowServer.focusDesktop();
 		onClickIconContainer(e);
 	}
 </script>

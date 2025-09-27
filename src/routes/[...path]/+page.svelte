@@ -5,12 +5,14 @@
 	import Dock from '$lib/components/Dock.svelte';
 	import MenuBar from '$lib/components/MenuBar.svelte';
 	import WindowLayer from '$lib/components/WindowLayer.svelte';
-	import { apps } from '$lib/windowServer.svelte';
+	import { getWindowServerContext } from '$lib/context';
+
+	const windowServer = getWindowServerContext();
 
 	let initialApp: AppName | undefined = $state();
 	if (page.params.path) {
-		initialApp = (Object.keys(apps) as AppName[]).find((appName) => {
-			const app = apps[appName];
+		initialApp = (Object.keys(windowServer.apps) as AppName[]).find((appName) => {
+			const app = windowServer.apps[appName];
 			return app.route === '/'.concat(page.params.path);
 		});
 	}

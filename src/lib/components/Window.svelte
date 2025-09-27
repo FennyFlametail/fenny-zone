@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
-	import { setAppContext } from '$lib/context';
-	import { closeApp, dragging, focusApp, getFocusedApp, resizing } from '$lib/windowServer.svelte';
+	import { getWindowServerContext, setAppContext } from '$lib/context';
 	import { Minus, Plus, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
@@ -14,6 +13,8 @@
 		app: RunningApp;
 	} = $props();
 
+	const windowServer = getWindowServerContext();
+
 	setAppContext(appName, app);
 
 	let element = $state<HTMLElement>();
@@ -21,7 +22,7 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app === getFocusedApp().app);
+	let focused = $derived(app === windowServer.getFocusedApp().app);
 	// used to focus single window when JavaScript is disabled
 	let ssr = $state(true);
 	onMount(() => (ssr = false));
@@ -32,26 +33,26 @@
 	}
 
 	function startDrag(e: PointerEvent) {
-		dragging.el = element;
+		windowServer.dragging.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function startResize(e: PointerEvent) {
-		resizing.el = element;
+		windowServer.resizing.el = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function pointerMove(e: PointerEvent) {
-		if (dragging.el === element && allowDrag) {
+		if (windowServer.dragging.el === element && allowDrag) {
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 			app.instance.position.y = Math.max(app.instance.position.y, 0);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
-		} else if (resizing.el === element) {
+		} else if (windowServer.resizing.el === element) {
 			app.instance.position.width += e.screenX - lastX;
 			app.instance.position.height += e.screenY - lastY;
 
@@ -62,14 +63,14 @@
 
 	function pointerUp() {
 		allowDrag = true;
-		dragging.el = undefined;
-		resizing.el = undefined;
+		windowServer.dragging.el = undefined;
+		windowServer.resizing.el = undefined;
 	}
 </script>
 
 <article
 	bind:this={element}
-	onpointerdown={() => focusApp(appName)}
+	onpointerdown={() => windowServer.focusApp(appName)}
 	class={['window', !focused && !ssr && 'inactive']}
 	style:--x={`${app.instance.position.x}px`}
 	style:--y={`${app.instance.position.y}px`}
@@ -82,7 +83,7 @@
 			<button
 				class={['windowButton', 'close', app.instance?.modified && 'modified']}
 				aria-label="Close"
-				onclick={() => closeApp(appName)}
+				onclick={() => windowServer.closeApp(appName)}
 				onpointerdown={blockDrag}
 			>
 				<X class="windowButtonGlyph" size={14} />

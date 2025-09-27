@@ -1,6 +1,6 @@
 <script lang="ts">
-	import apps, { type AppName } from '$lib/apps.svelte';
-	import { getAppsByParent, openApp } from '$lib/windowServer.svelte';
+	import { type AppName } from '$lib/apps.svelte';
+	import { getWindowServerContext } from '$lib/context';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	const {
@@ -11,15 +11,17 @@
 		open?: boolean;
 	} = $props();
 
-	const app = apps[appName];
+	const windowServer = getWindowServerContext();
+	const app = windowServer.apps[appName];
+
 	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
 		e.preventDefault();
-		openApp(appName);
+		windowServer.openApp(appName);
 	};
 
 	const isOpen = $derived.by(() => {
 		if (typeof open === 'boolean') return open;
-		return getAppsByParent().get(appName)?.length;
+		return windowServer.appsByParent.get(appName)?.length;
 	});
 </script>
 

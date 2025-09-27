@@ -1,7 +1,7 @@
-import apps, { type AppName } from '$lib/apps.svelte';
+import getApps, { type AppName } from '$lib/apps.svelte';
 import type { ParamMatcher } from '@sveltejs/kit';
 
-const browserRoutes: string[] = Object.entries(apps)
+const browserRoutes: string[] = Object.entries(getApps)
 	.filter(([, metadata]) => metadata.url)
 	.map(([route]) => route as AppName);
 

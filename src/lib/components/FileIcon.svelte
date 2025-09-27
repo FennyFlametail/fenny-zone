@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { type AppName } from '$lib/apps.svelte';
-	import { getFileIconContext } from '$lib/context';
-	// FIXME importing apps from here instead of apps.svelte fixes this build error https://github.com/sveltejs/kit/issues/10745
-	import { apps, openApp } from '$lib/windowServer.svelte';
+	import { getFileIconContext, getWindowServerContext } from '$lib/context';
 	import type { MouseEventHandler } from 'svelte/elements';
-
-	const identifier = Symbol('FileIcon');
 
 	let {
 		appName,
@@ -25,7 +21,11 @@
 				name: string;
 				icon: string;
 		  } = $props();
-	const app = appName && apps[appName];
+
+	const windowServer = getWindowServerContext();
+	const app = appName && windowServer.apps[appName];
+
+	const identifier = Symbol('FileIcon');
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
@@ -40,7 +40,7 @@
 	const ondblclick: MouseEventHandler<HTMLAnchorElement> = () => {
 		launching = true;
 		window.setTimeout(() => (launching = false), openAnimDuration);
-		href ? open(href, '_blank') : openApp(appName!);
+		href ? open(href, '_blank') : windowServer.openApp(appName!);
 	};
 </script>
 

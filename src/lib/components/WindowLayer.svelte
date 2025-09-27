@@ -1,48 +1,41 @@
 <script lang="ts">
-	import { browser, dev } from '$app/environment';
+	import { dev } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
-	import {
-		dragging,
-		getRunningApps,
-		loadState,
-		openApp,
-		resizing,
-		saveState
-	} from '$lib/windowServer.svelte';
+	import { getWindowServerContext } from '$lib/context';
 	import { onMount } from 'svelte';
 
 	const { initialApp }: { initialApp?: AppName } = $props();
 
-	const runningApps = $derived(getRunningApps());
+	const windowServer = getWindowServerContext();
 
 	onMount(() => {
 		if (initialApp) {
-			openApp(initialApp);
-			saveState();
+			windowServer.openApp(initialApp);
+			windowServer.saveState();
 			if (!dev) {
 				goto('/', {
 					replaceState: true
 				});
 			}
 		} else {
-			loadState();
+			windowServer.loadState();
 		}
 	});
 
 	function onpointerup() {
-		setTimeout(() => saveState(), 100);
+		setTimeout(() => windowServer.saveState(), 100);
 	}
 </script>
 
-<main class={['windowLayer', (dragging.el || resizing.el) && 'noSelect']}>
-	{#each Object.entries(runningApps) as [appName, app], i (appName)}
+<main class={['windowLayer', (windowServer.dragging.el || windowServer.resizing.el) && 'noSelect']}>
+	{#each Object.entries(windowServer.runningApps) as [appName, app], i (appName)}
 		<Window bind:this={app.instance.window} appName={appName as AppName} {app} />
 	{/each}
 	<noscript>
 		{#if initialApp}
-			<Window appName={initialApp} app={openApp(initialApp)} />
+			<Window appName={initialApp} app={windowServer.openApp(initialApp)} />
 		{/if}
 	</noscript>
 </main>
