@@ -65,10 +65,6 @@
 			animation: 0.1s steps(2, jump-none) selectItem;
 		}
 
-		> a {
-			cursor: pointer;
-		}
-
 		> * {
 			all: unset;
 			padding-inline: 22px;
@@ -78,6 +74,10 @@
 			/* hide items with onclick handlers */
 			&:not(:has(> a)) {
 				display: none;
+			}
+
+			> a {
+				cursor: pointer;
 			}
 		}
 	}
