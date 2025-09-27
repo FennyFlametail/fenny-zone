@@ -11,6 +11,9 @@ export interface Position {
 	zIndex: number;
 }
 
+/** Padding when opening and arranging windows */
+export const WINDOW_PADDING = 25;
+
 export default class WindowServer {
 	static getInitialPosition = (initialPosition?: Partial<Position>): Position => {
 		// apps are only SSRed if JavaScript is disabled
@@ -30,7 +33,7 @@ export default class WindowServer {
 		const menubarHeight = parseInt(root.getPropertyValue('--menubar-height'));
 		const dockHeight = parseInt(root.getPropertyValue('--dock-height'));
 
-		/* space between the menubar and Dock */
+		/** Space between the menubar and Dock */
 		const safeHeight = innerHeight - menubarHeight - dockHeight;
 
 		const width = initialPosition?.width ?? 500;
@@ -39,10 +42,10 @@ export default class WindowServer {
 		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
 
 		return {
-			x: Math.max(0, Math.min(x, innerWidth)),
-			y: Math.max(0, Math.min(y, innerHeight)),
-			width: Math.min(width, innerWidth),
-			height: Math.min(height, innerHeight - menubarHeight - dockHeight),
+			x: Math.max(WINDOW_PADDING, Math.min(x, innerWidth)),
+			y: Math.max(WINDOW_PADDING, Math.min(y, innerHeight)),
+			width: Math.min(width, innerWidth - WINDOW_PADDING * 2),
+			height: Math.min(height, innerHeight - menubarHeight - dockHeight - WINDOW_PADDING * 2),
 			zIndex: initialPosition?.zIndex ?? 0
 		};
 	};
@@ -168,8 +171,8 @@ export default class WindowServer {
 			.forEach((app, index) => {
 				app.instance.position = WindowServer.getInitialPosition({
 					...app.defaultSize,
-					x: 25 * (index + 1),
-					y: 25 * (index + 1),
+					x: WINDOW_PADDING * (index + 1),
+					y: WINDOW_PADDING * (index + 1),
 					zIndex: app.instance.position.zIndex
 				});
 			});
