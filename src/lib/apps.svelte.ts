@@ -7,6 +7,7 @@ import Nocturne from '$lib/components/pages/characters/Nocturne.svelte';
 import Projects from '$lib/components/pages/Projects.svelte';
 import Readme from '$lib/components/pages/Readme.svelte';
 import Window from '$lib/components/Window.svelte';
+import Trash from '$lib/components/Trash.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
@@ -60,8 +61,10 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: '/icons/textedit.png'
 	},
 	Trash: {
+		Page: Trash,
 		title: 'Trash',
-		icon: '/icons/trash.png'
+		icon: '/icons/trash.png',
+		route: '/trash'
 	},
 	readme: {
 		parent: 'TextEdit',
