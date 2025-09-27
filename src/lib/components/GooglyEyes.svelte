@@ -97,6 +97,15 @@
 			--hypot: hypot(var(--distanceX), var(--distanceY));
 			rotate: calc(var(--tan) * -1);
 
+			@media (prefers-reduced-motion: reduce) {
+				&:first-child {
+					rotate: -45deg;
+				}
+				&:last-child {
+					rotate: 45deg;
+				}
+			}
+
 			&::after {
 				--pupil-width: 8px;
 				content: '';
@@ -109,6 +118,11 @@
 				--max-offset: calc((var(--eye-width) - var(--pupil-width)) / 2 - 1px);
 				translate: 0 clamp(0px, var(--hypot), var(--max-offset));
 				rotate: var(--tan);
+
+				@media (prefers-reduced-motion: reduce) {
+					translate: 0 33%;
+					rotate: 0deg;
+				}
 			}
 		}
 

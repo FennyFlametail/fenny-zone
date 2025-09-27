@@ -63,6 +63,9 @@
 
 		&.selected {
 			animation: 0.1s steps(2, jump-none) selectItem;
+			@media (prefers-reduced-motion: reduce) {
+				animation-duration: 0s;
+			}
 		}
 
 		> * {

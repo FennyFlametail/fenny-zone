@@ -33,7 +33,7 @@
 <style>
 	.desktop {
 		grid-area: desktop;
-		background-color: gray;
+		background-color: var(--desktop-color);
 		background-size: cover;
 		background-position: top center;
 		display: grid;

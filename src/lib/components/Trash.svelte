@@ -1,9 +1,21 @@
+<script lang="ts">
+	import { browser } from '$app/environment';
+
+	let reduceMotion = true;
+
+	if (browser) {
+		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+		reduceMotion = mq.matches;
+	}
+</script>
+
 <div class="videoContainer">
 	<video
 		src="/trash.mp4"
 		poster="/trash-poster.webp"
 		muted
-		autoplay
+		autoplay={!reduceMotion}
+		controls={reduceMotion}
 		loop
 		playsinline
 		disablepictureinpicture>Baby fox jumping into a trash can</video

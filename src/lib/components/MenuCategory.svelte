@@ -45,6 +45,10 @@
 			opacity: 0;
 			display: none;
 			pointer-events: none;
+
+			@media (prefers-reduced-motion: reduce) {
+				transition-duration: 0s;
+			}
 		}
 
 		&:is([open] ~ &, :global(:has(~ [open])))::details-content {

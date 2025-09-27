@@ -51,6 +51,10 @@
 		background-color: #ffffff66;
 		border: 1px solid #ffffff26;
 
+		@media (prefers-reduced-transparency: reduce) {
+			background-color: hsl(from var(--desktop-color) h s calc(l * 1.33));
+		}
+
 		&:first-child {
 			padding-inline-start: calc(var(--padding) / 2);
 

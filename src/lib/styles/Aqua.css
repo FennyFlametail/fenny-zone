@@ -15,6 +15,7 @@ to bottom,
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
 	--accent-color: #3471cf;
 	--selection-color: #b5d5ff;
+	--desktop-color: #3d6ea8;
 }
 
 #root {
@@ -82,7 +83,6 @@ to bottom,
 	/* #region Desktop */
 	.desktop {
 		background-image: url('/wallpaper.jpg');
-		background-color: #3d6ea8;
 	}
 	/* #endregion */
 

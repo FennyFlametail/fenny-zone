@@ -82,6 +82,7 @@ h6 {
 	--accent-color: blue;
 	--selection-color: lightskyblue;
 	--menubar-height: 30px;
+	--desktop-color: gray;
 	--dock-padding: 7.5px;
 	--dock-icon-size: 64px;
 	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
