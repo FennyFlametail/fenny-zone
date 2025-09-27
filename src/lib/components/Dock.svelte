@@ -24,7 +24,7 @@
 	<div class="dockSection">
 		<DockIcon appName="characters" open={false} />
 		<DockIcon appName="projects" open={false} />
-		<DockIcon appName="Trash" open={false} />
+		<DockIcon appName="trash" open={false} />
 	</div>
 </footer>
 

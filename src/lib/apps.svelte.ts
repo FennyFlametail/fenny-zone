@@ -6,15 +6,14 @@ import Fenny from '$lib/components/pages/characters/Fenny.svelte';
 import Nocturne from '$lib/components/pages/characters/Nocturne.svelte';
 import Projects from '$lib/components/pages/Projects.svelte';
 import Readme from '$lib/components/pages/Readme.svelte';
-import Window from '$lib/components/Window.svelte';
 import Trash from '$lib/components/Trash.svelte';
+import Window from '$lib/components/Window.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
 export type AppName =
 	| 'Finder'
 	| 'TextEdit'
-	| 'Trash'
 	| 'readme'
 	| 'characters'
 	| 'fenny'
@@ -24,7 +23,8 @@ export type AppName =
 	| 'projects'
 	| 'toddspin'
 	| 'sauce'
-	| 'goat';
+	| 'goat'
+	| 'trash';
 
 export interface AppEntry {
 	Page?: Component<any>;
@@ -59,12 +59,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	TextEdit: {
 		title: 'TextEdit',
 		icon: '/icons/textedit.png'
-	},
-	Trash: {
-		Page: Trash,
-		title: 'Trash',
-		icon: '/icons/trash.png',
-		route: '/trash'
 	},
 	readme: {
 		parent: 'TextEdit',
@@ -157,6 +151,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			width: 600,
 			height: 800
 		}
+	},
+	trash: {
+		parent: 'Finder',
+		Page: Trash,
+		title: 'Trash',
+		icon: '/icons/trash.png',
+		route: '/trash'
 	}
 });
 export default getApps;
