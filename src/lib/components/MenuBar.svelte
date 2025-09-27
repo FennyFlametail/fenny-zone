@@ -37,7 +37,7 @@
 
 <header bind:this={menubar} class="menubar">
 	<MenuCategory {menubar} title="🦊" isLogo={true}>
-		<MenuItem title="About This Site" onclick={() => {}} />
+		<MenuItem title="View Source..." href="https://github.com/FennyFlametail/fenny-zone" />
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
 		<MenuItem title="Arrange Windows" onclick={windowServer.arrangeWindows} />

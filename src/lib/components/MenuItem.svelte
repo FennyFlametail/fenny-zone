@@ -3,29 +3,45 @@
 
 	const {
 		title,
-		onclick
+		onclick,
+		href
 	}: {
 		title: string;
-		onclick: () => void;
-	} = $props();
+	} & (
+		| {
+				onclick: () => void;
+				href?: never;
+		  }
+		| {
+				onclick?: never;
+				href: string;
+		  }
+	) = $props();
 
 	const { dismissMenu } = getMenubarContext();
 
 	let selected = $state(false);
-	function setSelected() {
+
+	function setSelected(e: MouseEvent) {
+		e.preventDefault();
 		selected = true;
 	}
+
 	function triggerItem() {
 		if (selected) {
 			selected = false;
-			onclick();
+			href ? open(href, '_blank') : onclick?.();
 			dismissMenu();
 		}
 	}
 </script>
 
 <li class={['menuItem', { selected }]} onanimationend={triggerItem}>
-	<button onclick={setSelected}>{title}</button>
+	{#if href}
+		<a {href} target="_blank" onclick={setSelected}>{title}</a>
+	{:else}
+		<button onclick={setSelected}>{title}</button>
+	{/if}
 </li>
 
 <style>
@@ -49,9 +65,20 @@
 			animation: 0.1s steps(2, jump-none) selectItem;
 		}
 
+		> a {
+			cursor: pointer;
+		}
+
 		> * {
 			all: unset;
 			padding-inline: 22px;
+		}
+
+		@media (scripting: none) {
+			/* hide items with onclick handlers */
+			&:not(:has(> a)) {
+				display: none;
+			}
 		}
 	}
 

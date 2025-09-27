@@ -50,6 +50,13 @@
 		&:is([open] ~ &, :global(:has(~ [open])))::details-content {
 			transition: none;
 		}
+
+		@media (scripting: none) {
+			/* hide categories that only have items with onclick handlers */
+			&:not(:has(.menuItem > a)) {
+				display: none;
+			}
+		}
 	}
 
 	.menuName {
