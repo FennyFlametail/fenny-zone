@@ -60,6 +60,10 @@ to bottom,
 		}
 	}
 
+	.menuApp {
+		font-weight: bold;
+	}
+
 	.menu {
 		@media not (prefers-reduced-transparency: reduce) {
 			&::before {
@@ -72,11 +76,8 @@ to bottom,
 		}
 	}
 
-	.menuItem {
-		&:hover,
-		&:focus-within {
-			background-color: var(--menu-option-active-bg-color);
-		}
+	.menuItem:not(.disabled):is(:hover, :focus-within) {
+		background-color: var(--menu-option-active-bg-color);
 	}
 	/* #endregion */
 

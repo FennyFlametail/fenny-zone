@@ -1,4 +1,5 @@
 <script lang="ts">
+	import getApps from '$lib/apps.svelte';
 	import GooglyEyes from '$lib/components/GooglyEyes.svelte';
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
@@ -6,6 +7,8 @@
 	import { getWindowServerContext, setMenubarContext } from '$lib/context';
 
 	const windowServer = getWindowServerContext();
+	const focusedAppTitle = $derived(windowServer.focusedApp.app?.title ?? getApps().Finder.title);
+	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();
 
@@ -39,9 +42,31 @@
 	<MenuCategory {menubar} title="🦊" isLogo={true}>
 		<MenuItem title="View Source..." href="https://github.com/FennyFlametail/fenny-zone" />
 	</MenuCategory>
+	<!-- TODO fix flash of menu items when JS is disabled -->
+	<MenuCategory {menubar} title={focusedAppTitle} isAppMenu={true}>
+		<MenuItem
+			title={`Quit ${focusedAppTitle}`}
+			onclick={windowServer.closeCurrent}
+			disabled={windowServer.desktopFocused || runningAppsCount === 0}
+		/>
+	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
-		<MenuItem title="Arrange Windows" onclick={windowServer.arrangeWindows} />
-		<MenuItem title="Close All Windows" onclick={windowServer.closeAll} />
+		<MenuItem
+			title="Arrange Windows"
+			onclick={windowServer.arrangeWindows}
+			disabled={runningAppsCount === 0}
+		/>
+		<hr />
+		<MenuItem
+			title="Close All Windows"
+			onclick={windowServer.closeAll}
+			disabled={runningAppsCount === 0}
+		/>
+		<MenuItem
+			title="Close Others"
+			onclick={windowServer.closeOthers}
+			disabled={runningAppsCount < 2 && !(windowServer.desktopFocused && runningAppsCount === 1)}
+		/>
 	</MenuCategory>
 	<div class="spacer"></div>
 	<GooglyEyes />

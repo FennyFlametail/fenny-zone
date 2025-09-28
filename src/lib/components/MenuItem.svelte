@@ -4,9 +4,11 @@
 	const {
 		title,
 		onclick,
-		href
+		href,
+		disabled
 	}: {
 		title: string;
+		disabled?: boolean;
 	} & (
 		| {
 				onclick: () => void;
@@ -36,11 +38,15 @@
 	}
 </script>
 
-<li class={['menuItem', { selected }]} onanimationend={triggerItem}>
+<li class={['menuItem', { selected, disabled }]} onanimationend={triggerItem}>
 	{#if href}
-		<a {href} target="_blank" onclick={setSelected}>{title}</a>
+		{#if !disabled}
+			<a class="menuItemLink" {href} target="_blank" onclick={setSelected}>{title}</a>
+		{:else}
+			<span class="menuItemLink">{title}</span>
+		{/if}
 	{:else}
-		<button onclick={setSelected}>{title}</button>
+		<button onclick={setSelected} {disabled}>{title}</button>
 	{/if}
 </li>
 
@@ -48,16 +54,25 @@
 	.menuItem {
 		position: relative;
 		white-space: nowrap;
+		display: flex;
+		flex-flow: column;
+		align-items: stretch;
 
-		&:hover,
-		&:focus-within {
-			outline: none;
-			background-color: var(--accent-color);
-			color: white;
+		&.disabled {
+			opacity: 0.5;
+		}
 
-			@media (forced-colors: active) {
-				background-color: CanvasText;
-				color: Canvas;
+		&:not(.disabled) {
+			&:hover,
+			&:focus-within {
+				outline: none;
+				background-color: var(--accent-color);
+				color: white;
+
+				@media (forced-colors: active) {
+					background-color: CanvasText;
+					color: Canvas;
+				}
 			}
 		}
 
@@ -75,13 +90,15 @@
 
 		@media (scripting: none) {
 			/* hide items with onclick handlers */
-			&:not(:has(> a)) {
+			&:not(:has(> .menuItemLink)) {
 				display: none;
 			}
+		}
+	}
 
-			> a {
-				cursor: pointer;
-			}
+	@media (scripting: none) {
+		.menuItem:not(.disabled) > .menuItemLink {
+			cursor: pointer;
 		}
 	}
 

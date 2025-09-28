@@ -7,7 +7,7 @@
 	const { onClickIconContainer } = setupFileIconContainer(true);
 
 	function onclick(e: MouseEvent) {
-		windowServer.focusDesktop();
+		windowServer.desktopFocused = true;
 		onClickIconContainer(e);
 	}
 </script>

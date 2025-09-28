@@ -1,6 +1,20 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
+	const {
+		menubar,
+		title,
+		isLogo,
+		isAppMenu,
+		children
+	}: {
+		menubar: HTMLElement;
+		title: string;
+		isLogo?: boolean;
+		isAppMenu?: boolean;
+		children?: Snippet;
+	} = $props();
+
 	function menuHover(e: PointerEvent) {
 		let isOpenMenu = menubar.querySelector('details[open]');
 		if (!isOpenMenu) return;
@@ -10,23 +24,11 @@
 			details.open = true;
 		}
 	}
-
-	const {
-		menubar,
-		title,
-		isLogo,
-		children
-	}: {
-		menubar: HTMLElement;
-		title: string;
-		isLogo?: boolean;
-		children?: Snippet;
-	} = $props();
 </script>
 
 <details class="menuCategory" name="menubar" onpointerenter={menuHover}>
 	<summary class="menuName">
-		<span class={{ menuLogo: isLogo }}>{title}</span>
+		<span class={{ menuLogo: isLogo, menuApp: isAppMenu }}>{title}</span>
 	</summary>
 	<menu class="menu">
 		{@render children?.()}
@@ -57,7 +59,7 @@
 
 		@media (scripting: none) {
 			/* hide categories that only have items with onclick handlers */
-			&:not(:has(.menuItem > a)) {
+			&:not(:has(.menuItemLink)) {
 				display: none;
 			}
 		}

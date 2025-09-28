@@ -67,32 +67,31 @@ export default class WindowServer {
 		)
 	);
 
-	desktopFocused = $state(false);
-	focusDesktop = () => {
-		this.desktopFocused = true;
-	};
+	desktopFocused = $state(true);
 
-	getFocusedApp = (): {
-		name: AppName | undefined;
-		app: RunningApp | undefined;
-	} => {
-		if (this.desktopFocused)
+	focusedApp = $derived.by(
+		(): {
+			name: AppName | undefined;
+			app: RunningApp | undefined;
+		} => {
+			if (this.desktopFocused)
+				return {
+					name: undefined,
+					app: undefined
+				};
+
+			const [name, app] =
+				Object.entries(this.runningApps).find(
+					([, app]) => app.instance.position.zIndex === Object.keys(this.runningApps).length - 1
+				) ?? [];
 			return {
-				name: undefined,
-				app: undefined
+				name: name as AppName,
+				app
 			};
+		}
+	);
 
-		const [name, app] =
-			Object.entries(this.runningApps).find(
-				([, app]) => app.instance.position.zIndex === Object.keys(this.runningApps).length - 1
-			) ?? [];
-		return {
-			name: name as AppName,
-			app
-		};
-	};
-
-	launchCount = $state(0);
+	#launchCount = $state(0);
 
 	openApp = (appName: AppName, position?: Partial<Position>) => {
 		const app = this.apps[appName];
@@ -114,7 +113,7 @@ export default class WindowServer {
 					zIndex: Object.keys(this.runningApps).length,
 					...position
 				}),
-				launchOrder: this.launchCount++
+				launchOrder: this.#launchCount++
 			};
 			this.desktopFocused = false;
 		}
@@ -138,7 +137,8 @@ export default class WindowServer {
 		this.desktopFocused = false;
 	};
 
-	closeApp = (appName: AppName) => {
+	closeApp = (appName?: AppName) => {
+		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {
 			console.warn(`(closeApp) ${appName} isn't running!`);
@@ -163,6 +163,16 @@ export default class WindowServer {
 
 	closeAll = () => {
 		Object.keys(this.runningApps).forEach((appName) => this.closeApp(appName as AppName));
+	};
+
+	closeCurrent = () => this.closeApp(this.focusedApp.name);
+
+	closeOthers = () => {
+		Object.keys(this.runningApps).forEach((appName) => {
+			if (appName !== this.focusedApp.name) {
+				this.closeApp(appName as AppName);
+			}
+		});
 	};
 
 	arrangeWindows = () => {
