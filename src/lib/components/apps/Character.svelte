@@ -28,4 +28,9 @@
 		max-width: 500px;
 		text-wrap: pretty;
 	}
+
+	.character :global(.color) {
+		padding: 0.2em;
+		border-radius: 0.2em;
+	}
 </style>

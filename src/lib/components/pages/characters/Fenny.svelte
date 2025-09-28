@@ -72,7 +72,6 @@
 
 <style>
 	.color {
-		padding: 0.2em;
 		background-color: #800ed5;
 		color: white;
 	}

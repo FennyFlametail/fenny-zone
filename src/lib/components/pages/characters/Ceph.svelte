@@ -95,7 +95,6 @@
 
 <style>
 	.color {
-		padding: 0.2em;
 		background-color: #fe61f6;
 	}
 </style>

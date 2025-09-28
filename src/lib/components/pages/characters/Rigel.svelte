@@ -62,7 +62,6 @@
 
 <style>
 	.color {
-		padding: 0.2em;
 		background-color: #a92365;
 		color: white;
 	}

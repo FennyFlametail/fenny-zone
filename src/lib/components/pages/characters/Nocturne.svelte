@@ -83,7 +83,6 @@
 
 <style>
 	.color {
-		padding: 0.2em;
 		background-color: #3c165a;
 		color: white;
 	}
