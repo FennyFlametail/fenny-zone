@@ -4,6 +4,7 @@ import Aren from '$lib/components/pages/characters/Aren.svelte';
 import Ceph from '$lib/components/pages/characters/Ceph.svelte';
 import Fenny from '$lib/components/pages/characters/Fenny.svelte';
 import Nocturne from '$lib/components/pages/characters/Nocturne.svelte';
+import Rigel from '$lib/components/pages/characters/Rigel.svelte';
 import Projects from '$lib/components/pages/Projects.svelte';
 import Readme from '$lib/components/pages/Readme.svelte';
 import Trash from '$lib/components/Trash.svelte';
@@ -19,6 +20,7 @@ export type AppName =
 	| 'fenny'
 	| 'aren'
 	| 'ceph'
+	| 'rigel'
 	| 'nocturne'
 	| 'projects'
 	| 'toddspin'
@@ -54,6 +56,7 @@ export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] }
 const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
+		// TODO convert icons to webp
 		icon: '/icons/finder.png'
 	},
 	TextEdit: {
@@ -81,7 +84,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/characters/fenny',
 		defaultSize: {
 			width: 800,
-			height: 850
+			height: 1000
 		}
 	},
 	aren: {
@@ -91,7 +94,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/characters/aren',
 		defaultSize: {
 			width: 800,
-			height: 700
+			height: 800
 		}
 	},
 	ceph: {
@@ -101,7 +104,17 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/characters/ceph',
 		defaultSize: {
 			width: 800,
-			height: 950
+			height: 1000
+		}
+	},
+	rigel: {
+		Page: Rigel,
+		title: 'Rigel',
+		icon: '/icons/rigel.webp',
+		route: '/characters/rigel',
+		defaultSize: {
+			width: 800,
+			height: 900
 		}
 	},
 	nocturne: {
@@ -111,7 +124,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/characters/nocturne',
 		defaultSize: {
 			width: 800,
-			height: 1050
+			height: 1000
 		}
 	},
 	projects: {

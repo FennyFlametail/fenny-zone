@@ -7,5 +7,6 @@
 	<FileIcon appName="fenny" />
 	<FileIcon appName="aren" />
 	<FileIcon appName="ceph" />
+	<FileIcon appName="rigel" />
 	<FileIcon appName="nocturne" />
 </Finder>

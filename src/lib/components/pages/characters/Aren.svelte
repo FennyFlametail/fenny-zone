@@ -7,41 +7,44 @@
 		<li>Name: Aren Flametail</li>
 		<li>Species: Ethiopian wolf</li>
 		<li>Age: 24 (two months older than Fenny)</li>
-		<li>Height: 6 ft</li>
+		<li>Height: 6 ft (1.83 m)</li>
 		<li>Pronouns: he/him</li>
 		<li>Orientation: pansexual, aromantic</li>
 		<li>
-			Personality: outgoing, charismatic, confident, meticulous
+			Personality: outgoing, charismatic, confident, assertive
 			<ul>
-				<li>keeps his feelings close to the chest</li>
-				<li>not interested in romance, but cares deeply for the people he's close to</li>
+				<li>wants to take care of people</li>
+				<li>aromantic, but bonds very deeply with his friends</li>
 			</ul>
 		</li>
+		<li>Voice: strong, deep but not booming</li>
 		<li>
 			Job: barista at a small cafe
 			<ul>
-				<li>dreams of opening his own bar</li>
+				<li>wants to open his own cocktail bar</li>
 			</ul>
 		</li>
 		<li>
-			Interests: coffee, cocktails, cooking, fitness, music
+			Interests/hobbies: coffee, cocktails, cooking, fitness, music
 			<ul>
-				<li>plays guitar, likes to play songs with Nocturne</li>
+				<li>plays guitar</li>
 			</ul>
 		</li>
-		<li>Favorite color: forest green</li>
+		<li>Favorite color: <span class="color">forest green</span></li>
 		<li>Favorite food: Korean BBQ</li>
 		<li>Favorite drink: iced black coffee</li>
 		<li>Favorite ice cream flavor: dark chocolate gelato</li>
-		<li>Favorite music genres: punk, ska, hip-hop, indie rock</li>
+		<li>Favorite music genres: punk, ska, hip-hop & rap, indie rock</li>
 		<li>Clothing style: casual, comfortable, understated</li>
 		<li>
 			Typical outfit:
 			<ul>
-				<li>green or brown bomber jacket</li>
-				<li>simple color or band tee</li>
+				<li>green or brown bomber jacket with simple tee underneath</li>
+				<ul>
+					<li>leather jacket when riding his motorcycle</li>
+				</ul>
 				<li>blue denim jeans, or cargo pants or shorts</li>
-				<li>various sneakers</li>
+				<li>sneakers</li>
 			</ul>
 		</li>
 		<li>Vehicle: yellow Honda CBR600F4i</li>
@@ -50,3 +53,11 @@
 		</li>
 	</ul>
 </Character>
+
+<style>
+	.color {
+		padding: 0.2em;
+		background-color: #3b702a;
+		color: white;
+	}
+</style>
