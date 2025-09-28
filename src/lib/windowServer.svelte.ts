@@ -217,6 +217,6 @@ export default class WindowServer {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 	};
 
-	dragging: { el?: HTMLElement } = $state({});
-	resizing: { el?: HTMLElement } = $state({});
+	draggingEl = $state<HTMLElement>();
+	resizingEl = $state<HTMLElement>();
 }

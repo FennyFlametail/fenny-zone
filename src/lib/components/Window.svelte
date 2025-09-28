@@ -33,26 +33,26 @@
 	}
 
 	function startDrag(e: PointerEvent) {
-		windowServer.dragging.el = element;
+		windowServer.draggingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function startResize(e: PointerEvent) {
-		windowServer.resizing.el = element;
+		windowServer.resizingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function pointerMove(e: PointerEvent) {
-		if (windowServer.dragging.el === element && allowDrag) {
+		if (windowServer.draggingEl === element && allowDrag) {
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 			app.instance.position.y = Math.max(app.instance.position.y, 0);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
-		} else if (windowServer.resizing.el === element) {
+		} else if (windowServer.resizingEl === element) {
 			app.instance.position.width += e.screenX - lastX;
 			app.instance.position.height += e.screenY - lastY;
 
@@ -63,8 +63,8 @@
 
 	function pointerUp() {
 		allowDrag = true;
-		windowServer.dragging.el = undefined;
-		windowServer.resizing.el = undefined;
+		windowServer.draggingEl = undefined;
+		windowServer.resizingEl = undefined;
 	}
 </script>
 

@@ -29,7 +29,7 @@
 	}
 </script>
 
-<main class={['windowLayer', (windowServer.dragging.el || windowServer.resizing.el) && 'noSelect']}>
+<main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
 	{#each Object.entries(windowServer.runningApps) as [appName, app], i (appName)}
 		<Window bind:this={app.instance.window} appName={appName as AppName} {app} />
 	{/each}

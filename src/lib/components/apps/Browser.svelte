@@ -12,7 +12,7 @@
 	class={[
 		'cover',
 		{
-			solid: windowServer.dragging.el || windowServer.resizing.el || !isFocused,
+			solid: windowServer.draggingEl || windowServer.resizingEl || !isFocused,
 			visible: !isFocused
 		}
 	]}
