@@ -18,6 +18,10 @@ to bottom,
 	--desktop-color: #3d6ea8;
 }
 
+body {
+	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
+}
+
 #root {
 	/* #region Menubar */
 	.menubar {
@@ -399,7 +403,7 @@ ellipse 60% 70% at center bottom,
 	src:
 		local('Lucida Grande'),
 		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+		url('/fonts/Lunasima-Bold.ttf') format('truetype');
 	font-family: 'Lunasima';
 }
 /* #endregion */

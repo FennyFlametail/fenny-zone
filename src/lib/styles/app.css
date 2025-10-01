@@ -114,5 +114,5 @@ body {
 	height: 100svh;
 	overflow: hidden;
 	touch-action: manipulation;
-	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
+	font-family: system-ui, sans-serif;
 }
