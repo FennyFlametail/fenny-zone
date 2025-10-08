@@ -56,7 +56,6 @@ export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] }
 const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
-		// TODO convert icons to webp
 		icon: '/icons/finder.png'
 	},
 	TextEdit: {
