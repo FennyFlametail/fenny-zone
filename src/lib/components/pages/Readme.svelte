@@ -5,7 +5,7 @@
 
 This site is a work-in-progress, but feel free to poke around! You can find me elsewhere on the web at the links on the right.
 
-(Hint: the folders at the bottom of the screen are clickable. To open icons on the desktop or in folders, double-click.)
+(Hint: Click on the folders at the bottom of the screen. Double-click to open icons on the desktop or in folders.)
 
 TO-DO:
 - more content
