@@ -150,6 +150,7 @@
 		display: flex;
 		gap: 0.5rem;
 		padding-inline: 10px;
+		touch-action: pinch-zoom;
 		-webkit-user-select: none;
 		user-select: none;
 		cursor: default;
@@ -193,8 +194,9 @@
 		position: absolute;
 		bottom: -5px;
 		right: -5px;
-		width: 10px;
-		height: 10px;
+		width: 20px;
+		height: 20px;
+		touch-action: pinch-zoom;
 		cursor: nwse-resize;
 	}
 </style>
