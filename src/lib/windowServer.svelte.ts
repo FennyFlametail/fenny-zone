@@ -69,27 +69,19 @@ export default class WindowServer {
 
 	desktopFocused = $state(true);
 
-	focusedApp = $derived.by(
-		(): {
-			name: AppName | undefined;
-			app: RunningApp | undefined;
-		} => {
-			if (this.desktopFocused)
-				return {
-					name: undefined,
-					app: undefined
-				};
+	focusedApp = $derived.by(() => {
+		if (this.desktopFocused) return null;
 
-			const [name, app] =
-				Object.entries(this.runningApps).find(
-					([, app]) => app.instance.position.zIndex === Object.keys(this.runningApps).length - 1
-				) ?? [];
-			return {
-				name: name as AppName,
-				app
-			};
-		}
-	);
+		const [name, app] =
+			Object.entries(this.runningApps).find(
+				([, app]) => app.instance.position.zIndex === Object.keys(this.runningApps).length - 1
+			) ?? [];
+		if (!app) return null;
+		return {
+			name: name as AppName,
+			app
+		};
+	});
 
 	#launchCount = $state(0);
 
@@ -165,11 +157,15 @@ export default class WindowServer {
 		Object.keys(this.runningApps).forEach((appName) => this.closeApp(appName as AppName));
 	};
 
-	closeCurrent = () => this.closeApp(this.focusedApp.name);
+	closeCurrent = () => {
+		if (this.focusedApp) {
+			this.closeApp(this.focusedApp.name);
+		}
+	};
 
 	closeOthers = () => {
 		Object.keys(this.runningApps).forEach((appName) => {
-			if (appName !== this.focusedApp.name) {
+			if (appName !== this.focusedApp?.name) {
 				this.closeApp(appName as AppName);
 			}
 		});

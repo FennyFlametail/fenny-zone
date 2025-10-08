@@ -22,7 +22,7 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app === windowServer.focusedApp.app);
+	let focused = $derived(app === windowServer.focusedApp?.app);
 	// used to focus single window when JavaScript is disabled
 	let ssr = $state(true);
 	onMount(() => (ssr = false));

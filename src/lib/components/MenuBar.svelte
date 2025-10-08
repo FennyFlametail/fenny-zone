@@ -7,7 +7,7 @@
 	import { getWindowServerContext, setMenubarContext } from '$lib/context';
 
 	const windowServer = getWindowServerContext();
-	const focusedAppTitle = $derived(windowServer.focusedApp.app?.title ?? getApps().Finder.title);
+	const focusedAppTitle = $derived(windowServer.focusedApp?.app.title ?? getApps().Finder.title);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();

@@ -4,7 +4,7 @@
 	const windowServer = getWindowServerContext();
 	const { appName, app } = getAppContext();
 
-	let isFocused = $derived(app === windowServer.focusedApp.app);
+	let isFocused = $derived(app === windowServer.focusedApp?.app);
 </script>
 
 <iframe src={app.url} title={app.title}></iframe>
