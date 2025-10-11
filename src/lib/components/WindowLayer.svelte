@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
 	import { getWindowServerContext } from '$lib/context';
@@ -11,16 +9,10 @@
 	const windowServer = getWindowServerContext();
 
 	onMount(() => {
+		windowServer.loadState();
 		if (initialApp) {
 			windowServer.openApp(initialApp);
 			windowServer.saveState();
-			if (!dev) {
-				goto('/', {
-					replaceState: true
-				});
-			}
-		} else {
-			windowServer.loadState();
 		}
 	});
 
