@@ -42,8 +42,8 @@ export default class WindowServer {
 		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
 
 		return {
-			x: Math.max(WINDOW_PADDING, Math.min(x, innerWidth)),
-			y: Math.max(WINDOW_PADDING, Math.min(y, innerHeight)),
+			x: Math.max(WINDOW_PADDING, Math.min(x, innerWidth - width - WINDOW_PADDING)),
+			y: Math.max(WINDOW_PADDING, Math.min(y, innerHeight - height - WINDOW_PADDING)),
 			width: Math.min(width, innerWidth - WINDOW_PADDING * 2),
 			height: Math.min(height, innerHeight - menubarHeight - dockHeight - WINDOW_PADDING * 2),
 			zIndex: initialPosition?.zIndex ?? 0
