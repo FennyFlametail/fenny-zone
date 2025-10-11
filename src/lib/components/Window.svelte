@@ -17,6 +17,8 @@
 
 	setAppContext(appName, app);
 
+	const minWindowSize = 250;
+
 	let element = $state<HTMLElement>();
 
 	let lastX = $state(app.instance.position.x);
@@ -53,8 +55,11 @@
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (windowServer.resizingEl === element) {
-			app.instance.position.width += e.screenX - lastX;
-			app.instance.position.height += e.screenY - lastY;
+			const newWidth = app.instance.position.width + e.screenX - lastX;
+			const newHeight = app.instance.position.height + e.screenY - lastY;
+
+			app.instance.position.width = Math.max(newWidth, minWindowSize)
+			app.instance.position.height = Math.max(newHeight, minWindowSize)
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -77,6 +82,7 @@
 	style:--width={`${app.instance.position.width}px`}
 	style:--height={`${app.instance.position.height}px`}
 	style:z-index={app.instance.position.zIndex}
+	style:--minWindowSize={`${minWindowSize}px`}
 >
 	<header class="windowTitlebar" onpointerdown={startDrag}>
 		<div class="windowControls">
@@ -118,8 +124,8 @@
 	.window {
 		grid-area: 1 / 1;
 		transform: translate(var(--x), var(--y));
-		min-width: 200px;
-		min-height: 200px;
+		min-width: var(--minWindowSize);
+		min-height: var(--minWindowSize);
 		width: var(--width);
 		height: var(--height);
 		display: flex;
