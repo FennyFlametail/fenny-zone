@@ -22,23 +22,21 @@
 
 	const { dismissMenu } = getMenubarContext();
 
-	let selected = $state(false);
+	let opening = $state(false);
+	const openAnimDuration = 200;
 
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
-		selected = true;
-	}
-
-	function triggerItem() {
-		if (selected) {
-			selected = false;
+		opening = true;
+		window.setTimeout(() => {
+			opening = false;
 			href ? open(href, '_blank') : onclick?.();
 			dismissMenu();
-		}
+		}, openAnimDuration);
 	}
 </script>
 
-<li class={['menuItem', { selected, disabled }]} onanimationend={triggerItem}>
+<li class={['menuItem', { opening, disabled }]} style:--openAnimDuration={`${openAnimDuration}ms`}>
 	{#if href}
 		{#if !disabled}
 			<a class="menuItemLink" {href} target="_blank" onclick={setSelected}>{title}</a>
@@ -76,10 +74,9 @@
 			}
 		}
 
-		&.selected {
-			animation: 0.1s steps(2, jump-none) selectItem;
-			@media (prefers-reduced-motion: reduce) {
-				animation-duration: 0s;
+		@media not (prefers-reduced-motion: reduce) {
+			&.opening {
+				animation: var(--openAnimDuration) steps(2, jump-none) selectItem;
 			}
 		}
 

@@ -29,7 +29,7 @@
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
 
-	let launching = $state(false);
+	let opening = $state(false);
 	const openAnimDuration = 200;
 
 	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
@@ -38,16 +38,18 @@
 	};
 
 	const ondblclick: MouseEventHandler<HTMLAnchorElement> = () => {
-		launching = true;
-		window.setTimeout(() => (launching = false), openAnimDuration);
-		href ? open(href, '_blank') : windowServer.openApp(appName!);
+		opening = true;
+		window.setTimeout(() => {
+			opening = false;
+			href ? open(href, '_blank') : windowServer.openApp(appName!);
+		}, openAnimDuration);
 	};
 </script>
 
 <a
 	class={[
 		'fileIcon',
-		{ selected: getSelectedIcon() === identifier, launching, desktopIcon: isDesktop }
+		{ selected: getSelectedIcon() === identifier, opening, desktopIcon: isDesktop }
 	]}
 	{onclick}
 	{ondblclick}
@@ -113,7 +115,7 @@
 		opacity: 0.5;
 
 		@media not (prefers-reduced-motion: reduce) {
-			.launching & {
+			.opening & {
 				visibility: visible;
 				animation: var(--openAnimDuration) linear iconOpen;
 			}
