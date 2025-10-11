@@ -108,7 +108,8 @@ html {
 body {
 	display: grid;
 	grid-template:
-		'menubar' var(--menubar-height) 'desktop' auto;
+		'menubar' var(--menubar-height) 'desktop' minmax(0, 1fr);
+	grid-template-columns: 100svw;
 	background-color: black;
 	width: 100svw;
 	height: 100svh;
