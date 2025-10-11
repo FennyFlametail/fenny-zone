@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { SvelteDate } from 'svelte/reactivity';
 
 	const date = new SvelteDate();
@@ -20,7 +21,9 @@
 	});
 </script>
 
-<div class="menuClock">{formatter.format(date)}</div>
+{#if browser}
+	<div class="menuClock">{formatter.format(date)}</div>
+{/if}
 
 <style>
 	.menuClock {
