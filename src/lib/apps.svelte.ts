@@ -37,7 +37,7 @@ export interface AppEntry {
 	parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	backTo?: string;
-	/** Used for the Browser component */
+	/** Used by Browser apps */
 	url?: string;
 	defaultSize?: {
 		/** @default 500 */
