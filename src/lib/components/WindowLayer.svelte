@@ -14,6 +14,7 @@
 			windowServer.openApp(initialApp);
 			windowServer.saveState();
 		}
+		document.body.classList.remove('loading');
 	});
 
 	function onpointerup() {
