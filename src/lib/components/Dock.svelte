@@ -16,7 +16,7 @@
 				{/if}
 			{:else}
 				{#each apps as [name]}
-					<DockIcon appName={name as AppName} />
+					<DockIcon appName={name} />
 				{/each}
 			{/if}
 		{/each}
