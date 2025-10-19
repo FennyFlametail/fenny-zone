@@ -58,8 +58,8 @@
 			const newWidth = app.instance.position.width + e.screenX - lastX;
 			const newHeight = app.instance.position.height + e.screenY - lastY;
 
-			app.instance.position.width = Math.max(newWidth, minWindowSize)
-			app.instance.position.height = Math.max(newHeight, minWindowSize)
+			app.instance.position.width = Math.max(newWidth, minWindowSize);
+			app.instance.position.height = Math.max(newHeight, minWindowSize);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -93,7 +93,7 @@
 				aria-label="Close"
 				onclick={() => windowServer.closeApp(appName)}
 				onpointerdown={blockDrag}
-				href="/"
+				href={app.backTo ?? '/'}
 			>
 				<X class="windowButtonGlyph" size={14} />
 			</svelte:element>

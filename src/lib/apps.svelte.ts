@@ -35,6 +35,8 @@ export interface AppEntry {
 	route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */
 	parent?: AppName;
+	/** If JavaScript is disabled, the close button will go to this route instead of home */
+	backTo?: string;
 	/** Used for the Browser component */
 	url?: string;
 	defaultSize?: {
@@ -81,6 +83,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Fenny',
 		icon: '/icons/fenny.png',
 		route: '/characters/fenny',
+		backTo: '/characters',
 		defaultSize: {
 			width: 800,
 			height: 1000
@@ -91,6 +94,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Aren',
 		icon: '/icons/aren.png',
 		route: '/characters/aren',
+		backTo: '/characters',
 		defaultSize: {
 			width: 800,
 			height: 800
@@ -101,6 +105,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Ceph',
 		icon: '/icons/ceph.png',
 		route: '/characters/ceph',
+		backTo: '/characters',
 		defaultSize: {
 			width: 800,
 			height: 1000
@@ -111,6 +116,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Rigel',
 		icon: '/icons/rigel.webp',
 		route: '/characters/rigel',
+		backTo: '/characters',
 		defaultSize: {
 			width: 800,
 			height: 900
@@ -121,6 +127,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Nocturne',
 		icon: '/icons/nocturne.png',
 		route: '/characters/nocturne',
+		backTo: '/characters',
 		defaultSize: {
 			width: 800,
 			height: 1000
