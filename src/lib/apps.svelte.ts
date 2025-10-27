@@ -97,7 +97,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		backTo: '/characters',
 		defaultSize: {
 			width: 800,
-			height: 800
+			height: 1000
 		}
 	},
 	ceph: {
@@ -119,7 +119,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		backTo: '/characters',
 		defaultSize: {
 			width: 800,
-			height: 900
+			height: 1000
 		}
 	},
 	nocturne: {
