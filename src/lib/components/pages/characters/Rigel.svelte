@@ -12,7 +12,7 @@
 			<li>Pronouns: he/him</li>
 			<li>Orientation: gay</li>
 			<li>
-				Personality: huge party animal, cocky, reckless, short-tempered
+				Personality: huge party animal, cocky, reckless, hotheaded
 				<ul>
 					<li>lives in the moment, unsure what he wants out of life long term</li>
 					<li>not very dependable, but has a good heart</li>
@@ -26,7 +26,7 @@
 					<li>fast talker, often speaks without thinking</li>
 				</ul>
 			</li>
-			<li>Job: delivery person and other gig jobs</li>
+			<li>Job: delivery person and various other gig jobs</li>
 			<li>Interests: partying, punk shows, urbex, graffiti</li>
 			<li>Favorite color: <span class="color">dark pink</span></li>
 			<li>
@@ -38,13 +38,13 @@
 			<li>Favorite drink: energy drinks and hard seltzer</li>
 			<li>Favorite ice cream flavor: strawberry shortcake bars</li>
 			<li>Favorite music genres: punk, ska</li>
-			<li>Clothing style: punk</li>
+			<li>Clothing style: punk (or raver when he's partying)</li>
 			<li>
 				Typical outfit:
 				<ul>
 					<li>denim or leather vest with lots of pins & patches</li>
 					<li>ripped jeans</li>
-					<li>mesh raver outfits</li>
+					<li>worn canvas shoes</li>
 				</ul>
 			</li>
 			<li>

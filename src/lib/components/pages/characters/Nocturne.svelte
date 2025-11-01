@@ -7,15 +7,16 @@
 		<ul>
 			<li>Name: Nocturne Blackmoon</li>
 			<li>Species: goat</li>
-			<li>Height: 5 ft 10 in (1.78 m) (excluding horns)</li>
-			<li>Pronouns: they/them</li>
-			<li>Orientation: pansexual (masculine preference)</li>
 			<li>Age: 20</li>
+			<li>Height: 5 ft 10 in (1.78 m) (excluding horns)</li>
+			<li>Pronouns: they/them (agender)</li>
+			<li>Orientation: pansexual (masculine preference)</li>
 			<li>
-				Personality: serious, reserved, pragmatic, rarely smiles
+				Personality: serious, reserved, pragmatic, determined
 				<ul>
 					<li>good-hearted but abrasive, easily irritated</li>
-					<li>confident, but very self-critical</li>
+					<li>rarely smiles</li>
+					<li>confident, but self-critical</li>
 					<li>refuses to admit when they need help</li>
 					<li>tries not to get attached to people (afraid of losing them)</li>
 				</ul>
@@ -34,8 +35,8 @@
 					<li>perceptive (good night vision)</li>
 					<li>acrobatic (excellent balance, skilled at parkour)</li>
 					<li>good at blending in</li>
-					<li>expert shooter (prefers pistols, but proficient with most weapons)</li>
-					<li>can hold their own hand-to-hand, but prefers to run</li>
+					<li>expert shooter (prefers pistols)</li>
+					<li>can hold their own hand-to-hand, but prefers running over fighting</li>
 				</ul>
 			</li>
 			<li>Favorite color: <span class="color">purple</span></li>
@@ -68,8 +69,7 @@
 			<li>
 				Notes:
 				<ul>
-					<li>left-handed</li>
-					<li>prosthetic right arm</li>
+					<li>left-handed, has had a prosthetic right arm since childhood</li>
 					<li>dislikes heat, swimming, processed food</li>
 					<li>uses guns, but doesn’t fetishize them</li>
 					<li>doesn’t enjoy killing, but is willing to use violence to protect the vulnerable</li>

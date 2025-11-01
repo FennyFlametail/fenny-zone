@@ -34,7 +34,7 @@
 			<li>Favorite color: <span class="color">forest green</span></li>
 			<li>Favorite food: Korean BBQ</li>
 			<li>Favorite drink: iced black coffee</li>
-			<li>Favorite ice cream flavor: dark chocolate gelato</li>
+			<li>Favorite ice cream flavor: stracciatella</li>
 			<li>Favorite music genres: punk, ska, hip-hop & rap, indie rock</li>
 			<li>Clothing style: casual, comfortable, understated</li>
 			<li>

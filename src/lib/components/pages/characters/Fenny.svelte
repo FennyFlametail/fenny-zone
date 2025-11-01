@@ -21,7 +21,7 @@
 			<li>
 				Voice: warm and friendly, emotive, a bit loud
 				<ul>
-					<li>scatterbrained, says "like" a lot</li>
+					<li>a bit scatterbrained, says "like" a lot</li>
 				</ul>
 			</li>
 			<li>Job: software developer</li>

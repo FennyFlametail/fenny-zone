@@ -34,7 +34,7 @@
 			<li>
 				Favorite food: sushi
 				<ul>
-					<li>doesn’t cook much, mostly sticks to frozen food when Fenny or Aren aren’t around</li>
+					<li>doesn’t cook much, mostly sticks to frozen food when he's on his own</li>
 				</ul>
 			</li>
 			<li>
