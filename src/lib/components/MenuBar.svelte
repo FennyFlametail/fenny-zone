@@ -45,7 +45,7 @@
 	<!-- TODO fix flash of menu items when JS is disabled -->
 	<MenuCategory {menubar} title={focusedAppTitle} isAppMenu={true}>
 		<MenuItem
-			title={`Quit ${focusedAppTitle}`}
+			title={`Close ${focusedAppTitle}`}
 			onclick={windowServer.closeCurrent}
 			disabled={windowServer.desktopFocused || runningAppsCount === 0}
 		/>
