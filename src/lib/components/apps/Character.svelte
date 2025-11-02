@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { AppName } from '$lib/apps.svelte';
+	import AppLink from '$lib/components/AppLink.svelte';
 	import { type CharacterName, relationships } from '$lib/relationships';
 	import type { Snippet } from 'svelte';
 	const {
@@ -20,8 +22,10 @@
 		{@render profile()}
 		{#if relationships[name]}
 			<h3>Relationships</h3>
-			{#each Object.entries(relationships[name]) as [other, text]}
-				<h4>{other}</h4>
+			{#each Object.entries(relationships[name]) as [character, text]}
+				<h4>
+					<AppLink appName={character.toLowerCase() as AppName}>{character}</AppLink>
+				</h4>
 				<p>{text}</p>
 			{/each}
 		{/if}
