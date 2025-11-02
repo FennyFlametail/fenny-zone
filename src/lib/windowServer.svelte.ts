@@ -129,7 +129,7 @@ export default class WindowServer {
 		this.desktopFocused = false;
 	};
 
-	closeApp = (appName?: AppName) => {
+	closeApp = (appName: AppName) => {
 		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {

@@ -17,6 +17,10 @@
 		document.body.classList.remove('loading');
 	});
 
+	function onkeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') windowServer.closeCurrent();
+	}
+
 	function onpointerup() {
 		setTimeout(() => windowServer.saveState(), 100);
 	}
@@ -33,7 +37,7 @@
 	</noscript>
 </main>
 
-<svelte:body {onpointerup} />
+<svelte:body {onkeydown} {onpointerup} />
 
 <style>
 	.windowLayer {
