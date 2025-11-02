@@ -106,9 +106,7 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<h2 class="windowTitle">
-				{app.title}{dev
-					? ` - ${Math.round(app.instance.position.width)}x${Math.round(app.instance.position.height)}`
-					: null}
+				{app.title}
 			</h2>
 		</hgroup>
 	</header>
