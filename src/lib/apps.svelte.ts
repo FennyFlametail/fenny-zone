@@ -58,30 +58,30 @@ export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] }
 const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
-		icon: '/icons/finder.png'
+		icon: '/icons/finder.webp'
 	},
 	TextEdit: {
 		title: 'TextEdit',
-		icon: '/icons/textedit.png'
+		icon: '/icons/textedit.webp'
 	},
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,
 		title: 'Readme',
-		icon: '/icons/txt.png',
+		icon: '/icons/txt.webp',
 		route: '/readme'
 	},
 	characters: {
 		parent: 'Finder',
 		Page: Characters,
 		title: 'Characters',
-		icon: '/icons/folder-characters.png',
+		icon: '/icons/folder-characters.webp',
 		route: '/characters'
 	},
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
-		icon: '/icons/fenny.png',
+		icon: '/icons/fenny.webp',
 		route: '/characters/fenny',
 		backTo: '/characters',
 		defaultSize: {
@@ -92,7 +92,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	aren: {
 		Page: Aren,
 		title: 'Aren',
-		icon: '/icons/aren.png',
+		icon: '/icons/aren.webp',
 		route: '/characters/aren',
 		backTo: '/characters',
 		defaultSize: {
@@ -103,7 +103,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
-		icon: '/icons/ceph.png',
+		icon: '/icons/ceph.webp',
 		route: '/characters/ceph',
 		backTo: '/characters',
 		defaultSize: {
@@ -125,7 +125,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
-		icon: '/icons/nocturne.png',
+		icon: '/icons/nocturne.webp',
 		route: '/characters/nocturne',
 		backTo: '/characters',
 		defaultSize: {
@@ -137,13 +137,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Projects,
 		title: 'Projects',
-		icon: '/icons/folder-projects.png',
+		icon: '/icons/folder-projects.webp',
 		route: '/projects'
 	},
 	toddspin: {
 		Page: Browser,
 		title: 'Toddspin',
-		icon: '/icons/toddspin.png',
+		icon: '/icons/toddspin.webp',
 		route: '/toddspin',
 		url: 'https://toddspin.fenny.zone',
 		defaultSize: {
@@ -153,7 +153,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	sauce: {
 		Page: Browser,
 		title: 'CLICK FOR SAUCE',
-		icon: '/icons/sauce.png',
+		icon: '/icons/sauce.webp',
 		route: '/sauce',
 		url: 'https://sauce.fenny.zone',
 		defaultSize: {
@@ -175,7 +175,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Trash,
 		title: 'Trash',
-		icon: '/icons/trash.png',
+		icon: '/icons/trash.webp',
 		route: '/trash'
 	}
 });

@@ -19,13 +19,13 @@
 	<FileIcon name="Bluesky" icon="/icons/bluesky.png" href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
-		icon="/icons/furaffinity.png"
+		icon="/icons/furaffinity.webp"
 		href="https://www.furaffinity.net/user/fuzzyfennekin"
 	/>
-	<FileIcon name="Telegram" icon="/icons/telegram.png" href="https://t.me/FennyFlametail" />
+	<FileIcon name="Telegram" icon="/icons/telegram.webp" href="https://t.me/FennyFlametail" />
 	<FileIcon
 		name="HowLongToBeat"
-		icon="/icons/hltb.png"
+		icon="/icons/hltb.webp"
 		href="https://howlongtobeat.com/user/FennyFlametail/"
 	/>
 </div>
