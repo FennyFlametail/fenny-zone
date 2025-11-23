@@ -5,7 +5,7 @@ export default function setupFileIconContainer(isDesktop = false) {
 	const getSelectedIcon = () => selected;
 	const setSelectedIcon = (identifier: symbol) => (selected = identifier);
 
-	setFileIconContext(getSelectedIcon, setSelectedIcon, isDesktop);
+	setFileIconContext({ getSelectedIcon, setSelectedIcon, isDesktop });
 
 	function onClickIconContainer(e: MouseEvent) {
 		if (

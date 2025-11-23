@@ -18,7 +18,7 @@
 		openMenu.removeAttribute('open');
 		return true;
 	}
-	setMenubarContext(dismissMenu);
+	setMenubarContext({ dismissMenu });
 
 	function dismissOnOutsideClick(e: MouseEvent) {
 		const path = e.composedPath();

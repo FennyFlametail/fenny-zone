@@ -15,7 +15,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	setAppContext(appName, app);
+	setAppContext({ appName, app });
 
 	const minWindowSize = 250;
 
