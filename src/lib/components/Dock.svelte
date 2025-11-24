@@ -30,8 +30,6 @@
 
 <style>
 	.dock {
-		--padding: var(--dock-padding);
-		--icon-size: var(--dock-icon-size);
 		z-index: 10000;
 		position: fixed;
 		bottom: 0;
@@ -41,13 +39,15 @@
 		gap: 1px;
 		height: var(--dock-height);
 		box-shadow: 0 0 0 1px #00000026;
+		/* fix incorrect sizing in Safari */
+		max-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 	}
 
 	.dockSection {
 		position: relative;
 		display: flex;
 		align-items: flex-end;
-		padding-block: var(--padding);
+		padding-block: var(--dock-padding);
 		background-color: #ffffff66;
 		border: 1px solid #ffffff26;
 
@@ -56,20 +56,20 @@
 		}
 
 		&:first-child {
-			padding-inline-start: calc(var(--padding) / 2);
+			padding-inline-start: calc(var(--dock-padding) / 2);
 
 			:global(.dockIcon:last-child) {
 				/* extend the icon a bit to cover the gap between dock sections */
-				padding-inline-end: calc(var(--padding) + 2px);
+				padding-inline-end: calc(var(--dock-padding) + 2px);
 				margin-inline-end: -2px;
 			}
 		}
 
 		&:last-child {
-			padding-inline-end: calc(var(--padding) / 2);
+			padding-inline-end: calc(var(--dock-padding) / 2);
 
 			:global(.dockIcon:first-child) {
-				padding-inline-start: calc(var(--padding) + 1px);
+				padding-inline-start: calc(var(--dock-padding) + 1px);
 				margin-inline-start: -1px;
 			}
 		}

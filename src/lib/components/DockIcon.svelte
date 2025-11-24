@@ -47,12 +47,12 @@
 <style>
 	.dockIcon {
 		flex-shrink: 0;
-		width: var(--icon-size);
-		height: var(--icon-size);
+		width: var(--dock-icon-size);
+		height: var(--dock-icon-size);
 		text-align: center;
 		position: relative;
 		box-sizing: content-box;
-		padding: 0 calc(var(--padding) / 2);
+		padding: 0 calc(var(--dock-padding) / 2);
 		background: none;
 		border: none;
 		transition: 250ms ease;
@@ -76,8 +76,8 @@
 
 			&:hover {
 				margin-bottom: 10px;
-				width: calc(var(--icon-size) * 2);
-				height: calc(var(--icon-size) * 2);
+				width: calc(var(--dock-icon-size) * 2);
+				height: calc(var(--dock-icon-size) * 2);
 			}
 
 			/* icons next to hovered */
@@ -88,8 +88,8 @@
 				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(1)
 			) {
 				margin-bottom: 10px;
-				width: calc(var(--icon-size) * 1.8);
-				height: calc(var(--icon-size) * 1.8);
+				width: calc(var(--dock-icon-size) * 1.8);
+				height: calc(var(--dock-icon-size) * 1.8);
 			}
 
 			/* icons two away from hovered */
@@ -102,8 +102,8 @@
 				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(2)
 			) {
 				margin-bottom: 5px;
-				width: calc(var(--icon-size) * 1.4);
-				height: calc(var(--icon-size) * 1.4);
+				width: calc(var(--dock-icon-size) * 1.4);
+				height: calc(var(--dock-icon-size) * 1.4);
 			}
 		}
 
@@ -165,7 +165,7 @@
 		}
 		@media not (prefers-reduced-motion: reduce) {
 			animation: var(--bounceAnimDuration) ease var(--bounceAnimSteps) alternate bounce;
-			
+
 			:global(body.loading) & {
 				--bounceAnimSteps: 0;
 			}
