@@ -10,33 +10,40 @@
 			<li>Age: 20</li>
 			<li>Height: 5 ft 10 in (1.78 m) (excluding horns)</li>
 			<li>Pronouns: they/them (agender)</li>
-			<li>Orientation: pansexual (masculine preference)</li>
+			<li>Orientation: pansexual, masculine preference</li>
 			<li>
-				Personality: serious, reserved, pragmatic, determined
+				Personality: serious, reserved, pragmatic, stubborn
 				<ul>
-					<li>good-hearted but abrasive, easily irritated</li>
+					<li>good-hearted but abrasive, gets irritated easily</li>
 					<li>rarely smiles</li>
-					<li>confident, but self-critical</li>
-					<li>refuses to admit when they need help</li>
-					<li>tries not to get attached to people (afraid of losing them)</li>
+					<li>acts confident, but is very self-critical</li>
+					<li>doesn't like asking for help</li>
+					<li>tries not to get attached to people (scared of losing them)</li>
 				</ul>
 			</li>
 			<li>
 				Voice: soft, medium pitch, a bit raspy
 				<ul>
-					<li>very deliberate speech, doesn’t use filler words</li>
+					<li>very deliberate speech, no filler words</li>
 				</ul>
 			</li>
-			<li>Occupation: renegade/freedom fighter, on the run from a galaxy-spanning corporation</li>
+			<li>
+				Occupation: former thief, currently on the run from the corporation controlling local space
+			</li>
 			<li>
 				Skills:
 				<ul>
 					<li>quick-thinking</li>
-					<li>perceptive (good night vision)</li>
-					<li>acrobatic (excellent balance, skilled at parkour)</li>
-					<li>good at blending in</li>
+					<li>perceptive</li>
+					<ul>
+						<li>good night vision</li>
+					</ul>
+					<li>acrobatic</li>
+					<ul>
+						<li>excellent balance, skilled at parkour</li>
+					</ul>
 					<li>expert shooter (prefers pistols)</li>
-					<li>can hold their own hand-to-hand, but prefers running over fighting</li>
+					<li>capable at hand-to-hand, but prefers to run instead of fight</li>
 				</ul>
 			</li>
 			<li>Favorite color: <span class="color">purple</span></li>
@@ -45,9 +52,9 @@
 			<li>
 				Clothing style: techwear, black and white with small accents of color
 				<ul>
-					<li>nothing baggy or loose hanging</li>
+					<li>nothing baggy or loose</li>
 					<li>not militaristic (no camo)</li>
-					<li>doesn’t like showing bare skin in public</li>
+					<li>prefers not to show bare fur below the neck in public</li>
 				</ul>
 			</li>
 			<li>
@@ -56,7 +63,9 @@
 					<li>
 						long black jacket (gift from their former crew, the only possession they’re attached to)
 						<ul>
-							<li>cutouts on right arm aligned with their arm markings</li>
+							<li>nonbinary flag patch</li>
+							<li><b>Solstice</b> (their home planet) written in alien script on left arm</li>
+							<li>magnetic cutouts on right arm, aligned with their arm markings</li>
 						</ul>
 					</li>
 					<li>pink AR glasses on forehead (optional)</li>
@@ -69,7 +78,8 @@
 			<li>
 				Notes:
 				<ul>
-					<li>left-handed, has had a prosthetic right arm since childhood</li>
+					<li>left-handed</li>
+					<li>has had a prosthetic right arm since childhood</li>
 					<li>dislikes heat, swimming, processed food</li>
 					<li>uses guns, but doesn’t fetishize them</li>
 					<li>doesn’t enjoy killing, but is willing to use violence to protect the vulnerable</li>
@@ -84,7 +94,7 @@
 				<a
 					target="_blank"
 					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/1353430/Nocturne"
-					>Gallery (contains NSFW)</a
+					>Gallery (18+)</a
 				>
 			</li>
 			<li>

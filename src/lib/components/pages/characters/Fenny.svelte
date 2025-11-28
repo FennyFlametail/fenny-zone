@@ -12,7 +12,7 @@
 			<li>Pronouns: he/him</li>
 			<li>Orientation: gay</li>
 			<li>
-				Personality: cheerful, caring, affectionate, impulsive, procrastinates a lot
+				Personality: upbeat, caring, affectionate, impulsive, procrastinates a lot
 				<ul>
 					<li>gets bursts of energy when he’s excited, like a fennec</li>
 					<li>disorganized, but knows where to find things</li>
@@ -24,7 +24,7 @@
 					<li>a bit scatterbrained, says "like" a lot</li>
 				</ul>
 			</li>
-			<li>Job: software developer</li>
+			<li>Job: web developer</li>
 			<li>Interests/hobbies: food, baking, video games, technology, plants</li>
 			<li>Favorite color: <span class="color">purple</span></li>
 			<li>
@@ -35,9 +35,9 @@
 			</li>
 			<li>Favorite drink: bubble tea</li>
 			<li>Favorite ice cream flavor: cotton candy</li>
-			<li>Favorite music genres: symphonic &amp; power metal, pop, punk</li>
+			<li>Favorite music genres: pop, punk, ska, symphonic &amp; power metal</li>
 			<li>
-				Clothing style: bright colors, 2000s and skater-inspired
+				Clothing style: bright colors, 2000s skater culture-inspired
 				<ul>
 					<li>likes fox-themed clothing and accessories</li>
 				</ul>
@@ -49,11 +49,11 @@
 					<ul>
 						<li>borrows Aren’s jackets sometimes</li>
 					</ul>
-					<li>optional: colorful bandana around neck</li>
+					<li>optional: colorful bandana</li>
 					<li>graphic tee</li>
-					<li>jeans or cargo pants (never shorts)</li>
-					<li>colorful socks and undies (shares with Ceph)</li>
-					<li>colorful sneakers or canvas skate shoes</li>
+					<li>jeans or cargo pants (doesn't like shorts)</li>
+					<li>colorful socks and undies (shared with Ceph)</li>
+					<li>colorful sneakers or canvas shoes</li>
 				</ul>
 			</li>
 			<li>
@@ -74,7 +74,7 @@
 				<a
 					target="_blank"
 					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37713/Fenny"
-					>Gallery (contains NSFW)</a
+					>Gallery (18+)</a
 				>
 			</li>
 			<li>

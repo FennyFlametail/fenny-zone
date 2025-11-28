@@ -18,7 +18,7 @@
 
 <div class="character" style:--image={`url('${image}')`}>
 	<div class="container">
-		<h3>Profile</h3>
+		<h3>About</h3>
 		{@render profile()}
 		{#if relationships[name]}
 			<h3>Relationships</h3>

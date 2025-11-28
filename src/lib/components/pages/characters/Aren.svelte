@@ -14,8 +14,8 @@
 			<li>
 				Personality: outgoing, charismatic, confident, assertive
 				<ul>
-					<li>likes taking care of people</li>
-					<li>aromantic, but has deep bonds with his friends</li>
+					<li>aromantic, but loves his friends deeply</li>
+					<li>does his best to take care of people</li>
 				</ul>
 			</li>
 			<li>Voice: strong, deep but not booming</li>
@@ -40,9 +40,9 @@
 			<li>
 				Typical outfit:
 				<ul>
-					<li>green or brown bomber jacket with simple tee underneath</li>
+					<li>green or brown bomber jacket with plain colored tee underneath</li>
 					<ul>
-						<li>leather jacket when riding his motorcycle</li>
+						<li>or leather biker jacket</li>
 					</ul>
 					<li>blue denim jeans, or cargo pants or shorts</li>
 					<li>sneakers</li>
@@ -58,7 +58,7 @@
 				<a
 					target="_blank"
 					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37715/Aren"
-					>Gallery (contains NSFW)</a
+					>Gallery (18+)</a
 				>
 			</li>
 			<li>

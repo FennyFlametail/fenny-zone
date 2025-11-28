@@ -16,10 +16,10 @@
 				things he likes
 				<ul>
 					<li>doesn’t drink alcohol or swear</li>
-					<li>often sleepy</li>
+					<li>usually tired</li>
 					<li>gets flustered easily</li>
-					<li>likes being around people in social situations, but rarely speaks up</li>
-					<li>struggles to feel like he truly belongs, except with Fenny and Aren</li>
+					<li>likes being around people, but rarely speaks up</li>
+					<li>struggles to feel like he belongs, except around Fenny and Aren</li>
 				</ul>
 			</li>
 			<li>
@@ -28,13 +28,13 @@
 					<li>uses lots of filler words (um, ah, etc.)</li>
 				</ul>
 			</li>
-			<li>Job: engineering grad student</li>
+			<li>Job: astrophysics grad student</li>
 			<li>Interests: space, video games, anime, swimming</li>
 			<li>Favorite color: <span class="color">pink</span></li>
 			<li>
 				Favorite food: sushi
 				<ul>
-					<li>doesn’t cook much, mostly sticks to frozen food when he's on his own</li>
+					<li>doesn't cook much, but learning from Fenny and Aren</li>
 				</ul>
 			</li>
 			<li>
@@ -46,9 +46,10 @@
 			<li>Favorite ice cream flavor: mango</li>
 			<li>Favorite music genres: electronic (hardcore, DNB, chiptune), video game soundtracks</li>
 			<li>
-				Clothing style: streetwear, colorful and tight fitting, occasional space/star designs
+				Clothing style: streetwear, tight fitting, black with vibrant colors, often with space/star
+				designs
 				<ul>
-					<li>never takes off his pendant, sometimes wears it on a collar</li>
+					<li>always wears his pendant, sometimes on a collar</li>
 				</ul>
 			</li>
 			<li>
@@ -62,7 +63,7 @@
 					</li>
 					<li>bright colored graphic or patterned tee</li>
 					<li>black pants, often with extraneous chains, seams, etc.</li>
-					<li>colorful socks and undies (shares with Fenny)</li>
+					<li>colorful socks and undies (shared with Fenny)</li>
 					<li>sneakers or short boots</li>
 					<li>
 						messenger bag covered in pins
@@ -78,7 +79,9 @@
 					<li>left-handed</li>
 					<li>bioluminescent parts glow brighter when excited or angry</li>
 					<li>paw pads act like Qi chargers</li>
-					<li>learning to play bass from Aren (mostly as an excuse to spend time with him)</li>
+					<li>
+						learning to play bass from Aren (mostly as an excuse to be alone with him)
+					</li>
 				</ul>
 			</li>
 		</ul>
@@ -90,7 +93,7 @@
 				<a
 					target="_blank"
 					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/254907/Ceph"
-					>Gallery (contains NSFW)</a
+					>Gallery (18+)</a
 				>
 			</li>
 			<li>
