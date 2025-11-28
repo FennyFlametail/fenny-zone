@@ -203,5 +203,9 @@
 		height: 20px;
 		touch-action: pinch-zoom;
 		cursor: nwse-resize;
+
+		@media (scripting: none) {
+			display: none;
+		}
 	}
 </style>
