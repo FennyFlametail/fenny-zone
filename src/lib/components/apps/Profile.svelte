@@ -6,20 +6,20 @@
 	const {
 		name,
 		image,
-		profile,
+		bio,
 		links
 	}: {
 		name: CharacterName;
 		image: string;
-		profile: Snippet;
+		bio: Snippet;
 		links: Snippet;
 	} = $props();
 </script>
 
-<div class="character" style:--image={`url('${image}')`}>
+<div class="profile" style:--image={`url('${image}')`}>
 	<div class="container">
 		<h3>About</h3>
-		{@render profile()}
+		{@render bio()}
 		{#if relationships[name]}
 			<h3>Relationships</h3>
 			{#each Object.entries(relationships[name]) as [character, text]}
@@ -35,7 +35,7 @@
 </div>
 
 <style>
-	.character {
+	.profile {
 		position: relative;
 		width: 100%;
 		height: 100%;
@@ -54,7 +54,7 @@
 		text-wrap: pretty;
 	}
 
-	.character :global(.color) {
+	.profile :global(.color) {
 		padding: 0.2em;
 		border-radius: 0.2em;
 	}
@@ -70,7 +70,7 @@
 		padding-block-start: 0;
 	}
 
-	.character :global(p) {
+	.profile :global(p) {
 		padding-inline-start: 20px;
 	}
 </style>

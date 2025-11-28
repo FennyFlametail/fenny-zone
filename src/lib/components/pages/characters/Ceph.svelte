@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Character from '$lib/components/apps/Character.svelte';
+	import Profile from '$lib/components/apps/Profile.svelte';
 </script>
 
-<Character name="Ceph" image="/characters/ceph.webp">
-	{#snippet profile()}
+<Profile name="Ceph" image="/characters/ceph.webp">
+	{#snippet bio()}
 		<ul>
 			<li>Name: Ceph Azulux</li>
 			<li>Species: Luxray</li>
@@ -106,7 +106,7 @@
 			</li>
 		</ul>
 	{/snippet}
-</Character>
+</Profile>
 
 <style>
 	.color {
