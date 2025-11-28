@@ -139,6 +139,12 @@ export default class WindowServer {
 			return;
 		}
 		const initialPosition = WindowServer.getInitialPosition(app.defaultSize);
+		if (
+			app.instance.position.width === initialPosition.width &&
+			app.instance.position.height === initialPosition.height
+		) {
+			return;
+		}
 		app.instance.zooming = true;
 		app.instance.position.width = initialPosition.width;
 		app.instance.position.height = initialPosition.height;
