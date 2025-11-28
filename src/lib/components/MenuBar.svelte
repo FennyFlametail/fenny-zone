@@ -56,11 +56,16 @@
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
 		<MenuItem
+			title="Zoom"
+			onclick={() => windowServer.zoomApp(windowServer.focusedApp?.name)}
+			disabled={windowServer.desktopFocused || runningAppsCount === 0}
+		/>
+		<hr />
+		<MenuItem
 			title="Arrange Windows"
 			onclick={windowServer.arrangeWindows}
 			disabled={runningAppsCount === 0}
 		/>
-		<hr />
 		<MenuItem
 			title="Close All Windows"
 			onclick={windowServer.closeAll}
@@ -102,6 +107,14 @@
 		padding-inline: 20px;
 		-webkit-user-select: none;
 		user-select: none;
+
+		hr {
+			position: relative;
+			margin-block: 5px;
+			border: none;
+			height: 2px;
+			background: linear-gradient(to bottom, rgb(207 209 211) 50%, rgb(237 239 241) 50%);
+		}
 	}
 
 	.spacer {

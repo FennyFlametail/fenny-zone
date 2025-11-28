@@ -113,7 +113,8 @@ export default class WindowServer {
 		return app as RunningApp;
 	};
 
-	focusApp = (appName: AppName) => {
+	focusApp = (appName?: AppName) => {
+		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {
 			console.warn(`(focusApp) ${appName} isn't running!`);
@@ -130,7 +131,8 @@ export default class WindowServer {
 		this.desktopFocused = false;
 	};
 
-	zoomApp = (appName: AppName) => {
+	zoomApp = (appName?: AppName) => {
+		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {
 			console.warn(`(zoomApp) ${appName} isn't running!`);
@@ -142,7 +144,7 @@ export default class WindowServer {
 		app.instance.position.height = initialPosition.height;
 	};
 
-	closeApp = (appName: AppName) => {
+	closeApp = (appName?: AppName) => {
 		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {
