@@ -35,13 +35,21 @@
 		allowDrag = false;
 	}
 
+	function focusWithoutDrag(e: PointerEvent) {
+		e.stopPropagation();
+		windowServer.focusApp(appName);
+	}
+
 	function startDrag(e: PointerEvent) {
+		windowServer.focusApp(appName);
 		windowServer.draggingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function startResize(e: PointerEvent) {
+		e.stopPropagation();
+		windowServer.focusApp(appName);
 		windowServer.resizingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
@@ -80,7 +88,7 @@
 
 <article
 	bind:this={element}
-	onpointerdown={() => windowServer.focusApp(appName)}
+	onpointerdown={startDrag}
 	ontransitionend={removeZoomClass}
 	class={{
 		window: true,
@@ -95,7 +103,7 @@
 	style:z-index={app.instance.position.zIndex}
 	style:--minWindowSize={`${minWindowSize}px`}
 >
-	<header class="windowTitlebar" onpointerdown={startDrag}>
+	<header class="windowTitlebar">
 		<div class="windowControls">
 			<svelte:element
 				this={browser ? 'button' : 'a'}
@@ -126,7 +134,7 @@
 			</h2>
 		</hgroup>
 	</header>
-	<div class="windowContent">
+	<div class="windowContent" onpointerdown={focusWithoutDrag}>
 		<app.Page />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
