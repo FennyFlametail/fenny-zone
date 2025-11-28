@@ -175,7 +175,8 @@ ellipse 60% 70% at center bottom,
 		}
 
 		@media not (scripting: none) {
-			&:active:not(:disabled) {
+			/* TODO remove .minimize when minimize is implemented */
+			&:active:not(:disabled, .minimize) {
 				filter: brightness(0.75);
 			}
 		}

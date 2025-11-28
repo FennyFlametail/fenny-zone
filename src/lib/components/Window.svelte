@@ -72,12 +72,22 @@
 		windowServer.draggingEl = undefined;
 		windowServer.resizingEl = undefined;
 	}
+
+	function removeZoomClass() {
+		app.instance.zooming = false;
+	}
 </script>
 
 <article
 	bind:this={element}
 	onpointerdown={() => windowServer.focusApp(appName)}
-	class={['window', !focused && !ssr && 'inactive']}
+	ontransitionend={removeZoomClass}
+	class={{
+		window: true,
+		brushed: app.brushed,
+		inactive: !focused && !ssr,
+		zooming: app.instance.zooming
+	}}
 	style:--x={`${app.instance.position.x}px`}
 	style:--y={`${app.instance.position.y}px`}
 	style:--width={`${app.instance.position.width}px`}
@@ -101,7 +111,12 @@
 			<button class="windowButton minimize" aria-label="Minimize" onpointerdown={blockDrag}>
 				<Minus class="windowButtonGlyph" size={14} />
 			</button>
-			<button class="windowButton maximize" aria-label="Maximize" onpointerdown={blockDrag}>
+			<button
+				class="windowButton maximize"
+				aria-label="Maximize"
+				onclick={() => windowServer.zoomApp(appName)}
+				onpointerdown={blockDrag}
+			>
 				<Plus class="windowButtonGlyph" size={14} />
 			</button>
 		</div>
@@ -135,6 +150,11 @@
 
 		&.inactive {
 			box-shadow: var(--panel-box-shadow-inactive);
+		}
+
+		&.zooming {
+			transition: 0.25s ease;
+			transition-property: width, height;
 		}
 
 		@media (scripting: none) {
@@ -173,6 +193,13 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
+		/* TODO remove when minimize is implemented */
+		@media not (scripting: none) {
+			&.minimize {
+				cursor: not-allowed;
+			}
+		}
 	}
 
 	.windowTitleSection {

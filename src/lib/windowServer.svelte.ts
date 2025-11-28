@@ -130,6 +130,18 @@ export default class WindowServer {
 		this.desktopFocused = false;
 	};
 
+	zoomApp = (appName: AppName) => {
+		const app = this.apps[appName];
+		if (!app.instance) {
+			console.warn(`(zoomApp) ${appName} isn't running!`);
+			return;
+		}
+		const initialPosition = WindowServer.getInitialPosition(app.defaultSize);
+		app.instance.zooming = true;
+		app.instance.position.width = initialPosition.width;
+		app.instance.position.height = initialPosition.height;
+	};
+
 	closeApp = (appName: AppName) => {
 		if (!appName) return;
 		const app = this.apps[appName];
@@ -186,7 +198,7 @@ export default class WindowServer {
 	};
 
 	loadState = () => {
-if (!browser) return;
+		if (!browser) return;
 		const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {
@@ -209,7 +221,7 @@ if (!browser) return;
 	};
 
 	saveState = () => {
-if (!browser) return;
+		if (!browser) return;
 		const state = Object.fromEntries(
 			Object.entries(this.runningApps).map(([appName, app]) => [appName, app.instance.position])
 		);

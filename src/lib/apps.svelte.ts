@@ -55,6 +55,7 @@ export interface AppEntry {
 		position: Position;
 		launchOrder: number;
 		modified?: boolean;
+		zooming?: boolean;
 	};
 }
 
