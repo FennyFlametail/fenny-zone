@@ -109,6 +109,7 @@ export default class WindowServer {
 			};
 			this.desktopFocused = false;
 		}
+		this.saveState();
 		return app as RunningApp;
 	};
 
