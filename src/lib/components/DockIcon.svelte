@@ -21,7 +21,7 @@
 
 	const isOpen = $derived.by(() => {
 		if (typeof open === 'boolean') return open;
-		return windowServer.appsByParent.get(appName)?.length;
+		return windowServer.appsByParent.has(appName) || appName in windowServer.runningApps;
 	});
 
 	const bounceAnimDuration = 375;
@@ -163,9 +163,11 @@
 				opacity: 0;
 			}
 		}
-		@media not (prefers-reduced-motion: reduce) {
-			animation: var(--bounceAnimDuration) ease var(--bounceAnimSteps) alternate bounce;
 
+		@media not (prefers-reduced-motion: reduce) {
+			.dockIcon.open & {
+				animation: var(--bounceAnimDuration) ease var(--bounceAnimSteps) alternate bounce;
+			}
 			:global(body.loading) & {
 				--bounceAnimSteps: 0;
 			}

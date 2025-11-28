@@ -61,10 +61,10 @@ export default class WindowServer {
 	);
 
 	appsByParent = $derived(
-		Map.groupBy(
-			Object.entries(this.runningApps),
-			([appName, app]) => app.parent ?? appName
-		) as ReadonlyMap<AppName, [AppName, RunningApp][]>
+		Map.groupBy(Object.entries(this.runningApps), ([, app]) => app.parent || null) as ReadonlyMap<
+			AppName | null,
+			[AppName, RunningApp][]
+		>
 	);
 
 	desktopFocused = $state(true);

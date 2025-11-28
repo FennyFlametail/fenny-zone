@@ -13,7 +13,7 @@
 		if (initialApp) {
 			windowServer.openApp(initialApp);
 		}
-		document.body.classList.remove('loading');
+		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
 	function onkeydown(e: KeyboardEvent) {
