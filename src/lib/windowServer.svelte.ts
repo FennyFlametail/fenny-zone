@@ -186,6 +186,7 @@ export default class WindowServer {
 	};
 
 	loadState = () => {
+if (!browser) return;
 		const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {
@@ -208,6 +209,7 @@ export default class WindowServer {
 	};
 
 	saveState = () => {
+if (!browser) return;
 		const state = Object.fromEntries(
 			Object.entries(this.runningApps).map(([appName, app]) => [appName, app.instance.position])
 		);
