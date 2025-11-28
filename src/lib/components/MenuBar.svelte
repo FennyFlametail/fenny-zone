@@ -7,7 +7,11 @@
 	import { getWindowServerContext, setMenubarContext } from '$lib/context';
 
 	const windowServer = getWindowServerContext();
-	const focusedAppTitle = $derived(windowServer.focusedApp?.app.title ?? getApps().Finder.title);
+	const focusedAppTitle = $derived(
+		windowServer.focusedApp?.app.menuTitle ||
+			windowServer.focusedApp?.app.title ||
+			getApps().Finder.title
+	);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();
@@ -45,7 +49,7 @@
 	<!-- TODO fix flash of menu items when JS is disabled -->
 	<MenuCategory {menubar} title={focusedAppTitle} isAppMenu={true}>
 		<MenuItem
-			title={`Close ${focusedAppTitle}`}
+			title="Close Window"
 			onclick={windowServer.closeCurrent}
 			disabled={windowServer.desktopFocused || runningAppsCount === 0}
 		/>

@@ -30,7 +30,12 @@ export type AppName =
 
 export interface AppEntry {
 	Page?: Component<any>;
+	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
 	title: string;
+	/** Defaults to `title` */
+	menuTitle?: string;
+	/** Defaults to `title` */
+	windowTitle?: string;
 	icon: string;
 	route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */
@@ -68,6 +73,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'TextEdit',
 		Page: Readme,
 		title: 'Readme',
+		menuTitle: 'TextEdit',
 		icon: '/icons/txt.webp',
 		route: '/readme'
 	},
@@ -75,12 +81,15 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Characters,
 		title: 'Characters',
+		menuTitle: 'Finder',
 		icon: '/icons/folder-characters.webp',
 		route: '/characters'
 	},
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
+		menuTitle: 'Profile',
+		windowTitle: 'Fenny Flametail',
 		icon: '/icons/fenny.webp',
 		route: '/characters/fenny',
 		backTo: '/characters',
@@ -92,6 +101,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	aren: {
 		Page: Aren,
 		title: 'Aren',
+		menuTitle: 'Profile',
+		windowTitle: 'Aren Flametail',
 		icon: '/icons/aren.webp',
 		route: '/characters/aren',
 		backTo: '/characters',
@@ -103,6 +114,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
+		menuTitle: 'Profile',
+		windowTitle: 'Ceph Azulux',
 		icon: '/icons/ceph.webp',
 		route: '/characters/ceph',
 		backTo: '/characters',
@@ -114,6 +127,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	rigel: {
 		Page: Rigel,
 		title: 'Rigel',
+		menuTitle: 'Profile',
+		windowTitle: 'Rigel Azulux',
 		icon: '/icons/rigel.webp',
 		route: '/characters/rigel',
 		backTo: '/characters',
@@ -125,6 +140,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
+		menuTitle: 'Profile',
+		windowTitle: 'Nocturne Blackmoon',
 		icon: '/icons/nocturne.webp',
 		route: '/characters/nocturne',
 		backTo: '/characters',
@@ -137,6 +154,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Projects,
 		title: 'Projects',
+		menuTitle: 'Finder',
 		icon: '/icons/folder-projects.webp',
 		route: '/projects'
 	},

@@ -16,6 +16,7 @@
 	const windowServer = getWindowServerContext();
 
 	setAppContext({ appName, app });
+	const title = $derived(app.windowTitle || app.title);
 
 	const minWindowSize = 250;
 
@@ -106,7 +107,7 @@
 		</div>
 		<hgroup class="windowTitleSection">
 			<h2 class="windowTitle">
-				{app.title}
+				{title}
 			</h2>
 		</hgroup>
 	</header>
