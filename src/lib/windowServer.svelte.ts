@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
 import getApps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 
 const STORAGE_KEY = 'windowState';
@@ -24,7 +25,7 @@ export default class WindowServer {
 
 	static getInitialPosition = (
 		initialPosition?: Partial<Position>,
-		fromState?: boolean
+		ignorePadding?: boolean
 	): Position => {
 		// apps are only SSRed if JavaScript is disabled
 		// in this case, position and max width/height are set through CSS
@@ -48,7 +49,7 @@ export default class WindowServer {
 		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
 
 		/* if a window was maximized when state was saved, leave it maximized */
-		const windowPadding = fromState ? 0 : WINDOW_PADDING;
+		const windowPadding = ignorePadding ? 0 : WINDOW_PADDING;
 
 		return {
 			x: Math.max(windowPadding, Math.min(x, innerWidth - width - windowPadding)),
@@ -66,9 +67,10 @@ export default class WindowServer {
 	// #region Instance
 	#launchCount = $state(0);
 
+	initialAppName = $state<AppName>();
+	desktopFocused = $state(true);
 	draggingEl = $state<HTMLElement>();
 	resizingEl = $state<HTMLElement>();
-	desktopFocused = $state(true);
 
 	apps = $state(getApps());
 
@@ -202,6 +204,10 @@ export default class WindowServer {
 
 		const oldZIndex = app.instance.position.zIndex;
 		app.instance = undefined;
+		if (this.initialAppName === appName) {
+			this.initialAppName = undefined;
+			goto('/');
+		}
 
 		// find all apps with a higher z-index and lower it
 		Object.values(this.runningApps).forEach((ra) => {

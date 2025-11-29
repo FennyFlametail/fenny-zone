@@ -5,9 +5,11 @@
 	import WindowServer from '$lib/windowServer.svelte';
 	import type { LayoutProps } from './$types';
 
-	const { children }: LayoutProps = $props();
+	const { data, children }: LayoutProps = $props();
 
-	setWindowServerContext(new WindowServer());
+	const windowServer = new WindowServer();
+	windowServer.initialAppName = data.initialAppName;
+	setWindowServerContext(windowServer);
 </script>
 
 {@render children()}

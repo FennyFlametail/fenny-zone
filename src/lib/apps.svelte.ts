@@ -51,7 +51,6 @@ export interface AppEntry {
 		height?: number;
 	};
 	instance?: {
-		window?: Window;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;

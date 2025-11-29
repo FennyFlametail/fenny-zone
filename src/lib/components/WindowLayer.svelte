@@ -4,15 +4,11 @@
 	import { getWindowServerContext } from '$lib/context';
 	import { onMount } from 'svelte';
 
-	const { initialApp }: { initialApp?: AppName } = $props();
-
 	const windowServer = getWindowServerContext();
 
 	onMount(() => {
 		windowServer.loadState();
-		if (initialApp) {
-			windowServer.openApp(initialApp);
-		}
+		if (windowServer.initialAppName) windowServer.openApp(windowServer.initialAppName);
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
@@ -27,11 +23,11 @@
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
 	{#each Object.entries(windowServer.runningApps) as [appName, app], i (appName)}
-		<Window bind:this={app.instance.window} appName={appName as AppName} />
+		<Window appName={appName as AppName} />
 	{/each}
 	<noscript>
-		{#if initialApp}
-			<Window appName={initialApp} />
+		{#if windowServer.initialAppName}
+			<Window appName={windowServer.initialAppName} />
 		{/if}
 	</noscript>
 </main>
