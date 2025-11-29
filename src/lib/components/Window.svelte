@@ -6,14 +6,13 @@
 	import { onMount } from 'svelte';
 
 	let {
-		appName,
-		app
+		appName
 	}: {
 		appName: AppName;
-		app: RunningApp;
 	} = $props();
 
 	const windowServer = getWindowServerContext();
+	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
 
 	setAppContext({ appName, app });
 	const title = $derived(app.windowTitle || app.title);

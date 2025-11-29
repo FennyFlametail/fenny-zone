@@ -27,11 +27,11 @@
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
 	{#each Object.entries(windowServer.runningApps) as [appName, app], i (appName)}
-		<Window bind:this={app.instance.window} appName={appName as AppName} {app} />
+		<Window bind:this={app.instance.window} appName={appName as AppName} />
 	{/each}
 	<noscript>
 		{#if initialApp}
-			<Window appName={initialApp} app={windowServer.openApp(initialApp)} />
+			<Window appName={initialApp} />
 		{/if}
 	</noscript>
 </main>
