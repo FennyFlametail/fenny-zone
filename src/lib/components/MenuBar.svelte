@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import type { AppEntry } from '$lib/apps.svelte';
 	import GooglyEyes from '$lib/components/GooglyEyes.svelte';
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
@@ -6,11 +8,13 @@
 	import { getWindowServerContext, setMenubarContext } from '$lib/context';
 
 	const windowServer = getWindowServerContext();
-	const focusedAppTitle = $derived(
-		windowServer.focusedApp?.app.menuTitle ||
-			windowServer.focusedApp?.app.title ||
-			windowServer.apps.Finder.title
-	);
+	const app = $derived.by(() => {
+		if (!browser && windowServer.initialAppName) {
+			return windowServer.apps[windowServer.initialAppName];
+		}
+		return windowServer.focusedApp?.app as AppEntry | undefined;
+	});
+	const title = $derived(app?.menuTitle || app?.title || windowServer.apps.Finder.title);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();
@@ -42,15 +46,22 @@
 <div class="menubarShadow"></div>
 
 <header bind:this={menubar} class="menubar">
-	<MenuCategory {menubar} title="🦊" isLogo={true}>
-		<MenuItem title="View Source..." href="https://github.com/FennyFlametail/fenny-zone" />
+	<MenuCategory {menubar} title="🦊" isLogo={true} noScript={true}>
+		<MenuItem
+			title="View Source..."
+			href="https://github.com/FennyFlametail/fenny-zone"
+			newTab={true}
+			noScript={true}
+		/>
 	</MenuCategory>
 	<!-- TODO fix flash of menu items when JS is disabled -->
-	<MenuCategory {menubar} title={focusedAppTitle} isAppMenu={true}>
+	<MenuCategory {menubar} {title} isAppMenu={true} noScript={true}>
 		<MenuItem
 			title="Close Window"
 			onclick={windowServer.closeCurrent}
-			disabled={windowServer.desktopFocused || runningAppsCount === 0}
+			href={!browser ? app?.backTo : undefined}
+			disabled={browser && (windowServer.desktopFocused || runningAppsCount === 0)}
+			noScript={true}
 		/>
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">

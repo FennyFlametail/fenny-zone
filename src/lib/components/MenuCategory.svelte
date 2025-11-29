@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import type { Snippet } from 'svelte';
 
 	const {
@@ -6,12 +7,15 @@
 		title,
 		isLogo,
 		isAppMenu,
+		noScript,
 		children
 	}: {
 		menubar: HTMLElement;
 		title: string;
 		isLogo?: boolean;
 		isAppMenu?: boolean;
+		/** Show even if JavaScript is unavailable */
+		noScript?: boolean;
 		children?: Snippet;
 	} = $props();
 
@@ -26,14 +30,16 @@
 	}
 </script>
 
-<details class="menuCategory" name="menubar" onpointerenter={menuHover}>
-	<summary class="menuName">
-		<span class={{ menuLogo: isLogo, menuApp: isAppMenu }}>{title}</span>
-	</summary>
-	<menu class="menu">
-		{@render children?.()}
-	</menu>
-</details>
+{#if browser || noScript}
+	<details class="menuCategory" name="menubar" onpointerenter={menuHover}>
+		<summary class="menuName">
+			<span class={{ menuLogo: isLogo, menuApp: isAppMenu }}>{title}</span>
+		</summary>
+		<menu class="menu">
+			{@render children?.()}
+		</menu>
+	</details>
+{/if}
 
 <style>
 	.menuCategory {
@@ -55,13 +61,6 @@
 
 		&:is([open] ~ &, :global(:has(~ [open])))::details-content {
 			transition: none;
-		}
-
-		@media (scripting: none) {
-			/* hide categories that only have items with onclick handlers */
-			&:not(:has(.menuItemLink)) {
-				display: none;
-			}
 		}
 	}
 

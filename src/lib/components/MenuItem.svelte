@@ -1,22 +1,29 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { getMenubarContext } from '$lib/context';
 
 	const {
 		title,
 		onclick,
 		href,
-		disabled
+		newTab,
+		disabled,
+		noScript
 	}: {
 		title: string;
 		disabled?: boolean;
+		onclick?: () => void;
+		/** Show even if JavaScript is unavailable */
+		noScript?: boolean;
 	} & (
 		| {
-				onclick: () => void;
-				href?: never;
+				href: string;
+				/** Open in new tab (only if `href` is provided) */
+				newTab?: boolean;
 		  }
 		| {
-				onclick?: never;
-				href: string;
+				href?: never;
+				newTab?: never;
 		  }
 	) = $props();
 
@@ -30,23 +37,30 @@
 		opening = true;
 		window.setTimeout(() => {
 			opening = false;
-			href ? open(href, '_blank') : onclick?.();
+			href ? open(href, newTab ? '_blank' : '_self') : onclick?.();
 			dismissMenu();
 		}, openAnimDuration);
 	}
 </script>
 
-<li class={['menuItem', { opening, disabled }]} style:--openAnimDuration={`${openAnimDuration}ms`}>
-	{#if href}
-		{#if !disabled}
-			<a class="menuItemLink" {href} target="_blank" onclick={setSelected}>{title}</a>
+{#if browser || noScript}
+	<li
+		class={['menuItem', { opening, disabled }]}
+		style:--openAnimDuration={`${openAnimDuration}ms`}
+	>
+		{#if href}
+			{#if !disabled}
+				<a class="menuItemLink" {href} target={newTab ? '_blank' : '_self'} onclick={setSelected}
+					>{title}</a
+				>
+			{:else}
+				<span class="menuItemLink">{title}</span>
+			{/if}
 		{:else}
-			<span class="menuItemLink">{title}</span>
+			<button onclick={setSelected} {disabled}>{title}</button>
 		{/if}
-	{:else}
-		<button onclick={setSelected} {disabled}>{title}</button>
-	{/if}
-</li>
+	</li>
+{/if}
 
 <style>
 	.menuItem {
@@ -83,13 +97,6 @@
 		> * {
 			all: unset;
 			padding-inline: 22px;
-		}
-
-		@media (scripting: none) {
-			/* hide items with onclick handlers */
-			&:not(:has(> .menuItemLink)) {
-				display: none;
-			}
 		}
 	}
 

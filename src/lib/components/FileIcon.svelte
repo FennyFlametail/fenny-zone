@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { type AppName } from '$lib/apps.svelte';
 	import { getFileIconContext, getWindowServerContext } from '$lib/context';
-	import { onMount } from 'svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	let {
@@ -27,9 +27,6 @@
 	const app = appName && windowServer.apps[appName];
 
 	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
-
-	let noJs = $state(true);
-	onMount(() => (noJs = false));
 
 	const identifier = Symbol(`FileIcon-${appName}`);
 
@@ -69,7 +66,7 @@
 			draggable="false"
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
-		{#if href || (app?.url && noJs)}
+		{#if href || (app?.url && !browser)}
 			<img class="aliasIcon" src="/icons/alias.png" alt="" draggable="false" />
 		{/if}
 	</div>
