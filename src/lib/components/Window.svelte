@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { browser, dev } from '$app/environment';
-	import type { AppName, RunningApp } from '$lib/apps.svelte';
+	import { browser } from '$app/environment';
+	import type { AppName } from '$lib/apps.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context';
+import WindowServer from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
@@ -67,7 +68,10 @@
 			const newHeight = app.instance.position.height + e.screenY - lastY;
 
 			app.instance.position.width = Math.max(newWidth, minWindowSize);
-			app.instance.position.height = Math.max(newHeight, minWindowSize);
+			app.instance.position.height = Math.min(
+Math.max(newHeight, minWindowSize),
+				WindowServer.safeHeight - app.instance.position.y
+);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -169,11 +173,9 @@
 		@media (scripting: none) {
 			position: absolute;
 			left: max(0px, 50vw - var(--width) / 2);
-			/* space between the menubar and Dock */
-			--safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
-			top: max(0px, (var(--safe-height) / 2 - var(--height) / 2) * (2/3));
+						top: max(0px, (var(--safe-height) / 2 - var(--height) / 2) * (2/3));
 			max-width: 100vw;
-			max-height: calc(100vh - var(--menubar-height) - var(--dock-height));
+			max-height: var(--safe-height);
 		}
 	}
 

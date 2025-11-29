@@ -16,12 +16,17 @@ export const WINDOW_PADDING = 25;
 
 export default class WindowServer {
 	// #region Static
-	static #menubarHeight = browser
+	static menubarHeight = browser
 		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menubar-height'))
 		: 30;
-	static #dockHeight = browser
+	static dockHeight = browser
 		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-height'))
 		: 79;
+	static get safeHeight() {
+		return browser
+			? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-height'))
+			: Infinity;
+	}
 
 	static getInitialPosition = (
 		initialPosition?: Partial<Position>,
@@ -41,12 +46,10 @@ export default class WindowServer {
 		}
 
 		/** Space between the menubar and Dock */
-		const safeHeight = innerHeight - this.#menubarHeight - this.#dockHeight;
-
 		const width = initialPosition?.width ?? 500;
 		const height = initialPosition?.height ?? 500;
 		const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
-		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
+		const y = initialPosition?.y ?? (this.safeHeight / 2 - height / 2) * (2 / 3);
 
 		/* if a window was maximized when state was saved, leave it maximized */
 		const windowPadding = ignorePadding ? 0 : WINDOW_PADDING;
@@ -57,7 +60,7 @@ export default class WindowServer {
 			width: Math.min(width, innerWidth - windowPadding * 2),
 			height: Math.min(
 				height,
-				innerHeight - this.#menubarHeight - this.#dockHeight - windowPadding * 2
+				innerHeight - this.menubarHeight - this.dockHeight - windowPadding * 2
 			),
 			zIndex: initialPosition?.zIndex ?? 0
 		};
@@ -172,7 +175,7 @@ export default class WindowServer {
 				x: 0,
 				y: 0,
 				width: innerWidth,
-				height: innerHeight - WindowServer.#menubarHeight - WindowServer.#dockHeight
+				height: innerHeight - WindowServer.menubarHeight - WindowServer.dockHeight
 			};
 		}
 
