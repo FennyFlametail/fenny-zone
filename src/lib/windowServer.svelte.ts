@@ -155,13 +155,13 @@ export default class WindowServer {
 
 	zoomApp = (appName?: AppName) => {
 		if (!appName) return;
-		const app = this.apps[appName];
+		const app = this.apps[appName] as RunningApp;
 		if (!app.instance) {
 			console.warn(`(zoomApp) ${appName} isn't running!`);
 			return;
 		}
 
-		app.instance.zooming = true;
+		this.setAnimating(app);
 		if (app.instance.preZoomPosition) {
 			app.instance.position = app.instance.preZoomPosition;
 			delete app.instance.preZoomPosition;
@@ -184,7 +184,7 @@ export default class WindowServer {
 		// ) {
 		// 	return;
 		// }
-		// app.instance.zooming = true;
+		// this.setAnimating(app);
 		// app.instance.position.width = initialPosition.width;
 		// app.instance.position.height = initialPosition.height;
 	};
@@ -217,6 +217,12 @@ export default class WindowServer {
 		});
 	};
 
+	setAnimating = (app: RunningApp) => {
+		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			app.instance.animating = true;
+		}
+	};
+
 	closeAll = () => {
 		Object.keys(this.runningApps).forEach((appName) => this.closeApp(appName as AppName));
 	};
@@ -239,6 +245,7 @@ export default class WindowServer {
 		Object.values(this.runningApps)
 			.sort((a, b) => a.instance.position.zIndex - b.instance.position.zIndex)
 			.forEach((app, index) => {
+				this.setAnimating(app);
 				app.instance.position = WindowServer.getInitialPosition({
 					...app.defaultSize,
 					x: WINDOW_PADDING * (index + 1),

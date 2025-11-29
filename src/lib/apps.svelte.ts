@@ -8,7 +8,6 @@ import Rigel from '$lib/components/pages/characters/Rigel.svelte';
 import Projects from '$lib/components/pages/Projects.svelte';
 import Readme from '$lib/components/pages/Readme.svelte';
 import Trash from '$lib/components/Trash.svelte';
-import Window from '$lib/components/Window.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
@@ -55,7 +54,7 @@ export interface AppEntry {
 		preZoomPosition?: Position;
 		launchOrder: number;
 		modified?: boolean;
-		zooming?: boolean;
+		animating?: boolean;
 	};
 }
 

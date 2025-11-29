@@ -80,20 +80,20 @@
 		windowServer.resizingEl = undefined;
 	}
 
-	function removeZoomClass() {
-		app.instance.zooming = false;
+	function stopAnimating() {
+		app.instance.animating = false;
 	}
 </script>
 
 <article
 	bind:this={element}
 	onpointerdown={startDrag}
-	ontransitionend={removeZoomClass}
+	ontransitionend={stopAnimating}
 	class={{
 		window: true,
 		brushed: app.brushed,
 		inactive: !focused && !ssr,
-		zooming: app.instance.zooming
+		animating: app.instance.animating
 	}}
 	style:--x={`${app.instance.position.x}px`}
 	style:--y={`${app.instance.position.y}px`}
@@ -159,9 +159,11 @@
 			box-shadow: var(--panel-box-shadow-inactive);
 		}
 
-		&.zooming {
+		&.animating {
+@media not (prefers-reduced-motion: reduce) {
 			transition: 0.25s ease;
 			transition-property: width, height, transform;
+}
 		}
 
 		@media (scripting: none) {
