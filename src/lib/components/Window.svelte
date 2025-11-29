@@ -162,7 +162,7 @@
 
 		&.zooming {
 			transition: 0.25s ease;
-			transition-property: width, height;
+			transition-property: width, height, transform;
 		}
 
 		@media (scripting: none) {

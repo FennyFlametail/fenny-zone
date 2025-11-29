@@ -11,11 +11,19 @@ export interface Position {
 	zIndex: number;
 }
 
-/** Padding when opening and arranging windows */
-export const WINDOW_PADDING = 25;
-
 export default class WindowServer {
-	static getInitialPosition = (initialPosition?: Partial<Position>): Position => {
+	// #region Static
+	static #menubarHeight = browser
+		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menubar-height'))
+		: 30;
+	static #dockHeight = browser
+		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-height'))
+		: 79;
+
+	static getInitialPosition = (
+		initialPosition?: Partial<Position>,
+		fromState?: boolean
+	): Position => {
 		// apps are only SSRed if JavaScript is disabled
 		// in this case, position and max width/height are set through CSS
 		// (because the server can't access innerHeight/innerWidth)
@@ -29,26 +37,36 @@ export default class WindowServer {
 			};
 		}
 
-		const root = getComputedStyle(document.documentElement);
-		const menubarHeight = parseInt(root.getPropertyValue('--menubar-height'));
-		const dockHeight = parseInt(root.getPropertyValue('--dock-height'));
-
 		/** Space between the menubar and Dock */
-		const safeHeight = innerHeight - menubarHeight - dockHeight;
+		const safeHeight = innerHeight - this.#menubarHeight - this.#dockHeight;
 
 		const width = initialPosition?.width ?? 500;
 		const height = initialPosition?.height ?? 500;
 		const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
 		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
 
+		/* if a window was maximized when state was saved, leave it maximized */
+		const windowPadding = fromState ? 0 : 25;
+
 		return {
-			x: Math.max(WINDOW_PADDING, Math.min(x, innerWidth - width - WINDOW_PADDING)),
-			y: Math.max(WINDOW_PADDING, Math.min(y, innerHeight - height - WINDOW_PADDING)),
-			width: Math.min(width, innerWidth - WINDOW_PADDING * 2),
-			height: Math.min(height, innerHeight - menubarHeight - dockHeight - WINDOW_PADDING * 2),
+			x: Math.max(windowPadding, Math.min(x, innerWidth - width - windowPadding)),
+			y: Math.max(windowPadding, Math.min(y, innerHeight - height - windowPadding)),
+			width: Math.min(width, innerWidth - windowPadding * 2),
+			height: Math.min(
+				height,
+				innerHeight - this.#menubarHeight - this.#dockHeight - windowPadding * 2
+			),
 			zIndex: initialPosition?.zIndex ?? 0
 		};
 	};
+	// #endregion
+
+	// #region Instance
+	#launchCount = $state(0);
+
+	draggingEl = $state<HTMLElement>();
+	resizingEl = $state<HTMLElement>();
+	desktopFocused = $state(true);
 
 	apps = $state(getApps());
 
@@ -67,8 +85,6 @@ export default class WindowServer {
 		>
 	);
 
-	desktopFocused = $state(true);
-
 	focusedApp = $derived.by(() => {
 		if (this.desktopFocused) return null;
 
@@ -83,9 +99,7 @@ export default class WindowServer {
 		};
 	});
 
-	#launchCount = $state(0);
-
-	openApp = (appName: AppName, position?: Partial<Position>) => {
+	openApp = (appName: AppName, position?: Partial<Position>, fromState?: boolean) => {
 		const app = this.apps[appName];
 		const childApps = Object.entries(this.runningApps)
 			.filter(([, runningApp]) => runningApp.parent === appName)
@@ -94,17 +108,20 @@ export default class WindowServer {
 			// focus all the apps that have this app as their parent
 			childApps.forEach(([name]) => this.focusApp(name as AppName));
 		} else if (appName === 'Finder' && !childApps.length) {
-			// special case for Finder: if there aren't any windows open, open the Characters folder
-			this.openApp('characters');
+			// special case for Finder: if there aren't any windows open, open the Projects folder
+			this.openApp('projects');
 		} else if (app.instance) {
 			this.focusApp(appName);
 		} else {
 			app.instance = {
-				position: WindowServer.getInitialPosition({
-					...app.defaultSize,
-					zIndex: Object.keys(this.runningApps).length,
-					...position
-				}),
+				position: WindowServer.getInitialPosition(
+					{
+						...app.defaultSize,
+						zIndex: Object.keys(this.runningApps).length,
+						...position
+					},
+					fromState
+				),
 				launchOrder: this.#launchCount++
 			};
 			this.desktopFocused = false;
@@ -120,6 +137,7 @@ export default class WindowServer {
 			console.warn(`(focusApp) ${appName} isn't running!`);
 			return;
 		}
+
 		const oldZIndex = app.instance.position.zIndex;
 		// find all apps with a higher z-index and lower it
 		Object.values(this.runningApps).forEach((ra) => {
@@ -138,16 +156,33 @@ export default class WindowServer {
 			console.warn(`(zoomApp) ${appName} isn't running!`);
 			return;
 		}
-		const initialPosition = WindowServer.getInitialPosition(app.defaultSize);
-		if (
-			app.instance.position.width === initialPosition.width &&
-			app.instance.position.height === initialPosition.height
-		) {
-			return;
-		}
+
 		app.instance.zooming = true;
-		app.instance.position.width = initialPosition.width;
-		app.instance.position.height = initialPosition.height;
+		if (app.instance.preZoomPosition) {
+			app.instance.position = app.instance.preZoomPosition;
+			delete app.instance.preZoomPosition;
+		} else {
+			app.instance.preZoomPosition = app.instance.position;
+			app.instance.position = {
+				...app.instance.position,
+				x: 0,
+				y: 0,
+				width: innerWidth,
+				height: innerHeight - WindowServer.#menubarHeight - WindowServer.#dockHeight
+			};
+		}
+
+		/* zoom windows to their ideal (default) size - more Mac-like, but possibly confusing */
+		// const initialPosition = WindowServer.getInitialPosition(app.defaultSize);
+		// if (
+		// 	app.instance.position.width === initialPosition.width &&
+		// 	app.instance.position.height === initialPosition.height
+		// ) {
+		// 	return;
+		// }
+		// app.instance.zooming = true;
+		// app.instance.position.width = initialPosition.width;
+		// app.instance.position.height = initialPosition.height;
 	};
 
 	closeApp = (appName?: AppName) => {
@@ -217,10 +252,11 @@ export default class WindowServer {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 						return;
 					}
-					this.openApp(appName as AppName, position as Position);
+					this.openApp(appName as AppName, position as Position, true);
 				});
 			} catch (err) {
 				console.warn('(loadState) error', err);
+				this.openApp('readme');
 			}
 		} else {
 			// open the readme on first load
@@ -235,7 +271,5 @@ export default class WindowServer {
 		);
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 	};
-
-	draggingEl = $state<HTMLElement>();
-	resizingEl = $state<HTMLElement>();
+	// #endregion
 }
