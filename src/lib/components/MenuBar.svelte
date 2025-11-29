@@ -1,5 +1,4 @@
 <script lang="ts">
-	import getApps from '$lib/apps.svelte';
 	import GooglyEyes from '$lib/components/GooglyEyes.svelte';
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
@@ -10,7 +9,7 @@
 	const focusedAppTitle = $derived(
 		windowServer.focusedApp?.app.menuTitle ||
 			windowServer.focusedApp?.app.title ||
-			getApps().Finder.title
+			windowServer.apps.Finder.title
 	);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
