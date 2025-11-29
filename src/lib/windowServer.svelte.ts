@@ -11,6 +11,8 @@ export interface Position {
 	zIndex: number;
 }
 
+export const WINDOW_PADDING = 25;
+
 export default class WindowServer {
 	// #region Static
 	static #menubarHeight = browser
@@ -46,7 +48,7 @@ export default class WindowServer {
 		const y = initialPosition?.y ?? (safeHeight / 2 - height / 2) * (2 / 3);
 
 		/* if a window was maximized when state was saved, leave it maximized */
-		const windowPadding = fromState ? 0 : 25;
+		const windowPadding = fromState ? 0 : WINDOW_PADDING;
 
 		return {
 			x: Math.max(windowPadding, Math.min(x, innerWidth - width - windowPadding)),
