@@ -78,7 +78,7 @@
 				<ul>
 					<li>left-handed</li>
 					<li>bioluminescent parts glow brighter when excited or angry</li>
-					<li>paw pads act like Qi chargers</li>
+					<li>paw pads work as wireless chargers</li>
 					<li>
 						learning to play bass from Aren (mostly as an excuse to be alone with him)
 					</li>

@@ -52,8 +52,8 @@
 				Notes:
 				<ul>
 					<li>trans</li>
-					<li>likes astrology</li>
 					<li>bioluminescent parts glow brighter when excited or angry</li>
+					<li>into astrology</li>
 				</ul>
 			</li>
 		</ul>
