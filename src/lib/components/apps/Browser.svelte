@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAppContext, getWindowServerContext } from '$lib/context';
+	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
 	const { appName, app } = getAppContext();

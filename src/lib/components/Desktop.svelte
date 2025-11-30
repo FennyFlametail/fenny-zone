@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
-	import { getWindowServerContext } from '$lib/context';
-	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
+	import { getWindowServerContext } from '$lib/context.svelte';
+	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
 
 	const windowServer = getWindowServerContext();
 	const { onClickIconContainer } = setupFileIconContainer(true);

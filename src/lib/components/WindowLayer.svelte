@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
-	import { getWindowServerContext } from '$lib/context';
+	import { getWindowServerContext } from '$lib/context.svelte';
 	import { onMount } from 'svelte';
 
 	const windowServer = getWindowServerContext();

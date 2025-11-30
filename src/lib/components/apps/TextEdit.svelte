@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAppContext } from '$lib/context';
+	import { getAppContext } from '$lib/context.svelte';
 
 	const { app } = getAppContext();
 	let { text = $bindable('') }: { text: string } = $props();

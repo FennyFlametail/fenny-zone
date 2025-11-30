@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
-	import { getWindowServerContext, setAppContext } from '$lib/context';
+	import { getWindowServerContext, setAppContext, setToolbarContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -14,9 +14,12 @@
 
 	const windowServer = getWindowServerContext();
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
-
 	setAppContext({ appName, app });
+
 	const title = $derived(app.windowTitle || app.title);
+
+	const toolbarWrapper = $state<ReturnType<typeof setToolbarContext>>({});
+	setToolbarContext(toolbarWrapper);
 
 	const minWindowSize = 250;
 
@@ -134,20 +137,9 @@
 		<h2 class="windowTitle">
 			{title}
 		</h2>
-		<!-- <menu class="windowToolbar">
-			<li>
-				<button class="aqua">Test</button>
-			</li>
-			<li>
-				<button class="aqua square">Test</button>
-			</li>
-			<li>
-				<button class="aqua primary">Test</button>
-			</li>
-			<li>
-				<button class="aqua square primary">Test</button>
-			</li>
-		</menu> -->
+		<menu class="windowToolbar">
+			{@render toolbarWrapper.toolbar?.()}
+		</menu>
 	</header>
 	<div class="windowContent" onpointerdown={focusWithoutDrag}>
 		<app.Page />

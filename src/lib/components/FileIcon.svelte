@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { type AppName } from '$lib/apps.svelte';
-	import { getFileIconContext, getWindowServerContext } from '$lib/context';
+	import { getFileIconContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	let {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import setupFileIconContainer from '$lib/fileIconContainer.svelte';
+	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
 
 	const { children }: { children: Snippet } = $props();
 

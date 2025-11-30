@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { setWindowServerContext } from '$lib/context';
+	import { setWindowServerContext } from '$lib/context.svelte';
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
 	import WindowServer from '$lib/windowServer.svelte';

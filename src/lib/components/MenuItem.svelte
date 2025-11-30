@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { getMenubarContext } from '$lib/context';
+	import { getMenubarContext } from '$lib/context.svelte';
 
 	const {
 		title,

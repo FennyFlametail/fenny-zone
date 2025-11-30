@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
-	import { getWindowServerContext } from '$lib/context';
+	import { getWindowServerContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes, MouseEventHandler } from 'svelte/elements';
 

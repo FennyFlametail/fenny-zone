@@ -1,4 +1,4 @@
-import { setFileIconContext } from '$lib/context';
+import { setFileIconContext } from '$lib/context.svelte';
 
 export default function setupFileIconContainer(isDesktop = false) {
 	let selected = $state<symbol>();

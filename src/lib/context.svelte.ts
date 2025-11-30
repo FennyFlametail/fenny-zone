@@ -1,12 +1,16 @@
 import type { AppName, RunningApp } from '$lib/apps.svelte';
 import type WindowServer from '$lib/windowServer.svelte';
-import { createContext } from 'svelte';
+import { createContext, type Snippet } from 'svelte';
 
 export const [getWindowServerContext, setWindowServerContext] = createContext<WindowServer>();
 
 export const [getAppContext, setAppContext] = createContext<{
 	appName: AppName;
 	app: RunningApp;
+}>();
+
+export const [getToolbarContext, setToolbarContext] = createContext<{
+	toolbar?: Snippet;
 }>();
 
 export const [getFileIconContext, setFileIconContext] = createContext<{

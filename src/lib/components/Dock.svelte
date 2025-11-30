@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { type AppName } from '$lib/apps.svelte';
+	import type { AppName } from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
-	import { getWindowServerContext } from '$lib/context';
+	import { getWindowServerContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
 </script>

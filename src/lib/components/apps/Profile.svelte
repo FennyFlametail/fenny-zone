@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
-	import { type CharacterName, relationships } from '$lib/relationships';
+	import { type CharacterName, relationships } from '$lib/data/relationships';
 	import type { Snippet } from 'svelte';
 	const {
 		name,
