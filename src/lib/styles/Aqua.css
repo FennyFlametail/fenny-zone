@@ -1,21 +1,26 @@
 :root {
-	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
+	--accent-color: #3471cf;
+	--selection-color: #b5d5ff;
+	--desktop-color: #3d6ea8;
 	--pinstripe-bg-image: repeating-linear-gradient(
-to bottom,
-			#ebecec,
-			#ebecec 2px,
-			#eff0f0 2px,
-			#eff0f0 4px
-);
+		to bottom,
+		#ebecec,
+		#ebecec 2px,
+		#eff0f0 2px,
+		#eff0f0 4px
+		);
 	--pulse-overlay-bg: radial-gradient(rgb(0 0 0 / 10%), transparent);
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--text-secondary: rgb(0 0 0 / 50%);
 	--focus-box-shadow: 0 0 3px 2px #92b9db;
+	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
+	--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
+	--button-border-gradient: #666666;
+	--button-border-active-gradient: #272798, #616161;
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
-	--accent-color: #3471cf;
-	--selection-color: #b5d5ff;
-	--desktop-color: #3d6ea8;
+	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
+	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 }
 
 body {
@@ -58,7 +63,8 @@ body {
 		.menuName:active &,
 		.menuName:focus-visible &,
 		[open] & {
-			background-image: linear-gradient(to top, white, white);
+			background-image: none;
+			background-color: white;
 			-webkit-background-clip: text;
 			background-clip: text;
 		}
@@ -94,56 +100,69 @@ body {
 
 	/* #region Window */
 	.window {
+		--window-radius: 12px;
 		border: 1px solid rgb(0 0 0 / 33%);
-		border-top-right-radius: 9px;
-		border-top-left-radius: 9px;
+		border-top-right-radius: var(--window-radius);
+		border-top-left-radius: var(--window-radius);
 		background-image: var(--pinstripe-bg-image);
 	}
 
 	.windowTitlebar {
 		justify-content: space-between;
-		border-top-right-radius: inherit;
-		border-top-left-radius: inherit;
+		border-radius: inherit;
 		/* 1px line at bottom because border-bottom doesn't render right in Safari */
 		background-image: linear-gradient(
-to bottom,
-				#f9f9f9 1px,
-				#efefef 1px,
-				#cacaca calc(100% - 1px),
-				#8c8c8c calc(100% - 1px)
-);
+			to bottom,
+			#f9f9f9 1px,
+			#efefef 1px,
+			#cacaca calc(100% - 1px),
+			#8c8c8c calc(100% - 1px)
+		);
 
 		.window.inactive & {
 			background-image: linear-gradient(
-to bottom,
-					transparent calc(100% - 1px),
-					#8c8c8c calc(100% - 1px)
-);
+				to bottom,
+				transparent calc(100% - 1px),
+				#8c8c8c calc(100% - 1px)
+			);
 			color: var(--text-secondary);
 		}
 	}
 
 	.windowButton {
-		--inset-shadow: inset 0 0 1px 2px rgb(0 0 0 / 50%);
 		box-shadow:
-			var(--inset-shadow),
+			inset 0 0 1px 1px rgb(0 0 0 / 50%),
 			0 1px 1px white;
-		border: none;
+		border: 1px solid transparent;
 		border-radius: 9999px;
-		background-image: radial-gradient(
-ellipse 60% 40% at center top,
+		background:
+			/* top highlight */
+			radial-gradient(
+				ellipse 60% 30% at center top,
 				white,
 				rgb(255 255 255 / 80%),
 				transparent
-),
+			) padding-box,
+			/* bottom highlight */
 			radial-gradient(
-ellipse 60% 70% at center bottom,
-				rgb(255 255 255),
-				rgb(255 255 255 / 80%),
+				ellipse 60% 70% at center bottom,
+				white,
+				white,
 				transparent
-);
+			) padding-box,
+			/* background color */
+			linear-gradient(
+				var(--background-color)
+			) padding-box,
+			/* border */
+			linear-gradient(
+				to bottom,
+				rgb(0 0 0 / 100%),
+				rgb(0 0 0 / 50%)
+			) border-box;
+		background-blend-mode: normal, overlay, normal, normal;
+		background-repeat: no-repeat;
 		background-color: var(--background-color);
-		background-blend-mode: normal, overlay;
 		padding: 0;
 		width: 18px;
 		height: 18px;
@@ -167,6 +186,7 @@ ellipse 60% 70% at center bottom,
 		}
 		@media (scripting: none) {
 			&:is(.minimize, .maximize) {
+				/* same as :disabled */
 				--background-color: transparent !important;
 				box-shadow:
 					inset 0 0 1px 1.5px rgb(0 0 0 / 25%),
@@ -225,26 +245,77 @@ ellipse 60% 70% at center bottom,
 		}
 	}
 
-	.windowTitleSection {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+	/* brushed metal */
+	.window.brushed {
+		background: linear-gradient(
+			to right,
+			rgb(175 175 175),
+			rgb(220 220 220) 40%,
+			rgb(220 220 220) 60%,
+			rgb(175 175 175)
+		);
+		--top-highlight-shadow: inset 0 2px 0px 0px rgb(217 217 217);
+		box-shadow: var(--panel-box-shadow), var(--top-highlight-shadow);
+		border-bottom-left-radius: var(--window-radius);
+		border-bottom-right-radius: var(--window-radius);
+
+		&::before {
+			/* background on separate layer to control opacity */
+			background: url('/metal.webp');
+			opacity: 50%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			content: '';
+		}
+
+		&.inactive {
+			box-shadow: var(--panel-box-shadow-inactive), var(--top-highlight-shadow);
+		}
+
+		.windowTitlebar {
+			background: none;
+		}
+
+		.windowContent {
+			padding-inline: var(--titlebar-padding);
+			margin-bottom: 32px;
+
+			> :not(.brushedInset, .brushedNoInset)::before {
+				content: '⚠️ Use the .brushedInset class to render the inset border, or .brushedNoInset to hide this message ⚠️';
+				font-size: 1rem;
+			}
+		}
+
+		.windowResizeHandle {
+			background: url('/resize.webp');
+			background-size: 15px 15px;
+			background-position: center;
+			background-repeat: no-repeat;
+			bottom: 0;
+			right: 0;
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	.brushedInset {
+		border-top: 1px solid rgb(105 105 105);
+		border-inline: 1px solid rgb(105 105 105 / 75%);
+		border-bottom: 2px solid rgb(217 217 217);
 	}
 	/* #endregion */
 
 	/* #region Widgets */
-	button.ui {
-		--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
-		--border-gradient: #8b8b8b, #505050;
-		--border-active-gradient: #272798, #616161;
+	button.aqua {
 		box-shadow: var(--widget-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
-		background-image: linear-gradient(to bottom, var(--button-gradient)),
-			linear-gradient(to bottom, var(--border-gradient));
-		background-clip: padding-box, border-box;
+		background:
+			linear-gradient(to bottom, var(--button-gradient)) padding-box,
+			linear-gradient(to bottom, var(--button-border-gradient)) border-box;
 		padding-inline: 14px;
 		min-width: 91px;
 		height: 28px;
@@ -252,9 +323,13 @@ ellipse 60% 70% at center bottom,
 		user-select: none;
 		white-space: nowrap;
 
+		&.square {
+			border-radius: 5px;
+		}
+
 		&:focus-visible {
 			@media (forced-colors: none) {
-				--border-gradient: #6f89a0, #6f89a0;
+				--button-border-gradient: #6f89a0, #6f89a0;
 				outline: none;
 				box-shadow: var(--focus-box-shadow);
 			}
@@ -262,12 +337,12 @@ ellipse 60% 70% at center bottom,
 
 		&:active {
 			--button-gradient: var(--button-active-gradient);
-			--border-gradient: var(--border-active-gradient);
+			--button-border-gradient: var(--button-border-active-gradient);
 		}
 
 		&.primary:not(.window.inactive .primary) {
 			--button-gradient: var(--button-active-gradient);
-			--border-gradient: var(--border-active-gradient);
+			--button-border-gradient: var(--button-border-active-gradient);
 
 			&:not(:active) {
 				animation: 0.5s linear infinite alternate darken;

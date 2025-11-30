@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context';
-import WindowServer from '$lib/windowServer.svelte';
+	import WindowServer from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
@@ -69,9 +69,9 @@ import WindowServer from '$lib/windowServer.svelte';
 
 			app.instance.position.width = Math.max(newWidth, minWindowSize);
 			app.instance.position.height = Math.min(
-Math.max(newHeight, minWindowSize),
+				Math.max(newHeight, minWindowSize),
 				WindowServer.safeHeight - app.instance.position.y
-);
+			);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
@@ -131,11 +131,23 @@ Math.max(newHeight, minWindowSize),
 				<Plus class="windowButtonGlyph" size={14} />
 			</button>
 		</div>
-		<hgroup class="windowTitleSection">
-			<h2 class="windowTitle">
-				{title}
-			</h2>
-		</hgroup>
+		<h2 class="windowTitle">
+			{title}
+		</h2>
+		<!-- <menu class="windowToolbar">
+			<li>
+				<button class="aqua">Test</button>
+			</li>
+			<li>
+				<button class="aqua square">Test</button>
+			</li>
+			<li>
+				<button class="aqua primary">Test</button>
+			</li>
+			<li>
+				<button class="aqua square primary">Test</button>
+			</li>
+		</menu> -->
 	</header>
 	<div class="windowContent" onpointerdown={focusWithoutDrag}>
 		<app.Page />
@@ -156,7 +168,9 @@ Math.max(newHeight, minWindowSize),
 		display: flex;
 		flex-direction: column;
 		background-color: white;
+		border: 1px solid black;
 		box-shadow: var(--panel-box-shadow);
+		overflow: hidden;
 		touch-action: auto; /* needed for touch dragging to work */
 
 		&.inactive {
@@ -164,28 +178,28 @@ Math.max(newHeight, minWindowSize),
 		}
 
 		&.animating {
-@media not (prefers-reduced-motion: reduce) {
-			transition: 0.25s ease;
-			transition-property: width, height, transform;
-}
+			@media not (prefers-reduced-motion: reduce) {
+				transition: 0.25s ease;
+				transition-property: width, height, transform;
+			}
 		}
 
 		@media (scripting: none) {
 			position: absolute;
 			left: max(0px, 50vw - var(--width) / 2);
-						top: max(0px, (var(--safe-height) / 2 - var(--height) / 2) * (2/3));
+			top: max(0px, (var(--desktop-safe-height) / 2 - var(--height) / 2) * (2/3));
 			max-width: 100vw;
-			max-height: var(--safe-height);
+			max-height: var(--desktop-safe-height);
 		}
 	}
 
 	.windowTitlebar {
-		flex: 0 0 auto;
-		height: 28px;
 		position: relative;
-		display: flex;
-		gap: 0.5rem;
-		padding-inline: 10px;
+		display: grid;
+		grid-template:
+			'title' 28px
+			'toolbar' auto / 100%;
+		padding-inline: var(--titlebar-padding);
 		touch-action: pinch-zoom;
 		-webkit-user-select: none;
 		user-select: none;
@@ -193,10 +207,11 @@ Math.max(newHeight, minWindowSize),
 	}
 
 	.windowControls {
+		grid-area: title;
 		align-self: center;
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 9px;
 		z-index: 1;
 	}
 
@@ -213,17 +228,29 @@ Math.max(newHeight, minWindowSize),
 		}
 	}
 
-	.windowTitleSection {
+	.windowTitle {
+		grid-area: title;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 0.5rem;
+		text-align: center;
+		font-weight: normal;
+		font-size: 16px;
 		white-space: nowrap;
 	}
 
-	.windowTitle {
-		font-weight: normal;
-		font-size: 16px;
+	.windowToolbar {
+		&:empty {
+			display: none;
+		}
+
+		grid-area: toolbar;
+		display: flex;
+		padding-top: 8px;
+		padding-bottom: 11px;
+		padding-inline: 0;
+		gap: 7px;
+		list-style: none;
 	}
 
 	.windowContent {

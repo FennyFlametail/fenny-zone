@@ -35,6 +35,7 @@ export interface AppEntry {
 	menuTitle?: string;
 	/** Defaults to `title` */
 	windowTitle?: string;
+	brushed?: boolean;
 	icon: string;
 	route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */

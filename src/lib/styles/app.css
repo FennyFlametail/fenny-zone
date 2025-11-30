@@ -82,7 +82,7 @@ h6 {
 	inherits: true;
 	initial-value: 79px;
 }
-@property --safe-height {
+@property --desktop-safe-height {
 	syntax: "<length>";
 	inherits: true;
 	initial-value: calc(100vh - 30px - 79px);
@@ -97,9 +97,8 @@ h6 {
 	--dock-icon-size: 64px;
 	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 	/** space between the menubar and Dock */
-	--safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
-	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
-	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
+	--desktop-safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
+	--titlebar-padding: 11px;
 	--label-shadow:
 		black 0 1px 2px,
 		black 0 1px 3px,

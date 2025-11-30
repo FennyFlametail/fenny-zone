@@ -24,7 +24,7 @@ export default class WindowServer {
 		: 79;
 	static get safeHeight() {
 		return browser
-			? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-height'))
+			? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--desktop-safe-height'))
 			: Infinity;
 	}
 
