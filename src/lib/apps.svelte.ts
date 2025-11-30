@@ -28,29 +28,29 @@ export type AppName =
 	| 'trash';
 
 export interface AppEntry {
-	Page?: Component<any>;
+readonly Page?: Component<any>;
 	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
-	title: string;
+readonly title: string;
 	/** Defaults to `title` */
-	menuTitle?: string;
+readonly menuTitle?: string;
 	/** Defaults to `title` */
-	windowTitle?: string;
-	brushed?: boolean;
-	icon: string;
-	route?: string;
+readonly windowTitle?: string;
+readonly brushed?: boolean;
+readonly icon: string;
+readonly route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */
-	parent?: AppName;
+readonly parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
-	backTo?: string;
+readonly backTo?: string;
 	/** Used by Browser apps */
-	url?: string;
-	defaultSize?: {
+readonly url?: string;
+readonly defaultSize?: {
 		/** @default 500 */
 		width?: number;
 		/** @default 500 */
 		height?: number;
 	};
-	instance?: {
+readonly instance?: {
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
