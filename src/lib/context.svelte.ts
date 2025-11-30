@@ -9,8 +9,8 @@ export const [getAppContext, setAppContext] = createContext<{
 	app: RunningApp;
 }>();
 
-export const [getToolbarContext, setToolbarContext] = createContext<{
-	toolbar?: Snippet;
+export const [getToolbarItemsContext, setToolbarItemsContext] = createContext<{
+	items: Snippet[];
 }>();
 
 export const [getFileIconContext, setFileIconContext] = createContext<{
