@@ -1,7 +1,7 @@
 :root {
 	--accent-color: #3471cf;
 	--selection-color: #b5d5ff;
-	--desktop-color: #3d6ea8;
+	--desktop-color: #daa15f;
 	--pinstripe-bg-image: repeating-linear-gradient(
 		to bottom,
 		#ebecec,
@@ -291,13 +291,13 @@ body {
 
 		.windowResizeHandle {
 			background: url('/resize.webp');
-			background-size: 15px 15px;
+			background-size: 20px 20px;
 			background-position: center;
 			background-repeat: no-repeat;
 			bottom: 0;
 			right: 0;
-			width: 24px;
-			height: 24px;
+			width: 36px;
+			height: 32px;
 		}
 	}
 
