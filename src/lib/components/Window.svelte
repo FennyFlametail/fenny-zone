@@ -39,33 +39,23 @@
 	let ssr = $state(true);
 	onMount(() => (ssr = false));
 
-	let allowDrag = $state(true);
-	function blockDrag() {
-		allowDrag = false;
-	}
-
-	function focusWithoutDrag(e: PointerEvent) {
-		e.stopPropagation();
-		windowServer.focusApp(appName);
-	}
-
 	function startDrag(e: PointerEvent) {
 		windowServer.focusApp(appName);
-		windowServer.draggingEl = element;
-		lastX = e.screenX;
-		lastY = e.screenY;
+		if ((e.target as Element).hasAttribute('data-allow-window-drag')) {
+			windowServer.draggingEl = element;
+			lastX = e.screenX;
+			lastY = e.screenY;
+		}
 	}
 
 	function startResize(e: PointerEvent) {
-		e.stopPropagation();
-		windowServer.focusApp(appName);
 		windowServer.resizingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function pointerMove(e: PointerEvent) {
-		if (windowServer.draggingEl === element && allowDrag) {
+		if (windowServer.draggingEl === element) {
 			app.instance.position.x += e.screenX - lastX;
 			app.instance.position.y += e.screenY - lastY;
 			app.instance.position.y = Math.max(app.instance.position.y, 0);
@@ -88,20 +78,15 @@
 	}
 
 	function pointerUp() {
-		allowDrag = true;
 		windowServer.draggingEl = undefined;
 		windowServer.resizingEl = undefined;
-	}
-
-	function stopAnimating() {
-		app.instance.animating = false;
 	}
 </script>
 
 <article
 	bind:this={element}
 	onpointerdown={startDrag}
-	ontransitionend={stopAnimating}
+	ontransitionend={() => (app.instance.animating = false)}
 	class={{
 		window: true,
 		brushed: app.brushed,
@@ -114,42 +99,41 @@
 	style:--height={`${app.instance.position.height}px`}
 	style:z-index={app.instance.position.zIndex}
 	style:--minWindowSize={`${minWindowSize}px`}
+	data-allow-window-drag
 >
-	<header class="windowTitlebar">
-		<div class="windowControls">
+	<header class="windowTitlebar" data-allow-window-drag>
+		<div class="windowControls" data-allow-window-drag>
 			<svelte:element
 				this={browser ? 'button' : 'a'}
 				role={browser ? 'button' : 'link'}
 				class={['windowButton', 'close', app.instance?.modified && 'modified']}
 				aria-label="Close"
 				onclick={() => windowServer.closeApp(appName)}
-				onpointerdown={blockDrag}
 				href={app.backTo ?? '/'}
 			>
 				<X class="windowButtonGlyph" size={14} />
 			</svelte:element>
-			<button class="windowButton minimize" aria-label="Minimize" onpointerdown={blockDrag}>
+			<button class="windowButton minimize" aria-label="Minimize">
 				<Minus class="windowButtonGlyph" size={14} />
 			</button>
 			<button
 				class="windowButton maximize"
 				aria-label="Maximize"
 				onclick={() => windowServer.zoomApp(appName)}
-				onpointerdown={blockDrag}
 			>
 				<Plus class="windowButtonGlyph" size={14} />
 			</button>
 		</div>
-		<h2 class="windowTitle">
+		<h2 class="windowTitle" data-allow-window-drag>
 			{title}
 		</h2>
-		<menu class="windowToolbar">
+		<menu class="windowToolbar" data-allow-window-drag>
 			{#each toolbarItemsWrapper.items as snippet}
 				{@render snippet()}
 			{/each}
 		</menu>
 	</header>
-	<div class="windowContent" onpointerdown={focusWithoutDrag}>
+	<div class="windowContent">
 		<app.Page />
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
