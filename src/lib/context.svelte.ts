@@ -1,6 +1,7 @@
 import type { AppName, RunningApp } from '$lib/apps.svelte';
+import type { ToolbarEntryType } from '$lib/helpers/toolbar.svelte';
 import type WindowServer from '$lib/windowServer.svelte';
-import { createContext, type Snippet } from 'svelte';
+import { createContext } from 'svelte';
 
 export const [getWindowServerContext, setWindowServerContext] = createContext<WindowServer>();
 
@@ -9,8 +10,8 @@ export const [getAppContext, setAppContext] = createContext<{
 	app: RunningApp;
 }>();
 
-export const [getToolbarItemsContext, setToolbarItemsContext] = createContext<{
-	items: Snippet[];
+export const [getToolbarEntryContext, setToolbarEntryContext] = createContext<{
+	entries: ToolbarEntryType[];
 }>();
 
 export const [getFileIconContext, setFileIconContext] = createContext<{

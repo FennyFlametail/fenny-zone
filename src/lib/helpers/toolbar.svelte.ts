@@ -1,14 +1,22 @@
-import { getToolbarItemsContext } from '$lib/context.svelte';
+import { getToolbarEntryContext } from '$lib/context.svelte';
 import { tick, type Snippet } from 'svelte';
 
-export default function addToolbarItems(items: Snippet) {
-	const toolbarItemsWrapper = getToolbarItemsContext();
+export interface ToolbarEntryType {
+	snippet: Snippet;
+	/** Styles will be merged, with deeper children taking precedence over higher levels */
+	style?: Record<string, string>;
+}
 
-	// remove items when component is destroyed
+export default function addToolbarEntry(entry: ToolbarEntryType) {
+	const toolbarEntriesWrapper = getToolbarEntryContext();
+	const entryProxy = $state(entry);
+
+	// remove entry when component is destroyed
 	$effect(
-		() => () => toolbarItemsWrapper.items.splice(toolbarItemsWrapper.items.indexOf(items), 1)
+		() => () =>
+			toolbarEntriesWrapper.entries.splice(toolbarEntriesWrapper.entries.indexOf(entryProxy), 1)
 	);
 
-	// tick ensures that when switching components, old items are removed before new items are added
-	tick().then(() => toolbarItemsWrapper.items.push(items));
+	// tick ensures that when switching components, old entry is removed before new entry is added
+	tick().then(() => toolbarEntriesWrapper.entries.push(entryProxy));
 }

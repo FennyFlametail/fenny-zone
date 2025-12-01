@@ -4,7 +4,7 @@
 	import {
 		getWindowServerContext,
 		setAppContext,
-		setToolbarItemsContext
+		setToolbarEntryContext
 	} from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
@@ -22,10 +22,21 @@
 
 	const title = $derived(app.windowTitle || app.title);
 
-	const toolbarItemsWrapper = $state<ReturnType<typeof setToolbarItemsContext>>({
-		items: []
+	const toolbarEntriesWrapper = $state<ReturnType<typeof setToolbarEntryContext>>({
+		entries: []
 	});
-	setToolbarItemsContext(toolbarItemsWrapper);
+	setToolbarEntryContext(toolbarEntriesWrapper);
+
+	const toolbarStyles = $derived.by(() => {
+		const mergedStyles: Record<string, string> = Object.assign(
+			{},
+			...toolbarEntriesWrapper.entries.map(({ style }) => style)
+		);
+		return Object.entries(mergedStyles).reduce(
+			(acc, [key, value]) => acc.concat(`${key}:${value};`),
+			''
+		);
+	});
 
 	const minWindowSize = 250;
 
@@ -127,8 +138,8 @@
 		<h2 class="windowTitle" data-allow-window-drag>
 			{title}
 		</h2>
-		<menu class="windowToolbar" data-allow-window-drag>
-			{#each toolbarItemsWrapper.items as snippet}
+		<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
+			{#each toolbarEntriesWrapper.entries as { snippet }}
 				{@render snippet()}
 			{/each}
 		</menu>
