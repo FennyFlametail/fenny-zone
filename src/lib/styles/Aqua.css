@@ -173,33 +173,16 @@ body {
 			}
 		}
 
-		.window.inactive .windowControls:not(:hover, :focus-visible) & {
+		.window.inactive .windowControls:not(:hover, :focus-visible) &,
+		.windowControls:not(:hover, :focus-visible) &:disabled {
 			--background-color: #b5b5b5 !important;
 			opacity: 0.5;
 		}
 
-		&:disabled {
-			--background-color: transparent !important;
-			box-shadow:
-				inset 0 0 1px 1.5px rgb(0 0 0 / 25%),
-				0 1px 1px white;
-		}
-		@media (scripting: none) {
-			&:is(.minimize, .maximize) {
-				/* same as :disabled */
-				--background-color: transparent !important;
-				box-shadow:
-					inset 0 0 1px 1.5px rgb(0 0 0 / 25%),
-					0 1px 1px white;
-			}
-		}
-
-		@media not (scripting: none) {
-			/* TODO remove .minimize when minimize is implemented */
+					/* TODO remove .minimize when minimize is implemented */
 			&:active:not(:disabled, .minimize) {
 				filter: brightness(0.75);
-			}
-		}
+					}
 
 		&.close {
 			--background-color: #c44a44;

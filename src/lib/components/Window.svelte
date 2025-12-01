@@ -124,13 +124,14 @@
 			>
 				<X class="windowButtonGlyph" size={14} />
 			</svelte:element>
-			<button class="windowButton minimize" aria-label="Minimize">
+			<button class="windowButton minimize" aria-label="Minimize" disabled={!browser}>
 				<Minus class="windowButtonGlyph" size={14} />
 			</button>
 			<button
 				class="windowButton maximize"
 				aria-label="Maximize"
 				onclick={() => windowServer.zoomApp(appName)}
+				disabled={!browser}
 			>
 				<Plus class="windowButtonGlyph" size={14} />
 			</button>
@@ -204,6 +205,7 @@
 	.windowControls {
 		grid-area: title;
 		align-self: center;
+		justify-self: start;
 		display: flex;
 		align-items: center;
 		gap: 9px;
