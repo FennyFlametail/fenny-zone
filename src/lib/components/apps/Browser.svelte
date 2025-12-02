@@ -7,35 +7,32 @@
 	let isFocused = $derived(app === windowServer.focusedApp?.app);
 </script>
 
-<iframe src={app.url} title={app.title}></iframe>
-<div
-	class={[
-		'cover',
-		{
-			solid: windowServer.draggingEl || windowServer.resizingEl || !isFocused,
-			visible: !isFocused
-		}
-	]}
-	onclick={() => windowServer.focusApp(appName)}
-	aria-hidden="true"
-></div>
+<div class="browser">
+	<iframe src={app.url} title={app.title}></iframe>
+	<div
+		class={[
+			'browserCover',
+			{
+				solid: windowServer.draggingEl || windowServer.resizingEl || !isFocused,
+				visible: !isFocused
+			}
+		]}
+		onclick={() => windowServer.focusApp(appName)}
+		aria-hidden="true"
+	></div>
+</div>
 
 <style>
-	iframe {
+	iframe,
+	.browserCover {
 		position: absolute;
-		left: 0;
 		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
-		border: none;
 	}
 
-	.cover {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
+	.browserCover {
 		transition: background-color 0.2s;
 		pointer-events: none;
 

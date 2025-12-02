@@ -28,7 +28,7 @@
 			</li>
 			<li>Job: delivery person and various other gig jobs</li>
 			<li>Interests: partying, punk shows, graffiti</li>
-			<li>Favorite color: <span class="color">dark pink</span></li>
+			<li>Favorite color: <span class="profileColor">dark pink</span></li>
 			<li>
 				Favorite food: pizza
 				<ul>
@@ -81,7 +81,7 @@
 </Profile>
 
 <style>
-	.color {
+	.profileColor {
 		background-color: #a92365;
 		color: white;
 	}

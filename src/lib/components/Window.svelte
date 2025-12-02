@@ -161,8 +161,10 @@
 		min-height: var(--minWindowSize);
 		width: var(--width);
 		height: var(--height);
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template:
+			'titlebar' auto
+			'content' 1fr;
 		background-color: white;
 		border: 1px solid black;
 		box-shadow: var(--panel-box-shadow);
@@ -190,6 +192,7 @@
 	}
 
 	.windowTitlebar {
+		grid-area: titlebar;
 		position: relative;
 		display: grid;
 		grid-template:
@@ -240,9 +243,10 @@
 		&:empty {
 			display: none;
 		}
-
 		grid-area: toolbar;
-		display: flex;
+		display: grid;
+		grid-auto-flow: column;
+		justify-content: start;
 		padding-top: 8px;
 		padding-bottom: 11px;
 		padding-inline: 0;
@@ -251,9 +255,13 @@
 	}
 
 	.windowContent {
-		flex-grow: 1;
+		grid-area: content;
+		display: grid;
+		grid-template: 100% / 100%;
+		justify-items: stretch;
+		align-items: stretch;
+		min-height: 0;
 		position: relative;
-		overflow: auto;
 		overscroll-behavior: none;
 	}
 

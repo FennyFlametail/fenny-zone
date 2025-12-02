@@ -26,7 +26,7 @@
 			</li>
 			<li>Job: web developer</li>
 			<li>Interests/hobbies: food, baking, video games, technology, plants</li>
-			<li>Favorite color: <span class="color">purple</span></li>
+			<li>Favorite color: <span class="profileColor">purple</span></li>
 			<li>
 				Favorite food: cinnamon rolls
 				<ul>
@@ -90,7 +90,7 @@
 </Profile>
 
 <style>
-	.color {
+	.profileColor {
 		background-color: #800ed5;
 		color: white;
 	}

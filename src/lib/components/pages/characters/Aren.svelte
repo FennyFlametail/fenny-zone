@@ -31,7 +31,7 @@
 					<li>plays guitar</li>
 				</ul>
 			</li>
-			<li>Favorite color: <span class="color">forest green</span></li>
+			<li>Favorite color: <span class="profileColor">forest green</span></li>
 			<li>Favorite food: Korean BBQ</li>
 			<li>Favorite drink: iced black coffee</li>
 			<li>Favorite ice cream flavor: stracciatella</li>
@@ -74,7 +74,7 @@
 </Profile>
 
 <style>
-	.color {
+	.profileColor {
 		background-color: #3b702a;
 		color: white;
 	}

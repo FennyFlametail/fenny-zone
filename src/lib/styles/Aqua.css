@@ -264,7 +264,7 @@ body {
 
 		.windowContent {
 			padding-inline: var(--titlebar-padding);
-			margin-bottom: 32px;
+			padding-bottom: 32px;
 
 			> :not(.brushedInset, .brushedNoInset)::before {
 				content: '⚠️ Use the .brushedInset class to render the inset border, or .brushedNoInset to hide this message ⚠️';

@@ -17,7 +17,7 @@
 </script>
 
 <div class="profile" style:--image={`url('${image}')`}>
-	<div class="container">
+	<div class="profileTextContainer">
 		<h3>About</h3>
 		{@render bio()}
 		{#if relationships[name]}
@@ -37,8 +37,6 @@
 <style>
 	.profile {
 		position: relative;
-		width: 100%;
-		height: 100%;
 		padding-block-end: 20px;
 		overflow-y: auto;
 		background-color: white;
@@ -49,12 +47,13 @@
 		background-repeat: no-repeat;
 	}
 
-	.container {
+	.profileTextContainer {
 		max-width: 500px;
 		text-wrap: pretty;
 	}
 
-	.profile :global(.color) {
+	.profile :global(.profileColor) {
+		vertical-align: middle;
 		padding: 0.2em;
 		border-radius: 0.2em;
 	}

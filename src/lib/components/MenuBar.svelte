@@ -87,7 +87,7 @@
 			disabled={runningAppsCount < 2 && !(windowServer.desktopFocused && runningAppsCount === 1)}
 		/>
 	</MenuCategory>
-	<div class="spacer"></div>
+	<div class="menubarSpacer"></div>
 	<GooglyEyes />
 	<MenuClock />
 </header>
@@ -127,7 +127,7 @@
 		}
 	}
 
-	.spacer {
+	.menubarSpacer {
 		flex-grow: 1;
 	}
 </style>

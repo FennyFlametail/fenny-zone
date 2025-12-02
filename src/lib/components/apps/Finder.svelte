@@ -20,8 +20,9 @@
 
 <style>
 	.finder {
-		min-height: 100%;
 		background-color: white;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.finderStatusBar {
@@ -40,7 +41,8 @@
 		grid-template-columns: repeat(auto-fill, 128px);
 		justify-content: space-evenly;
 		align-content: start;
+		padding: 10px;
 		row-gap: 42px;
-		padding-block: 10px;
+		overflow: hidden auto;
 	}
 </style>

@@ -9,7 +9,7 @@
 	}
 </script>
 
-<div class="videoContainer">
+<div class="trashContainer">
 	<video
 		src="/trash.mp4"
 		poster="/trash-poster.webp"
@@ -23,7 +23,7 @@
 </div>
 
 <style>
-	.videoContainer {
+	.trashContainer {
 		width: 100%;
 		height: 100%;
 		background-color: black;

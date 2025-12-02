@@ -46,7 +46,7 @@
 					<li>capable at hand-to-hand, but prefers to run instead of fight</li>
 				</ul>
 			</li>
-			<li>Favorite color: <span class="color">purple</span></li>
+			<li>Favorite color: <span class="profileColor">purple</span></li>
 			<li>Favorite food: fresh produce (hard to get)</li>
 			<li>Favorite drink: real coffee (also hard to get)</li>
 			<li>
@@ -110,7 +110,7 @@
 </Profile>
 
 <style>
-	.color {
+	.profileColor {
 		background-color: #3c165a;
 		color: white;
 	}

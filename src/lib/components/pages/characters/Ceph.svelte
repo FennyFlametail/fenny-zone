@@ -30,7 +30,7 @@
 			</li>
 			<li>Job: astrophysics grad student</li>
 			<li>Interests: space, video games, anime, swimming</li>
-			<li>Favorite color: <span class="color">pink</span></li>
+			<li>Favorite color: <span class="profileColor">pink</span></li>
 			<li>
 				Favorite food: sushi
 				<ul>
@@ -109,7 +109,7 @@
 </Profile>
 
 <style>
-	.color {
+	.profileColor {
 		background-color: #fe61f6;
 	}
 </style>

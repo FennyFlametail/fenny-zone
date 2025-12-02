@@ -60,9 +60,9 @@
 </script>
 
 {#if browser}
-	<div class={['container', { blink }]} bind:this={container}>
-		<div class="eye" bind:this={eyes[0]}></div>
-		<div class="eye" bind:this={eyes[1]}></div>
+	<div class={['googlyEyeContainer', { blink }]} bind:this={container}>
+		<div class="googlyEye" bind:this={eyes[0]}></div>
+		<div class="googlyEye" bind:this={eyes[1]}></div>
 	</div>
 {/if}
 
@@ -70,7 +70,7 @@
 <svelte:body {onpointermove} {onpointerdown} {onpointerup} oncontextmenu={onpointerup} />
 
 <style>
-	.container {
+	.googlyEyeContainer {
 		padding-inline: var(--menu-item-padding);
 		flex-shrink: 0;
 		display: flex;
@@ -78,7 +78,7 @@
 		gap: 1px;
 	}
 
-	.eye {
+	.googlyEye {
 		--eye-width: 20px;
 		position: relative;
 		width: var(--eye-width);
@@ -90,7 +90,7 @@
 		align-items: center;
 		justify-content: center;
 
-		.container:not(.blink) & {
+		.googlyEyeContainer:not(.blink) & {
 			--distanceX: calc(var(--mouseX) - var(--centerX));
 			--distanceY: calc(var(--mouseY) - var(--centerY));
 			--tan: atan2(var(--distanceX), var(--distanceY));
@@ -126,7 +126,7 @@
 			}
 		}
 
-		.container.blink &::after {
+		.googlyEyeContainer.blink &::after {
 			content: '';
 			height: 1.5px;
 			width: 75%;
