@@ -32,6 +32,10 @@
 		height: 100%;
 	}
 
+	iframe {
+		border: none;
+	}
+
 	.browserCover {
 		transition: background-color 0.2s;
 		pointer-events: none;
