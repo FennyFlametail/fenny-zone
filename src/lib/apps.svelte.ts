@@ -78,7 +78,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: '/icons/txt.webp',
 		route: '/readme',
 		defaultSize: {
-			width: 510
+			width: 520
 		}
 	},
 	characters: {
