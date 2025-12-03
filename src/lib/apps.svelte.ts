@@ -76,7 +76,10 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Readme',
 		menuTitle: 'TextEdit',
 		icon: '/icons/txt.webp',
-		route: '/readme'
+		route: '/readme',
+		defaultSize: {
+			width: 510
+		}
 	},
 	characters: {
 		Page: Characters,
