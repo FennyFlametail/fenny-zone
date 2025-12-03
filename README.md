@@ -1,7 +1,7 @@
 # fenny-zone
 
-A silly website project by [@fenny.zone](https://bsky.app/profile/fenny.zone)
+A silly web toy by [@fenny.zone](https://bsky.app/profile/fenny.zone)
 
-<https://fenny-zone.vercel.app/>
+<https://www.fenny.zone/>
 
-![Screenshot of a website styled to look like a Mac OS X 10.4 desktop. A window in the middle shows icons of four anthro characters.](screenshot.webp)
+![Screenshot of a website styled to look like a Mac OS X Tiger desktop. Multiple windows are open, including one styled like the brushed metak Address Book app with a list of the author's characters.](screenshot.webp)
