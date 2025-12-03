@@ -50,7 +50,7 @@ readonly defaultSize?: {
 		/** @default 500 */
 		height?: number;
 	};
-readonly instance?: {
+	instance?: {
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
