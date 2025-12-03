@@ -247,6 +247,7 @@
 		display: grid;
 		grid-auto-flow: column;
 		justify-content: start;
+		justify-items: start;
 		padding-top: 8px;
 		padding-bottom: 11px;
 		padding-inline: 0;

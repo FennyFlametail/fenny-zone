@@ -28,23 +28,23 @@ export type AppName =
 	| 'trash';
 
 export interface AppEntry {
-readonly Page?: Component<any>;
+	readonly Page?: Component<any>;
 	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
-readonly title: string;
+	readonly title: string;
 	/** Defaults to `title` */
-readonly menuTitle?: string;
+	readonly menuTitle?: string;
 	/** Defaults to `title` */
-readonly windowTitle?: string;
-readonly brushed?: boolean;
-readonly icon: string;
-readonly route?: string;
+	readonly windowTitle?: string;
+	readonly brushed?: boolean;
+	readonly icon: string;
+	readonly route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */
-readonly parent?: AppName;
+	readonly parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
-readonly backTo?: string;
+	readonly backTo?: string;
 	/** Used by Browser apps */
-readonly url?: string;
-readonly defaultSize?: {
+	readonly url?: string;
+	readonly defaultSize?: {
 		/** @default 500 */
 		width?: number;
 		/** @default 500 */
@@ -79,24 +79,31 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/readme'
 	},
 	characters: {
-		parent: 'Finder',
 		Page: Characters,
 		title: 'Characters',
-		menuTitle: 'Finder',
-		icon: '/icons/folder-characters.webp',
-		route: '/characters'
+		menuTitle: 'Address Book',
+		brushed: true,
+		icon: '/icons/characters.webp',
+		/* TODO titlebar icon */
+		route: '/characters',
+		defaultSize: {
+			width: 800,
+			height: 1000
+		}
 	},
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
 		menuTitle: 'Profile',
 		windowTitle: 'Fenny Flametail',
+		brushed: true,
 		icon: '/icons/fenny.webp',
+		/* TODO make character routes open Characters page with character pre-selected (but still support opening in separate windows) */
 		route: '/characters/fenny',
 		backTo: '/characters',
 		defaultSize: {
-			width: 800,
-			height: 1000
+			width: 600,
+			height: 600
 		}
 	},
 	aren: {
@@ -104,12 +111,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Aren',
 		menuTitle: 'Profile',
 		windowTitle: 'Aren Flametail',
+		brushed: true,
 		icon: '/icons/aren.webp',
 		route: '/characters/aren',
 		backTo: '/characters',
 		defaultSize: {
-			width: 800,
-			height: 1000
+			width: 600,
+			height: 600
 		}
 	},
 	ceph: {
@@ -117,12 +125,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Ceph',
 		menuTitle: 'Profile',
 		windowTitle: 'Ceph Azulux',
+		brushed: true,
 		icon: '/icons/ceph.webp',
 		route: '/characters/ceph',
 		backTo: '/characters',
 		defaultSize: {
-			width: 800,
-			height: 1000
+			width: 600,
+			height: 600
 		}
 	},
 	rigel: {
@@ -130,12 +139,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Rigel',
 		menuTitle: 'Profile',
 		windowTitle: 'Rigel Azulux',
+		brushed: true,
 		icon: '/icons/rigel.webp',
 		route: '/characters/rigel',
 		backTo: '/characters',
 		defaultSize: {
-			width: 800,
-			height: 1000
+			width: 600,
+			height: 600
 		}
 	},
 	nocturne: {
@@ -143,12 +153,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Nocturne',
 		menuTitle: 'Profile',
 		windowTitle: 'Nocturne Blackmoon',
+		brushed: true,
 		icon: '/icons/nocturne.webp',
 		route: '/characters/nocturne',
 		backTo: '/characters',
 		defaultSize: {
-			width: 800,
-			height: 1000
+			width: 600,
+			height: 600
 		}
 	},
 	projects: {

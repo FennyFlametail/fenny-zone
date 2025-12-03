@@ -4,25 +4,30 @@
 	import { getWindowServerContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
+
+	const pinned: AppName[] = ['Finder', 'characters'];
 </script>
 
 <footer class="dock">
 	<div class="dockSection">
-		<DockIcon appName="Finder" open={true} />
+		{#each pinned as name}
+			<DockIcon appName={name} open={name === 'Finder' || undefined} />
+		{/each}
 		{#each windowServer.appsByParent as [parent, apps] (parent)}
 			{#if parent}
-				{#if parent !== 'Finder'}
+				{#if !pinned.includes(parent)}
 					<DockIcon appName={parent} />
 				{/if}
 			{:else}
 				{#each apps as [name]}
-					<DockIcon appName={name} />
+					{#if !pinned.includes(name)}
+						<DockIcon appName={name} />
+					{/if}
 				{/each}
 			{/if}
 		{/each}
 	</div>
 	<div class="dockSection">
-		<DockIcon appName="characters" open={false} />
 		<DockIcon appName="projects" open={false} />
 		<DockIcon appName="trash" open={false} />
 	</div>

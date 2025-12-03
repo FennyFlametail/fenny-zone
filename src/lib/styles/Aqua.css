@@ -1,5 +1,6 @@
 :root {
 	--accent-color: #3471cf;
+	--accent-color-inactive: #d4d4d4;
 	--selection-color: #b5d5ff;
 	--desktop-color: #daa15f;
 	--pinstripe-bg-image: repeating-linear-gradient(
@@ -19,6 +20,7 @@
 	--button-border-gradient: #666666;
 	--button-border-active-gradient: #272798, #616161;
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
+	--widget-inset-box-shadow: 0 1px 1px #d4d4d4;
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 }
@@ -132,7 +134,7 @@ body {
 	.windowButton {
 		box-shadow:
 			inset 0 0 1px 1px rgb(0 0 0 / 50%),
-			0 1px 1px white;
+			var(--widget-inset-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
 		background:
@@ -179,10 +181,10 @@ body {
 			opacity: 0.5;
 		}
 
-					/* TODO remove .minimize when minimize is implemented */
-			&:active:not(:disabled, .minimize) {
-				filter: brightness(0.75);
-					}
+		/* TODO remove .minimize when minimize is implemented */
+		&:active:not(:disabled, .minimize) {
+			filter: brightness(0.75);
+		}
 
 		&.close {
 			--background-color: #c44a44;
@@ -284,30 +286,46 @@ body {
 		}
 	}
 
-	.brushedInset {
-		border-top: 1px solid rgb(105 105 105);
-		border-inline: 1px solid rgb(105 105 105 / 75%);
-		border-bottom: 2px solid rgb(217 217 217);
+	.brushedInset:not(
+		/* special case for nested containers (ex. AddressBook) */
+		.brushedInset > .brushedInset
+	) {
+		border-top: 1px solid #737373;
+		border-inline: 1px solid #999999;
+		border-bottom: 1px solid #dfdfdf;
 	}
 	/* #endregion */
 
 	/* #region Widgets */
-	button.aqua {
+	button.aqua, .aqua-button {
+		height: 28px;
+		min-width: 91px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding-inline: 14px;
 		box-shadow: var(--widget-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
 		background:
 			linear-gradient(to bottom, var(--button-gradient)) padding-box,
 			linear-gradient(to bottom, var(--button-border-gradient)) border-box;
-		padding-inline: 14px;
-		min-width: 91px;
-		height: 28px;
+		color: black;
+		text-align: center;
+		white-space: nowrap;
 		-webkit-user-select: none;
 		user-select: none;
-		white-space: nowrap;
 
 		&.square {
 			border-radius: 5px;
+		}
+
+		&.icon {
+			min-width: auto;
+		}
+
+		.window.brushed .windowToolbar & {
+			box-shadow: var(--widget-inset-box-shadow);
 		}
 
 		&:focus-visible {
@@ -318,7 +336,7 @@ body {
 			}
 		}
 
-		&:active {
+		&:active:not(:disabled, .disabled) {
 			--button-gradient: var(--button-active-gradient);
 			--button-border-gradient: var(--button-border-active-gradient);
 		}
@@ -330,6 +348,17 @@ body {
 			&:not(:active) {
 				animation: 0.5s linear infinite alternate darken;
 			}
+		}
+
+		svg {
+			opacity: 0.75;
+		}
+		&:is(:disabled, .disabled) svg {
+			opacity: 0.33;
+		}
+
+		@media not (scripting: none) {
+			cursor: default;
 		}
 	}
 	/* #endregion */

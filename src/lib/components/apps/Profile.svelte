@@ -16,7 +16,7 @@
 	} = $props();
 </script>
 
-<div class="profile" style:--image={`url('${image}')`}>
+<div class="profile brushedInset" style:--image={`url('${image}')`}>
 	<div class="profileTextContainer">
 		<h3>About</h3>
 		{@render bio()}
