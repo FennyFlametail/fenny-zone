@@ -226,6 +226,11 @@
 				cursor: not-allowed;
 			}
 		}
+		@media (scripting: none) {
+			&.minimize, &.maximize {
+				cursor: not-allowed;
+			}
+		}
 	}
 
 	.windowTitle {
