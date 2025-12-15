@@ -17,6 +17,7 @@ Googly eyes inspired by <a href="https://sindresorhus.com/googly-eyes" target="_
 		font-family: 'Monaco', 'Courier New', monospace;
 		font-size: 10pt;
 		white-space: pre-wrap;
+		text-wrap: stable;
 		-webkit-font-smoothing: none;
 		-moz-osx-font-smoothing: grayscale;
 	}
