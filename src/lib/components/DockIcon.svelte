@@ -38,9 +38,9 @@
 	style:--bounceAnimSteps={bounceAnimSteps}
 	out:delayRemove|global
 	{onclick}
-	href={app.route}
+	href={app.route ?? ''}
 >
-	<span class="dockIconLabel">{app.title}</span>
+	<span class="dockIconLabel" aria-hidden="true">{app.title}</span>
 	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
 </a>
 
