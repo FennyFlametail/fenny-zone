@@ -58,7 +58,7 @@
 	target={href || app?.url ? '_blank' : '_self'}
 >
 	<div class="fileIconImageWrapper">
-		<img class="fileIconImage" src={icon ?? app?.icon} alt={name ?? app?.title} draggable="false" />
+		<img class="fileIconImage" src={icon ?? app?.icon} alt={''} draggable="false" />
 		<img
 			class="fileIconImage fileIconImageZoom"
 			src={icon ?? app?.icon}
