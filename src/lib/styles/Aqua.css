@@ -264,6 +264,10 @@ body {
 			background: none;
 		}
 
+		.windowTitle {
+			text-shadow: 0 1px 1px white;
+		}
+
 		.windowContent {
 			padding-inline: var(--titlebar-padding);
 			padding-bottom: 32px;
