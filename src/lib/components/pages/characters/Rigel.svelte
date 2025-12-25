@@ -2,81 +2,111 @@
 	import Profile from '$lib/components/apps/Profile.svelte';
 </script>
 
-<Profile name="Rigel" image="/characters/rigel.webp">
+<Profile
+	character="rigel"
+	species="Luxray"
+	iconAlt="Icon of a masculine Luxray with sunglasses. He's licking an ice cream cone provocatively with his pierced tongue."
+	photo="/characters/rigel.webp"
+	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear."
+>
 	{#snippet bio()}
-		<ul>
-			<li>Name: Rigel Azulux</li>
-			<li>Species: Luxray</li>
-			<li>Age: 27</li>
-			<li>Height: 5 ft 8 in (1.73 m)</li>
-			<li>Pronouns: he/him</li>
-			<li>Orientation: gay</li>
-			<li>
-				Personality: huge party animal, cocky, reckless, hotheaded
-				<ul>
-					<li>lives in the moment, struggles to plan long-term</li>
-					<li>not very reliable, but has a good heart</li>
-					<li>not against relationships, but not seeking one out</li>
-					<li>dislikes authority</li>
-				</ul>
-			</li>
-			<li>
-				Voice: slightly raspy like Ceph’s, but louder and stronger
-				<ul>
-					<li>fast talker, often speaks without thinking</li>
-				</ul>
-			</li>
-			<li>Job: delivery person and various other gig jobs</li>
-			<li>Interests: partying, punk shows, graffiti</li>
-			<li>Favorite color: <span class="profileColor">dark pink</span></li>
-			<li>
-				Favorite food: pizza
-				<ul>
-					<li>not an adventurous eater, lives off take-out and frozen food</li>
-				</ul>
-			</li>
-			<li>Favorite drink: energy drinks and hard seltzer</li>
-			<li>Favorite ice cream flavor: strawberry shortcake bars</li>
-			<li>Favorite music genres: punk, ska, alternative</li>
-			<li>Clothing style: punk (or raver when he's partying)</li>
-			<li>
-				Typical outfit:
-				<ul>
-					<li>denim or leather vest with lots of pins & patches</li>
-					<li>ripped jeans</li>
-					<li>worn canvas shoes</li>
-					<li>occasional beanie</li>
-				</ul>
-			</li>
-			<li>
-				Notes:
-				<ul>
-					<li>trans</li>
-					<li>bioluminescent parts glow brighter when excited or angry</li>
-					<li>into astrology</li>
-				</ul>
-			</li>
-		</ul>
+		<dt>Age</dt>
+		<dd>27</dd>
+
+		<dt>Height</dt>
+		<dd>5 ft 8 in (1.73 m)</dd>
+
+		<dt>Pronouns</dt>
+		<dd>he/him</dd>
+
+		<dt>Orientation</dt>
+		<dd>gay</dd>
+
+		<dt>Personality</dt>
+		<dd>
+			cocky, reckless, hotheaded, rebellious
+			<ul>
+				<li>huge party animal</li>
+				<li>lives in the moment, struggles to plan long-term</li>
+				<li>not very reliable, but has a good heart</li>
+				<li>not against relationships, but not seeking one out</li>
+			</ul>
+		</dd>
+
+		<dt>Voice</dt>
+		<dd>
+			slightly raspy like Ceph's, but louder and more boisterous
+			<ul>
+				<li>fast talker, often speaks without thinking</li>
+			</ul>
+		</dd>
+
+		<dt>Job</dt>
+		<dd>delivery person, and various other gig jobs</dd>
+
+		<dt>Interests</dt>
+		<dd>partying, punk shows, graffiti, skateboarding</dd>
+
+		<dt>Fav. color</dt>
+		<dd><span class="profileColor">dark pink</span></dd>
+
+		<dt>Fav. food</dt>
+		<dd>
+			pizza
+			<ul>
+				<li>not an adventurous eater, lives off take-out and frozen food</li>
+			</ul>
+		</dd>
+
+		<dt>Fav. drink</dt>
+		<dd>energy drinks and hard seltzer</dd>
+
+		<dt>Fav. ice cream flavor</dt>
+		<dd>strawberry shortcake bars</dd>
+
+		<dt>Fav. music genres</dt>
+		<dd>punk, ska, alternative, EDM</dd>
+
+		<dt>Clothing style</dt>
+		<dd>
+			punk (or raver when he's partying)
+			<ul>
+				<li>likes fox-themed clothing and accessories</li>
+			</ul>
+		</dd>
+
+		<dt>Typical outfit</dt>
+		<dd>
+			<ul>
+				<li>denim or leather vest, with lots of pins & patches</li>
+				<li>ripped jeans</li>
+				<li>worn canvas shoes</li>
+				<li>occasional beanie</li>
+			</ul>
+		</dd>
+
+		<dt>Notes</dt>
+		<dd>
+			<ul>
+				<li>trans</li>
+				<li>bioluminescent parts glow brighter when excited or angry</li>
+				<li>likes astrology</li>
+			</ul>
+		</dd>
 	{/snippet}
 
 	{#snippet links()}
-		<ul>
-			<li>
-				<a
-					target="_blank"
-					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/1563925/Rigel"
-					>Gallery (18+)</a
-				>
-			</li>
-			<li>
-				Background art by <a target="_blank" href="https://www.furaffinity.net/user/candymint/"
-					>candymint</a
-				>
-			</li>
-			<li>
-				Icon by <a target="_blank" href="https://www.furaffinity.net/user/redlynx369">RojoLynx</a>
-			</li>
-		</ul>
+		<dt>Gallery (18+)</dt>
+		<dd>
+			<a
+				target="_blank"
+				href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/1563925/Rigel">FurAffinity</a
+			>
+		</dd>
+		<dt>Icon</dt>
+		<dd><a target="_blank" href="https://www.furaffinity.net/user/redlynx369">RojoLynx</a></dd>
+		<dt>Artwork</dt>
+		<dd><a target="_blank" href="https://www.furaffinity.net/user/candymint/">candymint</a></dd>
 	{/snippet}
 </Profile>
 

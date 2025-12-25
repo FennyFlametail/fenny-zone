@@ -261,6 +261,7 @@
 	}
 
 	.windowContent {
+		container: window / size;
 		grid-area: content;
 		display: grid;
 		grid-template: 100% / 100%;

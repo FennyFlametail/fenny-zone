@@ -61,6 +61,11 @@ export interface AppEntry {
 
 export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
 
+const defaultProfileSize = {
+	width: 1000,
+	height: 600
+};
+
 const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
@@ -90,80 +95,65 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
-			width: 800,
+			width: 1400,
 			height: 1000
 		}
 	},
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
-		menuTitle: 'Profile',
+		menuTitle: 'Address Book',
 		windowTitle: 'Fenny Flametail',
 		brushed: true,
 		icon: '/icons/fenny.webp',
-		/* TODO make character routes open Characters page with character pre-selected (but still support opening in separate windows) */
+		/* FIXME make character routes open Characters page with character pre-selected, instead of new window (but still support opening in separate windows) */
 		route: '/characters/fenny',
 		backTo: '/characters',
-		defaultSize: {
-			width: 600,
-			height: 600
-		}
+		defaultSize: defaultProfileSize
 	},
 	aren: {
 		Page: Aren,
 		title: 'Aren',
-		menuTitle: 'Profile',
+		menuTitle: 'Address Book',
 		windowTitle: 'Aren Flametail',
 		brushed: true,
 		icon: '/icons/aren.webp',
 		route: '/characters/aren',
 		backTo: '/characters',
-		defaultSize: {
-			width: 600,
-			height: 600
-		}
+		defaultSize: defaultProfileSize
 	},
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
-		menuTitle: 'Profile',
+		menuTitle: 'Address Book',
 		windowTitle: 'Ceph Azulux',
 		brushed: true,
 		icon: '/icons/ceph.webp',
 		route: '/characters/ceph',
 		backTo: '/characters',
-		defaultSize: {
-			width: 600,
-			height: 600
-		}
+		defaultSize: defaultProfileSize
 	},
 	rigel: {
 		Page: Rigel,
 		title: 'Rigel',
-		menuTitle: 'Profile',
+		menuTitle: 'Address Book',
 		windowTitle: 'Rigel Azulux',
 		brushed: true,
 		icon: '/icons/rigel.webp',
 		route: '/characters/rigel',
 		backTo: '/characters',
-		defaultSize: {
-			width: 600,
-			height: 600
-		}
+		defaultSize: defaultProfileSize
 	},
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
-		menuTitle: 'Profile',
+		menuTitle: 'Address Book',
 		windowTitle: 'Nocturne Blackmoon',
 		brushed: true,
 		icon: '/icons/nocturne.webp',
 		route: '/characters/nocturne',
 		backTo: '/characters',
-		defaultSize: {
-			width: 600,
-			height: 600
-		}
+		defaultSize: defaultProfileSize
 	},
 	projects: {
 		parent: 'Finder',

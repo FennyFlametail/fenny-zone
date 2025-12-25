@@ -1,3 +1,5 @@
+import type { AppName } from '$lib/apps.svelte';
+
 const FennyAren =
 	'Fenny and Aren are brothers, and are as close as siblings could be. They have a playful rivalry and tease each other often, but they love and trust each other completely. Aren likes to call Fenny his little brother, but Fenny prefers to think of them as twins.';
 const FennyCeph =
@@ -19,7 +21,10 @@ const CephNocturne =
 const RigelNocturne =
 	'Rigel and Nocturne are roommates. They have clashing personalities and grate on each other, but deep down they care about each other. Nocturne was a lot like Rigel when they were younger, and feels a bit protective of him.';
 
-export type CharacterName = 'Fenny' | 'Aren' | 'Ceph' | 'Rigel' | 'Nocturne';
+export type CharacterName = Extract<
+	AppName,
+	'fenny' | 'aren' | 'ceph' | 'rigel' | 'nocturne' | 'foo'
+>;
 
 // TODO make non-optional and uncomment below when adding Nocturne modern AU info
 export const relationships: {
@@ -27,34 +32,34 @@ export const relationships: {
 		[other in Exclude<CharacterName, self>]?: string;
 	};
 } = {
-	Fenny: {
-		Aren: FennyAren,
-		Ceph: FennyCeph,
-		Rigel: FennyRigel
-		// Nocturne: FennyNocturne
+	fenny: {
+		aren: FennyAren,
+		ceph: FennyCeph,
+		rigel: FennyRigel
+		// nocturne: FennyNocturne
 	},
-	Aren: {
-		Fenny: FennyAren,
-		Ceph: ArenCeph,
-		Rigel: ArenRigel
-		// Nocturne: ArenNocturne
+	aren: {
+		fenny: FennyAren,
+		ceph: ArenCeph,
+		rigel: ArenRigel
+		// nocturne: ArenNocturne
 	},
-	Ceph: {
-		Fenny: FennyCeph,
-		Aren: ArenCeph,
-		Rigel: CephRigel
-		// Nocturne: CephNocturne
+	ceph: {
+		fenny: FennyCeph,
+		aren: ArenCeph,
+		rigel: CephRigel
+		// nocturne: CephNocturne
 	},
-	Rigel: {
-		Fenny: FennyRigel,
-		Aren: ArenRigel,
-		Ceph: CephRigel
-		// Nocturne: RigelNocturne
+	rigel: {
+		fenny: FennyRigel,
+		aren: ArenRigel,
+		ceph: CephRigel
+		// nocturne: RigelNocturne
 	}
-	// Nocturne: {
-	// 		Fenny: FennyNocturne,
-	// 		Aren: ArenNocturne,
-	// 		Ceph: CephNocturne,
-	// 		Rigel: RigelNocturne
+	// nocturne: {
+	// 		fenny: FennyNocturne,
+	// 		aren: ArenNocturne,
+	// 		ceph: CephNocturne,
+	// 		rigel: RigelNocturne
 	// }
 };

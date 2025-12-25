@@ -2,74 +2,110 @@
 	import Profile from '$lib/components/apps/Profile.svelte';
 </script>
 
-<Profile name="Aren" image="/characters/aren.webp">
+<Profile
+	character="aren"
+	species="Ethiopian Wolf"
+	iconAlt="Icon of a rugged-looking wolf, grinning at you in an alluring way."
+	photo="/characters/aren.webp"
+	photoAlt="A wolf with a goatee, wearing a bomber jacket and confidently playing the guitar."
+>
 	{#snippet bio()}
-		<ul>
-			<li>Name: Aren Flametail</li>
-			<li>Species: Ethiopian wolf</li>
-			<li>Age: 24 (two months older than Fenny)</li>
-			<li>Height: 6 ft (1.83 m)</li>
-			<li>Pronouns: he/him</li>
-			<li>Orientation: pansexual, aromantic</li>
-			<li>
-				Personality: outgoing, charismatic, confident, assertive
+		<dt>Age</dt>
+		<dd>24 (two months older than Fenny)</dd>
+
+		<dt>Height</dt>
+		<dd>6 ft 1 in (1.85 m)</dd>
+
+		<dt>Pronouns</dt>
+		<dd>he/him</dd>
+
+		<dt>Orientation</dt>
+		<dd>pansexual, aromantic</dd>
+
+		<dt>Personality</dt>
+		<dd>
+			outgoing, charismatic, confident, assertive
+			<ul>
+				<li>aromantic, but cares for his friends deeply</li>
+			</ul>
+		</dd>
+
+		<dt>Voice</dt>
+		<dd>strong, deep but not booming</dd>
+
+		<dt>Job</dt>
+		<dd>
+			barista
+			<ul>
+				<li>wants to open his own cocktail bar</li>
+			</ul>
+		</dd>
+
+		<dt>Interests</dt>
+		<dd>
+			coffee, mixology, cooking, fitness, music
+			<ul>
+				<li>plays guitar, likes to play while Nocturne sings</li>
+			</ul>
+		</dd>
+
+		<dt>Fav. color</dt>
+		<dd><span class="profileColor">forest green</span></dd>
+
+		<dt>Fav. food</dt>
+		<dd>Korean BBQ</dd>
+
+		<dt>Fav. drink</dt>
+		<dd>iced black coffee</dd>
+
+		<dt>Fav. ice cream flavor</dt>
+		<dd>stracciatella</dd>
+
+		<dt>Fav. music genres</dt>
+		<dd>punk, ska, hip-hop & rap, indie rock</dd>
+
+		<dt>Clothing style</dt>
+		<dd>casual, comfortable, understated</dd>
+
+		<dt>Typical outfit</dt>
+		<dd>
+			<ul>
+				<li>green or brown bomber jacket with plain colored tee</li>
 				<ul>
-					<li>aromantic, but loves his friends deeply</li>
-					<li>does his best to take care of people</li>
+					<li>or leather biker jacket</li>
 				</ul>
-			</li>
-			<li>Voice: strong, deep but not booming</li>
-			<li>
-				Job: barista
-				<ul>
-					<li>wants to open his own cocktail bar</li>
-				</ul>
-			</li>
-			<li>
-				Interests/hobbies: coffee, cocktails, cooking, fitness, music
-				<ul>
-					<li>plays guitar</li>
-				</ul>
-			</li>
-			<li>Favorite color: <span class="profileColor">forest green</span></li>
-			<li>Favorite food: Korean BBQ</li>
-			<li>Favorite drink: iced black coffee</li>
-			<li>Favorite ice cream flavor: stracciatella</li>
-			<li>Favorite music genres: punk, ska, hip-hop & rap, indie rock</li>
-			<li>Clothing style: casual, comfortable, understated</li>
-			<li>
-				Typical outfit:
-				<ul>
-					<li>green or brown bomber jacket with plain colored tee underneath</li>
-					<ul>
-						<li>or leather biker jacket</li>
-					</ul>
-					<li>blue denim jeans, or cargo pants or shorts</li>
-					<li>sneakers</li>
-				</ul>
-			</li>
-			<li>Vehicle: yellow Honda CBR600F4i</li>
-		</ul>
+				<li>blue denim jeans, or cargo pants or shorts</li>
+				<li>sneakers</li>
+			</ul>
+		</dd>
+
+		<dt>Vehicle</dt>
+		<dd>yellow Honda CBR600F4i</dd>
+
+		<dt>Notes</dt>
+		<dd>
+			<ul>
+				<li>gets cold easily (because of his large ears)</li>
+				<li>holds things in his mouth out of habit</li>
+				<li>can’t sleep without hugging something (or someone)</li>
+				<li>likes karaoke</li>
+			</ul>
+		</dd>
 	{/snippet}
 
 	{#snippet links()}
-		<ul>
-			<li>
-				<a
-					target="_blank"
-					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37715/Aren"
-					>Gallery (18+)</a
-				>
-			</li>
-			<li>
-				Background art by <a target="_blank" href="https://www.furaffinity.net/user/WickedForster/"
-					>WickedForster</a
-				>
-			</li>
-			<li>
-				Icon by <a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a>
-			</li>
-		</ul>
+		<dt>Gallery (18+)</dt>
+		<dd>
+			<a target="_blank" href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37715/Aren"
+				>FurAffinity</a
+			>
+		</dd>
+		<dt>Icon</dt>
+		<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
+		<dt>Artwork</dt>
+		<dd>
+			<a target="_blank" href="https://www.furaffinity.net/user/WickedForster/">WickedForster</a>
+		</dd>
 	{/snippet}
 </Profile>
 

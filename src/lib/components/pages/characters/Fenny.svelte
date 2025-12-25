@@ -2,90 +2,109 @@
 	import Profile from '$lib/components/apps/Profile.svelte';
 </script>
 
-<Profile name="Fenny" image="/characters/fenny.webp">
+<Profile
+	character="fenny"
+	species="Red-Fennec Fox"
+	iconAlt="Icon of a fox with messy hair, smiling cheerfully at you."
+	photo="/characters/fenny.webp"
+	photoAlt="A shirtless fox, lifting his sunglasses and giving you a friendly grin. He has ear and nipple piercings."
+>
 	{#snippet bio()}
-		<ul>
-			<li>Name: Fenny Flametail</li>
-			<li>Species: red-fennec fox</li>
-			<li>Age: 24</li>
-			<li>Height: 6 ft 2 in (1.88 m) (minus ears)</li>
-			<li>Pronouns: he/him</li>
-			<li>Orientation: gay</li>
-			<li>
-				Personality: upbeat, caring, affectionate, impulsive, procrastinates a lot
-				<ul>
-					<li>gets bursts of energy when he’s excited, like a fennec</li>
-					<li>disorganized, but knows where to find things</li>
-				</ul>
-			</li>
-			<li>
-				Voice: warm and friendly, emotive, a bit loud
-				<ul>
-					<li>a bit scatterbrained, says "like" a lot</li>
-				</ul>
-			</li>
-			<li>Job: web developer</li>
-			<li>Interests/hobbies: food, baking, video games, technology, plants</li>
-			<li>Favorite color: <span class="profileColor">purple</span></li>
-			<li>
-				Favorite food: cinnamon rolls
-				<ul>
-					<li>loves desserts</li>
-				</ul>
-			</li>
-			<li>Favorite drink: bubble tea</li>
-			<li>Favorite ice cream flavor: cotton candy</li>
-			<li>Favorite music genres: pop, punk, ska, symphonic &amp; power metal</li>
-			<li>
-				Clothing style: bright colors, 2000s skater culture-inspired
-				<ul>
-					<li>likes fox-themed clothing and accessories</li>
-				</ul>
-			</li>
-			<li>
-				Typical outfit:
-				<ul>
-					<li>colorful zip-up hoodie</li>
-					<ul>
-						<li>borrows Aren’s jackets sometimes</li>
-					</ul>
-					<li>optional: colorful bandana</li>
-					<li>graphic tee</li>
-					<li>jeans or cargo pants (doesn't like shorts)</li>
-					<li>colorful socks and undies (shared with Ceph)</li>
-					<li>colorful sneakers or canvas shoes</li>
-				</ul>
-			</li>
-			<li>
-				Notes:
-				<ul>
-					<li>gets cold easily (because of his large ears)</li>
-					<li>holds things in his mouth out of habit</li>
-					<li>can’t sleep without hugging something (or someone)</li>
-					<li>likes karaoke</li>
-				</ul>
-			</li>
-		</ul>
-	{/snippet}
+		<dt>Age</dt>
+		<dd>24</dd>
 
+		<dt>Height</dt>
+		<dd>6 ft 2 in (1.88 m) (minus ears)</dd>
+
+		<dt>Pronouns</dt>
+		<dd>he/him</dd>
+
+		<dt>Orientation</dt>
+		<dd>gay</dd>
+
+		<dt>Personality</dt>
+		<dd>
+			upbeat, caring, affectionate, impulsive, procrastinates a lot
+			<ul>
+				<li>gets energetic when he’s excited, like a fennec</li>
+				<li>disorganized, but good at finding things</li>
+			</ul>
+		</dd>
+
+		<dt>Voice</dt>
+		<dd>
+			warm and friendly, emotive, a bit loud
+			<ul>
+				<li>a bit scatterbrained, says "like" a lot</li>
+			</ul>
+		</dd>
+
+		<dt>Job</dt>
+		<dd>web developer</dd>
+
+		<dt>Interests</dt>
+		<dd>food, baking, video games, technology, plants</dd>
+
+		<dt>Fav. color</dt>
+		<dd><span class="profileColor">purple</span></dd>
+
+		<dt>Fav. food</dt>
+		<dd>
+			cinnamon rolls
+			<ul>
+				<li>loves desserts</li>
+			</ul>
+		</dd>
+
+		<dt>Fav. drink</dt>
+		<dd>bubble tea</dd>
+
+		<dt>Fav. ice cream flavor</dt>
+		<dd>cotton candy</dd>
+
+		<dt>Fav. music genres</dt>
+		<dd>pop, punk, ska, symphonic &amp; power metal</dd>
+
+		<dt>Clothing style</dt>
+		<dd>bright colors, 2000s skater-inspired</dd>
+
+		<dt>Typical outfit</dt>
+		<dd>
+			<ul>
+				<li>colorful zip-up hoodie</li>
+				<ul>
+					<li>borrows Aren’s jackets sometimes</li>
+				</ul>
+				<li>optional: colorful bandana</li>
+				<li>graphic tee</li>
+				<li>jeans or cargo pants (doesn't like shorts)</li>
+				<li>colorful socks and undies (shared with Ceph)</li>
+				<li>colorful sneakers or canvas shoes</li>
+			</ul>
+		</dd>
+
+		<dt>Notes</dt>
+		<dd>
+			<ul>
+				<li>gets cold easily (because of his large ears)</li>
+				<li>holds things in his mouth out of habit</li>
+				<li>sits in chairs wrong</li>
+				<li>likes karaoke</li>
+				<li>can’t sleep without hugging something (or someone)</li>
+			</ul>
+		</dd>
+	{/snippet}
 	{#snippet links()}
-		<ul>
-			<li>
-				<a
-					target="_blank"
-					href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37713/Fenny"
-					>Gallery (18+)</a
-				>
-			</li>
-			<li>
-				Background art by <a target="_blank" href="https://bsky.app/profile/azucaster.bsky.social"
-					>Azu</a
-				>
-			</li>
-			<li>
-				Icon by <a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a>
-			</li>
-		</ul>
+		<dt>Gallery (18+)</dt>
+		<dd>
+			<a target="_blank" href="https://www.furaffinity.net/gallery/fuzzyfennekin/folder/37713/Fenny"
+				>FurAffinity</a
+			>
+		</dd>
+		<dt>Icon</dt>
+		<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
+		<dt>Artwork</dt>
+		<dd><a target="_blank" href="https://bsky.app/profile/azucaster.bsky.social">Azu</a></dd>
 	{/snippet}
 </Profile>
 

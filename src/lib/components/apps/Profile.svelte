@@ -1,75 +1,178 @@
 <script lang="ts">
-	import type { AppName } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
+	import { getWindowServerContext } from '$lib/context.svelte';
 	import { type CharacterName, relationships } from '$lib/data/relationships';
 	import type { Snippet } from 'svelte';
+
 	const {
-		name,
-		image,
+		character,
+		species,
+		iconAlt,
+		photo,
+		photoAlt,
 		bio,
 		links
 	}: {
-		name: CharacterName;
-		image: string;
+		character: CharacterName;
+		species: string;
+		iconAlt: string;
+		photo: string;
+		photoAlt: string;
 		bio: Snippet;
 		links: Snippet;
 	} = $props();
+
+	const windowServer = getWindowServerContext();
+	const app = windowServer.apps[character];
 </script>
 
-<div class="profile brushedInset" style:--image={`url('${image}')`}>
-	<div class="profileTextContainer">
-		<h3>About</h3>
-		{@render bio()}
-		{#if relationships[name]}
-			<h3>Relationships</h3>
-			{#each Object.entries(relationships[name]) as [character, text]}
-				<h4>
-					<AppLink appName={character.toLowerCase() as AppName}>{character}</AppLink>
-				</h4>
-				<p>{text}</p>
-			{/each}
+<div class="profile brushedInset">
+	<div class="profileText">
+		<header class="profileHeader">
+			<img class="profileIcon" src={app.icon} alt={iconAlt} draggable="false" />
+			<hgroup>
+				<h3 class="profileName">{app.windowTitle}</h3>
+				<p class="profileSpecies">{species}</p>
+			</hgroup>
+		</header>
+		<div class="profileBio profileSection">
+			<dl>
+				{@render bio()}
+			</dl>
+		</div>
+		{#if relationships[character]}
+			<div class="profileRelationships profileSection">
+				<h3 class="profileSubheading">Relationships</h3>
+				<dl>
+					{#each Object.entries(relationships[character]) as [CharacterName, string][] as [other, text]}
+						<dt>
+							<AppLink appName={other}>{windowServer.apps[other].title}</AppLink>
+						</dt>
+						<dd>{text}</dd>
+					{/each}
+				</dl>
+			</div>
 		{/if}
-		<h3>Links</h3>
-		{@render links()}
+		<div class="profileLinks profileSection">
+			<h3 class="profileSubheading">Links</h3>
+			<dl>
+				{@render links()}
+			</dl>
+		</div>
 	</div>
+	<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
 </div>
 
 <style>
 	.profile {
-		position: relative;
-		padding-block-end: 20px;
-		overflow-y: auto;
+		height: 100%;
+		display: grid;
+		grid-template-columns: auto minmax(64px, auto);
 		background-color: white;
-		/* images are resized to 512px high and 25% opacity */
-		background-image: var(--image);
-		background-size: auto 100%;
-		background-position: right;
-		background-repeat: no-repeat;
+		padding-inline-start: 10px;
+		gap: 25px;
+		overflow-y: auto;
 	}
 
-	.profileTextContainer {
-		max-width: 500px;
+	.profileText {
+		max-width: 768px;
+		display: flex;
+		flex-flow: column;
+		gap: 25px;
+		padding-block: 25px;
+	}
+
+	.profileHeader {
+		display: flex;
+		align-items: flex-start;
+		padding-inline: 25px;
+		gap: 10px;
+
+		h3 {
+			text-box-trim: trim-start;
+			text-box-edge: cap text;
+		}
+	}
+
+	.profileIcon {
+		width: 64px;
+		height: 64px;
+	}
+
+	.profileName {
+		font-size: 24px;
+	}
+
+	.profileSubheading {
+		padding-inline: 25px;
+		margin-bottom: 25px;
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: 120px auto;
+		column-gap: 20px;
+		row-gap: 10px;
 		text-wrap: pretty;
+
+		:global(dt) {
+			-webkit-user-select: none;
+			user-select: none;
+			text-align: end;
+			font-weight: bold;
+			text-transform: lowercase;
+			color: var(--text-secondary);
+		}
+
+		:global(dd) {
+			min-width: 0;
+		}
+
+		:global(ul) {
+			padding-inline-start: 20px;
+		}
+
+		:global(li) {
+			list-style-type: circle;
+		}
+
+		:global(.profileColor) {
+			padding: 0.2em;
+			border-radius: 0.2em;
+		}
 	}
 
-	.profile :global(.profileColor) {
-		vertical-align: middle;
-		padding: 0.2em;
-		border-radius: 0.2em;
+	.profileRelationships :global(dt) {
+		text-transform: none;
 	}
 
-	h3,
-	:global(h4) {
-		padding-block-start: 1em;
-		padding-block-end: 1em;
-		padding-inline-start: 20px;
+	.profilePhoto {
+		position: sticky;
+		bottom: 0;
+		right: 0;
+		justify-self: end;
+		align-self: end;
+		object-fit: contain;
+		object-position: bottom right;
+		-webkit-user-select: none;
+		user-select: none;
+		pointer-events: none;
+
+		@container window (height > 0) {
+			height: calc(100cqh - 2px);
+		}
 	}
 
-	h3 + :global(h4) {
-		padding-block-start: 0;
-	}
-
-	.profile :global(p) {
-		padding-inline-start: 20px;
+	@container window (width < 768px) {
+		.profile {
+			grid-template-columns: auto;
+			gap: 0;
+			padding-inline: 10px;
+		}
+		.profilePhoto {
+			position: static;
+			justify-self: center;
+			object-position: bottom center;
+		}
 	}
 </style>

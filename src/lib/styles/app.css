@@ -128,3 +128,7 @@ body {
 	touch-action: manipulation;
 	font-family: system-ui, sans-serif;
 }
+
+a, a:visited {
+	color: rgb(0 0 238);
+}

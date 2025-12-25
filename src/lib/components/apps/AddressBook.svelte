@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { page } from '$app/state';
 	import type { AppName } from '$lib/apps.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import addToolbarEntry from '$lib/helpers/toolbar.svelte';
@@ -14,8 +12,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	const gridTemplateColumns = `[list] minmax(128px, 1fr) [separator] var(--titlebar-padding)
-			[profile] 4fr;`;
+	const gridTemplateColumns = `[list] 150px [separator] var(--titlebar-padding) [profile] auto;`;
 
 	addToolbarEntry({
 		snippet: toolbar,
@@ -42,7 +39,6 @@
 
 <!-- TODO make this work without JS -->
 {#snippet toolbar()}
-	<!-- FIXME use AppLink? -->
 	<a
 		class={['aqua-button', 'square', 'icon', { disabled: !selectedAppName }]}
 		title="Open in New Window"
@@ -61,7 +57,7 @@
 		{#each entries as name}
 			{@const app = windowServer.apps[name]}
 			<li class={['addressBookListItem', { selected: selectedAppName === name }]}>
-				<!-- FIXME use AppLink? -->
+				<!-- FIXME don't change the URL (AppLink?) -->
 				<a
 					class="addressBookLink"
 					href={app.route}
@@ -75,9 +71,11 @@
 		{/each}
 	</ul>
 	<div class="addressBookSeparator" data-allow-window-drag></div>
-	<div class="addressBookProfile brushedInset">
+	<div class="addressBookProfile">
 		{#if selectedApp}
 			<selectedApp.Page />
+		{:else}
+			<p class="addressBookPlaceholder brushedInset">Select a character on the left</p>
 		{/if}
 	</div>
 </div>
@@ -93,10 +91,6 @@
 		padding: 0;
 		-webkit-user-select: none;
 		user-select: none;
-
-		&:focus-within {
-			box-shadow: var(--focus-box-shadow);
-		}
 	}
 
 	.addressBookListHeader {
@@ -124,8 +118,8 @@
 	.addressBookLink {
 		display: flex;
 		align-items: center;
-		gap: 3px;
-		padding-inline: 3px;
+		gap: 4px;
+		padding-inline: 4px;
 		color: inherit;
 		text-decoration: none;
 		@media not (scripting: none) {
@@ -139,9 +133,18 @@
 	}
 
 	.addressBookProfile {
+		container: window / size;
 		background-color: white;
 		overflow: hidden;
 		display: grid;
 		grid-template: 100% / 100%;
+	}
+
+	.addressBookPlaceholder {
+		text-align: center;
+		align-content: center;
+		color: var(--text-secondary);
+		-webkit-user-select: none;
+		user-select: none;
 	}
 </style>
