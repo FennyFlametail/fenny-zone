@@ -22,8 +22,8 @@
 </script>
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
-	{#each Object.entries(windowServer.runningApps) as [appName, app], i (appName)}
-		<Window appName={appName as AppName} />
+	{#each Object.keys(windowServer.runningApps) as AppName[] as appName, i (appName)}
+		<Window {appName} />
 	{/each}
 	<noscript>
 		{#if windowServer.initialAppName}

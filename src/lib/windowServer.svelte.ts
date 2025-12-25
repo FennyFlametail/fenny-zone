@@ -24,7 +24,9 @@ export default class WindowServer {
 		: 79;
 	static get safeHeight() {
 		return browser
-			? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--desktop-safe-height'))
+			? parseInt(
+					getComputedStyle(document.documentElement).getPropertyValue('--desktop-safe-height')
+				)
 			: Infinity;
 	}
 
@@ -264,13 +266,13 @@ export default class WindowServer {
 		if (stateString) {
 			try {
 				const state = JSON.parse(stateString);
-				Object.entries(state).forEach(([appName, position]) => {
-					const app = this.apps[appName as AppName];
+				(Object.entries(state) as [AppName, Position][]).forEach(([appName, position]) => {
+					const app = this.apps[appName];
 					if (!app) {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 						return;
 					}
-					this.openApp(appName as AppName, position as Position, true);
+					this.openApp(appName, position, true);
 				});
 			} catch (err) {
 				console.warn('(loadState) error', err);
