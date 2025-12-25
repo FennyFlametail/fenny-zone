@@ -9,17 +9,17 @@
 		children?: Snippet;
 	}
 
-	const { appName, children, ...rest }: AppLinkProps = $props();
+	const { appName, onclick, children, ...rest }: AppLinkProps = $props();
 
 	const windowServer = getWindowServerContext();
 	const app = windowServer.apps[appName];
 
-	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+	const defaultonclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
 		e.preventDefault();
 		windowServer.openApp(appName);
 	};
 </script>
 
-<a href={app.route} {onclick} {...rest}>
+<a href={app.route} onclick={onclick ?? defaultonclick} {...rest}>
 	{@render children?.()}
 </a>

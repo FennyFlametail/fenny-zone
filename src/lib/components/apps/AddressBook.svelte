@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
+	import AppLink from '$lib/components/AppLink.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import addToolbarEntry from '$lib/helpers/toolbar.svelte';
 	import { ExternalLink } from 'lucide-svelte';
@@ -25,7 +26,14 @@
 	let selectedAppName = $state<AppName>();
 	let selectedApp = $derived(selectedAppName ? windowServer.apps[selectedAppName] : undefined);
 
-	function openApp(e: MouseEvent) {
+	function openHandler(appName: AppName) {
+		return (e: MouseEvent) => {
+			e.preventDefault();
+			selectedAppName = appName;
+		};
+	}
+
+	function openInNewWindow(e: MouseEvent) {
 		e.preventDefault();
 		selectedAppName && windowServer.openApp(selectedAppName);
 	}
@@ -43,7 +51,7 @@
 		class={['aqua-button', 'square', 'icon', { disabled: !selectedAppName }]}
 		title="Open in New Window"
 		href={selectedApp?.route}
-		onclick={openApp}
+		onclick={openInNewWindow}
 	>
 		<ExternalLink size={18} />
 	</a>
@@ -57,16 +65,15 @@
 		{#each entries as name}
 			{@const app = windowServer.apps[name]}
 			<li class={['addressBookListItem', { selected: selectedAppName === name }]}>
-				<!-- FIXME don't change the URL (AppLink?) -->
-				<a
+				<AppLink
+					appName={name}
 					class="addressBookLink"
-					href={app.route}
-					onclick={() => (selectedAppName = name)}
-					ondblclick={openApp}
+					onclick={openHandler(name)}
+					ondblclick={openInNewWindow}
 				>
 					<img class="addressBookListIcon" src={app.icon} alt="" draggable="false" />
 					<span>{windowServer.apps[name].title}</span>
-				</a>
+				</AppLink>
 			</li>
 		{/each}
 	</ul>
@@ -115,7 +122,7 @@
 		}
 	}
 
-	.addressBookLink {
+	:global(.addressBookLink) {
 		display: flex;
 		align-items: center;
 		gap: 4px;
