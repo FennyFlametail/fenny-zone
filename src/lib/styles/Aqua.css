@@ -301,7 +301,7 @@ body {
 	/* #endregion */
 
 	/* #region Widgets */
-	button.aqua, .aqua-button {
+	.aqua-button {
 		height: 28px;
 		min-width: 91px;
 		display: flex;
