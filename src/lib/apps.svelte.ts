@@ -63,7 +63,7 @@ export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] }
 
 const defaultProfileSize = {
 	width: 1000,
-	height: 600
+	height: 800
 };
 
 const getApps = (): Record<AppName, AppEntry> => ({
