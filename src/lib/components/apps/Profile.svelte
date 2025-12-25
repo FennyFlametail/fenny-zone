@@ -36,9 +36,7 @@
 			</hgroup>
 		</header>
 		<div class="profileBio profileSection">
-			<dl>
-				{@render bio()}
-			</dl>
+			{@render bio()}
 		</div>
 		{#if relationships[character]}
 			<div class="profileRelationships profileSection">
@@ -55,9 +53,7 @@
 		{/if}
 		<div class="profileLinks profileSection">
 			<h3 class="profileSubheading">Links</h3>
-			<dl>
-				{@render links()}
-			</dl>
+			{@render links()}
 		</div>
 	</div>
 	<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
@@ -108,7 +104,7 @@
 		margin-bottom: 25px;
 	}
 
-	dl {
+	:where(.profile) :global(dl) {
 		display: grid;
 		grid-template-columns: 120px auto;
 		column-gap: 20px;
@@ -142,7 +138,7 @@
 		}
 	}
 
-	.profileRelationships :global(dt) {
+	.profileRelationships dt {
 		text-transform: none;
 	}
 
