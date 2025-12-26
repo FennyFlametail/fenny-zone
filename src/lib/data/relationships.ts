@@ -21,45 +21,41 @@ const CephNocturne =
 const RigelNocturne =
 	'Rigel and Nocturne are roommates. They have clashing personalities and grate heavily on each other, but beneath that they care about each other. Rigel reminds Nocturne a lot of themself when they were younger.';
 
-export type CharacterName = Extract<
-	AppName,
-	'fenny' | 'aren' | 'ceph' | 'rigel' | 'nocturne' | 'foo'
->;
+export type CharacterName = Extract<AppName, 'fenny' | 'aren' | 'ceph' | 'rigel' | 'nocturne'>;
 
-// TODO make non-optional and uncomment below when adding Nocturne modern AU info
 export const relationships: {
-	[self in CharacterName]?: {
+	[self in CharacterName]: {
 		[other in Exclude<CharacterName, self>]?: string;
 	};
 } = {
 	fenny: {
 		aren: FennyAren,
 		ceph: FennyCeph,
-		rigel: FennyRigel
-		// nocturne: FennyNocturne
+		rigel: FennyRigel,
+		nocturne: FennyNocturne
 	},
 	aren: {
 		fenny: FennyAren,
 		ceph: ArenCeph,
-		rigel: ArenRigel
-		// nocturne: ArenNocturne
+		rigel: ArenRigel,
+		nocturne: ArenNocturne
 	},
 	ceph: {
 		fenny: FennyCeph,
 		aren: ArenCeph,
-		rigel: CephRigel
-		// nocturne: CephNocturne
+		rigel: CephRigel,
+		nocturne: CephNocturne
 	},
 	rigel: {
 		fenny: FennyRigel,
 		aren: ArenRigel,
-		ceph: CephRigel
-		// nocturne: RigelNocturne
+		ceph: CephRigel,
+		nocturne: RigelNocturne
+	},
+	nocturne: {
+		fenny: FennyNocturne,
+		aren: ArenNocturne,
+		ceph: CephNocturne,
+		rigel: RigelNocturne
 	}
-	// nocturne: {
-	// 		fenny: FennyNocturne,
-	// 		aren: ArenNocturne,
-	// 		ceph: CephNocturne,
-	// 		rigel: RigelNocturne
-	// }
 };

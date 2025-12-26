@@ -340,9 +340,13 @@ body {
 			}
 		}
 
-		&:active:not(:disabled, .disabled) {
+		&:is(:active, .active):not(:disabled, .disabled, .darken:not(.active)) {
 			--button-gradient: var(--button-active-gradient);
 			--button-border-gradient: var(--button-border-active-gradient);
+		}
+
+		&.darken:not(.active):active {
+			filter: brightness(0.9);
 		}
 
 		&.primary:not(.window.inactive .primary) {

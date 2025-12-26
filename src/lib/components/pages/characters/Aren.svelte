@@ -81,7 +81,11 @@
 			</dd>
 
 			<dt>Vehicle</dt>
-			<dd>yellow Honda CBR600F4i</dd>
+			<dd>
+				<a href="https://hondanews.com/en-US/photos/2003-honda-cbr600rr-15" target="_blank"
+					>yellow Honda CBR600RR</a
+				>
+			</dd>
 
 			<dt>Notes</dt>
 			<dd>

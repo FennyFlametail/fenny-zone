@@ -11,6 +11,7 @@
 		photo,
 		photoAlt,
 		bio,
+		showRelationships = true,
 		links
 	}: {
 		character: CharacterName;
@@ -19,6 +20,7 @@
 		photo: string;
 		photoAlt: string;
 		bio: Snippet;
+		showRelationships?: boolean;
 		links: Snippet;
 	} = $props();
 
@@ -38,7 +40,7 @@
 		<div class="profileBio profileSection">
 			{@render bio()}
 		</div>
-		{#if relationships[character]}
+		{#if showRelationships && relationships[character]}
 			<div class="profileRelationships profileSection">
 				<h3 class="profileSubheading">Relationships</h3>
 				<dl>
@@ -104,12 +106,19 @@
 		margin-bottom: 25px;
 	}
 
-	:where(.profile) :global(dl) {
-		display: grid;
-		grid-template-columns: 120px auto;
-		column-gap: 20px;
-		row-gap: 10px;
-		text-wrap: pretty;
+	.profileSection {
+		display: flex;
+		flex-direction: column;
+	}
+
+	@scope (.profileSection) {
+		:global(dl) {
+			display: grid;
+			grid-template-columns: 120px auto;
+			column-gap: 20px;
+			row-gap: 10px;
+			text-wrap: pretty;
+		}
 
 		:global(dt) {
 			-webkit-user-select: none;
