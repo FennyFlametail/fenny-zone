@@ -74,8 +74,24 @@
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (windowServer.resizingEl === element) {
-			const newWidth = app.instance.position.width + e.screenX - lastX;
-			const newHeight = app.instance.position.height + e.screenY - lastY;
+			const resizeFromCenter = e.altKey;
+
+			const deltaX = e.screenX - lastX;
+			const deltaY = e.screenY - lastY;
+			let newWidth = app.instance.position.width + deltaX;
+			let newHeight = app.instance.position.height + deltaY;
+
+			if (resizeFromCenter) {
+				if (app.instance.position.width > minWindowSize) {
+					newWidth += deltaX;
+					app.instance.position.x -= deltaX;
+				}
+				const newY = Math.max(app.instance.position.y - deltaY, 0);
+				if (app.instance.position.height > minWindowSize && newY > 0) {
+					newHeight += deltaY;
+					app.instance.position.y = newY;
+				}
+			}
 
 			app.instance.position.width = Math.max(newWidth, minWindowSize);
 			app.instance.position.height = Math.min(
@@ -227,7 +243,8 @@
 			}
 		}
 		@media (scripting: none) {
-			&.minimize, &.maximize {
+			&.minimize,
+			&.maximize {
 				cursor: not-allowed;
 			}
 		}
