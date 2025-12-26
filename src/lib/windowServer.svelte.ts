@@ -36,7 +36,7 @@ export default class WindowServer {
 	): Position => {
 		// apps are only SSRed if JavaScript is disabled
 		// in this case, position and max width/height are set through CSS
-		// (because the server can't access innerHeight/innerWidth)
+		// (because the server can't access browser height/width)
 		if (!browser) {
 			return {
 				x: 0,
@@ -47,22 +47,24 @@ export default class WindowServer {
 			};
 		}
 
+		const { clientWidth, clientHeight } = document.documentElement;
+
 		/** Space between the menubar and Dock */
 		const width = initialPosition?.width ?? 500;
 		const height = initialPosition?.height ?? 500;
-		const x = initialPosition?.x ?? innerWidth / 2 - width / 2;
+		const x = initialPosition?.x ?? clientWidth / 2 - width / 2;
 		const y = initialPosition?.y ?? (this.safeHeight / 2 - height / 2) * (2 / 3);
 
 		/* if a window was maximized when state was saved, leave it maximized */
 		const windowPadding = ignorePadding ? 0 : WINDOW_PADDING;
 
 		return {
-			x: Math.max(windowPadding, Math.min(x, innerWidth - width - windowPadding)),
-			y: Math.max(windowPadding, Math.min(y, innerHeight - height - windowPadding)),
-			width: Math.min(width, innerWidth - windowPadding * 2),
+			x: Math.max(windowPadding, Math.min(x, clientWidth - width - windowPadding)),
+			y: Math.max(windowPadding, Math.min(y, clientHeight - height - windowPadding)),
+			width: Math.min(width, clientWidth - windowPadding * 2),
 			height: Math.min(
 				height,
-				innerHeight - this.menubarHeight - this.dockHeight - windowPadding * 2
+				clientHeight - this.menubarHeight - this.dockHeight - windowPadding * 2
 			),
 			zIndex: initialPosition?.zIndex ?? 0
 		};
@@ -176,8 +178,11 @@ export default class WindowServer {
 				...app.instance.position,
 				x: 0,
 				y: 0,
-				width: innerWidth,
-				height: innerHeight - WindowServer.menubarHeight - WindowServer.dockHeight
+				width: document.documentElement.clientWidth,
+				height:
+					document.documentElement.clientHeight -
+					WindowServer.menubarHeight -
+					WindowServer.dockHeight
 			};
 		}
 
