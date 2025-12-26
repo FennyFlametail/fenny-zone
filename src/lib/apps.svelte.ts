@@ -62,7 +62,7 @@ export interface AppEntry {
 export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
 
 const defaultProfileSize = {
-	width: 1000,
+	width: 1250,
 	height: 800
 };
 
@@ -95,7 +95,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
-			width: 1400,
+			width: 1650,
 			height: 1000
 		}
 	},
