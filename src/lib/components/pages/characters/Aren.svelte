@@ -72,9 +72,6 @@
 			<dd>
 				<ul>
 					<li>green or brown bomber jacket with plain colored tee</li>
-					<ul>
-						<li>or leather biker jacket</li>
-					</ul>
 					<li>blue denim jeans, or cargo pants or shorts</li>
 					<li>sneakers</li>
 				</ul>

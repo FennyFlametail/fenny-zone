@@ -29,61 +29,58 @@
 </script>
 
 <div class="profile brushedInset">
-	<div class="profileText">
-		<header class="profileHeader">
-			<img class="profileIcon" src={app.icon} alt={iconAlt} draggable="false" />
-			<hgroup>
-				<h3 class="profileName">{app.windowTitle}</h3>
-				<p class="profileSpecies">{species}</p>
-			</hgroup>
-		</header>
-		<div class="profileBio profileSection">
-			{@render bio()}
-		</div>
-		{#if showRelationships && relationships[character]}
-			<div class="profileRelationships profileSection">
-				<h3 class="profileSubheading">Relationships</h3>
-				<dl>
-					{#each Object.entries(relationships[character]) as [CharacterName, string][] as [other, text]}
-						<dt>
-							<AppLink appName={other}>{windowServer.apps[other].title}</AppLink>
-						</dt>
-						<dd>{text}</dd>
-					{/each}
-				</dl>
-			</div>
-		{/if}
-		<div class="profileLinks profileSection">
-			<h3 class="profileSubheading">Links</h3>
-			{@render links()}
-		</div>
-	</div>
+	<header class="profileHeader">
+		<img class="profileIcon" src={app.icon} alt={iconAlt} draggable="false" />
+		<hgroup>
+			<h3 class="profileName">{app.windowTitle}</h3>
+			<p class="profileSpecies">{species}</p>
+		</hgroup>
+	</header>
 	<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
+	<div class="profileBio profileSection">
+		{@render bio()}
+	</div>
+	{#if showRelationships && relationships[character]}
+		<div class="profileRelationships profileSection">
+			<h3 class="profileSectionHeading">Relationships</h3>
+			<dl>
+				{#each Object.entries(relationships[character]) as [CharacterName, string][] as [other, text]}
+					<dt>
+						<AppLink appName={other}>{windowServer.apps[other].title}</AppLink>
+					</dt>
+					<dd>{text}</dd>
+				{/each}
+			</dl>
+		</div>
+	{/if}
+	<div class="profileLinks profileSection">
+		<h3 class="profileSectionHeading">Links</h3>
+		{@render links()}
+	</div>
 </div>
 
 <style>
 	.profile {
+		--profile-spacing: 25px;
 		height: 100%;
 		display: grid;
-		grid-template-columns: auto minmax(64px, auto);
+		grid-template-columns: minmax(auto, 768px) minmax(64px, auto);
+		justify-content: center;
 		background-color: white;
 		padding-inline-start: 10px;
-		gap: 25px;
+		gap: var(--profile-spacing);
 		overflow-y: auto;
-	}
 
-	.profileText {
-		max-width: 768px;
-		display: flex;
-		flex-flow: column;
-		gap: 25px;
-		padding-block: 25px;
+		> * {
+			grid-column: 1;
+		}
 	}
 
 	.profileHeader {
+		margin-top: var(--profile-spacing);
 		display: flex;
 		align-items: flex-start;
-		padding-inline: 25px;
+		padding-inline: var(--profile-spacing);
 		gap: 10px;
 
 		h3 {
@@ -99,19 +96,20 @@
 
 	.profileName {
 		font-size: 24px;
+		line-height: 1.2;
 	}
 
-	.profileSubheading {
-		padding-inline: 25px;
-		margin-bottom: 25px;
-	}
-
-	.profileSection {
-		display: flex;
-		flex-direction: column;
+	.profileSectionHeading {
+		padding-inline: var(--profile-spacing);
+		margin-bottom: var(--profile-spacing);
 	}
 
 	@scope (.profileSection) {
+		:scope {
+			display: flex;
+			flex-direction: column;
+		}
+
 		:global(dl) {
 			display: grid;
 			grid-template-columns: 120px auto;
@@ -151,8 +149,16 @@
 		text-transform: none;
 	}
 
+	.profileLinks {
+		margin-bottom: var(--profile-spacing);
+	}
+
 	.profilePhoto {
+		grid-row: 2;
+		/* FIXME this makes it stretch column 2 (the bio) if the window is really big */
+		grid-column: 2;
 		position: sticky;
+		top: 0;
 		bottom: 0;
 		right: 0;
 		justify-self: end;
@@ -170,14 +176,17 @@
 
 	@container window (width < 768px) {
 		.profile {
-			grid-template-columns: auto;
-			gap: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
 			padding-inline: 10px;
 		}
 		.profilePhoto {
+			margin-block: -15px;
 			position: static;
-			justify-self: center;
-			object-position: bottom center;
+			height: 60cqh;
+			align-self: center;
+			mask: linear-gradient(to bottom, white calc(100% - 10px), transparent);
 		}
 	}
 </style>

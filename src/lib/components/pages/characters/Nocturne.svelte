@@ -249,7 +249,7 @@
 <style>
 	:global(.profileTabBar) {
 		align-self: center;
-		margin-bottom: 10px;
+		margin-bottom: 25px;
 	}
 
 	.profileColor {
