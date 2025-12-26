@@ -14,11 +14,11 @@
 	iconAlt="Icon of a goat giving you an annoyed look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
 	photo="/characters/nocturne.webp"
 	photoAlt="A goat facing away from you, wearing a long jacket with a stylized goat head symbol on the back. They have a robotic right arm, and a long, thin tail with a tuft on the end."
-	showRelationships={activeTab === options[0]}
+	showRelationships={activeTab === 'Main Setting'}
 >
 	{#snippet bio()}
 		<TabBar {options} bind:selectedOption={activeTab} class="profileTabBar" />
-		{#if activeTab === options[0]}
+		{#if activeTab === 'Main Setting'}
 			{@render bioMain()}
 		{:else}
 			{@render bioSpace()}
