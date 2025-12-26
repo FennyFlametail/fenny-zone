@@ -11,6 +11,7 @@
 		photo,
 		photoAlt,
 		bio,
+		tabs,
 		showRelationships = true,
 		links
 	}: {
@@ -20,6 +21,7 @@
 		photo: string;
 		photoAlt: string;
 		bio: Snippet;
+		tabs?: Snippet;
 		showRelationships?: boolean;
 		links: Snippet;
 	} = $props();
@@ -36,7 +38,14 @@
 			<p class="profileSpecies">{species}</p>
 		</hgroup>
 	</header>
-	<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
+	<div class="profilePhotoWrapper">
+		<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
+	</div>
+	{#if tabs}
+		<div class="profileTabs">
+			{@render tabs?.()}
+		</div>
+	{/if}
 	<div class="profileBio profileSection">
 		{@render bio()}
 	</div>
@@ -71,7 +80,7 @@
 		gap: var(--profile-spacing);
 		overflow-y: auto;
 
-		> * {
+		> :global(*) {
 			grid-column: 1;
 		}
 	}
@@ -87,6 +96,11 @@
 			text-box-trim: trim-start;
 			text-box-edge: cap text;
 		}
+	}
+
+	.profileTabs {
+		/* TODO make sticky and scroll to top when clicked */
+		justify-self: center;
 	}
 
 	.profileIcon {
@@ -105,11 +119,6 @@
 	}
 
 	@scope (.profileSection) {
-		:scope {
-			display: flex;
-			flex-direction: column;
-		}
-
 		:global(dl) {
 			display: grid;
 			grid-template-columns: 120px auto;
@@ -153,25 +162,23 @@
 		margin-bottom: var(--profile-spacing);
 	}
 
-	.profilePhoto {
-		grid-row: 2;
-		/* FIXME this makes it stretch column 2 (the bio) if the window is really big */
+	.profilePhotoWrapper {
 		grid-column: 2;
+		justify-self: end;
 		position: sticky;
 		top: 0;
-		bottom: 0;
-		right: 0;
-		justify-self: end;
-		align-self: end;
+		/* make sure the photo doesn't stretch the row it's in */
+		height: 0;
+		overflow: visible;
+	}
+
+	.profilePhoto {
+		height: calc(100cqh - 2px);
 		object-fit: contain;
 		object-position: bottom right;
 		-webkit-user-select: none;
 		user-select: none;
 		pointer-events: none;
-
-		@container window (height > 0) {
-			height: calc(100cqh - 2px);
-		}
 	}
 
 	@container window (width < 768px) {
@@ -181,12 +188,19 @@
 			justify-content: flex-start;
 			padding-inline: 10px;
 		}
-		.profilePhoto {
+		.profileTabs {
+			align-self: center;
+			margin-block-end: -15px;
+		}
+		.profilePhotoWrapper {
 			margin-block: -15px;
 			position: static;
 			height: 60cqh;
 			align-self: center;
 			mask: linear-gradient(to bottom, white calc(100% - 10px), transparent);
+		}
+		.profilePhoto {
+			height: 100%;
 		}
 	}
 </style>

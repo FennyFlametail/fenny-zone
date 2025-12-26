@@ -8,7 +8,7 @@
 	}: {
 		options: Options;
 		selectedOption?: Options[number];
-		class: ClassValue;
+		class?: ClassValue;
 	} = $props();
 
 	const name = $props.id();

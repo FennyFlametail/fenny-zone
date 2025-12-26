@@ -17,12 +17,15 @@
 	showRelationships={activeTab === 'Main Setting'}
 >
 	{#snippet bio()}
-		<TabBar {options} bind:selectedOption={activeTab} class="profileTabBar" />
 		{#if activeTab === 'Main Setting'}
 			{@render bioMain()}
 		{:else}
 			{@render bioSpace()}
 		{/if}
+	{/snippet}
+
+	{#snippet tabs()}
+		<TabBar {options} bind:selectedOption={activeTab} />
 	{/snippet}
 
 	{#snippet links()}
@@ -247,11 +250,6 @@
 {/snippet}
 
 <style>
-	:global(.profileTabBar) {
-		align-self: center;
-		margin-bottom: 25px;
-	}
-
 	.profileColor {
 		background-color: #3c165a;
 		color: white;
