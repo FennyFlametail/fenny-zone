@@ -6,14 +6,14 @@
 
 	const options = [
 		{
-			name: 'Main Setting',
-			snippet: bioMain
-		},
-		{
 			name: 'Space AU',
 			snippet: bioSpace
+		},
+		{
+			name: 'Main Setting',
+			snippet: bioMain
 		}
-	];
+	] as const;
 
 	let tabId = $props.id();
 	let selectedIndex = $state(0);
@@ -23,10 +23,10 @@
 <Profile
 	character="nocturne"
 	species="Goat"
-	iconAlt="Icon of a goat giving you an annoyed look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
+	iconAlt="Icon of a goat giving you a disgruntled look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
 	photo={NocturnePhoto}
 	photoAlt="A goat facing away from you, wearing a long jacket with a stylized goat head symbol on the back. They have a robotic right arm, and a long, thin tail with a tuft on the end."
-	showRelationships={selectedIndex === 0}
+	showRelationships={options[selectedIndex].name === 'Main Setting'}
 >
 	{#snippet bio()}
 		{@render tabContent?.()}
