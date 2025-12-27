@@ -18,6 +18,7 @@
 		character: CharacterName;
 		species: string;
 		iconAlt: string;
+		/** Photos should be 725x1024 */
 		photo: string;
 		photoAlt: string;
 		bio: Snippet;
@@ -39,7 +40,7 @@
 		</hgroup>
 	</header>
 	<div class="profilePhotoWrapper">
-		<img class="profilePhoto" src={photo} alt={photoAlt} draggable="false" />
+		<img class="profilePhoto" src={photo} alt={photoAlt} width={725} draggable="false" />
 	</div>
 	{#if tabs}
 		<div class="profileTabs">
@@ -173,6 +174,7 @@
 	}
 
 	.profilePhoto {
+		width: auto;
 		height: calc(100cqh - 2px);
 		object-fit: contain;
 		object-position: bottom right;
