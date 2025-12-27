@@ -1,11 +1,22 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
 	import TabBar from '$lib/components/TabBar.svelte';
+	import type { Snippet } from 'svelte';
 
-	const options = ['Main Setting', 'Space AU'] as const;
-	type TabName = (typeof options)[number];
+	const options = [
+		{
+			name: 'Main Setting',
+			snippet: bioMain
+		},
+		{
+			name: 'Space AU',
+			snippet: bioSpace
+		}
+	];
 
-	let activeTab = $state<TabName>();
+	let tabId = $props.id();
+	let selectedIndex = $state(0);
+	let tabContent = $state<Snippet>();
 </script>
 
 <Profile
@@ -14,18 +25,14 @@
 	iconAlt="Icon of a goat giving you an annoyed look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
 	photo="/characters/nocturne.webp"
 	photoAlt="A goat facing away from you, wearing a long jacket with a stylized goat head symbol on the back. They have a robotic right arm, and a long, thin tail with a tuft on the end."
-	showRelationships={activeTab === 'Main Setting'}
+	showRelationships={selectedIndex === 0}
 >
 	{#snippet bio()}
-		{#if activeTab === 'Main Setting'}
-			{@render bioMain()}
-		{:else}
-			{@render bioSpace()}
-		{/if}
+		{@render tabContent?.()}
 	{/snippet}
 
 	{#snippet tabs()}
-		<TabBar {options} bind:selectedOption={activeTab} />
+		<TabBar id={tabId} {options} bind:selectedIndex bind:tabContent />
 	{/snippet}
 
 	{#snippet links()}

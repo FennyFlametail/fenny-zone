@@ -301,7 +301,8 @@ body {
 	/* #endregion */
 
 	/* #region Widgets */
-	.aqua-button {
+	.aqua-button,
+	.aqua-tab {
 		height: 28px;
 		min-width: 91px;
 		display: flex;
@@ -340,13 +341,12 @@ body {
 			}
 		}
 
-		&:is(:active, .active):not(:disabled, .disabled, .darken:not(.active)) {
+		&:is(
+			.aqua-button:is(:active, .active),
+			.aqua-tab:is(:has(input:checked), .active)
+		):not(:disabled, .disabled) {
 			--button-gradient: var(--button-active-gradient);
 			--button-border-gradient: var(--button-border-active-gradient);
-		}
-
-		&.darken:not(.active):active {
-			filter: brightness(0.9);
 		}
 
 		&.primary:not(.window.inactive .primary) {
@@ -367,6 +367,25 @@ body {
 
 		@media not (scripting: none) {
 			cursor: default;
+		}
+	}
+
+	.aqua-tab {
+		box-shadow: none;
+
+		&:has(+ &) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+
+		& + & {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			border-left-width: 0;
+		}
+
+		&:not(:has(input:checked), .active):active {
+			filter: brightness(0.9);
 		}
 	}
 	/* #endregion */

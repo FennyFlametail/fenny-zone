@@ -1,44 +1,63 @@
-<script lang="ts" generics="Options extends readonly string[]">
+<script lang="ts">
+	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 
+	interface Option {
+		name: string;
+		snippet: Snippet;
+	}
+
 	let {
+		id,
 		options,
-		selectedOption = $bindable(),
+		selectedIndex = $bindable(),
+		tabContent = $bindable(),
 		class: className
 	}: {
-		options: Options;
-		selectedOption?: Options[number];
+		/** Must be unique - can use $props.id() */
+		// $props.id() inside this component is inconsistent when JS is disabled
+		id: string;
+		options: readonly Option[];
+		tabContent: Snippet | undefined;
+		selectedIndex: number;
 		class?: ClassValue;
 	} = $props();
 
-	const name = $props.id();
-	if (!selectedOption) selectedOption = options[0];
+	tabContent = content;
+
+	const optionStyles = `<style>
+	${options
+		.map((_option, index) => {
+			const tabId = `TabBar-${id}-${index}`;
+			return `body:has(#${tabId}:checked) #${tabId} {display:contents}`;
+		})
+		.join('\n')}</style>`;
 </script>
 
 <fieldset class={['tabBar', className]}>
-	{#each options as option}
-		<label
-			class={[
-				'tabBarTab',
-				'aqua-button',
-				'square',
-				'darken',
-				{
-					active: option === selectedOption
-				}
-			]}
-		>
+	{#each options as option, index}
+		<label class="aqua-tab square">
 			<input
+				id={`TabBar-${id}-${index}`}
 				type="radio"
-				{name}
-				value={option}
-				checked={option === selectedOption}
-				onchange={() => (selectedOption = option)}
+				name={id}
+				value={index}
+				checked={index === selectedIndex}
+				onchange={() => (selectedIndex = index)}
 			/>
-			<span>{option}</span>
+			<span>{option.name}</span>
 		</label>
 	{/each}
 </fieldset>
+
+{#snippet content()}
+	{#each options as option, index}
+		<div class="tabBarContentSnippet" id={`TabBar-${id}-${index}`}>
+			{@render option.snippet()}
+		</div>
+	{/each}
+	{@html optionStyles}
+{/snippet}
 
 <style>
 	.tabBar {
@@ -55,20 +74,7 @@
 		}
 	}
 
-	:global(#root) {
-		.tabBarTab {
-			box-shadow: none;
-
-			&:has(+ .tabBarTab) {
-				border-top-right-radius: 0;
-				border-bottom-right-radius: 0;
-			}
-
-			.tabBarTab + & {
-				border-top-left-radius: 0;
-				border-bottom-left-radius: 0;
-				border-left-width: 0;
-			}
-		}
+	.tabBarContentSnippet {
+		display: none;
 	}
 </style>
