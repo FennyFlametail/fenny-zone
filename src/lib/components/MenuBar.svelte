@@ -59,7 +59,7 @@
 		<MenuItem
 			title="Close Window"
 			onclick={windowServer.closeCurrent}
-			href={!browser ? app?.backTo : undefined}
+			href={!browser ? (app?.backTo ?? '/') : undefined}
 			disabled={browser && (windowServer.desktopFocused || runningAppsCount === 0)}
 			noScript={true}
 		/>
