@@ -100,7 +100,6 @@
 	}
 
 	.profileTabs {
-		/* TODO make sticky and scroll to top when clicked */
 		justify-self: center;
 	}
 

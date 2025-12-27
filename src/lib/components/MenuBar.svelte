@@ -54,7 +54,6 @@
 			noScript={true}
 		/>
 	</MenuCategory>
-	<!-- TODO fix flash of menu items when JS is disabled -->
 	<MenuCategory {menubar} {title} isAppMenu={true} noScript={true}>
 		<MenuItem
 			title="Close Window"
