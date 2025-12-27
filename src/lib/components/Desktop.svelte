@@ -19,7 +19,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
-	<FileIcon appName="readme" />
+	<FileIcon appName="readme" label="red" />
 	<FileIcon name="Bluesky" icon={BlueskyIcon} href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
