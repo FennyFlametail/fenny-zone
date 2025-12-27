@@ -38,7 +38,7 @@
 		);
 	});
 
-	const minWindowSize = 250;
+	const minWindowSize = 350;
 
 	let element = $state<HTMLElement>();
 
