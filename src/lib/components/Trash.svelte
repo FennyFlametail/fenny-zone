@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import TrashPoster from '$lib/images/trash-poster.webp';
+	import TrashVideo from '$lib/images/trash.mp4';
 
 	let reduceMotion = true;
 
@@ -11,8 +13,8 @@
 
 <div class="trashContainer">
 	<video
-		src="/trash.mp4"
-		poster="/trash-poster.webp"
+		src={TrashVideo}
+		poster={TrashPoster}
 		muted
 		autoplay={!reduceMotion}
 		controls={reduceMotion}

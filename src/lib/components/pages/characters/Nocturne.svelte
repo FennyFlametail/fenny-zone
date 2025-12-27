@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
 	import TabBar from '$lib/components/TabBar.svelte';
+	import NocturnePhoto from '$lib/images/characters/nocturne.webp';
 	import type { Snippet } from 'svelte';
 
 	const options = [
@@ -23,7 +24,7 @@
 	character="nocturne"
 	species="Goat"
 	iconAlt="Icon of a goat giving you an annoyed look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
-	photo="/characters/nocturne.webp"
+	photo={NocturnePhoto}
 	photoAlt="A goat facing away from you, wearing a long jacket with a stylized goat head symbol on the back. They have a robotic right arm, and a long, thin tail with a tuft on the end."
 	showRelationships={selectedIndex === 0}
 >

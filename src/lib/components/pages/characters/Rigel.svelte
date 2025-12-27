@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
+	import RigelPhoto from '$lib/images/characters/rigel.webp';
 </script>
 
 <Profile
 	character="rigel"
 	species="Luxray"
 	iconAlt="Icon of a masculine Luxray with sunglasses. He's licking an ice cream cone provocatively with his pierced tongue."
-	photo="/characters/rigel.webp"
+	photo={RigelPhoto}
 	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear."
 >
 	{#snippet bio()}

@@ -95,7 +95,7 @@ body {
 
 	/* #region Desktop */
 	.desktop {
-		background-image: url('/beach.webp');
+		background-image: url('$lib/images/wallpapers/beach.webp');
 		background-position: 50% 25%;
 	}
 	/* #endregion */
@@ -246,7 +246,7 @@ body {
 
 		&::before {
 			/* background on separate layer to control opacity */
-			background: url('/metal.webp');
+			background: url('$lib/images/metal.webp');
 			opacity: 50%;
 			position: absolute;
 			top: 0;
@@ -279,7 +279,7 @@ body {
 		}
 
 		.windowResizeHandle {
-			background: url('/resize.webp');
+			background: url('$lib/images/resize.webp');
 			background-size: 20px 20px;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -510,7 +510,7 @@ body {
 	src:
 		local('Lucida Grande'),
 		local('Lunasima'),
-		url('/fonts/Lunasima-Regular.ttf') format('truetype');
+		url('$lib/fonts/Lunasima-Regular.ttf') format('truetype');
 	font-family: 'Lunasima';
 }
 
@@ -519,7 +519,7 @@ body {
 	src:
 		local('Lucida Grande'),
 		local('Lunasima'),
-		url('/fonts/Lunasima-Bold.ttf') format('truetype');
+		url('$lib/fonts/Lunasima-Bold.ttf') format('truetype');
 	font-family: 'Lunasima';
 }
 /* #endregion */

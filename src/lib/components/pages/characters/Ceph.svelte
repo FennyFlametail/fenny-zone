@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
+	import CephPhoto from '$lib/images/characters/ceph.webp';
 </script>
 
 <Profile
 	character="ceph"
 	species="Luxray"
 	iconAlt="Icon of a cute Luxray, smiling at you shyly. He has a nose ring and lip piercings."
-	photo="/characters/ceph.webp"
+	photo={CephPhoto}
 	photoAlt="A Luxray in a light jacket, sweating a bit as he nervously plays bass."
 >
 	{#snippet bio()}

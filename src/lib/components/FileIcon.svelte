@@ -3,6 +3,7 @@
 	import { type AppName } from '$lib/apps.svelte';
 	import { getFileIconContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
+	import AliasIcon from '$lib/images/alias.png';
 
 	let {
 		appName,
@@ -67,7 +68,7 @@
 			style:--openAnimDuration={`${openAnimDuration}ms`}
 		/>
 		{#if href || (app?.url && !browser)}
-			<img class="aliasIcon" src="/icons/alias.png" alt="" draggable="false" />
+			<img class="aliasIcon" src={AliasIcon} alt="" draggable="false" />
 		{/if}
 	</div>
 	<div class="fileIconLabel">{name ?? app?.title}</div>

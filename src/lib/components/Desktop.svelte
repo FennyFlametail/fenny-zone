@@ -2,6 +2,10 @@
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
+	import BlueskyIcon from '$lib/images/icons/bluesky.webp';
+	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
+	import HltbIcon from '$lib/images/icons/hltb.webp';
+	import TelegramIcon from '$lib/images/icons/telegram.webp';
 
 	const windowServer = getWindowServerContext();
 	const { onClickIconContainer } = setupFileIconContainer(true);
@@ -16,16 +20,16 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="desktop" {onclick}>
 	<FileIcon appName="readme" />
-	<FileIcon name="Bluesky" icon="/icons/bluesky.webp" href="https://bsky.app/profile/fenny.zone" />
+	<FileIcon name="Bluesky" icon={BlueskyIcon} href="https://bsky.app/profile/fenny.zone" />
 	<FileIcon
 		name="FurAffinity"
-		icon="/icons/furaffinity.webp"
+		icon={FuraffinityIcon}
 		href="https://www.furaffinity.net/user/fuzzyfennekin"
 	/>
-	<FileIcon name="Telegram" icon="/icons/telegram.webp" href="https://t.me/FennyFlametail" />
+	<FileIcon name="Telegram" icon={TelegramIcon} href="https://t.me/FennyFlametail" />
 	<FileIcon
 		name="HowLongToBeat"
-		icon="/icons/hltb.webp"
+		icon={HltbIcon}
 		href="https://howlongtobeat.com/user/FennyFlametail/"
 	/>
 </div>

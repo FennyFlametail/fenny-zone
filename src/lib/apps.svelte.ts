@@ -11,6 +11,21 @@ import Trash from '$lib/components/Trash.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
+import FinderIcon from '$lib/images/icons/finder.webp';
+import TextEditIcon from '$lib/images/icons/textedit.webp';
+import ReadmeIcon from '$lib/images/icons/txt.webp';
+import CharactersIcon from '$lib/images/icons/characters.webp';
+import FennyIcon from '$lib/images/icons/fenny.webp';
+import ArenIcon from '$lib/images/icons/aren.webp';
+import CephIcon from '$lib/images/icons/ceph.webp';
+import RigelIcon from '$lib/images/icons/rigel.webp';
+import NocturneIcon from '$lib/images/icons/nocturne.webp';
+import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
+import ToddspinIcon from '$lib/images/icons/toddspin.webp';
+import SauceIcon from '$lib/images/icons/sauce.webp';
+import GoatIcon from '$lib/images/icons/goat.png';
+import TrashIcon from '$lib/images/icons/trash.webp';
+
 export type AppName =
 	| 'Finder'
 	| 'TextEdit'
@@ -69,18 +84,18 @@ const defaultProfileSize = {
 const getApps = (): Record<AppName, AppEntry> => ({
 	Finder: {
 		title: 'Finder',
-		icon: '/icons/finder.webp'
+		icon: FinderIcon
 	},
 	TextEdit: {
 		title: 'TextEdit',
-		icon: '/icons/textedit.webp'
+		icon: TextEditIcon
 	},
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,
 		title: 'Readme',
 		menuTitle: 'TextEdit',
-		icon: '/icons/txt.webp',
+		icon: ReadmeIcon,
 		route: '/readme',
 		defaultSize: {
 			width: 520
@@ -91,7 +106,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Characters',
 		menuTitle: 'Address Book',
 		brushed: true,
-		icon: '/icons/characters.webp',
+		icon: CharactersIcon,
 		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
@@ -105,7 +120,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowTitle: 'Fenny Flametail',
 		brushed: true,
-		icon: '/icons/fenny.webp',
+		icon: FennyIcon,
 		/* FIXME make character routes open Characters page with character pre-selected, instead of new window (but still support opening in separate windows) */
 		route: '/characters/fenny',
 		backTo: '/characters',
@@ -117,7 +132,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowTitle: 'Aren Flametail',
 		brushed: true,
-		icon: '/icons/aren.webp',
+		icon: ArenIcon,
 		route: '/characters/aren',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -128,7 +143,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowTitle: 'Ceph Azulux',
 		brushed: true,
-		icon: '/icons/ceph.webp',
+		icon: CephIcon,
 		route: '/characters/ceph',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -139,7 +154,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowTitle: 'Rigel Azulux',
 		brushed: true,
-		icon: '/icons/rigel.webp',
+		icon: RigelIcon,
 		route: '/characters/rigel',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -150,7 +165,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowTitle: 'Nocturne Blackmoon',
 		brushed: true,
-		icon: '/icons/nocturne.webp',
+		icon: NocturneIcon,
 		route: '/characters/nocturne',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -160,13 +175,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Projects,
 		title: 'Projects',
 		menuTitle: 'Finder',
-		icon: '/icons/folder-projects.webp',
+		icon: ProjectsIcon,
 		route: '/projects'
 	},
 	toddspin: {
 		Page: Browser,
 		title: 'Toddspin',
-		icon: '/icons/toddspin.webp',
+		icon: ToddspinIcon,
 		route: '/toddspin',
 		url: 'https://toddspin.fenny.zone',
 		defaultSize: {
@@ -176,7 +191,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	sauce: {
 		Page: Browser,
 		title: 'CLICK FOR SAUCE',
-		icon: '/icons/sauce.webp',
+		icon: SauceIcon,
 		route: '/sauce',
 		url: 'https://sauce.fenny.zone',
 		defaultSize: {
@@ -186,7 +201,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	goat: {
 		Page: Browser,
 		title: 'Goat Game',
-		icon: '/icons/goat.png',
+		icon: GoatIcon,
 		route: '/goat',
 		url: 'https://monty-hall.fenny.zone',
 		defaultSize: {
@@ -198,7 +213,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Trash,
 		title: 'Trash',
-		icon: '/icons/trash.webp',
+		icon: TrashIcon,
 		route: '/trash'
 	}
 });
