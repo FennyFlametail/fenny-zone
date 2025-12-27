@@ -119,7 +119,11 @@
 
 	{#snippet links()}
 		<dl>
-			<dt>Gallery (18+)</dt>
+			<dt>Ref sheet</dt>
+			<dd><a target="_blank" href="https://www.furaffinity.net/view/22575355/">FurAffinity</a></dd>
+			<dt>Ref (NSFW)</dt>
+			<dd><a target="_blank" href="https://www.furaffinity.net/view/22575339/">FurAffinity</a></dd>
+			<dt>Gallery</dt>
 			<dd>
 				<a
 					target="_blank"
