@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { getAppContext } from '$lib/context.svelte';
+	import textEditAttachment from '$lib/helpers/textEditAttachment.svelte';
 	import FennyWave from '$lib/images/fenny-wave.webp';
+
+	const { app } = getAppContext();
 </script>
 
-<pre class="readme" contenteditable="true">
+<pre {@attach textEditAttachment(app)}>
 Hi, I'm Fenny! Welcome to my silly corner of the internet 🦊❤️
 
 <img src={FennyWave} alt="My fox Fenny, waving at you!" width="256px" height="256px" />
@@ -24,18 +28,3 @@ Chozo font by <a
 		contenteditable="false">Wolfeur</a
 	>
 </pre>
-
-<style>
-	.readme {
-		background-color: white;
-		outline: none;
-		padding: 0 0.5em;
-		overflow-y: auto;
-		font-family: 'Monaco', 'Courier New', monospace;
-		font-size: 10pt;
-		white-space: pre-wrap;
-		text-wrap: stable;
-		-webkit-font-smoothing: none;
-		-moz-osx-font-smoothing: grayscale;
-	}
-</style>
