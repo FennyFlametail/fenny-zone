@@ -136,7 +136,7 @@ body {
 @font-face {
 	src:
 		local('Chozo'),
-		url('$lib/fonts/Chozo.otf') format('opentype');
+		url('$lib/fonts/chozo.otf') format('opentype');
 	font-family: 'Chozo';
 	font-display: block;
 }
