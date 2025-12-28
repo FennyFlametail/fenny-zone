@@ -70,12 +70,7 @@
 			<dd>punk, ska, alternative, EDM</dd>
 
 			<dt>Clothing style</dt>
-			<dd>
-				punk (or raver when he's partying)
-				<ul>
-					<li>likes fox-themed clothing and accessories</li>
-				</ul>
-			</dd>
+			<dd>punk (or raver at parties)</dd>
 
 			<dt>Typical outfit</dt>
 			<dd>

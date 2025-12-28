@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
 	import TabBar from '$lib/components/TabBar.svelte';
+	import NocturneMainPhoto from '$lib/images/characters/nocturne-main.webp';
 	import NocturnePhoto from '$lib/images/characters/nocturne.webp';
 	import type { Snippet } from 'svelte';
 
@@ -18,15 +19,19 @@
 	let tabId = $props.id();
 	let selectedIndex = $state(0);
 	let tabContent = $state<Snippet>();
+
+	const main = $derived(options[selectedIndex].name === 'Main Setting');
 </script>
 
 <Profile
 	character="nocturne"
 	species="Goat"
 	iconAlt="Icon of a goat giving you a disgruntled look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
-	photo={NocturnePhoto}
-	photoAlt="A goat facing away from you, wearing a long jacket with a stylized goat head symbol on the back. They have a robotic right arm, and a long, thin tail with a tuft on the end."
-	showRelationships={options[selectedIndex].name === 'Main Setting'}
+	photo={main ? NocturneMainPhoto : NocturnePhoto}
+	photoAlt={main
+		? 'A goat sitting and slurping noodles from a bowl of ramen.'
+		: 'A goat wearing a futuristic black jacket, giving you a disgruntled look. They have a robotic right arm, and a long, thin tail with a tuft on the end.'}
+	showRelationships={main}
 >
 	{#snippet bio()}
 		{@render tabContent?.()}

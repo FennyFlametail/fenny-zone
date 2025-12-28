@@ -40,7 +40,14 @@
 		</hgroup>
 	</header>
 	<div class="profilePhotoWrapper">
-		<img class="profilePhoto" src={photo} alt={photoAlt} width={725} draggable="false" />
+		<img
+			class="profilePhoto"
+			src={photo}
+			alt={photoAlt}
+			width={725}
+			height={1024}
+			draggable="false"
+		/>
 	</div>
 	{#if tabs}
 		<div class="profileTabs">
