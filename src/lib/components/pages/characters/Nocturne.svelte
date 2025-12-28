@@ -240,7 +240,10 @@
 					<ul>
 						<li>gift from their former crew, the only possession they're attached to</li>
 						<li>nonbinary flag patch on left breast</li>
-						<li><b>Solstice</b> (their home planet) written in alien script on left sleeve</li>
+						<li>
+							<span class="chozoFont">solstice</span> (Solstice, the name of their home planet) on left
+							sleeve
+						</li>
 						<li>cutouts on right sleeve that align with their arm markings</li>
 					</ul>
 				</li>
@@ -270,5 +273,13 @@
 	.profileColor {
 		background-color: #3c165a;
 		color: white;
+	}
+
+	.chozoFont {
+		padding: 0.2em;
+		border-radius: 0.2em;
+		font-family: 'Chozo';
+		background-color: black;
+		color: #2afd93;
 	}
 </style>

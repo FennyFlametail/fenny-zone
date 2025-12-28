@@ -132,3 +132,11 @@ body {
 :where(a, a:visited) {
 	color: rgb(0 0 238);
 }
+
+@font-face {
+	src:
+		local('Chozo'),
+		url('$lib/fonts/Chozo.otf') format('opentype');
+	font-family: 'Chozo';
+	font-display: block;
+}
