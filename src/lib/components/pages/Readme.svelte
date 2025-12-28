@@ -18,6 +18,11 @@ Googly eyes inspired by <a
 		target="_blank"
 		contenteditable="false">Sindre Sorhus</a
 	>
+Chozo font by <a
+		href="https://old.reddit.com/r/Metroid/comments/qm2v3c/i_have_made_a_fully_functional_automated/"
+		target="_blank"
+		contenteditable="false">Wolfeur</a
+	>
 </pre>
 
 <style>

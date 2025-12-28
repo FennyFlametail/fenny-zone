@@ -98,7 +98,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: ReadmeIcon,
 		route: '/readme',
 		defaultSize: {
-			width: 520
+			width: 520,
+			height: 520
 		}
 	},
 	characters: {
