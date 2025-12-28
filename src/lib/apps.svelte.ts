@@ -7,13 +7,15 @@ import Nocturne from '$lib/components/pages/profiles/Nocturne.svelte';
 import Rigel from '$lib/components/pages/profiles/Rigel.svelte';
 import Projects from '$lib/components/pages/Projects.svelte';
 import Readme from '$lib/components/pages/Readme.svelte';
+import Changelog from '$lib/components/pages/Changelog.svelte';
 import Trash from '$lib/components/Trash.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
 import FinderIcon from '$lib/images/icons/finder.webp';
 import TextEditIcon from '$lib/images/icons/textedit.webp';
-import ReadmeIcon from '$lib/images/icons/txt.webp';
+import TextIcon from '$lib/images/icons/txt.webp';
+import RichTextIcon from '$lib/images/icons/rtf.webp';
 import CharactersIcon from '$lib/images/icons/characters.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
@@ -30,6 +32,7 @@ export type AppName =
 	| 'Finder'
 	| 'TextEdit'
 	| 'readme'
+	| 'changelog'
 	| 'characters'
 	| 'fenny'
 	| 'aren'
@@ -95,12 +98,20 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Readme,
 		title: 'Readme',
 		menuTitle: 'TextEdit',
-		icon: ReadmeIcon,
+		icon: RichTextIcon,
 		route: '/readme',
 		defaultSize: {
 			width: 520,
 			height: 520
 		}
+	},
+	changelog: {
+		parent: 'TextEdit',
+		Page: Changelog,
+		title: 'Changelog',
+		menuTitle: 'TextEdit',
+		icon: TextIcon,
+		route: '/changelog'
 	},
 	characters: {
 		Page: Characters,

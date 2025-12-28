@@ -114,6 +114,11 @@
 		@media (scripting: none) {
 			cursor: pointer;
 		}
+
+		&.desktopIcon {
+			width: 200px;
+			height: 120px;
+		}
 	}
 
 	.fileIconImageWrapper {

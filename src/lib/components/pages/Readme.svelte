@@ -6,7 +6,10 @@
 	const { app } = getAppContext();
 </script>
 
-<pre {@attach textEditAttachment(app)}>
+<pre
+	{@attach textEditAttachment(app, {
+		plaintext: true
+	})}>
 Hi, I'm Fenny! Welcome to my silly corner of the internet 🦊❤️
 
 <img src={FennyWave} alt="My fox Fenny, waving at you!" width="256px" height="256px" />

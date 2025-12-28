@@ -5,7 +5,12 @@ import type { Attachment } from 'svelte/attachments';
 because passing content to a <pre> element with a snippet
 messes up the spacing */
 
-export default function textEditAttachment(app: RunningApp): Attachment {
+export default function textEditAttachment(
+	app: RunningApp,
+	options?: {
+		plaintext?: boolean;
+	}
+): Attachment {
 	return (element) => {
 		if (!(element instanceof HTMLElement)) {
 			console.error('textEditAttachment element must be an HTML element:', element);
@@ -19,11 +24,14 @@ export default function textEditAttachment(app: RunningApp): Attachment {
 		const prevContentEditable = element.contentEditable;
 		element.contentEditable = 'true';
 		element.classList.add('textEdit');
+		if (options?.plaintext) {
+			element.classList.add('plaintext');
+		}
 		element.addEventListener('input', handler);
 
 		return () => {
 			element.contentEditable = prevContentEditable;
-			element.classList.remove('textEdit');
+			element.classList.remove('textEdit', 'plaintext');
 			element.removeEventListener('input', handler);
 		};
 	};
