@@ -118,7 +118,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
-		menuTitle: 'Address Book',
 		windowTitle: 'Fenny Flametail',
 		brushed: true,
 		icon: FennyIcon,
@@ -130,7 +129,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	aren: {
 		Page: Aren,
 		title: 'Aren',
-		menuTitle: 'Address Book',
 		windowTitle: 'Aren Flametail',
 		brushed: true,
 		icon: ArenIcon,
@@ -141,7 +139,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
-		menuTitle: 'Address Book',
 		windowTitle: 'Ceph Azulux',
 		brushed: true,
 		icon: CephIcon,
@@ -152,7 +149,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	rigel: {
 		Page: Rigel,
 		title: 'Rigel',
-		menuTitle: 'Address Book',
 		windowTitle: 'Rigel Azulux',
 		brushed: true,
 		icon: RigelIcon,
@@ -163,7 +159,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
-		menuTitle: 'Address Book',
 		windowTitle: 'Nocturne Blackmoon',
 		brushed: true,
 		icon: NocturneIcon,
