@@ -6,9 +6,9 @@
 <Profile
 	character="rigel"
 	species="Luxray"
-	iconAlt="Icon of a masculine Luxray with sunglasses. He's licking an ice cream cone provocatively with his pierced tongue."
+	iconAlt="Icon of a Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
 	photo={RigelPhoto}
-	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear."
+	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
 >
 	{#snippet bio()}
 		<dl>
