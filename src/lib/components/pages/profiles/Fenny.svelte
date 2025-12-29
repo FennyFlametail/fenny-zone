@@ -9,6 +9,7 @@
 	iconAlt="Icon of a fox with messy hair, smiling cheerfully at you."
 	photo={FennyPhoto}
 	photoAlt="A shirtless fox, lifting his sunglasses and giving you a friendly grin. He has ear and nipple piercings."
+	relationships={['aren', 'ceph', 'rigel', 'nocturne']}
 >
 	{#snippet bio()}
 		<dl>

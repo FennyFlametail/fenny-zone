@@ -62,7 +62,7 @@ export type CharacterName = Extract<AppName, 'fenny' | 'aren' | 'ceph' | 'rigel'
 
 export const relationships: {
 	[self in CharacterName]: {
-		[other in Exclude<CharacterName, self>]?: {
+		[other in Exclude<CharacterName, self>]: {
 			met: string;
 			views: string;
 		};

@@ -9,6 +9,7 @@
 	iconAlt="Icon of a Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
 	photo={RigelPhoto}
 	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
+	relationships={['ceph', 'nocturne', 'aren', 'fenny']}
 >
 	{#snippet bio()}
 		<dl>

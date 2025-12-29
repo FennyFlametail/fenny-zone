@@ -31,7 +31,7 @@
 	photoAlt={main
 		? 'A goat sitting and slurping noodles from a bowl of ramen.'
 		: 'A goat wearing a futuristic black jacket, giving you a disgruntled look. They have a robotic right arm, and a long, thin tail with a tuft on the end.'}
-	showRelationships={main}
+	relationships={main ? ['rigel', 'aren', 'fenny', 'ceph'] : []}
 >
 	{#snippet bio()}
 		{@render tabContent?.()}

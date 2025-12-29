@@ -9,6 +9,7 @@
 	iconAlt="Icon of a cute Luxray, smiling at you shyly. He has a nose ring and lip piercings."
 	photo={CephPhoto}
 	photoAlt="A Luxray in a light jacket, sweating a bit as he nervously plays bass."
+	relationships={['fenny', 'aren', 'rigel', 'nocturne']}
 >
 	{#snippet bio()}
 		<dl>

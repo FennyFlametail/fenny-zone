@@ -9,6 +9,7 @@
 	iconAlt="Icon of a rugged-looking wolf, grinning at you in an alluring way."
 	photo={ArenPhoto}
 	photoAlt="A wolf with a goatee, wearing a bomber jacket and confidently playing the guitar."
+	relationships={['fenny', 'ceph', 'nocturne', 'rigel']}
 >
 	{#snippet bio()}
 		<dl>

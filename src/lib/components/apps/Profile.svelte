@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="ThisCharacter extends CharacterName">
 	import AppLink from '$lib/components/AppLink.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { type CharacterName, relationships } from '$lib/data/relationships';
@@ -12,10 +12,10 @@
 		photoAlt,
 		bio,
 		tabs,
-		showRelationships = true,
+		relationships: relationshipOrder,
 		links
 	}: {
-		character: CharacterName;
+		character: ThisCharacter;
 		species: string;
 		iconAlt: string;
 		/** Photos should be 725x1024 */
@@ -23,7 +23,7 @@
 		photoAlt: string;
 		bio: Snippet;
 		tabs?: Snippet;
-		showRelationships?: boolean;
+		relationships: Exclude<CharacterName, ThisCharacter>[];
 		links: Snippet;
 	} = $props();
 
@@ -57,12 +57,13 @@
 	<div class="profileBio profileSection">
 		{@render bio()}
 	</div>
-	{#if showRelationships && relationships[character]}
+	{#if relationshipOrder?.length}
 		<div class="profileRelationships profileSection">
 			<h3 class="profileSectionHeading">Relationships</h3>
-			{#each Object.entries(relationships[character]) as [name, relationship]}
+			{#each relationshipOrder as other}
+				{@const relationship = relationships[character][other]}
 				<details class="profileRelationshipBlock">
-					<summary>{windowServer.apps[name as CharacterName].title}</summary>
+					<summary>{windowServer.apps[other].title}</summary>
 					<h4>How they met:</h4>
 					<p>{relationship.met}</p>
 					<h4>How they view each other:</h4>
