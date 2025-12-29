@@ -32,7 +32,6 @@
 					<li>often tired</li>
 					<li>enjoys being around people, but hesitant to speak up</li>
 					<li>usually very reserved, but can get excited about things he likes</li>
-					<li>struggles to feel like he belongs, except with Fenny and Aren</li>
 				</ul>
 			</dd>
 

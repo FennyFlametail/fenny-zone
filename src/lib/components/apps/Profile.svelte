@@ -51,7 +51,7 @@
 	</div>
 	{#if tabs}
 		<div class="profileTabs">
-			{@render tabs?.()}
+			{@render tabs()}
 		</div>
 	{/if}
 	<div class="profileBio profileSection">
@@ -60,14 +60,15 @@
 	{#if showRelationships && relationships[character]}
 		<div class="profileRelationships profileSection">
 			<h3 class="profileSectionHeading">Relationships</h3>
-			<dl>
-				{#each Object.entries(relationships[character]) as [CharacterName, string][] as [other, text]}
-					<dt>
-						<AppLink appName={other}>{windowServer.apps[other].title}</AppLink>
-					</dt>
-					<dd>{text}</dd>
-				{/each}
-			</dl>
+			{#each Object.entries(relationships[character]) as [name, relationship]}
+				<details class="profileRelationshipBlock">
+					<summary>{windowServer.apps[name as CharacterName].title}</summary>
+					<h4>How they met:</h4>
+					<p>{relationship.met}</p>
+					<h4>How they view each other:</h4>
+					<p>{relationship.views}</p>
+				</details>
+			{/each}
 		</div>
 	{/if}
 	<div class="profileLinks profileSection">
@@ -123,6 +124,8 @@
 	.profileSectionHeading {
 		padding-inline: var(--profile-spacing);
 		margin-bottom: var(--profile-spacing);
+		-webkit-user-select: none;
+		user-select: none;
 	}
 
 	@scope (.profileSection) {
@@ -161,8 +164,42 @@
 		}
 	}
 
-	.profileRelationships dt {
-		text-transform: none;
+	.profileRelationshipBlock {
+		padding-inline: var(--profile-spacing);
+
+		&,
+		&::details-content {
+			display: flex;
+			flex-flow: column;
+			gap: var(--profile-spacing);
+		}
+
+		summary {
+			font-weight: bold;
+			-webkit-user-select: none;
+			user-select: none;
+			list-style-type: none;
+			&::before {
+				display: inline-block;
+				content: '▶';
+				color: var(--text-secondary);
+				font-size: 0.9em;
+				margin-right: 10px;
+				transition: rotate 0.25s;
+			}
+		}
+
+		&[open] summary::before {
+			rotate: 90deg;
+		}
+
+		&[open]::details-content {
+			padding-bottom: var(--profile-spacing);
+		}
+
+		p {
+			white-space: pre-line;
+		}
 	}
 
 	.profileLinks {
