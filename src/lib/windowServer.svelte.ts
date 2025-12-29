@@ -12,7 +12,7 @@ export interface Position {
 	zIndex: number;
 }
 
-export const WINDOW_PADDING = 25;
+export const WINDOW_PADDING = 0;
 
 export default class WindowServer {
 	// #region Static
