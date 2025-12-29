@@ -1,15 +1,12 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context.svelte';
-	import textEditAttachment from '$lib/helpers/textEditAttachment.svelte';
+	import setModified from '$lib/helpers/setModifiedAttachment.svelte';
 	import FennyWave from '$lib/images/fenny-wave.webp';
 
 	const { app } = getAppContext();
 </script>
 
-<pre
-	{@attach textEditAttachment(app, {
-		plaintext: true
-	})}>
+<pre class="textEdit plaintext" contenteditable="true" {@attach setModified(app)}>
 Hi, I'm Fenny! Welcome to my silly corner of the internet 🦊❤️
 
 <img src={FennyWave} alt="My fox Fenny, waving at you!" width="256px" height="256px" />
