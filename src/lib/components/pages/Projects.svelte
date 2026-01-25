@@ -9,8 +9,8 @@
 	<FileIcon appName="sauce" />
 	<FileIcon appName="goat" />
 	<FileIcon
-		name="Better Bluesky"
+		name="Userstyles"
 		icon={StylusIcon}
-		href="https://userstyles.world/style/11956/better-bluesky"
+		href="https://userstyles.world/user/FennyFlametail"
 	/>
 </Finder>
