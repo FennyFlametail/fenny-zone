@@ -102,7 +102,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/readme',
 		defaultSize: {
 			width: 520,
-			height: 520
+			height: 530
 		}
 	},
 	changelog: {
