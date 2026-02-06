@@ -8,7 +8,10 @@
 	let {
 		entries
 	}: {
-		entries: AppName[];
+		entries: {
+			appName: AppName;
+			listIcon: string;
+		}[];
 	} = $props();
 
 	const windowServer = getWindowServerContext();
@@ -62,17 +65,17 @@
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<ul class="addressBookList brushedInset" onclick={deselect}>
 		<h3 class="addressBookListHeader">Name</h3>
-		{#each entries as name}
-			{@const app = windowServer.apps[name]}
-			<li class={['addressBookListItem', { selected: selectedAppName === name }]}>
+		{#each entries as { appName, listIcon }}
+			{@const app = windowServer.apps[appName]}
+			<li class={['addressBookListItem', { selected: selectedAppName === appName }]}>
 				<AppLink
-					appName={name}
+					{appName}
 					class="addressBookLink"
-					onclick={openHandler(name)}
+					onclick={openHandler(appName)}
 					ondblclick={openInNewWindow}
 				>
-					<img class="addressBookListIcon" src={app.icon} alt="" draggable="false" />
-					<span>{windowServer.apps[name].title}</span>
+					<img class="addressBookListIcon" src={listIcon} alt="" draggable="false" />
+					<span>{windowServer.apps[appName].title}</span>
 				</AppLink>
 			</li>
 		{/each}
