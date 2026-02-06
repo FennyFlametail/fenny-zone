@@ -27,10 +27,11 @@
 
 			<dt>Personality</dt>
 			<dd>
-				upbeat, caring, affectionate, impulsive, procrastinates a lot
+				upbeat, easygoing, caring, affectionate, impulsive
 				<ul>
 					<li>gets energetic when he’s excited, like a fennec</li>
-					<li>disorganized, but good at finding things</li>
+					<li>disorganized, loses things easily</li>
+					<li>bad at time management</li>
 				</ul>
 			</dd>
 

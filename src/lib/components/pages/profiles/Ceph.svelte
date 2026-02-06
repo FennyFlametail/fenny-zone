@@ -29,10 +29,15 @@
 			<dd>
 				timid, socially anxious, self-doubting, curious
 				<ul>
+					<li>usually very reserved, but gets excited about things he's interested in</li>
+					<li>
+						likes being around people, but nervous about speaking up, hates being the center of
+						attention
+					</li>
+					<li>disorganized, but remembers where things are</li>
+					<li>bad at time management</li>
+					<li>often sleepy</li>
 					<li>doesn’t drink alcohol or swear</li>
-					<li>often tired</li>
-					<li>enjoys being around people, but hesitant to speak up</li>
-					<li>usually very reserved, but can get excited about things he likes</li>
 				</ul>
 			</dd>
 

@@ -30,8 +30,9 @@
 				cocky, reckless, hotheaded, rebellious
 				<ul>
 					<li>huge party animal</li>
-					<li>lives in the moment, struggles to plan long-term</li>
-					<li>not very reliable, but has a good heart</li>
+					<li>equal parts charming and punchable</li>
+					<li>lives in the moment, struggles to make long-term plans</li>
+					<li>not very dependable, but has a good heart</li>
 					<li>not against relationships, but not seeking one out</li>
 				</ul>
 			</dd>
@@ -45,10 +46,10 @@
 			</dd>
 
 			<dt>Job</dt>
-			<dd>delivery person, and various other gig jobs</dd>
+			<dd>food delivery and other gig work</dd>
 
 			<dt>Interests</dt>
-			<dd>partying, punk shows, graffiti, skateboarding</dd>
+			<dd>partying, punk shows, graffiti, urbex</dd>
 
 			<dt>Fav. color</dt>
 			<dd><span class="profileColor">dark pink</span></dd>
@@ -71,12 +72,12 @@
 			<dd>punk, ska, alternative, EDM</dd>
 
 			<dt>Clothing style</dt>
-			<dd>punk (or raver at parties)</dd>
+			<dd>punk, scene, occasionally raver</dd>
 
 			<dt>Typical outfit</dt>
 			<dd>
 				<ul>
-					<li>denim or leather vest, with lots of pins & patches</li>
+					<li>black denim vest with lots of pins & patches</li>
 					<li>ripped jeans</li>
 					<li>worn canvas shoes</li>
 					<li>occasional beanie</li>
@@ -88,7 +89,7 @@
 				<ul>
 					<li>trans</li>
 					<li>bioluminescent parts glow brighter when excited or angry</li>
-					<li>likes astrology</li>
+					<li>into astrology (half believes it)</li>
 				</ul>
 			</dd>
 		</dl>

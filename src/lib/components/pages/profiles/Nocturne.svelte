@@ -102,8 +102,8 @@
 			former thief, current outlaw
 			<ul>
 				<li>
-					stole something important from the megacorporation controlling local space, on the run for
-					the last two years
+					stole something important from the megacorp controlling local space, on the run for the
+					last two years
 				</li>
 			</ul>
 		</dd>
@@ -247,12 +247,7 @@
 		<dt>Typical outfit</dt>
 		<dd>
 			<ul>
-				<li>
-					gray denim jacket
-					<ul>
-						<li>nonbinary flag pin</li>
-					</ul>
-				</li>
+				<li>gray denim jacket with nonbinary flag pin</li>
 				<li>plain shirt</li>
 				<li>black denim jeans</li>
 				<li>comfortable shoes</li>

@@ -29,7 +29,8 @@
 			<dd>
 				outgoing, charismatic, confident, assertive
 				<ul>
-					<li>aromantic, but cares for his friends deeply</li>
+					<li>aromantic, but cares deeply about his friends</li>
+					<li>doesn't like talking about his feelings</li>
 				</ul>
 			</dd>
 
@@ -84,16 +85,6 @@
 				<a href="https://hondanews.com/en-US/photos/2003-honda-cbr600rr-15" target="_blank"
 					>yellow Honda CBR600RR</a
 				>
-			</dd>
-
-			<dt>Notes</dt>
-			<dd>
-				<ul>
-					<li>gets cold easily (because of his large ears)</li>
-					<li>holds things in his mouth out of habit</li>
-					<li>can’t sleep without hugging something (or someone)</li>
-					<li>likes karaoke</li>
-				</ul>
 			</dd>
 		</dl>
 	{/snippet}
