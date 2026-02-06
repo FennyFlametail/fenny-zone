@@ -57,8 +57,10 @@
 			</dd>
 			<dt>Icon</dt>
 			<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
-			<dt>Artwork</dt>
+			<dt>Artwork (space)</dt>
 			<dd><a target="_blank" href="https://www.furaffinity.net/user/candymint/">candymint</a></dd>
+			<dt>Artwork (main)</dt>
+			<dd><a target="_blank" href="https://bsky.app/profile/corginamedbruno.bsky.social">Bruno</a></dd>
 		</dl>
 	{/snippet}
 </Profile>
