@@ -1,3 +1,4 @@
+import { FilterXSS } from 'xss';
 const FENNY_DID = 'did:plc:53ee63azgdyf2mdzop4nor7r';
 
 export interface BlueskyProfile {
@@ -41,6 +42,23 @@ const enum PostFilter {
 	posts_with_video = 'posts_with_video'
 }
 
+const xssFilter = new FilterXSS({
+	whiteList: {
+		a: ['class', 'href', 'target']
+	}
+});
+
+function parseLinks(text: string) {
+	return xssFilter.process(
+		text
+			.replaceAll(/https?:\/\/[^\s]+/g, '<a class="blueskyLink" href="$&" target="_blank">$&</a>')
+			.replaceAll(
+				/@([\w.]+)/g,
+				'<a class="blueskyMention" href="https://bsky.app/profile/$1" target="_blank">$&</a>'
+			)
+	);
+}
+
 function parsePost(post: any): BlueskyPost {
 	const record = post.record ?? post.value;
 	const [, , rkey] = (post.uri as string).match(
@@ -51,7 +69,7 @@ function parsePost(post: any): BlueskyPost {
 		displayName: post.author.displayName,
 		avatar: post.author.avatar,
 		createdAt: record.createdAt,
-		text: record.text,
+		text: parseLinks(record.text),
 		link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
 		profileLink: `https://bsky.app/profile/${post.author.handle}`,
 		isRepost: post.author.did !== FENNY_DID,
@@ -112,7 +130,7 @@ export default async function fetchBlueskyData(fetchFn: typeof globalThis.fetch)
 				avatar: profile.avatar,
 				banner: profile.banner,
 				createdAt: profile.createdAt,
-				description: profile.description,
+				description: parseLinks(profile.description),
 				followersCount: profile.followersCount,
 				followsCount: profile.followsCount,
 				postsCount: profile.postsCount,

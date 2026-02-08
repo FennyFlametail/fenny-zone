@@ -9,12 +9,6 @@
 	const { profile, posts } = data?.bluesky ?? (await getBlueskyData());
 
 	const numberFormatter = new Intl.NumberFormat();
-	function formatTimestamp(timestamp: string) {
-		return intlFormatDistance(timestamp, new Date(), {
-			style: 'narrow',
-			numeric: 'always'
-		}).replace(' ago', '');
-	}
 </script>
 
 <div class="bluesky aqua-no-scrollbar">
@@ -31,8 +25,7 @@
 				</hgroup>
 				<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
 			</div>
-			<!-- TODO parse links in bio -->
-			<p class="blueskyBio">{profile.description}</p>
+			<p class="blueskyBio">{@html profile.description}</p>
 			<div class="blueskyStatsContainer">
 				<a class="blueskyStat" href={profile.link} target="_blank">
 					<span>Posts</span>
@@ -203,6 +196,21 @@
 			color: var(--text-medium);
 		}
 
+		.blueskyMention {
+			color: #465a6e;
+			font-weight: bold;
+			&:not(:hover) {
+				text-decoration: none;
+			}
+		}
+
+		.blueskyLink {
+			color: #286fb4;
+			&:not(:hover) {
+				text-decoration: none;
+			}
+		}
+
 		.blueskyStatsContainer {
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
@@ -306,11 +314,10 @@
 		.blueskyTimestamp {
 			font-weight: bold;
 			color: var(--text-light);
-			text-decoration: none;
 			text-box-trim: trim-both;
 			text-box-edge: text;
-			&:hover {
-				text-decoration: underline;
+			&:not(:hover) {
+				text-decoration: none;
 			}
 		}
 

@@ -39,8 +39,7 @@
 				>{formatTimestamp(post.createdAt)}</a
 			>
 		</hgroup>
-		<!-- TODO handle facets -->
-		<p class="blueskyPostText">{post.text}</p>
+		<p class="blueskyPostText">{@html post.text}</p>
 		{#if post.images}
 			<a class="blueskyImageContainer" href={post.link} target="_blank" tabindex="-1">
 				{#each post.images as img}
