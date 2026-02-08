@@ -51,6 +51,7 @@
 	onMount(() => (ssr = false));
 
 	function startDrag(e: PointerEvent) {
+		delete app.instance.preZoomPosition;
 		windowServer.focusApp(appName);
 		if ((e.target as Element).hasAttribute('data-allow-window-drag')) {
 			windowServer.draggingEl = element;
@@ -60,6 +61,7 @@
 	}
 
 	function startResize(e: PointerEvent) {
+		delete app.instance.preZoomPosition;
 		windowServer.resizingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
