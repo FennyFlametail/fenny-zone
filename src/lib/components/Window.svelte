@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
+	import WindowControls from '$lib/components/WindowControls.svelte';
 	import {
 		getWindowServerContext,
 		setAppContext,
 		setToolbarEntryContext
 	} from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
-	import { Minus, Plus, X } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let {
@@ -118,7 +117,8 @@
 	ontransitionend={() => (app.instance.animating = false)}
 	class={{
 		window: true,
-		brushed: app.brushed,
+		brushed: app.windowStyle === 'brushed',
+		custom: app.windowStyle === 'custom',
 		inactive: !focused && !ssr,
 		animating: app.instance.animating
 	}}
@@ -128,41 +128,22 @@
 	style:--height={`${app.instance.position.height}px`}
 	style:z-index={app.instance.position.zIndex}
 	style:--minWindowSize={`${minWindowSize}px`}
+	data-appname={appName}
 	data-allow-window-drag
 >
-	<header class="windowTitlebar" data-allow-window-drag>
-		<div class="windowControls" data-allow-window-drag>
-			<svelte:element
-				this={browser ? 'button' : 'a'}
-				role={browser ? 'button' : 'link'}
-				class={['windowButton', 'close', app.instance?.modified && 'modified']}
-				aria-label="Close"
-				onclick={() => windowServer.closeApp(appName)}
-				href={app.backTo ?? '/'}
-			>
-				<X class="windowButtonGlyph" size={14} />
-			</svelte:element>
-			<button class="windowButton minimize" aria-label="Minimize" disabled={!browser}>
-				<Minus class="windowButtonGlyph" size={14} />
-			</button>
-			<button
-				class="windowButton maximize"
-				aria-label="Maximize"
-				onclick={() => windowServer.zoomApp(appName)}
-				disabled={!browser}
-			>
-				<Plus class="windowButtonGlyph" size={14} />
-			</button>
-		</div>
-		<h2 class="windowTitle" data-allow-window-drag>
-			{title}
-		</h2>
-		<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
-			{#each toolbarEntriesWrapper.entries as { snippet }}
-				{@render snippet()}
-			{/each}
-		</menu>
-	</header>
+	{#if app.windowStyle !== 'custom'}
+		<header class="windowTitlebar" data-allow-window-drag>
+			<WindowControls />
+			<h2 class="windowTitle" data-allow-window-drag>
+				{title}
+			</h2>
+			<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
+				{#each toolbarEntriesWrapper.entries as { snippet }}
+					{@render snippet()}
+				{/each}
+			</menu>
+		</header>
+	{/if}
 	<div class="windowContent">
 		<svelte:boundary
 			onerror={(e) => {
@@ -232,35 +213,6 @@
 		cursor: default;
 	}
 
-	.windowControls {
-		grid-area: title;
-		align-self: center;
-		justify-self: start;
-		display: flex;
-		align-items: center;
-		gap: 9px;
-		z-index: 1;
-	}
-
-	.windowButton {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		/* TODO remove when minimize is implemented */
-		@media not (scripting: none) {
-			&.minimize {
-				cursor: not-allowed;
-			}
-		}
-		@media (scripting: none) {
-			&.minimize,
-			&.maximize {
-				cursor: not-allowed;
-			}
-		}
-	}
-
 	.windowTitle {
 		grid-area: title;
 		display: flex;
@@ -289,10 +241,9 @@
 	}
 
 	.windowContent {
-		container: window / size;
+		container: window / inline-size;
 		grid-area: content;
 		display: grid;
-		grid-template: 100% / 100%;
 		justify-items: stretch;
 		align-items: stretch;
 		min-height: 0;

@@ -20,7 +20,7 @@
 	--button-border-gradient: #666666;
 	--button-border-active-gradient: #272798, #616161;
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
-	--widget-inset-box-shadow: 0 1px 1px #d4d4d4;
+	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 }
@@ -134,7 +134,7 @@ body {
 	.windowButton {
 		box-shadow:
 			inset 0 0 1px 1px rgb(0 0 0 / 50%),
-			var(--widget-inset-box-shadow);
+			var(--widget-sunken-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
 		background:
@@ -313,7 +313,7 @@ body {
 		}
 
 		.window.brushed .windowToolbar & {
-			box-shadow: var(--widget-inset-box-shadow);
+			box-shadow: var(--widget-sunken-box-shadow);
 		}
 
 		&:focus-visible {

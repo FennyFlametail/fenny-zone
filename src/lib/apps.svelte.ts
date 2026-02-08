@@ -57,7 +57,7 @@ export interface AppEntry {
 	readonly menuTitle?: string;
 	/** Defaults to `title` */
 	readonly windowTitle?: string;
-	readonly brushed?: boolean;
+	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly icon: string;
 	readonly route?: string;
 	/** Apps will be grouped by their parent icon in the Dock */
@@ -120,6 +120,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	bluesky: {
 		Page: Bluesky,
 		title: 'Bluesky',
+		windowStyle: 'custom',
 		icon: TweetbotIcon,
 		// FIXME need to make single app layout
 		route: '/bluesky',
@@ -132,7 +133,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Characters,
 		title: 'Characters',
 		menuTitle: 'Address Book',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: CharactersIcon,
 		/* TODO titlebar icon */
 		route: '/characters',
@@ -145,7 +146,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Fenny,
 		title: 'Fenny',
 		windowTitle: 'Fenny Flametail',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: FennyIcon,
 		/* FIXME make character routes open Characters page with character pre-selected, instead of new window (but still support opening in separate windows) */
 		route: '/characters/fenny',
@@ -156,7 +157,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Aren,
 		title: 'Aren',
 		windowTitle: 'Aren Flametail',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: ArenIcon,
 		route: '/characters/aren',
 		backTo: '/characters',
@@ -166,7 +167,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Ceph,
 		title: 'Ceph',
 		windowTitle: 'Ceph Azulux',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: CephIcon,
 		route: '/characters/ceph',
 		backTo: '/characters',
@@ -176,7 +177,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Rigel,
 		title: 'Rigel',
 		windowTitle: 'Rigel Azulux',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: RigelIcon,
 		route: '/characters/rigel',
 		backTo: '/characters',
@@ -186,7 +187,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Nocturne,
 		title: 'Nocturne',
 		windowTitle: 'Nocturne Blackmoon',
-		brushed: true,
+		windowStyle: 'brushed',
 		icon: NocturneIcon,
 		route: '/characters/nocturne',
 		backTo: '/characters',

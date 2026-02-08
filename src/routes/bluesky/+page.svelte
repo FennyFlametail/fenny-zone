@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BlueskyPost from '$lib/components/BlueskyPost.svelte';
-	import { intlFormat, intlFormatDistance } from 'date-fns';
+	import WindowControls from '$lib/components/WindowControls.svelte';
+	import { intlFormat } from 'date-fns';
 	import { MapPin } from 'lucide-svelte';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
@@ -11,6 +12,10 @@
 	const numberFormatter = new Intl.NumberFormat();
 </script>
 
+<div class="blueskyTitlebar" data-allow-window-drag>
+	<WindowControls />
+	<h2 class="blueskyWindowTitle" data-allow-window-drag>{profile?.displayName}</h2>
+</div>
 <div class="bluesky aqua-no-scrollbar">
 	{#if profile && posts}
 		<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
@@ -63,18 +68,88 @@
 		</div>
 	{/if}
 </div>
+<div class="blueskyFooter"></div>
 
 <style>
-	.bluesky {
-		/* TODO don't forget inactive window style */
-		--spacing: 10px;
-		--text-medium: #2d2f31;
-		--text-light: #81878b;
-		overflow-y: auto;
-		color: #44484a;
-	}
-
 	:global {
+		#root .window[data-appname='bluesky'] {
+			--titlebar-gradient: linear-gradient(
+				to bottom,
+				#59595c 1px,
+				#4b4c4f 1px,
+				#4b4c4f 2px,
+				#444548 2px,
+				#2a2b2d
+			);
+			--titlebar-gradient-inactive: linear-gradient(to bottom, #404143 1px, #333436 1px, #434447);
+
+			background-color: #2a2b2d;
+			background-image: none;
+			background-clip: padding-box;
+			border-color: rgb(0 0 0 / 75%);
+			border-radius: 5px;
+
+			.blueskyTitlebar {
+				position: relative;
+				height: 35px;
+				align-content: center;
+				background-image: var(--titlebar-gradient);
+				border-bottom: 1px solid black;
+				-webkit-user-select: none;
+				user-select: none;
+
+				.window.inactive & {
+					background-image: var(--titlebar-gradient-inactive);
+				}
+			}
+
+			.windowControls {
+				position: absolute;
+				left: 0;
+				top: 0;
+				height: 100%;
+				padding-inline: 8px;
+				background-image: linear-gradient(
+					to left,
+					#535357 1px,
+					#18191a 1px,
+					#18191a 2px,
+					transparent 2px
+				);
+
+				.window.inactive & {
+					background-image: linear-gradient(
+						to left,
+						#535357 1px,
+						#2e2f31 1px,
+						#2e2f31 2px,
+						transparent 2px
+					);
+				}
+			}
+
+			.windowButton {
+				width: 12px;
+				height: 12px;
+				box-shadow: 0 1px 1px rgb(255 255 255 / 15%);
+			}
+
+			.blueskyWindowTitle {
+				text-align: center;
+				font-size: 16px;
+				color: white;
+				text-shadow: 0 -1px black;
+			}
+		}
+
+		.bluesky {
+			--spacing: 10px;
+			--text-medium: #2d2f31;
+			--text-light: #81878b;
+			overflow-y: auto;
+			color: #44484a;
+		}
+
 		.blueskyBanner {
 			aspect-ratio: 3 / 1;
 			min-height: 100px;
@@ -337,7 +412,8 @@
 			--gap: 2px;
 			margin-inline-end: 5px;
 			margin-block-end: 5px;
-			max-height: min(45cqw, 230px);
+			aspect-ratio: 1.825;
+			max-height: 230px;
 			display: grid;
 			grid-template-columns: repeat(2, calc(50% - var(--gap) / 2));
 			grid-template-rows: repeat(2, calc(50% - var(--gap) / 2));
@@ -381,6 +457,16 @@
 			:global(svg) {
 				color: #b2b7be;
 				stroke-width: 3;
+			}
+		}
+
+		.blueskyFooter {
+			height: 25px;
+			background-image: var(--titlebar-gradient);
+			border-top: 1px solid black;
+
+			.window.inactive & {
+				background-image: var(--titlebar-gradient-inactive);
 			}
 		}
 	}

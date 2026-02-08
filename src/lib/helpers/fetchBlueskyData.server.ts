@@ -73,12 +73,23 @@ function parsePost(post: any): BlueskyPost {
 		link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
 		profileLink: `https://bsky.app/profile/${post.author.handle}`,
 		isRepost: post.author.did !== FENNY_DID,
-		...parseEmbed(post.embed)
+		...parseEmbed(post.embed ?? post.value?.embed, post.author.did)
 	};
 }
 
-function parseEmbed(embed?: any): Partial<BlueskyPost> {
+function parseEmbed(embed: any, did: string): Partial<BlueskyPost> {
 	switch (embed?.$type) {
+		case 'app.bsky.embed.images':
+			return {
+				images: embed.images.map(
+					(img: any): BlueskyImage => ({
+						src: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${img.image.ref.$link}@jpeg`,
+						alt: img.alt,
+						width: img.aspectRatio.width,
+						height: img.aspectRatio.height
+					})
+				)
+			};
 		case 'app.bsky.embed.images#view':
 			return {
 				images: embed.images.map(
@@ -112,7 +123,7 @@ const cachedData = {
 
 export default async function fetchBlueskyData(fetchFn: typeof globalThis.fetch) {
 	if (Date.now() - cachedData.timestamp > 1000 * 60 * 15) {
-		console.debug('Fetching Bluesky data...');
+		console.log('Fetching Bluesky data...');
 		const profileFetch = fetchFn(
 			`https://api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${FENNY_DID}`
 		);
