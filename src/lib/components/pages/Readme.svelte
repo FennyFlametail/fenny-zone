@@ -10,7 +10,7 @@
 Hi, I'm Fenny! Welcome to my silly corner of the internet 🦊❤️
 
 <img src={FennyWave} alt="My fox Fenny, waving at you!" width="256px" height="256px" />
-This site is a work-in-progress, but feel free to poke around! You can find me elsewhere at the links on the right. (Hint: check out the icons at the bottom of the screen)
+This site is a work-in-progress, but feel free to poke around! Check out the icons at the bottom, or find me elsewhere at the links on the right!
 
 Waving sticker by <a
 		href="https://www.furaffinity.net/user/ponacho"
