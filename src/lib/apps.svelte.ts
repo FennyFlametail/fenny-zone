@@ -1,5 +1,6 @@
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
+import type { RouteId } from '$app/types';
 
 import Readme from '$lib/components/pages/Readme.svelte';
 import Changelog from '$lib/components/pages/Changelog.svelte';
@@ -59,7 +60,7 @@ export interface AppEntry {
 	readonly windowTitle?: string;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly icon: string;
-	readonly route?: string;
+	readonly route?: RouteId; // FIXME move rest of apps to pages and fix routes
 	/** Apps will be grouped by their parent icon in the Dock */
 	readonly parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
@@ -105,8 +106,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: RichTextIcon,
 		route: '/readme',
 		defaultSize: {
-			width: 520,
-			height: 530
+			width: 530,
+			height: 520
 		}
 	},
 	changelog: {
@@ -122,7 +123,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Bluesky',
 		windowStyle: 'custom',
 		icon: TweetbotIcon,
-		// FIXME need to make single app layout
 		route: '/bluesky',
 		defaultSize: {
 			width: 450,

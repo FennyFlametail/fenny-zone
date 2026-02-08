@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import type { AppName } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
@@ -8,7 +10,11 @@
 
 	onMount(() => {
 		windowServer.loadState();
-		if (windowServer.initialAppName) windowServer.openApp(windowServer.initialAppName);
+		if (windowServer.initialAppName) {
+			windowServer.openApp(windowServer.initialAppName);
+			// FIXME re-enable
+			// goto('/');
+		}
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
@@ -25,11 +31,9 @@
 	{#each Object.keys(windowServer.runningApps) as AppName[] as appName, i (appName)}
 		<Window {appName} />
 	{/each}
-	<noscript>
-		{#if windowServer.initialAppName}
-			<Window appName={windowServer.initialAppName} />
-		{/if}
-	</noscript>
+	{#if !browser && windowServer.initialAppName}
+		<Window appName={windowServer.initialAppName} />
+	{/if}
 </main>
 
 <svelte:body {onkeydown} {onpointerup} />

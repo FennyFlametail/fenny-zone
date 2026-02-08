@@ -1,5 +1,4 @@
 import { browser } from '$app/environment';
-import { goto } from '$app/navigation';
 import getApps, { type AppName, type RunningApp } from '$lib/apps.svelte';
 
 const STORAGE_KEY = 'windowState';
@@ -214,10 +213,6 @@ export default class WindowServer {
 
 		const oldZIndex = app.instance.position.zIndex;
 		app.instance = undefined;
-		if (this.initialAppName === appName) {
-			this.initialAppName = undefined;
-			goto('/');
-		}
 
 		// find all apps with a higher z-index and lower it
 		Object.values(this.runningApps).forEach((ra) => {
@@ -267,6 +262,7 @@ export default class WindowServer {
 
 	loadState = () => {
 		if (!browser) return;
+		// TODO use cookies to fix SSR on app pages
 		const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {

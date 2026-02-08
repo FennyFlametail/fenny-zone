@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import {
@@ -120,6 +121,7 @@
 		brushed: app.windowStyle === 'brushed',
 		custom: app.windowStyle === 'custom',
 		inactive: !focused && !ssr,
+		// FIXME breaking saveState
 		animating: app.instance.animating
 	}}
 	style:--x={`${app.instance.position.x}px`}
@@ -145,16 +147,20 @@
 		</header>
 	{/if}
 	<div class="windowContent">
-		<svelte:boundary
-			onerror={(e) => {
-				console.error(e);
-				// TODO crash dialog
-				windowServer.closeApp(appName);
-			}}
-		>
+		{#if browser}
+			<svelte:boundary
+				onerror={(e) => {
+					console.error(e);
+					// TODO crash dialog
+					windowServer.closeApp(appName);
+				}}
+			>
+				<app.Page />
+				{#snippet pending()}{/snippet}
+			</svelte:boundary>
+		{:else}
 			<app.Page />
-			{#snippet pending()}{/snippet}
-		</svelte:boundary>
+		{/if}
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>
