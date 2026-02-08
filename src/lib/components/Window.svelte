@@ -164,7 +164,16 @@
 		</menu>
 	</header>
 	<div class="windowContent">
-		<app.Page />
+		<svelte:boundary
+			onerror={(e) => {
+				console.error(e);
+				// TODO crash dialog
+				windowServer.closeApp(appName);
+			}}
+		>
+			<app.Page />
+			{#snippet pending()}{/snippet}
+		</svelte:boundary>
 	</div>
 	<div class="windowResizeHandle" onpointerdown={startResize}></div>
 </article>

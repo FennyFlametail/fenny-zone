@@ -2,7 +2,6 @@
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
-	import BlueskyIcon from '$lib/images/icons/bluesky.webp';
 	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
@@ -24,7 +23,7 @@
 		<FileIcon appName="changelog" />
 	</div>
 	<div class="desktopColumn">
-		<FileIcon name="Bluesky" icon={BlueskyIcon} href="https://bsky.app/profile/fenny.zone" />
+		<FileIcon appName="bluesky" />
 		<FileIcon
 			name="FurAffinity"
 			icon={FuraffinityIcon}

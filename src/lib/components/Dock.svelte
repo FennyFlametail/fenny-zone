@@ -5,7 +5,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	const pinned: AppName[] = ['Finder', 'characters'];
+	const pinned: AppName[] = ['Finder', 'characters', 'bluesky'];
 </script>
 
 <footer class="dock">

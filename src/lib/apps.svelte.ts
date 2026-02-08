@@ -1,21 +1,24 @@
-import Browser from '$lib/components/apps/Browser.svelte';
-import Characters from '$lib/components/pages/Characters.svelte';
-import Aren from '$lib/components/pages/profiles/Aren.svelte';
-import Ceph from '$lib/components/pages/profiles/Ceph.svelte';
-import Fenny from '$lib/components/pages/profiles/Fenny.svelte';
-import Nocturne from '$lib/components/pages/profiles/Nocturne.svelte';
-import Rigel from '$lib/components/pages/profiles/Rigel.svelte';
-import Projects from '$lib/components/pages/Projects.svelte';
-import Readme from '$lib/components/pages/Readme.svelte';
-import Changelog from '$lib/components/pages/Changelog.svelte';
-import Trash from '$lib/components/Trash.svelte';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
+
+import Readme from '$lib/components/pages/Readme.svelte';
+import Changelog from '$lib/components/pages/Changelog.svelte';
+import Bluesky from '../routes/bluesky/+page.svelte';
+import Characters from '$lib/components/pages/Characters.svelte';
+import Fenny from '$lib/components/pages/profiles/Fenny.svelte';
+import Aren from '$lib/components/pages/profiles/Aren.svelte';
+import Ceph from '$lib/components/pages/profiles/Ceph.svelte';
+import Rigel from '$lib/components/pages/profiles/Rigel.svelte';
+import Nocturne from '$lib/components/pages/profiles/Nocturne.svelte';
+import Projects from '$lib/components/pages/Projects.svelte';
+import Browser from '$lib/components/apps/Browser.svelte';
+import Trash from '$lib/components/Trash.svelte';
 
 import FinderIcon from '$lib/images/icons/finder.webp';
 import TextEditIcon from '$lib/images/icons/textedit.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
+import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
 import CharactersIcon from '$lib/images/icons/characters.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
@@ -33,6 +36,7 @@ export type AppName =
 	| 'TextEdit'
 	| 'readme'
 	| 'changelog'
+	| 'bluesky'
 	| 'characters'
 	| 'fenny'
 	| 'aren'
@@ -112,6 +116,17 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'TextEdit',
 		icon: TextIcon,
 		route: '/changelog'
+	},
+	bluesky: {
+		Page: Bluesky,
+		title: 'Bluesky',
+		icon: TweetbotIcon,
+		// FIXME need to make single app layout
+		route: '/bluesky',
+		defaultSize: {
+			width: 450,
+			height: 1000
+		}
 	},
 	characters: {
 		Page: Characters,

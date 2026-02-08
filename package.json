@@ -32,6 +32,7 @@
 		"vite": "^6.4.1"
 	},
 	"dependencies": {
+		"date-fns": "^4.1.0",
 		"es-toolkit": "^1.42.0",
 		"lucide-svelte": "^0.474.0",
 		"nanoid": "^5.1.6"

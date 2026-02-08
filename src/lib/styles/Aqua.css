@@ -375,13 +375,13 @@ body {
 }
 
 /* #region Scrollbar */
-::-webkit-scrollbar {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar {
 	outline: 1px solid var(--scrollbar-outline-color);
 	width: var(--scrollbar-size);
 	height: var(--scrollbar-size);
 }
 
-::-webkit-scrollbar-track {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-track {
 	--track-dir: right;
 	--track-gradient:
 		#b8b8b8, #c0c0c0, #c8c8c8, #d3d3d3, #dbdbdb, #e4e4e4, #ebebeb, #ebebeb, #f1f1f1, #f6f6f6,
@@ -389,11 +389,11 @@ body {
 	background-image: linear-gradient(to var(--track-dir), var(--track-gradient));
 }
 
-::-webkit-scrollbar-track:horizontal {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-track:horizontal {
 	--track-dir: bottom;
 }
 
-::-webkit-scrollbar-thumb {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
 	--border-color: #0139b3;
 	--cap-dir: bottom;
 	--cap-gradient: #0139b3bd, transparent 7.5px, transparent calc(100% - 7.5px), #0139b3bd;
@@ -411,12 +411,12 @@ body {
 }
 
 @media (forced-colors: active) {
-	::-webkit-scrollbar-thumb {
+	:not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
 		background-color: CanvasText !important;
 	}
 }
 
-.window.inactive ::-webkit-scrollbar-thumb {
+.window.inactive :not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
 	--border-color: #8b8b8b;
 	--cap-gradient:
 		rgb(0 0 0 / 25%), transparent 7.5px, transparent calc(100% - 7.5px), rgb(0 0 0 / 25%);
@@ -425,12 +425,12 @@ body {
 		linear-gradient(to var(--scrollbar-dir), var(--button-gradient));
 }
 
-::-webkit-scrollbar-thumb:horizontal {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb:horizontal {
 	--cap-dir: right;
 	--scrollbar-dir: bottom;
 }
 
-::-webkit-scrollbar-button {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button {
 	--button-dir: bottom;
 	--border-color: #969696;
 	--arrow-bg: 		/* left */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0wIDMuNSA2IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
@@ -444,40 +444,40 @@ body {
 }
 
 @media (forced-colors: active) {
-	::-webkit-scrollbar-button {
+	:not(.aqua-no-scrollbar)::-webkit-scrollbar-button {
 		background:
 			var(--arrow-bg) center no-repeat,
 			linear-gradient(to var(--button-dir), white, white) !important;
 	}
 }
 
-::-webkit-scrollbar-button:active {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button:active {
 	--button-gradient:
 		#1c6bc8, #5252b6, #97a2dc, #a3bae6, #a4c7eb, #afceee, #a4c6eb, #4287d3, #5090d6, #5896da,
 		#629ee0, #6eacec, #80c1ff, #83caff, #6dc3ff;
 	--border-color: #2068c6;
 }
 
-::-webkit-scrollbar-button:increment {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button:increment {
 	--arrow-bg: 		/* right */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCA2IDciIHdpZHRoPSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im02IDMuNS02IDMuNXYtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 }
 
-::-webkit-scrollbar-button:vertical {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button:vertical {
 	--button-dir: right;
 	--arrow-bg: 		/* up */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgMCAzLjUgNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 	border-top: 1px solid var(--border-color);
 	border-left: none;
 }
 
-::-webkit-scrollbar-button:vertical:increment {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button:vertical:increment {
 	--arrow-bg: 		/* down */ url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYiIHZpZXdCb3g9IjAgMCA3IDYiIHdpZHRoPSI3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0zLjUgNiAzLjUtNmgtN3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==');
 }
 
-::-webkit-scrollbar-button:start {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-button:start {
 	display: none;
 }
 
-::-webkit-scrollbar-corner {
+:not(.aqua-no-scrollbar)::-webkit-scrollbar-corner {
 	outline: 1px solid var(--scrollbar-outline-color);
 	background-color: white;
 }
