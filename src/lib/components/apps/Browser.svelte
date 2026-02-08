@@ -23,6 +23,10 @@
 </div>
 
 <style>
+	.browser {
+		background-color: white;
+	}
+
 	iframe,
 	.browserCover {
 		position: absolute;
