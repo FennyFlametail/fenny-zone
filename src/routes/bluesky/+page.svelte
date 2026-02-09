@@ -146,6 +146,7 @@
 			--spacing: 10px;
 			--text-medium: #2d2f31;
 			--text-light: #81878b;
+			overflow-x: hidden;
 			overflow-y: auto;
 			color: #44484a;
 		}
