@@ -19,6 +19,7 @@ export interface BlueskyImage {
 	alt: string;
 	width: number;
 	height: number;
+	isVideo?: boolean;
 }
 
 export interface BlueskyPost {
@@ -100,6 +101,19 @@ function parseEmbed(embed: any, did: string): Partial<BlueskyPost> {
 						height: img.aspectRatio.height
 					})
 				)
+			};
+		case 'app.bsky.embed.video#view':
+			return {
+				images: [
+					{
+						src: embed.thumbnail,
+						// TODO see if it's possible to get video alt text
+						alt: '',
+						width: embed.aspectRatio.width,
+						height: embed.aspectRatio.height,
+						isVideo: true
+					}
+				]
 			};
 		case 'app.bsky.embed.record#view':
 			return {

@@ -51,6 +51,9 @@
 						width={img.width}
 						height={img.height}
 					/>
+					{#if img.isVideo}
+						<div class="blueskyPlayIcon">▶</div>
+					{/if}
 				{/each}
 			</a>
 		{/if}

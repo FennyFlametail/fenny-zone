@@ -37,7 +37,7 @@
 					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
 				</a>
 				<span class="blueskyStat blueskyStatLocation">
-					<MapPin>
+					<MapPin class="blueskyMapPin">
 						<linearGradient id="mapPinGradient" gradientTransform="rotate(90)">
 							<stop offset="0%" stop-color="#BFC3C6" />
 							<stop offset="100%" stop-color="#A9AFB3" />
@@ -321,19 +321,19 @@
 			padding-inline-start: 12px;
 			justify-content: flex-start;
 
-			:global(svg) {
-				flex-shrink: 0;
-				stroke: url('#mapPinGradient');
-				fill: url('#mapPinGradient');
-
-				> :global(circle) {
-					fill: var(--stat-bg);
-				}
-			}
-
 			span {
 				overflow: hidden;
 				text-overflow: ellipsis;
+			}
+		}
+
+		.blueskyMapPin {
+			flex-shrink: 0;
+			stroke: url('#mapPinGradient');
+			fill: url('#mapPinGradient');
+
+			> :global(circle) {
+				fill: var(--stat-bg);
 			}
 		}
 
@@ -412,6 +412,7 @@
 			--gap: 2px;
 			margin-inline-end: 5px;
 			margin-block-end: 5px;
+			position: relative;
 			aspect-ratio: 1.825;
 			max-height: 230px;
 			display: grid;
@@ -429,21 +430,30 @@
 			object-position: center;
 
 			/* 1 image */
-			&:first-child:last-child {
+			&:first-of-type:last-of-type {
 				grid-column: span 2;
 				grid-row: span 2;
 			}
 
 			/* 2 images */
-			&:first-child:nth-last-child(2),
-			&:nth-child(2):last-child {
+			&:first-of-type:nth-last-of-type(2),
+			&:nth-child(2):last-of-type {
 				grid-row: span 2;
 			}
 
 			/* 3 images */
-			&:first-child:nth-last-child(3) {
+			&:first-of-type:nth-last-of-type(3) {
 				grid-row: span 2;
 			}
+		}
+
+		.blueskyPlayIcon {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			translate: -50% -50%;
+			font-size: 72px;
+			color: rgb(255 255 255 / 50%);
 		}
 
 		.blueskyRepostLabel {
