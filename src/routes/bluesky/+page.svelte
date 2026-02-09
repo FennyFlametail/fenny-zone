@@ -313,7 +313,7 @@
 			-webkit-user-select: none;
 			user-select: none;
 
-			&:active {
+			&:is(a):active {
 				background-color: #caced0;
 			}
 		}
