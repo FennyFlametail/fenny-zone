@@ -119,6 +119,12 @@ function parseEmbed(embed: any, did: string): Partial<BlueskyPost> {
 			return {
 				quotePost: parsePost(embed.record)
 			};
+		case 'app.bsky.embed.recordWithMedia#view': {
+			return {
+				...parseEmbed(embed.media, did),
+				quotePost: parsePost(embed.record.record)
+			};
+		}
 		default:
 			return {};
 	}
