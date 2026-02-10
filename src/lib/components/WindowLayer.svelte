@@ -31,9 +31,10 @@
 	{#each Object.keys(windowServer.runningApps) as AppName[] as appName, i (appName)}
 		<Window {appName} />
 	{/each}
-	{#if !browser && windowServer.initialAppName}
+	<!-- FIXME temp - uncomment and fix SSR window position -->
+	<!-- {#if !browser && windowServer.initialAppName}
 		<Window appName={windowServer.initialAppName} />
-	{/if}
+	{/if} -->
 </main>
 
 <svelte:body {onkeydown} {onpointerup} />
