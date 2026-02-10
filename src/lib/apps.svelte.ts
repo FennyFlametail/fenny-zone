@@ -1,19 +1,19 @@
-import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
-import type { RouteId } from '$app/types';
+import type { Pathname } from '$app/types';
+import type { Position } from '$lib/windowServer.svelte';
 
-import Readme from '$lib/components/pages/Readme.svelte';
-import Changelog from '$lib/components/pages/Changelog.svelte';
+import Readme from '../routes/readme/+page.svelte';
+import Changelog from '../routes/changelog/+page.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
-import Characters from '$lib/components/pages/Characters.svelte';
-import Fenny from '$lib/components/pages/profiles/Fenny.svelte';
-import Aren from '$lib/components/pages/profiles/Aren.svelte';
-import Ceph from '$lib/components/pages/profiles/Ceph.svelte';
-import Rigel from '$lib/components/pages/profiles/Rigel.svelte';
-import Nocturne from '$lib/components/pages/profiles/Nocturne.svelte';
-import Projects from '$lib/components/pages/Projects.svelte';
+import Characters from '../routes/characters/+page.svelte';
+import Fenny from '../routes/characters/fenny/+page.svelte';
+import Aren from '../routes/characters/aren/+page.svelte';
+import Ceph from '../routes/characters/ceph/+page.svelte';
+import Rigel from '../routes/characters/rigel/+page.svelte';
+import Nocturne from '../routes/characters/nocturne/+page.svelte';
+import Projects from '../routes/projects/+page.svelte';
 import Browser from '$lib/components/apps/Browser.svelte';
-import Trash from '$lib/components/Trash.svelte';
+import Trash from '../routes/trash/+page.svelte';
 
 import FinderIcon from '$lib/images/icons/finder.webp';
 import TextEditIcon from '$lib/images/icons/textedit.webp';
@@ -60,7 +60,7 @@ export interface AppEntry {
 	readonly windowTitle?: string;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly icon: string;
-	readonly route?: RouteId; // FIXME move rest of apps to pages and fix routes
+	readonly route?: Pathname;
 	/** Apps will be grouped by their parent icon in the Dock */
 	readonly parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
