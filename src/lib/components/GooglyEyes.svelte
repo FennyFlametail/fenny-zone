@@ -36,10 +36,6 @@
 		minBlinkTimePassed = false;
 		window.setTimeout(() => {
 			minBlinkTimePassed = true;
-			// right clicks don't trigger the onpointerup event when released
-			// if (e.button === 2) {
-			// 	blink = false;
-			// }
 		}, 200);
 
 		// for touch devices
@@ -67,7 +63,13 @@
 {/if}
 
 <svelte:window onresize={findEyeCenter} />
-<svelte:body {onpointermove} {onpointerdown} {onpointerup} oncontextmenu={onpointerup} />
+<svelte:body
+	{onpointermove}
+	{onpointerdown}
+	{onpointerup}
+	onpointercancel={onpointerup}
+	oncontextmenu={onpointerup}
+/>
 
 <style>
 	.googlyEyeContainer {
