@@ -360,6 +360,7 @@
 		}
 
 		.blueskyPost {
+			--card-border-color: #d5d9dc;
 			display: flex;
 			padding: var(--spacing);
 			padding-block-start: 5px;
@@ -369,15 +370,16 @@
 			border-bottom: 1px solid #d5d9dc;
 
 			&.blueskyQuotePost {
-				border: 1px solid #d5d9dc;
+				border: 1px solid var(--card-border-color);
 				border-radius: 5px;
 			}
 
 			&:has(a:active),
 			&:focus-within,
 			&:focus-within & {
+				--card-border-color: #7e8082;
 				background: linear-gradient(to bottom, #e4e6ea, #caced0);
-				border-color: #7e8082;
+				border-color: var(--card-border-color);
 			}
 		}
 
@@ -455,6 +457,40 @@
 			translate: -50% -50%;
 			font-size: 72px;
 			color: rgb(255 255 255 / 50%);
+		}
+
+		.blueskyLinkPreview {
+			max-height: 230px;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--card-border-color);
+			border-radius: 5px;
+			overflow: hidden;
+			color: inherit;
+			text-decoration: none;
+
+			&:hover .blueskyLinkPreviewTitle {
+				text-decoration: underline;
+			}
+		}
+
+		.blueskyLinkPreviewThumb {
+			min-height: 0;
+			object-fit: cover;
+			object-position: center;
+		}
+
+		.blueskyLinkPreviewText {
+			padding: var(--spacing);
+		}
+
+		.blueskyLinkPreviewTitle {
+			font-weight: bold;
+		}
+
+		.blueskyLinkPreviewDomain {
+			font-size: 14px;
+			color: var(--text-light);
 		}
 
 		.blueskyRepostLabel {

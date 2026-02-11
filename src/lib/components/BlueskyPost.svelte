@@ -57,6 +57,18 @@
 				{/each}
 			</a>
 		{/if}
+		{#if post.linkPreview}
+			<a class="blueskyLinkPreview" href={post.linkPreview.link} target="_blank">
+				<img class="blueskyLinkPreviewThumb" src={post.linkPreview.thumb} alt="" />
+				<div class="blueskyLinkPreviewText">
+					<div class="blueskyLinkPreviewTitle">{post.linkPreview.title}</div>
+					<div class="blueskyLinkPreviewDescription">{post.linkPreview.description}</div>
+					<div class="blueskyLinkPreviewDomain">
+						{URL.parse(post.linkPreview.link)?.hostname}
+					</div>
+				</div>
+			</a>
+		{/if}
 		{#if post.quotePost && !isQuotePost}
 			<Self {profile} post={post.quotePost} isQuotePost={true} />
 		{/if}

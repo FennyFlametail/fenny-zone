@@ -22,6 +22,13 @@ export interface BlueskyImage {
 	isVideo?: boolean;
 }
 
+export interface BlueskyLinkPreview {
+	link: string;
+	title: string;
+	description: string;
+	thumb: string;
+}
+
 export interface BlueskyPost {
 	handle: string;
 	displayName: string;
@@ -29,6 +36,7 @@ export interface BlueskyPost {
 	createdAt: string;
 	text: string;
 	images?: BlueskyImage[];
+	linkPreview?: BlueskyLinkPreview;
 	quotePost?: BlueskyPost;
 	link: string;
 	profileLink: string;
@@ -74,7 +82,7 @@ function parsePost(post: any): BlueskyPost {
 		link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
 		profileLink: `https://bsky.app/profile/${post.author.handle}`,
 		isRepost: post.author.did !== FENNY_DID,
-		...parseEmbed(post.embed ?? post.value?.embed, post.author.did)
+		...parseEmbed(post.embed ?? post.embeds?.[0] ?? post.value?.embed, post.author.did)
 	};
 }
 
@@ -114,6 +122,15 @@ function parseEmbed(embed: any, did: string): Partial<BlueskyPost> {
 						isVideo: true
 					}
 				]
+			};
+		case 'app.bsky.embed.external#view':
+			return {
+				linkPreview: {
+					link: embed.external.uri,
+					title: embed.external.title,
+					description: embed.external.description,
+					thumb: embed.external.thumb
+				}
 			};
 		case 'app.bsky.embed.record#view':
 			return {
