@@ -17,7 +17,7 @@
 	--focus-box-shadow: 0 0 3px 2px #92b9db;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
-	--button-border-gradient: #666666;
+	--button-border-gradient: #666666, #666666;
 	--button-border-active-gradient: #272798, #616161;
 	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
 	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
