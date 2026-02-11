@@ -143,7 +143,8 @@ body {
 				padding-box,
 			/* bottom highlight */
 				radial-gradient(ellipse 60% 70% at center bottom, white, white, transparent) padding-box,
-			/* background color */ linear-gradient(var(--background-color)) padding-box,
+			/* background color */
+				linear-gradient(to bottom, var(--background-color), var(--background-color)) padding-box,
 			/* border */ linear-gradient(to bottom, rgb(0 0 0 / 100%), rgb(0 0 0 / 50%)) border-box;
 		background-blend-mode: normal, overlay, normal, normal;
 		background-repeat: no-repeat;
