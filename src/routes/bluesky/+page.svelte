@@ -68,7 +68,7 @@
 		</div>
 	{/if}
 </div>
-<div class="blueskyFooter"></div>
+<div class="blueskyFooter" data-allow-window-drag></div>
 
 <style>
 	:global {
@@ -81,7 +81,6 @@
 				#444548 2px,
 				#2a2b2d
 			);
-			--titlebar-gradient-inactive: linear-gradient(to bottom, #404143 1px, #333436 1px, #434447);
 
 			background-color: #2a2b2d;
 			background-image: none;
@@ -99,7 +98,7 @@
 				user-select: none;
 
 				.window.inactive & {
-					background-image: var(--titlebar-gradient-inactive);
+					background-image: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
 				}
 			}
 
@@ -139,6 +138,10 @@
 				font-size: 16px;
 				color: white;
 				text-shadow: 0 -1px black;
+
+				.window.inactive & {
+					color: #c7c7c8;
+				}
 			}
 		}
 
@@ -513,7 +516,7 @@
 			border-top: 1px solid black;
 
 			.window.inactive & {
-				background-image: var(--titlebar-gradient-inactive);
+				background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
 			}
 		}
 	}
