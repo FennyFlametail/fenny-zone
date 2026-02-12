@@ -68,7 +68,11 @@ function parseLinks(text: string) {
 	);
 }
 
-function parsePost(post: any): BlueskyPost {
+function parsePost(post: any): BlueskyPost | null {
+	if (post.author.labels.some((label: any) => label.val === '!no-unauthenticated')) {
+		return null;
+	}
+
 	const record = post.record ?? post.value;
 	const [, , rkey] = (post.uri as string).match(
 		/at:\/\/(did:plc:\w+)\/app\.bsky\.feed\.post\/(\w+)/
@@ -193,7 +197,7 @@ export default async function fetchBlueskyData(fetchFn: typeof globalThis.fetch)
 
 		if (feedResponse.ok) {
 			const feed = await feedResponse.json();
-			cachedData.data.posts = feed.feed.map((item: any) => parsePost(item.post));
+			cachedData.data.posts = feed.feed.map((item: any) => parsePost(item.post)).filter(Boolean);
 			cachedData.timestamp = Date.now();
 		} else {
 			console.error(
