@@ -31,10 +31,12 @@
 	{#each Object.keys(windowServer.runningApps) as AppName[] as appName, i (appName)}
 		<Window {appName} />
 	{/each}
-	<!-- FIXME temp - uncomment and fix SSR window position -->
-	<!-- {#if !browser && windowServer.initialAppName}
-		<Window appName={windowServer.initialAppName} />
-	{/if} -->
+	<!-- FIXME remove noscript after fixing SSR window position -->
+	<noscript>
+		{#if !browser && windowServer.initialAppName}
+			<Window appName={windowServer.initialAppName} />
+		{/if}
+	</noscript>
 </main>
 
 <svelte:body {onkeydown} {onpointerup} />
