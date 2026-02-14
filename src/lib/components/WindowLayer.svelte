@@ -12,8 +12,7 @@
 		windowServer.loadState();
 		if (windowServer.initialAppName) {
 			windowServer.openApp(windowServer.initialAppName);
-			// FIXME re-enable when SSR is fixed
-			// goto('/');
+			goto('/');
 		}
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
