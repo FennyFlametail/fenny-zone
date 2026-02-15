@@ -158,6 +158,7 @@
 			.blueskyWindowTitle {
 				all: unset;
 				cursor: pointer;
+				height: 100%;
 				width: 100%;
 
 				h2 {
