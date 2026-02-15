@@ -1,11 +1,13 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
+	import ArenIcon from '$lib/images/icons/aren-profile.webp';
 	import ArenPhoto from '$lib/images/characters/aren.webp';
 </script>
 
 <Profile
 	character="aren"
 	species="Ethiopian Wolf"
+	icon={ArenIcon}
 	iconAlt="Icon of a rugged-looking wolf, grinning at you in an alluring way."
 	photo={ArenPhoto}
 	photoAlt="A wolf with a goatee, wearing a bomber jacket and confidently playing the guitar."

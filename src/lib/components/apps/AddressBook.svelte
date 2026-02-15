@@ -10,7 +10,6 @@
 	}: {
 		entries: {
 			appName: AppName;
-			listIcon: string;
 		}[];
 	} = $props();
 
@@ -65,7 +64,7 @@
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<ul class="addressBookList brushedInset" onclick={deselect}>
 		<h3 class="addressBookListHeader">Name</h3>
-		{#each entries as { appName, listIcon }}
+		{#each entries as { appName }}
 			{@const app = windowServer.apps[appName]}
 			<li class={['addressBookListItem', { selected: selectedAppName === appName }]}>
 				<AppLink
@@ -74,7 +73,7 @@
 					onclick={openHandler(appName)}
 					ondblclick={openInNewWindow}
 				>
-					<img class="addressBookListIcon" src={listIcon} alt="" draggable="false" />
+					<img class="addressBookListIcon" src={app.icon} alt="" draggable="false" />
 					<span>{windowServer.apps[appName].title}</span>
 				</AppLink>
 			</li>

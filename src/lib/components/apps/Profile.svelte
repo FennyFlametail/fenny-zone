@@ -7,6 +7,7 @@
 	const {
 		character,
 		species,
+		icon,
 		iconAlt,
 		photo,
 		photoAlt,
@@ -17,6 +18,7 @@
 	}: {
 		character: ThisCharacter;
 		species: string;
+		icon: string;
 		iconAlt: string;
 		/** Photos should be 725x1024 */
 		photo: string;
@@ -33,7 +35,7 @@
 
 <div class="profile brushedInset">
 	<header class="profileHeader">
-		<img class="profileIcon" src={app.icon} alt={iconAlt} draggable="false" />
+		<img class="profileIcon" src={icon} alt={iconAlt} draggable="false" />
 		<hgroup>
 			<h3 class="profileName">{app.windowTitle}</h3>
 			<p class="profileSpecies">{species}</p>

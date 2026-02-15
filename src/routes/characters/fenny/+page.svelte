@@ -1,11 +1,13 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
+	import FennyIcon from '$lib/images/icons/fenny-profile.webp';
 	import FennyPhoto from '$lib/images/characters/fenny.webp';
 </script>
 
 <Profile
 	character="fenny"
 	species="Red-Fennec Fox"
+	icon={FennyIcon}
 	iconAlt="Icon of a fox with messy hair, smiling cheerfully at you."
 	photo={FennyPhoto}
 	photoAlt="A shirtless fox, lifting his sunglasses and giving you a friendly grin. He has ear and nipple piercings."

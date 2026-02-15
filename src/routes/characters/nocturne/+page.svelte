@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
 	import TabBar from '$lib/components/TabBar.svelte';
+	import NocturneIcon from '$lib/images/icons/nocturne-profile.webp';
 	import NocturneMainPhoto from '$lib/images/characters/nocturne-main.webp';
 	import NocturnePhoto from '$lib/images/characters/nocturne.webp';
 	import type { Snippet } from 'svelte';
@@ -26,6 +27,7 @@
 <Profile
 	character="nocturne"
 	species="Goat"
+	icon={NocturneIcon}
 	iconAlt="Icon of a goat giving you a disgruntled look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
 	photo={main ? NocturneMainPhoto : NocturnePhoto}
 	photoAlt={main
@@ -60,7 +62,9 @@
 			<dt>Artwork (space)</dt>
 			<dd><a target="_blank" href="https://www.furaffinity.net/user/candymint/">candymint</a></dd>
 			<dt>Artwork (main)</dt>
-			<dd><a target="_blank" href="https://bsky.app/profile/corginamedbruno.bsky.social">Bruno</a></dd>
+			<dd>
+				<a target="_blank" href="https://bsky.app/profile/corginamedbruno.bsky.social">Bruno</a>
+			</dd>
 		</dl>
 	{/snippet}
 </Profile>
