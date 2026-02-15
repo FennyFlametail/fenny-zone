@@ -19,8 +19,6 @@
 	const windowServer = getWindowServerContext();
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
 	setAppContext({ appName, app });
-	// FIXME hacky fix for runningApps out of sync issue
-	const instance = $derived(app.instance);
 
 	const title = $derived(app.windowTitle ?? app.title);
 
@@ -118,19 +116,19 @@
 <article
 	bind:this={element}
 	onpointerdown={startDrag}
-	ontransitionend={() => (instance.animating = false)}
+	ontransitionend={() => (app.instance.animating = false)}
 	class={{
 		window: true,
 		brushed: app.windowStyle === 'brushed',
 		custom: app.windowStyle === 'custom',
 		inactive: !focused && !ssr,
-		animating: instance.animating
+		animating: app.instance.animating
 	}}
-	style:--x={`${instance.position.x}px`}
-	style:--y={`${instance.position.y}px`}
-	style:--width={`${instance.position.width}px`}
-	style:--height={`${instance.position.height}px`}
-	style:z-index={instance.position.zIndex}
+	style:--x={`${app.instance.position.x}px`}
+	style:--y={`${app.instance.position.y}px`}
+	style:--width={`${app.instance.position.width}px`}
+	style:--height={`${app.instance.position.height}px`}
+	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag
 >

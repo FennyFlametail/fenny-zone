@@ -13,6 +13,8 @@
 	const windowServer = new WindowServer();
 	setWindowServerContext(windowServer);
 
+	$effect(windowServer.saveState);
+
 	if (page.route.id !== '/') {
 		const apps = getApps();
 		const appName = (Object.keys(apps) as AppName[]).find(

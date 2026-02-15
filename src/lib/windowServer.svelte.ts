@@ -88,6 +88,17 @@ export default class WindowServer {
 		) as Readonly<Record<AppName, RunningApp>>
 	);
 
+	runningAppsByFocusOrder = $derived(
+		Object.fromEntries(
+			Object.entries(this.apps)
+				.filter(([, app]) => app.instance)
+				.sort(
+					([, appA], [, appB]) => appA.instance!.position.zIndex - appB.instance!.position.zIndex
+				)
+				.reverse()
+		) as Readonly<Record<AppName, RunningApp>>
+	);
+
 	appsByParent = $derived(
 		Map.groupBy(Object.entries(this.runningApps), ([, app]) => app.parent || null) as ReadonlyMap<
 			AppName | null,
@@ -290,9 +301,11 @@ export default class WindowServer {
 	};
 
 	saveState = () => {
-		if (!browser) return;
 		const state = Object.fromEntries(
-			Object.entries(this.runningApps).map(([appName, app]) => [appName, app.instance.position])
+			Object.entries(this.runningAppsByFocusOrder).map(([appName, app]) => [
+				appName,
+				app.instance.position
+			])
 		);
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 	};

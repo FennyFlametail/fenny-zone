@@ -94,7 +94,7 @@
 		>
 		{#if runningAppsCount > 0}
 			<hr />
-			{#each Object.entries(windowServer.runningApps) as [appName, app]}
+			{#each Object.entries(windowServer.runningAppsByFocusOrder) as [appName, app]}
 				<MenuItem
 					onclick={() => windowServer.focusApp(appName as AppName)}
 					checked={app === focusedApp}
