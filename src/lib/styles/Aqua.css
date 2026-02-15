@@ -313,6 +313,7 @@ body {
 
 		&.icon {
 			min-width: auto;
+			padding-inline: 14px;
 		}
 
 		.window.brushed .windowToolbar & {
