@@ -16,10 +16,10 @@
 	--text-secondary: rgb(0 0 0 / 50%);
 	--focus-box-shadow: 0 0 3px 2px #92b9db;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
-	--button-active-gradient: #c8d5ed, #97c2ee 40%, #6eadee 40%, #aff9ff;
+	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
 	--button-border-gradient: #666666, #666666;
 	--button-border-active-gradient: #272798, #616161;
-	--widget-box-shadow: 0 2px 3px -1px #8b8b8b;
+	--widget-box-shadow: 0 2px 2px -1px #8b8b8b;
 	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
@@ -288,11 +288,11 @@ body {
 	.aqua-button,
 	.aqua-tab {
 		height: 28px;
-		min-width: 91px;
+		min-width: 105px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding-inline: 14px;
+		padding-inline: 24px;
 		box-shadow: var(--widget-box-shadow);
 		border: 1px solid transparent;
 		border-radius: 9999px;
@@ -300,8 +300,10 @@ body {
 			linear-gradient(to bottom, var(--button-gradient)) padding-box,
 			linear-gradient(to bottom, var(--button-border-gradient)) border-box;
 		color: black;
+		font-size: 17px;
 		text-align: center;
 		white-space: nowrap;
+		text-decoration: none;
 		-webkit-user-select: none;
 		user-select: none;
 
@@ -338,7 +340,7 @@ body {
 			--button-border-gradient: var(--button-border-active-gradient);
 
 			&:not(:active) {
-				animation: 0.5s linear infinite alternate darken;
+				animation: 0.5s linear infinite alternate pulsate;
 			}
 		}
 
@@ -485,12 +487,12 @@ body {
 /* #endregion */
 
 /* #region Declarations */
-@keyframes darken {
+@keyframes pulsate {
 	from {
-		filter: brightness(1) saturate(1);
+		filter: brightness(1.1) saturate(1);
 	}
 	to {
-		filter: brightness(0.9) saturate(1.5);
+		filter: brightness(1) saturate(0.9);
 	}
 }
 

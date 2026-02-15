@@ -28,16 +28,21 @@ Desktop image by <a
 		target="_blank"
 		contenteditable="false">WickedForster</a
 	>
-Googly eyes inspired by <a
-		href="https://sindresorhus.com/googly-eyes"
-		target="_blank"
-		contenteditable="false">Sindre Sorhus</a
-	>
 Chozo font by <a
 		href="https://old.reddit.com/r/Metroid/comments/qm2v3c/i_have_made_a_fully_functional_automated/"
 		target="_blank"
 		contenteditable="false">Wolfeur</a
 	> (no longer available)
+Googly eyes inspired by <a
+		href="https://sindresorhus.com/googly-eyes"
+		target="_blank"
+		contenteditable="false">Sindre Sorhus</a
+	>
+Adblock warning based on code by <a
+		href="https://stefanbohacek.com/project/detect-missing-adblocker-wordpress-plugin/"
+		target="_blank"
+		contenteditable="false">Stefan Bohacek</a
+	>
 No AI badge by <a href="https://samvieten.itch.io/no-ai" target="_blank" contenteditable="false"
 		>Sam Vieten</a
 	>

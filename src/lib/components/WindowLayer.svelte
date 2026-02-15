@@ -14,6 +14,18 @@
 			windowServer.openApp(windowServer.initialAppName);
 			goto('/');
 		}
+		const adblockEl = document.getElementById('ftf-dma-note');
+		if (adblockEl) {
+			window.setTimeout(() => {
+				if (
+					getComputedStyle(adblockEl).display !== 'none' &&
+					!localStorage.getItem('adblockWarningSeen')
+				) {
+					windowServer.openApp('adblockwarning');
+					localStorage.setItem('adblockWarningSeen', 'true');
+				}
+			}, 500);
+		}
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 

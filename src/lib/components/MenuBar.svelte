@@ -59,7 +59,7 @@
 			title="Close Window"
 			onclick={windowServer.closeCurrent}
 			href={!browser ? (app?.backTo ?? '/') : undefined}
-			disabled={browser && (windowServer.desktopFocused || runningAppsCount === 0)}
+			disabled={browser && windowServer.desktopFocused}
 			noScript={true}
 		/>
 	</MenuCategory>
@@ -67,7 +67,7 @@
 		<MenuItem
 			title="Zoom"
 			onclick={() => windowServer.zoomApp(windowServer.focusedApp?.name)}
-			disabled={windowServer.desktopFocused || runningAppsCount === 0}
+			disabled={windowServer.desktopFocused || windowServer.focusedApp?.app.noResize}
 		/>
 		<hr />
 		<MenuItem

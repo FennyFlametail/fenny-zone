@@ -63,6 +63,7 @@
 	}
 
 	function startResize(e: PointerEvent) {
+		if (app.noResize) return;
 		delete app.instance.preZoomPosition;
 		windowServer.resizingEl = element;
 		lastX = e.screenX;
@@ -130,21 +131,26 @@
 	style:--width={`${instance.position.width}px`}
 	style:--height={`${instance.position.height}px`}
 	style:z-index={instance.position.zIndex}
-	style:--minWindowSize={`${minWindowSize}px`}
 	data-appname={appName}
 	data-allow-window-drag
 >
 	{#if app.windowStyle !== 'custom'}
 		<header class="windowTitlebar" data-allow-window-drag>
-			<WindowControls />
-			<h2 class="windowTitle" data-allow-window-drag>
-				{title}
-			</h2>
-			<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
-				{#each toolbarEntriesWrapper.entries as { snippet }}
-					{@render snippet()}
-				{/each}
-			</menu>
+			{#if !app.hideWindowControls}
+				<WindowControls />
+			{/if}
+			{#if title}
+				<h2 class="windowTitle" data-allow-window-drag>
+					{title}
+				</h2>
+			{/if}
+			{#if toolbarEntriesWrapper.entries.length}
+				<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
+					{#each toolbarEntriesWrapper.entries as { snippet }}
+						{@render snippet()}
+					{/each}
+				</menu>
+			{/if}
 		</header>
 	{/if}
 	<div class="windowContent">
@@ -163,7 +169,9 @@
 			<app.Page />
 		{/if}
 	</div>
-	<div class="windowResizeHandle" onpointerdown={startResize}></div>
+	{#if !app.noResize}
+		<div class="windowResizeHandle" onpointerdown={startResize}></div>
+	{/if}
 </article>
 
 <svelte:body onpointermove={pointerMove} onpointerup={pointerUp} />
@@ -172,8 +180,6 @@
 	.window {
 		grid-area: 1 / 1;
 		transform: translate(var(--x), var(--y));
-		min-width: var(--minWindowSize);
-		min-height: var(--minWindowSize);
 		width: var(--width);
 		height: var(--height);
 		display: grid;

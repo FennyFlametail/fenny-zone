@@ -4,6 +4,7 @@ import type { Position } from '$lib/windowServer.svelte';
 
 import Readme from '../routes/readme/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
+import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
 import Fenny from '../routes/characters/fenny/+page.svelte';
@@ -37,6 +38,7 @@ export type AppName =
 	| 'TextEdit'
 	| 'readme'
 	| 'changelog'
+	| 'adblockwarning'
 	| 'bluesky'
 	| 'characters'
 	| 'fenny'
@@ -59,6 +61,8 @@ export interface AppEntry {
 	/** Defaults to `title` */
 	readonly windowTitle?: string;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
+	readonly hideWindowControls?: boolean;
+	readonly hideInDock?: boolean;
 	readonly icon: string;
 	readonly route?: Pathname;
 	/** Apps will be grouped by their parent icon in the Dock */
@@ -73,6 +77,7 @@ export interface AppEntry {
 		/** @default 500 */
 		height?: number;
 	};
+	readonly noResize?: boolean;
 	instance?: {
 		position: Position;
 		preZoomPosition?: Position;
@@ -117,6 +122,18 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'TextEdit',
 		icon: TextIcon,
 		route: '/changelog'
+	},
+	adblockwarning: {
+		Page: AdblockWarning,
+		title: '',
+		hideWindowControls: true,
+		hideInDock: true,
+		icon: '',
+		noResize: true,
+		defaultSize: {
+			width: 580,
+			height: 230
+		}
 	},
 	bluesky: {
 		Page: Bluesky,

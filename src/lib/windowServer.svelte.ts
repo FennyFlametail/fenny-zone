@@ -165,6 +165,7 @@ export default class WindowServer {
 			console.warn(`(zoomApp) ${appName} isn't running!`);
 			return;
 		}
+		if (app.noResize) return;
 
 		this.setAnimating(app);
 		if (app.instance.preZoomPosition) {
@@ -219,6 +220,10 @@ export default class WindowServer {
 				ra.instance.position.zIndex--;
 			}
 		});
+
+		if (Object.keys(this.runningApps).length === 0) {
+			this.desktopFocused = true;
+		}
 	};
 
 	setAnimating = (app: RunningApp) => {

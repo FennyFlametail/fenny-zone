@@ -19,8 +19,8 @@
 					<DockIcon appName={parent} />
 				{/if}
 			{:else}
-				{#each apps as [name]}
-					{#if !pinned.includes(name)}
+				{#each apps as [name, app]}
+					{#if !app.hideInDock && !pinned.includes(name)}
 						<DockIcon appName={name} />
 					{/if}
 				{/each}
