@@ -10,13 +10,35 @@
 	const { profile, posts } = data?.bluesky ?? (await getBlueskyData());
 
 	const numberFormatter = new Intl.NumberFormat();
+
+	let content = $state<HTMLDivElement>();
+	let lastX = $state<number>();
+	let lastY = $state<number>();
+	function onpointerdown() {
+		if (!content) return;
+		const { left, top } = content.getBoundingClientRect();
+		lastX = left;
+		lastY = top;
+	}
+	function onpointerup() {
+		if (!content) return;
+		const { left, top } = content.getBoundingClientRect();
+		if (left === lastX && top === lastY) {
+			content?.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+		}
+	}
 </script>
 
 <div class="blueskyTitlebar" data-allow-window-drag>
 	<WindowControls />
-	<h2 class="blueskyWindowTitle" data-allow-window-drag>{profile?.displayName}</h2>
+	<button class="blueskyWindowTitle" {onpointerdown} {onpointerup} data-allow-window-drag>
+		<h2 data-allow-window-drag>{profile?.displayName}</h2>
+	</button>
 </div>
-<div class="bluesky aqua-no-scrollbar">
+<div class="bluesky aqua-no-scrollbar" bind:this={content}>
 	{#if profile && posts}
 		<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
 		<article class="blueskyProfile">
@@ -134,10 +156,16 @@
 			}
 
 			.blueskyWindowTitle {
-				text-align: center;
-				font-size: 16px;
-				color: white;
-				text-shadow: 0 -1px black;
+				all: unset;
+				cursor: pointer;
+				width: 100%;
+
+				h2 {
+					text-align: center;
+					font-size: 16px;
+					color: white;
+					text-shadow: 0 -1px black;
+				}
 
 				.window.inactive & {
 					color: #c7c7c8;

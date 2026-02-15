@@ -10,6 +10,7 @@
 	<ul>
 		<li>Added ad blocker warning</li>
 		<li>Added window list to Window menu</li>
+		<li>Made click on Bluesky title bar scroll to top</li>
 	</ul>
 	<h3>2026-02-10</h3>
 	<ul>
