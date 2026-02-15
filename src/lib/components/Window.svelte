@@ -22,7 +22,7 @@
 	// FIXME hacky fix for runningApps out of sync issue
 	const instance = $derived(app.instance);
 
-	const title = $derived(app.windowTitle || app.title);
+	const title = $derived(app.windowTitle ?? app.title);
 
 	const toolbarEntriesWrapper = $state<ReturnType<typeof setToolbarEntryContext>>({
 		entries: []

@@ -6,6 +6,7 @@
 
 <Profile
 	character="fenny"
+	fullName="Fenny Flametail"
 	species="Red-Fennec Fox"
 	icon={FennyIcon}
 	iconAlt="Icon of a fox with messy hair, smiling cheerfully at you."

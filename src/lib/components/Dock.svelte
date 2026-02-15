@@ -20,7 +20,7 @@
 				{/if}
 			{:else}
 				{#each apps as [name, app]}
-					{#if !app.hideInDock && !pinned.includes(name)}
+					{#if !pinned.includes(name)}
 						<DockIcon appName={name} />
 					{/if}
 				{/each}

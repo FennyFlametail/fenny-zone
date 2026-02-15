@@ -1,20 +1,23 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { getMenubarContext } from '$lib/context.svelte';
+	import type { Snippet } from 'svelte';
 
 	const {
-		title,
+		disabled,
+		checked,
 		onclick,
 		href,
 		newTab,
-		disabled,
-		noScript
+		noScript,
+		children
 	}: {
-		title: string;
 		disabled?: boolean;
+		checked?: boolean;
 		onclick?: () => void;
 		/** Show even if JavaScript is unavailable */
 		noScript?: boolean;
+		children?: Snippet;
 	} & (
 		| {
 				href: string;
@@ -48,22 +51,27 @@
 		class={['menuItem', { opening, disabled }]}
 		style:--openAnimDuration={`${openAnimDuration}ms`}
 	>
+		{#if checked}
+			<span class="menuItemCheckmark">✓</span>
+		{/if}
 		{#if href}
 			{#if !disabled}
 				<a class="menuItemLink" {href} target={newTab ? '_blank' : '_self'} onclick={setSelected}
-					>{title}</a
+					>{@render children?.()}</a
 				>
 			{:else}
-				<span class="menuItemLink">{title}</span>
+				<span class="menuItemLink">{@render children?.()}</span>
 			{/if}
 		{:else}
-			<button onclick={setSelected} {disabled}>{title}</button>
+			<button class="menuItemButton" onclick={setSelected} {disabled}>{@render children?.()}</button
+			>
 		{/if}
 	</li>
 {/if}
 
 <style>
 	.menuItem {
+		--menu-item-padding: 22px;
 		position: relative;
 		white-space: nowrap;
 		display: flex;
@@ -93,11 +101,19 @@
 				animation: var(--openAnimDuration) steps(2, jump-none) selectItem;
 			}
 		}
+	}
 
-		> * {
-			all: unset;
-			padding-inline: 22px;
-		}
+	.menuItemCheckmark {
+		position: absolute;
+		left: 0;
+		width: var(--menu-item-padding);
+		text-align: center;
+	}
+
+	.menuItemLink,
+	.menuItemButton {
+		all: unset;
+		padding-inline: var(--menu-item-padding);
 	}
 
 	@media (scripting: none) {

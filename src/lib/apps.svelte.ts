@@ -18,10 +18,10 @@ import Trash from '../routes/trash/+page.svelte';
 
 import FinderIcon from '$lib/images/icons/finder.webp';
 import TextEditIcon from '$lib/images/icons/textedit.webp';
+import AddressBookIcon from '$lib/images/icons/addressbook.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
 import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
-import CharactersIcon from '$lib/images/icons/characters.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
@@ -53,6 +53,8 @@ export type AppName =
 	| 'trash';
 
 export interface AppEntry {
+	/** Apps will be grouped by their parent icon in the Dock */
+	readonly parent?: AppName;
 	readonly Page?: Component<any>;
 	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
 	readonly title: string;
@@ -62,11 +64,8 @@ export interface AppEntry {
 	readonly windowTitle?: string;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly hideWindowControls?: boolean;
-	readonly hideInDock?: boolean;
 	readonly icon: string;
 	readonly route?: Pathname;
-	/** Apps will be grouped by their parent icon in the Dock */
-	readonly parent?: AppName;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
 	/** Used by Browser apps */
@@ -107,7 +106,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'TextEdit',
 		Page: Readme,
 		title: 'Readme',
-		menuTitle: 'TextEdit',
 		icon: RichTextIcon,
 		route: '/readme',
 		defaultSize: {
@@ -119,15 +117,14 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'TextEdit',
 		Page: Changelog,
 		title: 'Changelog',
-		menuTitle: 'TextEdit',
 		icon: TextIcon,
 		route: '/changelog'
 	},
 	adblockwarning: {
+		parent: 'Finder',
 		Page: AdblockWarning,
 		title: '',
 		hideWindowControls: true,
-		hideInDock: true,
 		icon: '',
 		noResize: true,
 		defaultSize: {
@@ -151,7 +148,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Characters',
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
-		icon: CharactersIcon,
+		icon: AddressBookIcon,
 		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
@@ -162,7 +159,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
-		windowTitle: 'Fenny Flametail',
+		/* TODO make Characters parent instead, but need better window management first */
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: FennyIcon,
 		/* FIXME make character routes open Characters page with character pre-selected, instead of new window (but still support opening in separate windows) */
@@ -173,7 +171,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	aren: {
 		Page: Aren,
 		title: 'Aren',
-		windowTitle: 'Aren Flametail',
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: ArenIcon,
 		route: '/characters/aren',
@@ -183,7 +181,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	ceph: {
 		Page: Ceph,
 		title: 'Ceph',
-		windowTitle: 'Ceph Azulux',
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: CephIcon,
 		route: '/characters/ceph',
@@ -193,7 +191,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	rigel: {
 		Page: Rigel,
 		title: 'Rigel',
-		windowTitle: 'Rigel Azulux',
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: RigelIcon,
 		route: '/characters/rigel',
@@ -203,7 +201,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	nocturne: {
 		Page: Nocturne,
 		title: 'Nocturne',
-		windowTitle: 'Nocturne Blackmoon',
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: NocturneIcon,
 		route: '/characters/nocturne',
@@ -214,7 +212,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'Finder',
 		Page: Projects,
 		title: 'Projects',
-		menuTitle: 'Finder',
 		icon: ProjectsIcon,
 		route: '/projects'
 	},

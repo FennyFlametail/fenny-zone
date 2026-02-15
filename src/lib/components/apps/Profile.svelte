@@ -6,6 +6,7 @@
 
 	const {
 		character,
+		fullName,
 		species,
 		icon,
 		iconAlt,
@@ -17,6 +18,7 @@
 		links
 	}: {
 		character: ThisCharacter;
+		fullName: string;
 		species: string;
 		icon: string;
 		iconAlt: string;
@@ -30,14 +32,13 @@
 	} = $props();
 
 	const windowServer = getWindowServerContext();
-	const app = windowServer.apps[character];
 </script>
 
 <div class="profile brushedInset">
 	<header class="profileHeader">
 		<img class="profileIcon" src={icon} alt={iconAlt} draggable="false" />
 		<hgroup>
-			<h3 class="profileName">{app.windowTitle}</h3>
+			<h3 class="profileName">{fullName}</h3>
 			<p class="profileSpecies">{species}</p>
 		</hgroup>
 	</header>
@@ -141,8 +142,6 @@
 		}
 
 		:global(dt) {
-			-webkit-user-select: none;
-			user-select: none;
 			text-align: end;
 			font-weight: bold;
 			text-transform: lowercase;

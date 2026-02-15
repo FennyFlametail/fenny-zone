@@ -6,6 +6,7 @@
 
 <Profile
 	character="aren"
+	fullName="Aren Flametail"
 	species="Ethiopian Wolf"
 	icon={ArenIcon}
 	iconAlt="Icon of a rugged-looking wolf, grinning at you in an alluring way."

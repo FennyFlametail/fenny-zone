@@ -6,6 +6,7 @@
 
 <Profile
 	character="rigel"
+	fullName="Rigel Azulux"
 	species="Luxray"
 	icon={RigelIcon}
 	iconAlt="Icon of a Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."

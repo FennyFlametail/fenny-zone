@@ -6,6 +6,7 @@
 
 <Profile
 	character="ceph"
+	fullName="Ceph Azulux"
 	species="Luxray"
 	icon={CephIcon}
 	iconAlt="Icon of a cute Luxray, smiling at you shyly. He has a nose ring and lip piercings."

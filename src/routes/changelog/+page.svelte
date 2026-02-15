@@ -9,6 +9,7 @@
 	<h3>2026-02-14</h3>
 	<ul>
 		<li>Added ad blocker warning</li>
+		<li>Added window list to Window menu</li>
 	</ul>
 	<h3>2026-02-10</h3>
 	<ul>

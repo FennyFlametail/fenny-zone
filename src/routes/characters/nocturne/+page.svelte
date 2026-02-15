@@ -26,6 +26,7 @@
 
 <Profile
 	character="nocturne"
+	fullName="Nocturne Blackmoon"
 	species="Goat"
 	icon={NocturneIcon}
 	iconAlt="Icon of a goat giving you a disgruntled look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
