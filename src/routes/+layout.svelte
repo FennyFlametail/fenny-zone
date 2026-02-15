@@ -10,8 +10,6 @@
 	import '$lib/styles/Aqua.css';
 	import WindowServer from '$lib/windowServer.svelte';
 
-	const { children } = $props();
-
 	const windowServer = new WindowServer();
 	setWindowServerContext(windowServer);
 
@@ -28,7 +26,6 @@
 <Desktop />
 <WindowLayer />
 <Dock />
-{@render children()}
 
 <!-- adblock detection element -->
 <div
