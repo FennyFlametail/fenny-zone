@@ -52,7 +52,7 @@
 			<dd>
 				coffee, mixology, cooking, fitness, music
 				<ul>
-					<li>plays guitar, likes to play while Nocturne sings</li>
+					<li>plays guitar, likes to play along to Nocturne's singing</li>
 				</ul>
 			</dd>
 
@@ -66,7 +66,7 @@
 			<dd>iced black coffee</dd>
 
 			<dt>Fav. ice cream flavor</dt>
-			<dd>stracciatella</dd>
+			<dd>pistachio</dd>
 
 			<dt>Fav. music genres</dt>
 			<dd>punk, ska, hip-hop & rap, indie rock</dd>

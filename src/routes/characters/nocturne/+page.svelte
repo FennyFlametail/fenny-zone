@@ -185,7 +185,7 @@
 {#snippet bioMain()}
 	<dl>
 		<dt>Age</dt>
-		<dd>28</dd>
+		<dd>30</dd>
 
 		<dt>Height</dt>
 		<dd>5 ft 10 in (1.78 m) (minus horns)</dd>
@@ -224,7 +224,7 @@
 		<dd>
 			music, analog technology, books, gardening
 			<ul>
-				<li>used to sing in a local punk band, sings to Aren’s guitar for fun sometimes</li>
+				<li>used to sing in a local punk band, sings to Aren’s guitar playing for fun sometimes</li>
 			</ul>
 		</dd>
 

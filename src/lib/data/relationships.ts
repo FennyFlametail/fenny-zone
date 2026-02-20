@@ -38,7 +38,7 @@ const ArenRigel = {
 
 const ArenNocturne = {
 	met: `Nocturne owns a small record shop next to the café Aren works at. They swing by sometimes when things are quiet, and quickly struck a chord with the handsome wolf barista.`,
-	views: `They have a very flirty relationship. They often hang out and play music together (Aren plays the guitar and Nocturne sings), or go motorbiking in the mountains outside of town. Nocturne has feelings for Aren, but knows he's not interested in romance, and is happy with things as they are.`
+	views: `They have a very flirty relationship. They often hang out and play music together (Aren plays the guitar and Nocturne sings), or go motorbiking in the mountains outside of town. Nocturne has deeper feelings for Aren, but is happy with things as they are.`
 };
 
 const CephRigel = {

@@ -30,7 +30,7 @@
 
 			<dt>Personality</dt>
 			<dd>
-				cocky, reckless, hotheaded, rebellious
+				cocky, reckless, impulsive, hotheaded, rebellious
 				<ul>
 					<li>huge party animal</li>
 					<li>equal parts charming and punchable</li>
