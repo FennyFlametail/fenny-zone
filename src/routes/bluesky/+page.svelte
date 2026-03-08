@@ -12,8 +12,8 @@
 	const numberFormatter = new Intl.NumberFormat();
 
 	let content = $state<HTMLDivElement>();
-	let lastX = $state<number>();
-	let lastY = $state<number>();
+	let lastX = $state(0);
+	let lastY = $state(0);
 	function onpointerdown() {
 		if (!content) return;
 		const { left, top } = content.getBoundingClientRect();
@@ -23,7 +23,7 @@
 	function onpointerup() {
 		if (!content) return;
 		const { left, top } = content.getBoundingClientRect();
-		if (left === lastX && top === lastY) {
+		if (Math.abs(left - lastX) < 1 && Math.abs(top - lastY) < 1) {
 			content?.scrollTo({
 				top: 0,
 				behavior: 'smooth'
