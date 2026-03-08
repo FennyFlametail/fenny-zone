@@ -17,8 +17,8 @@ export interface BlueskyProfile {
 export interface BlueskyImage {
 	src: string;
 	alt: string;
-	width: number;
-	height: number;
+	width?: number;
+	height?: number;
 	isVideo?: boolean;
 }
 
@@ -41,6 +41,7 @@ export interface BlueskyPost {
 	link: string;
 	profileLink: string;
 	isRepost: boolean;
+	isLabeled: boolean;
 }
 
 const enum PostFilter {
@@ -68,86 +69,98 @@ function parseLinks(text: string) {
 	);
 }
 
-function parsePost(post: any): BlueskyPost | null {
-	if (post.author.labels.some((label: any) => label.val === '!no-unauthenticated')) {
-		return null;
-	}
+function parsePost(post: any): BlueskyPost | undefined {
+	try {
+		if (post.author.labels.some((label: any) => label.val === '!no-unauthenticated')) {
+			return undefined;
+		}
 
-	const record = post.record ?? post.value;
-	const [, , rkey] = (post.uri as string).match(
-		/at:\/\/(did:plc:\w+)\/app\.bsky\.feed\.post\/(\w+)/
-	)!;
-	return {
-		handle: post.author.handle,
-		displayName: post.author.displayName,
-		avatar: post.author.avatar,
-		createdAt: record.createdAt,
-		text: parseLinks(record.text),
-		link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
-		profileLink: `https://bsky.app/profile/${post.author.handle}`,
-		isRepost: post.author.did !== FENNY_DID,
-		...parseEmbed(post.embed ?? post.embeds?.[0] ?? post.value?.embed, post.author.did)
-	};
+		const record = post.record ?? post.value;
+		const [, , rkey] = (post.uri as string).match(
+			/at:\/\/(did:plc:\w+)\/app\.bsky\.feed\.post\/(\w+)/
+		)!;
+
+		return {
+			handle: post.author.handle,
+			displayName: post.author.displayName,
+			avatar: post.author.avatar,
+			createdAt: record.createdAt,
+			text: parseLinks(record.text),
+			link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
+			profileLink: `https://bsky.app/profile/${post.author.handle}`,
+			isRepost: post.author.did !== FENNY_DID,
+			isLabeled: post.labels.some((label: any) => (label.src = 'did:plc:ar7c4by46qjdydhdevvrndac')),
+			...parseEmbed(post.embed ?? post.embeds?.[0] ?? post.value?.embed, post.author.did)
+		};
+	} catch (e) {
+		console.error('Error parsing post', e, post);
+		return undefined;
+	}
 }
 
 function parseEmbed(embed: any, did: string): Partial<BlueskyPost> {
-	switch (embed?.$type) {
-		case 'app.bsky.embed.images':
-			return {
-				images: embed.images.map(
-					(img: any): BlueskyImage => ({
-						src: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${img.image.ref.$link}@jpeg`,
-						alt: img.alt,
-						width: img.aspectRatio.width,
-						height: img.aspectRatio.height
-					})
-				)
-			};
-		case 'app.bsky.embed.images#view':
-			return {
-				images: embed.images.map(
-					(img: any): BlueskyImage => ({
-						src: img.thumb,
-						alt: img.alt,
-						width: img.aspectRatio.width,
-						height: img.aspectRatio.height
-					})
-				)
-			};
-		case 'app.bsky.embed.video#view':
-			return {
-				images: [
-					{
-						src: embed.thumbnail,
-						// TODO see if it's possible to get video alt text
-						alt: '',
-						width: embed.aspectRatio.width,
-						height: embed.aspectRatio.height,
-						isVideo: true
+	try {
+		switch (embed?.$type) {
+			case 'app.bsky.embed.images':
+				return {
+					images: embed.images.map(
+						(img: any): BlueskyImage => ({
+							src: `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${img.image.ref.$link}@jpeg`,
+							alt: img.alt,
+							width: img.aspectRatio?.width,
+							height: img.aspectRatio?.height
+						})
+					)
+				};
+			case 'app.bsky.embed.images#view':
+				return {
+					images: embed.images.map(
+						(img: any): BlueskyImage => ({
+							src: img.thumb,
+							alt: img.alt,
+							width: img.aspectRatio?.width,
+							height: img.aspectRatio?.height
+						})
+					)
+				};
+			case 'app.bsky.embed.video#view':
+				return {
+					images: [
+						{
+							src: embed.thumbnail,
+							// TODO see if it's possible to get video alt text
+							alt: '',
+							width: embed.aspectRatio?.width,
+							height: embed.aspectRatio?.height,
+							isVideo: true
+						}
+					]
+				};
+			case 'app.bsky.embed.external#view':
+				return {
+					linkPreview: {
+						link: embed.external.uri,
+						title: embed.external.title,
+						description: embed.external.description,
+						thumb: embed.external.thumb
 					}
-				]
-			};
-		case 'app.bsky.embed.external#view':
-			return {
-				linkPreview: {
-					link: embed.external.uri,
-					title: embed.external.title,
-					description: embed.external.description,
-					thumb: embed.external.thumb
-				}
-			};
-		case 'app.bsky.embed.record#view':
-			return {
-				quotePost: parsePost(embed.record)
-			};
-		case 'app.bsky.embed.recordWithMedia#view': {
-			return {
-				...parseEmbed(embed.media, did),
-				quotePost: parsePost(embed.record.record)
-			};
+				};
+			case 'app.bsky.embed.record#view':
+				return {
+					quotePost: parsePost(embed.record)
+				};
+			case 'app.bsky.embed.recordWithMedia#view': {
+				return {
+					...parseEmbed(embed.media, did),
+					quotePost: parsePost(embed.record.record)
+				};
+			}
+			default:
+				return {};
 		}
-		default:
-			return {};
+	} catch (e) {
+		console.error('Error parsing embed', e, embed);
+		return {};
 	}
 }
 

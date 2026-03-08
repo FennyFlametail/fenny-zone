@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BlueskyPost, BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
 	import { intlFormatDistance } from 'date-fns';
-	import { Repeat2 } from 'lucide-svelte';
+	import { Info, Repeat2 } from 'lucide-svelte';
 	import Self from './BlueskyPost.svelte';
 
 	const {
@@ -13,6 +13,12 @@
 		post: BlueskyPost;
 		isQuotePost?: boolean;
 	} = $props();
+
+	let showWarnings = $state(true);
+	function bypassWarnings(e: MouseEvent) {
+		e.preventDefault();
+		showWarnings = false;
+	}
 
 	function formatTimestamp(timestamp: string) {
 		return intlFormatDistance(timestamp, new Date(), {
@@ -40,13 +46,29 @@
 			>
 		</hgroup>
 		<p class="blueskyPostText">{@html post.text}</p>
-		{#if post.images}
+		{#if post.isLabeled && showWarnings}
+			<a
+				class="blueskyLinkPreview blueskyContentWarning"
+				href={post.link}
+				target="_blank"
+				onclick={bypassWarnings}
+			>
+				<div class="blueskyLinkPreviewText">
+					<div class="blueskyLinkPreviewDescription">
+						<Info size={20} />
+						<span>Content Warning</span>
+						<span>Show</span>
+					</div>
+				</div>
+			</a>
+		{:else if post.images}
 			<a class="blueskyImageContainer" href={post.link} target="_blank" tabindex="-1">
 				{#each post.images as img}
 					<img
 						class="blueskyImage"
 						src={img.src}
 						alt={img.alt}
+						title={img.alt}
 						draggable="false"
 						width={img.width}
 						height={img.height}

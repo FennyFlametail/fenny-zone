@@ -517,6 +517,17 @@
 			padding: var(--spacing);
 		}
 
+		.blueskyContentWarning .blueskyLinkPreviewDescription {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			span:first-of-type {
+				flex-grow: 1;
+				font-weight: bold;
+			}
+		}
+
 		.blueskyLinkPreviewTitle {
 			font-weight: bold;
 		}
