@@ -2,9 +2,21 @@
 	import BlueskyPost from '$lib/components/BlueskyPost.svelte';
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import { intlFormat } from 'date-fns';
-	import { MapPin } from 'lucide-svelte';
+	import {
+		AtSign,
+		List,
+		Mail,
+		MapPin,
+		MessageCircle,
+		MessageCircleX,
+		Repeat2,
+		Search,
+		Star,
+		User
+	} from 'lucide-svelte';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
+	import { SvelteSet } from 'svelte/reactivity';
 
 	const { data }: PageProps = $props();
 	const { profile, posts } = data?.bluesky ?? (await getBlueskyData());
@@ -14,13 +26,13 @@
 	let content = $state<HTMLDivElement>();
 	let lastX = $state(0);
 	let lastY = $state(0);
-	function onpointerdown() {
+	function onTitleDown() {
 		if (!content) return;
 		const { left, top } = content.getBoundingClientRect();
 		lastX = left;
 		lastY = top;
 	}
-	function onpointerup() {
+	function onTitleUp() {
 		if (!content) return;
 		const { left, top } = content.getBoundingClientRect();
 		if (Math.abs(left - lastX) < 1 && Math.abs(top - lastY) < 1) {
@@ -30,13 +42,60 @@
 			});
 		}
 	}
+
+	let highlightedTabs = $state(new SvelteSet([0]));
+
+	const tabs: [
+		any,
+		{
+			classes?: string[];
+			iconClass?: string[];
+			strokeWidth?: number;
+		}
+	][] = [
+		[MessageCircle, { iconClass: ['fill'] }],
+		[AtSign, { strokeWidth: 3 }],
+		[Mail, { iconClass: ['fill'] }],
+		[Star, { iconClass: ['fill'] }],
+		[Search, { strokeWidth: 4 }],
+		[User, { classes: ['selected'], iconClass: ['fill'], strokeWidth: 0 }],
+		[List, { strokeWidth: 3 }],
+		[Repeat2, { strokeWidth: 3 }],
+		[MessageCircleX, { iconClass: ['fill'] }]
+	];
 </script>
 
 <div class="blueskyTitlebar" data-allow-window-drag>
 	<WindowControls />
-	<button class="blueskyWindowTitle" {onpointerdown} {onpointerup} data-allow-window-drag>
+	<button
+		class="blueskyWindowTitle"
+		onpointerdown={onTitleDown}
+		onpointerup={onTitleUp}
+		data-allow-window-drag
+	>
 		<h2 data-allow-window-drag>{profile?.displayName}</h2>
 	</button>
+	<!-- TODO -->
+	<!-- <button>Change User</button> -->
+</div>
+<div class="blueskySidebar" data-allow-window-drag>
+	<div class="blueskyAvatar">
+		<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
+	</div>
+	<div class="blueskyTabContainer" aria-hidden="true">
+		{#each tabs as [Icon, { classes, iconClass, strokeWidth }], index (index)}
+			{@const highlighted = highlightedTabs.has(index)}
+			<button
+				class={['blueskyTab', highlighted && 'highlighted', ...(classes ?? [])]}
+				onclick={/* () => (highlighted ? highlightedTabs.delete(index) : highlightedTabs.add(index)) */
+				() => {}}
+			>
+				<div class="blueskyTabIcon">
+					<Icon class={iconClass} {strokeWidth} />
+				</div>
+			</button>
+		{/each}
+	</div>
 </div>
 <div class="bluesky aqua-no-scrollbar" bind:this={content}>
 	{#if profile && posts}
@@ -59,12 +118,7 @@
 					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
 				</a>
 				<span class="blueskyStat blueskyStatLocation">
-					<MapPin class="blueskyMapPin">
-						<linearGradient id="mapPinGradient" gradientTransform="rotate(90)">
-							<stop offset="0%" stop-color="#BFC3C6" />
-							<stop offset="100%" stop-color="#A9AFB3" />
-						</linearGradient>
-					</MapPin>
+					<MapPin class="blueskyMapPin" aria-label="Location" />
 					<span>your computer</span>
 				</span>
 				<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
@@ -92,9 +146,29 @@
 </div>
 <div class="blueskyFooter" data-allow-window-drag></div>
 
+<svg class="blueskyGradientDefs">
+	<defs>
+		<linearGradient id="statIconGradient" gradientTransform="rotate(90)">
+			<stop offset="0%" stop-color="#BFC3C6" />
+			<stop offset="100%" stop-color="#A9AFB3" />
+		</linearGradient>
+		<linearGradient id="tabIconGradient" gradientTransform="rotate(90)">
+			<stop offset="0%" stop-color="#CCCED1" />
+			<stop offset="100%" stop-color="#7C7E81" />
+		</linearGradient>
+		<linearGradient id="tabHighlightedIconGradient" gradientTransform="rotate(90)">
+			<stop offset="0%" stop-color="#84C6FF" />
+			<stop offset="100%" stop-color="#007BEB" />
+		</linearGradient>
+	</defs>
+</svg>
+
+<!-- TODO un-globalize CSS -->
 <style>
 	:global {
 		#root .window[data-appname='bluesky'] {
+			--sidebar-width: 65px;
+			--spacing: 10px;
 			--titlebar-gradient: linear-gradient(
 				to bottom,
 				#59595c 1px,
@@ -103,6 +177,8 @@
 				#444548 2px,
 				#2a2b2d
 			);
+			--text-medium: #2d2f31;
+			--text-light: #81878b;
 
 			background-color: #2a2b2d;
 			background-image: none;
@@ -110,26 +186,13 @@
 			border-color: rgb(0 0 0 / 75%);
 			border-radius: 5px;
 
-			.blueskyTitlebar {
-				position: relative;
-				height: 35px;
-				align-content: center;
-				background-image: var(--titlebar-gradient);
-				border-bottom: 1px solid black;
-				-webkit-user-select: none;
-				user-select: none;
-
-				.window.inactive & {
-					background-image: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
-				}
-			}
-
 			.windowControls {
-				position: absolute;
-				left: 0;
-				top: 0;
+				grid-area: controls;
+				width: calc(var(--sidebar-width) + 1px);
 				height: 100%;
-				padding-inline: 8px;
+				padding-inline: 6px;
+				justify-content: space-between;
+				gap: 0;
 				background-image: linear-gradient(
 					to left,
 					#535357 1px,
@@ -155,29 +218,176 @@
 				box-shadow: 0 1px 1px rgb(255 255 255 / 15%);
 			}
 
-			.blueskyWindowTitle {
-				all: unset;
-				cursor: pointer;
+			.windowContent {
+				grid-template:
+					'titlebar titlebar' auto
+					'sidebar content' 1fr
+					'footer footer' auto / var(--sidebar-width) auto;
+			}
+		}
+
+		.blueskyTitlebar {
+			grid-area: titlebar;
+			height: 35px;
+			display: grid;
+			grid-template: 'controls title' / auto 1fr;
+			background-image: var(--titlebar-gradient);
+			border-bottom: 1px solid black;
+			-webkit-user-select: none;
+			user-select: none;
+
+			.window.inactive & {
+				background-image: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
+			}
+		}
+
+		.blueskyWindowTitle {
+			all: unset;
+			grid-area: title;
+			cursor: pointer;
+
+			h2 {
+				text-align: center;
+				font-size: 14px;
+				color: white;
+				text-shadow: 0 -1px black;
+			}
+
+			.window.inactive & {
+				color: #c7c7c8;
+			}
+		}
+
+		.blueskySidebar {
+			grid-area: 'sidebar';
+			padding: var(--spacing);
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing);
+			background-color: #4f5153;
+			border-right: 1px solid black;
+		}
+
+		.blueskyTabContainer {
+			position: relative;
+			display: flex;
+			flex-flow: column;
+			gap: 1px;
+			border: 1px solid black;
+			border-radius: 5px;
+			background-color: black;
+			box-shadow: 0 1px 1px 0 #6d6f71;
+			overflow: hidden;
+
+			&::after {
+				content: '';
+				position: absolute;
 				height: 100%;
 				width: 100%;
+				border-radius: 4px;
+				border-top: 1px solid #2f3132;
+				pointer-events: none;
+			}
+		}
 
-				h2 {
-					text-align: center;
-					font-size: 16px;
-					color: white;
-					text-shadow: 0 -1px black;
+		.blueskyTab {
+			all: unset;
+			display: grid;
+			grid-template: 'indicator icon' 44px / 5px 1fr;
+			gap: 1px;
+
+			/* indicator */
+
+			&::after {
+				grid-area: indicator;
+				content: '';
+				background: #4c4f51;
+				border-top: 1px solid #5e6163;
+				border-right: 1px solid #5e6163;
+			}
+
+			&.highlighted::after {
+				background: linear-gradient(to right, #2182db, #3793e7);
+				border-top: none;
+				border-right-color: #48b8f7;
+				isolation: isolate;
+			}
+
+			&.highlighted::before {
+				grid-area: indicator;
+				content: '';
+				background-color: #3793e7;
+				scale: 1.75 1.25;
+				filter: blur(4px);
+			}
+
+			/* icon */
+
+			.blueskyTabIcon {
+				--background: #3d3f41;
+				grid-area: icon;
+				display: grid;
+				justify-content: center;
+				align-items: center;
+				border-top: 1px solid #515354;
+				border-bottom: 1px solid transparent;
+				background-color: var(--background);
+
+				:global(svg) {
+					--gradient: url('#tabIconGradient');
+					--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
+						drop-shadow(0 0 0.5px black);
+					width: 20px;
+					height: 20px;
+					stroke: var(--gradient);
+					filter: var(--outline-shadow);
+
+					&.fill {
+						fill: var(--gradient);
+					}
+
+					&.lucide-mail path,
+					&.lucide-message-circle-x path:not(:first-child) {
+						stroke: var(--background);
+					}
+
+					&.lucide-search path {
+						stroke: #909295;
+
+						.blueskyTab.highlighted & {
+							stroke: #218ef0;
+						}
+					}
+
+					&.lucide-user {
+						width: 24px;
+						height: 24px;
+					}
+
+					&.lucide-list {
+						stroke: #a4a6a9;
+					}
 				}
+			}
 
-				.window.inactive & {
-					color: #c7c7c8;
+			&.selected .blueskyTabIcon,
+			&:active .blueskyTabIcon {
+				--background: #242425;
+				border-top-color: #1d1d1e;
+			}
+
+			&.highlighted :global(svg) {
+				--gradient: url('#tabHighlightedIconGradient');
+				filter: var(--outline-shadow) drop-shadow(0 0 5px #3793e7);
+
+				&.lucide-list {
+					stroke: #42a1f5;
 				}
 			}
 		}
 
 		.bluesky {
-			--spacing: 10px;
-			--text-medium: #2d2f31;
-			--text-light: #81878b;
+			grid-area: content;
 			overflow-x: hidden;
 			overflow-y: auto;
 			color: #44484a;
@@ -237,6 +447,8 @@
 			width: 48px;
 			border-radius: 5px;
 			overflow: hidden;
+			-webkit-user-select: none;
+			user-select: none;
 			&::after {
 				position: absolute;
 				top: 0;
@@ -246,6 +458,38 @@
 				height: 100%;
 				box-shadow: inset 0 0 2px 1px rgb(0 0 0 / 50%);
 				border-radius: inherit;
+				pointer-events: none;
+			}
+
+			.blueskySidebar & {
+				--top-highlight: #a9adb1;
+				height: auto;
+				width: auto;
+				aspect-ratio: 1 / 1;
+				display: grid;
+				place-items: center;
+				border: 1px solid black;
+				background-image: linear-gradient(to bottom, #92969a, #7b8084);
+				box-shadow: 0 1px 1px 0 #6d6f71;
+
+				&.highlighted {
+					box-shadow: 0 0 5px 2px #3793e7;
+				}
+
+				&:active {
+					--top-highlight: #2f3132;
+					background-image: linear-gradient(to bottom, #3d3f41, #3d3f41);
+				}
+
+				&::after {
+					border-radius: 4px;
+					box-shadow: inset 0 1px 0 0 var(--top-highlight);
+				}
+
+				img {
+					border: 1px solid black;
+					border-radius: 3px;
+				}
 			}
 
 			.blueskyPost & {
@@ -362,8 +606,9 @@
 
 		.blueskyMapPin {
 			flex-shrink: 0;
-			stroke: url('#mapPinGradient');
-			fill: url('#mapPinGradient');
+			/* FIXME size properly */
+			stroke: transparent;
+			fill: url('#statIconGradient');
 
 			> :global(circle) {
 				fill: var(--stat-bg);
@@ -552,6 +797,7 @@
 		}
 
 		.blueskyFooter {
+			grid-area: footer;
 			height: 25px;
 			background-image: var(--titlebar-gradient);
 			border-top: 1px solid black;
@@ -559,6 +805,12 @@
 			.window.inactive & {
 				background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
 			}
+		}
+
+		.blueskyGradientDefs {
+			position: fixed;
+			top: 100vh;
+			left: 100vw;
 		}
 	}
 </style>

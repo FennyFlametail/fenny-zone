@@ -139,7 +139,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: TweetbotIcon,
 		route: '/bluesky',
 		defaultSize: {
-			width: 450,
+			width: 515,
 			height: 1000
 		}
 	},
