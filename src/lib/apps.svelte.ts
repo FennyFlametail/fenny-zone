@@ -107,11 +107,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: Readme,
 		title: 'Readme',
 		icon: RichTextIcon,
-		route: '/readme',
-		defaultSize: {
-			width: 530,
-			height: 520
-		}
+		route: '/readme'
 	},
 	changelog: {
 		parent: 'TextEdit',
