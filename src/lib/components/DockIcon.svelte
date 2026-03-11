@@ -14,6 +14,8 @@
 	const windowServer = getWindowServerContext();
 	const app = windowServer.apps[appName];
 
+	const icon = $derived(app.dockIconOverride ?? app.icon);
+
 	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
 		e.preventDefault();
 		windowServer.openApp(appName);
@@ -41,7 +43,7 @@
 	href={app.route ?? ''}
 >
 	<span class="dockIconLabel" aria-hidden="true">{app.title}</span>
-	<img src={app.icon} alt={app.title} class="dockIconImage" draggable="false" />
+	<img src={icon} alt={app.title} class="dockIconImage" draggable="false" />
 </a>
 
 <style>

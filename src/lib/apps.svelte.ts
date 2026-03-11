@@ -65,6 +65,7 @@ export interface AppEntry {
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon: string;
+	dockIconOverride?: string;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;

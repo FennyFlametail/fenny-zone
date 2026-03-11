@@ -1,13 +1,25 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
+	import TrashFullIcon from '$lib/images/icons/trash-full.webp';
 	import TrashPoster from '$lib/images/trash-poster.webp';
 	import TrashVideo from '$lib/images/trash.mp4';
+
+	const { app, appName } = getAppContext();
+	const windowServer = getWindowServerContext();
 
 	let reduceMotion = true;
 
 	if (browser) {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
 		reduceMotion = mq.matches;
+	}
+
+	function onended() {
+		setTimeout(() => {
+			app.dockIconOverride = TrashFullIcon;
+			windowServer.closeApp(appName);
+		}, 100);
 	}
 </script>
 
@@ -18,7 +30,7 @@
 		muted
 		autoplay={!reduceMotion}
 		controls={reduceMotion}
-		loop
+		{onended}
 		playsinline
 		disablepictureinpicture>Baby fox jumping into a trash can</video
 	>

@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach setModified(app)}>
+	<h3>2026-03-10</h3>
+	<ul>
+		<li>Added Trash easter egg</li>
+	</ul>
 	<h3>2026-03-08</h3>
 	<ul>
 		<li>Added support for Bluesky content warnings</li>
