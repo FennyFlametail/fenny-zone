@@ -6,7 +6,6 @@
 		AtSign,
 		List,
 		Mail,
-		MapPin,
 		MessageCircle,
 		MessageCircleX,
 		Repeat2,
@@ -14,12 +13,15 @@
 		Star,
 		User
 	} from 'lucide-svelte';
+	import { SvelteSet } from 'svelte/reactivity';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
-	import { SvelteSet } from 'svelte/reactivity';
 
 	const { data }: PageProps = $props();
-	const { profile, posts } = data?.bluesky ?? (await getBlueskyData());
+	let { profile, posts } = $state(data?.bluesky ?? (await getBlueskyData()));
+
+	// TODO update title in Window menu to match display name
+	// TODO add menu item for Change User
 
 	const numberFormatter = new Intl.NumberFormat();
 
@@ -40,6 +42,14 @@
 				top: 0,
 				behavior: 'smooth'
 			});
+		}
+	}
+
+	async function changeUser() {
+		// TODO proper sheet with loading and error states
+		const userHandle = prompt('Enter handle...');
+		if (userHandle) {
+			({ profile, posts } = await getBlueskyData(userHandle));
 		}
 	}
 
@@ -75,23 +85,29 @@
 	>
 		<h2 data-allow-window-drag>{profile?.displayName}</h2>
 	</button>
-	<!-- TODO -->
-	<!-- <button>Change User</button> -->
+	<button
+		class="blueskyUserButton"
+		onclick={changeUser}
+		title="Change User"
+		aria-label="Change User"
+	>
+		<User class="blueskyTabIcon fill" strokeWidth={0} />
+	</button>
 </div>
 <div class="blueskySidebar" data-allow-window-drag>
 	<div class="blueskyAvatar">
 		<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
 	</div>
-	<div class="blueskyTabContainer" aria-hidden="true">
-		{#each tabs as [Icon, { classes, iconClass, strokeWidth }], index (index)}
+	<div class="blueskyTabContainer">
+		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
 			{@const highlighted = highlightedTabs.has(index)}
 			<button
-				class={['blueskyTab', highlighted && 'highlighted', ...(classes ?? [])]}
+				class={['blueskyTab', highlighted && 'highlighted', ...classes]}
 				onclick={/* () => (highlighted ? highlightedTabs.delete(index) : highlightedTabs.add(index)) */
 				() => {}}
 			>
-				<div class="blueskyTabIcon">
-					<Icon class={iconClass} {strokeWidth} />
+				<div class="blueskyTabIconWrapper">
+					<Icon class={['blueskyTabIcon', ...iconClass].join(' ')} {strokeWidth} />
 				</div>
 			</button>
 		{/each}
@@ -113,14 +129,6 @@
 			</div>
 			<p class="blueskyBio">{@html profile.description}</p>
 			<div class="blueskyStatsContainer">
-				<a class="blueskyStat" href={profile.link} target="_blank">
-					<span>Posts</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
-				</a>
-				<span class="blueskyStat blueskyStatLocation">
-					<MapPin class="blueskyMapPin" aria-label="Location" />
-					<span>your computer</span>
-				</span>
 				<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
 					<span>Followers</span>
 					<span class="blueskyStatNumber">{numberFormatter.format(profile.followersCount)}</span>
@@ -129,6 +137,18 @@
 					<span>Following</span>
 					<span class="blueskyStatNumber">{numberFormatter.format(profile.followsCount)}</span>
 				</a>
+				<a class="blueskyStat" href={profile.link} target="_blank">
+					<span>Posts</span>
+					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
+				</a>
+				<div class="blueskyStat">
+					<span>Lists</span>
+					<span class="blueskyStatNumber">{numberFormatter.format(profile.listsCount)}</span>
+				</div>
+				<!-- <span class="blueskyStat blueskyStatLocation">
+					<MapPin class="blueskyMapPin" aria-label="Location" />
+					<span>your computer</span>
+				</span> -->
 			</div>
 			<p class="blueskyJoinDate">
 				Member Since {intlFormat(profile.createdAt, {
@@ -159,6 +179,10 @@
 		<linearGradient id="tabHighlightedIconGradient" gradientTransform="rotate(90)">
 			<stop offset="0%" stop-color="#84C6FF" />
 			<stop offset="100%" stop-color="#007BEB" />
+		</linearGradient>
+		<linearGradient id="tabIconActiveGradient" gradientTransform="rotate(90)">
+			<stop offset="0%" stop-color="#606060" />
+			<stop offset="100%" stop-color="#838383" />
 		</linearGradient>
 	</defs>
 </svg>
@@ -230,7 +254,7 @@
 			grid-area: titlebar;
 			height: 35px;
 			display: grid;
-			grid-template: 'controls title' / auto 1fr;
+			grid-template: 'controls title userButton' / auto 1fr auto;
 			background-image: var(--titlebar-gradient);
 			border-bottom: 1px solid black;
 			-webkit-user-select: none;
@@ -255,6 +279,22 @@
 
 			.window.inactive & {
 				color: #c7c7c8;
+			}
+		}
+
+		.blueskyUserButton {
+			--gradient: url('#tabIconGradient');
+			all: unset;
+			grid-area: userButton;
+			padding-inline: 5px;
+			cursor: pointer;
+
+			&:active .blueskyTabIcon {
+				--gradient: url('#tabIconActiveGradient');
+			}
+
+			@media (scripting: none) {
+				display: none;
 			}
 		}
 
@@ -320,63 +360,61 @@
 				scale: 1.75 1.25;
 				filter: blur(4px);
 			}
+		}
 
-			/* icon */
+		.blueskyTabIconWrapper {
+			--background: #3d3f41;
+			grid-area: icon;
+			display: grid;
+			justify-content: center;
+			align-items: center;
+			border-top: 1px solid #515354;
+			border-bottom: 1px solid transparent;
+			background-color: var(--background);
 
-			.blueskyTabIcon {
-				--background: #3d3f41;
-				grid-area: icon;
-				display: grid;
-				justify-content: center;
-				align-items: center;
-				border-top: 1px solid #515354;
-				border-bottom: 1px solid transparent;
-				background-color: var(--background);
-
-				:global(svg) {
-					--gradient: url('#tabIconGradient');
-					--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
-						drop-shadow(0 0 0.5px black);
-					width: 20px;
-					height: 20px;
-					stroke: var(--gradient);
-					filter: var(--outline-shadow);
-
-					&.fill {
-						fill: var(--gradient);
-					}
-
-					&.lucide-mail path,
-					&.lucide-message-circle-x path:not(:first-child) {
-						stroke: var(--background);
-					}
-
-					&.lucide-search path {
-						stroke: #909295;
-
-						.blueskyTab.highlighted & {
-							stroke: #218ef0;
-						}
-					}
-
-					&.lucide-user {
-						width: 24px;
-						height: 24px;
-					}
-
-					&.lucide-list {
-						stroke: #a4a6a9;
-					}
-				}
-			}
-
-			&.selected .blueskyTabIcon,
-			&:active .blueskyTabIcon {
+			.blueskyTab.selected &,
+			.blueskyTab:active & {
 				--background: #242425;
 				border-top-color: #1d1d1e;
 			}
+		}
 
-			&.highlighted :global(svg) {
+		.blueskyTabIcon {
+			--gradient: url('#tabIconGradient');
+			--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
+				drop-shadow(0 0 0.5px black);
+			width: 20px;
+			height: 20px;
+			stroke: var(--gradient);
+			filter: var(--outline-shadow);
+
+			&.fill {
+				fill: var(--gradient);
+			}
+
+			&.lucide-mail path,
+			&.lucide-message-circle-x path:not(:first-child) {
+				stroke: var(--background);
+			}
+
+			&.lucide-search path {
+				stroke: #909295;
+
+				.blueskyTab.highlighted & {
+					stroke: #218ef0;
+				}
+			}
+
+			&.lucide-user {
+				width: 24px;
+				height: 24px;
+			}
+
+			&.lucide-list {
+				stroke: #a4a6a9;
+			}
+
+			.blueskyTab.highlighted & {
 				--gradient: url('#tabHighlightedIconGradient');
 				filter: var(--outline-shadow) drop-shadow(0 0 5px #3793e7);
 
@@ -594,7 +632,7 @@
 			}
 		}
 
-		.blueskyStatLocation {
+		/* .blueskyStatLocation {
 			padding-inline-start: 12px;
 			justify-content: flex-start;
 
@@ -606,14 +644,13 @@
 
 		.blueskyMapPin {
 			flex-shrink: 0;
-			/* FIXME size properly */
 			stroke: transparent;
 			fill: url('#statIconGradient');
 
 			> :global(circle) {
 				fill: var(--stat-bg);
 			}
-		}
+		} */
 
 		.blueskyStatNumber {
 			height: 19px;
@@ -767,6 +804,14 @@
 
 		.blueskyLinkPreviewText {
 			padding: var(--spacing);
+		}
+
+		.blueskyLinkPreviewDescription {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			overflow: hidden;
 		}
 
 		.blueskyContentWarning .blueskyLinkPreviewDescription {
