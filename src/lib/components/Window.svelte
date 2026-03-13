@@ -20,7 +20,10 @@
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
 	setAppContext({ appName, app });
 
-	const title = $derived(app.windowTitle ?? app.title);
+	const title = $derived.by(() => {
+		if (app.hideWindowTitle) return '';
+		return app.windowTitle ?? app.title;
+	});
 
 	const toolbarEntriesWrapper = $state<ReturnType<typeof setToolbarEntryContext>>({
 		entries: []

@@ -62,10 +62,13 @@ export interface AppEntry {
 	readonly menuTitle?: string;
 	/** Defaults to `title` */
 	readonly windowTitle?: string;
+/** Hides title from titlebar, but will still show in Window menu */
+	readonly hideWindowTitle?: boolean;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon: string;
 	dockIconOverride?: string;
+readonly hideInDock?: boolean;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
