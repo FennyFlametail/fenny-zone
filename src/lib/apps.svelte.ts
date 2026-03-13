@@ -1,44 +1,45 @@
 import type { Component } from 'svelte';
 import type { Pathname } from '$app/types';
 import type { Position } from '$lib/windowServer.svelte';
+import type { Component } from 'svelte';
 
-import Readme from '../routes/readme/+page.svelte';
-import Changelog from '../routes/changelog/+page.svelte';
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
+import Browser from '$lib/components/apps/Browser.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
+import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
-import Fenny from '../routes/characters/fenny/+page.svelte';
 import Aren from '../routes/characters/aren/+page.svelte';
 import Ceph from '../routes/characters/ceph/+page.svelte';
-import Rigel from '../routes/characters/rigel/+page.svelte';
+import Fenny from '../routes/characters/fenny/+page.svelte';
 import Nocturne from '../routes/characters/nocturne/+page.svelte';
+import Rigel from '../routes/characters/rigel/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
-import Browser from '$lib/components/apps/Browser.svelte';
+import Readme from '../routes/readme/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
 
-import FinderIcon from '$lib/images/icons/finder.webp';
-import TextEditIcon from '$lib/images/icons/textedit.webp';
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
-import TextIcon from '$lib/images/icons/txt.webp';
-import RichTextIcon from '$lib/images/icons/rtf.webp';
-import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
-import FennyIcon from '$lib/images/icons/fenny.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
-import RigelIcon from '$lib/images/icons/rigel.webp';
-import NocturneIcon from '$lib/images/icons/nocturne.webp';
+import FennyIcon from '$lib/images/icons/fenny.webp';
+import FinderIcon from '$lib/images/icons/finder.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
-import ToddspinIcon from '$lib/images/icons/toddspin.webp';
-import SauceIcon from '$lib/images/icons/sauce.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
+import NocturneIcon from '$lib/images/icons/nocturne.webp';
+import RigelIcon from '$lib/images/icons/rigel.webp';
+import RichTextIcon from '$lib/images/icons/rtf.webp';
+import SauceIcon from '$lib/images/icons/sauce.webp';
+import TextEditIcon from '$lib/images/icons/textedit.webp';
+import ToddspinIcon from '$lib/images/icons/toddspin.webp';
 import TrashIcon from '$lib/images/icons/trash.webp';
+import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
+import TextIcon from '$lib/images/icons/txt.webp';
 
 export type AppName =
 	| 'Finder'
 	| 'TextEdit'
+	| 'adblockWarning'
 	| 'readme'
 	| 'changelog'
-	| 'adblockwarning'
 	| 'bluesky'
 	| 'characters'
 	| 'fenny'
@@ -106,6 +107,19 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'TextEdit',
 		icon: TextEditIcon
 	},
+	adblockWarning: {
+		Page: AdblockWarning,
+		title: 'Adblock Warning',
+		hideWindowTitle: true,
+		hideWindowControls: true,
+		icon: '',
+		hideInDock: true,
+		noResize: true,
+		defaultSize: {
+			width: 580,
+			height: 230
+		}
+	},
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,
@@ -119,18 +133,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Changelog',
 		icon: TextIcon,
 		route: '/changelog'
-	},
-	adblockwarning: {
-		parent: 'Finder',
-		Page: AdblockWarning,
-		title: '',
-		hideWindowControls: true,
-		icon: '',
-		noResize: true,
-		defaultSize: {
-			width: 580,
-			height: 230
-		}
 	},
 	bluesky: {
 		Page: Bluesky,

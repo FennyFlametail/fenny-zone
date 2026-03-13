@@ -21,7 +21,7 @@
 					getComputedStyle(adblockEl).display !== 'none' &&
 					!localStorage.getItem('adblockWarningSeen')
 				) {
-					windowServer.openApp('adblockwarning');
+					windowServer.openApp('adblockWarning');
 					localStorage.setItem('adblockWarningSeen', 'true');
 				}
 			}, 500);
