@@ -85,14 +85,14 @@
 	>
 		<h2 data-allow-window-drag>{profile?.displayName}</h2>
 	</button>
-	<button
+	<!-- <button
 		class="blueskyUserButton"
 		onclick={changeUser}
 		title="Change User"
 		aria-label="Change User"
 	>
 		<User class="blueskyTabIcon fill" strokeWidth={0} />
-	</button>
+	</button> -->
 </div>
 <div class="blueskySidebar" data-allow-window-drag>
 	<div class="blueskyAvatar">
