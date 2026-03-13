@@ -120,7 +120,14 @@ export default class WindowServer {
 		};
 	});
 
-	openApp = (appName: AppName, position?: Partial<Position>, fromState?: boolean) => {
+	openApp = (
+		appName: AppName,
+		options: {
+			position?: Partial<Position>;
+			props?: Record<string, any>;
+			fromState?: boolean;
+		} = {}
+	) => {
 		const app = this.apps[appName];
 		const childApps = Object.entries(this.runningApps)
 			.filter(([, runningApp]) => runningApp.parent === appName)
@@ -139,11 +146,12 @@ export default class WindowServer {
 					{
 						...app.defaultSize,
 						zIndex: Object.keys(this.runningApps).length,
-						...position
+						...options.position
 					},
-					fromState
+					options.fromState
 				),
-				launchOrder: this.#launchCount++
+				launchOrder: this.#launchCount++,
+				props: options.props
 			};
 			this.desktopFocused = false;
 		}
@@ -288,7 +296,10 @@ export default class WindowServer {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 						return;
 					}
-					this.openApp(appName, position, true);
+					this.openApp(appName, {
+						position,
+						fromState: true
+					});
 				});
 			} catch (err) {
 				console.warn('(loadState) error', err);

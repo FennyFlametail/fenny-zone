@@ -11,9 +11,11 @@
 	import { onMount } from 'svelte';
 
 	let {
-		appName
+		appName,
+		props
 	}: {
 		appName: AppName;
+		props?: Record<string, any>;
 	} = $props();
 
 	const windowServer = getWindowServerContext();
@@ -159,11 +161,15 @@
 			<svelte:boundary
 				onerror={(e) => {
 					console.error(e);
-					// TODO crash dialog
 					windowServer.closeApp(appName);
+					windowServer.openApp('crashDialog', {
+						props: {
+							crashedAppName: appName
+						}
+					});
 				}}
 			>
-				<app.Page />
+				<app.Page {...props} />
 				{#snippet pending()}{/snippet}
 			</svelte:boundary>
 		{:else}

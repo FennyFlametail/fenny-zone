@@ -35,7 +35,7 @@
 			'icon buttons' auto / auto 1fr;
 		padding: 22.5px 25px;
 		column-gap: 25px;
-		line-height: 1.25;
+		line-height: 1.3;
 		-webkit-user-select: none;
 		user-select: none;
 	}

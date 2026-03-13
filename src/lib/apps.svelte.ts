@@ -1,10 +1,10 @@
-import type { Component } from 'svelte';
 import type { Pathname } from '$app/types';
 import type { Position } from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import Browser from '$lib/components/apps/Browser.svelte';
+import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
@@ -38,6 +38,7 @@ export type AppName =
 	| 'Finder'
 	| 'TextEdit'
 	| 'adblockWarning'
+	| 'crashDialog'
 	| 'readme'
 	| 'changelog'
 	| 'bluesky'
@@ -63,13 +64,13 @@ export interface AppEntry {
 	readonly menuTitle?: string;
 	/** Defaults to `title` */
 	readonly windowTitle?: string;
-/** Hides title from titlebar, but will still show in Window menu */
+	/** Hides title from titlebar, but will still show in Window menu */
 	readonly hideWindowTitle?: boolean;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon: string;
 	dockIconOverride?: string;
-readonly hideInDock?: boolean;
+	readonly hideInDock?: boolean;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
@@ -88,6 +89,7 @@ readonly hideInDock?: boolean;
 		launchOrder: number;
 		modified?: boolean;
 		animating?: boolean;
+		props?: Record<string, any>;
 	};
 }
 
@@ -99,6 +101,7 @@ const defaultProfileSize = {
 };
 
 const getApps = (): Record<AppName, AppEntry> => ({
+	// #region Utility apps
 	Finder: {
 		title: 'Finder',
 		icon: FinderIcon
@@ -120,6 +123,20 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			height: 230
 		}
 	},
+	crashDialog: {
+		Page: CrashDialog,
+		title: 'Crash Reporter',
+		hideWindowTitle: true,
+		hideWindowControls: true,
+		icon: '',
+		hideInDock: true,
+		noResize: true,
+		defaultSize: {
+			width: 580,
+			height: 260
+		}
+	},
+	// #region Real apps
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,

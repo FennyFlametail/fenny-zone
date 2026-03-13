@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import type { AppName } from '$lib/apps.svelte';
+	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { onMount } from 'svelte';
@@ -35,8 +35,8 @@
 </script>
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
-	{#each Object.keys(windowServer.runningApps) as AppName[] as appName, i (appName)}
-		<Window {appName} />
+	{#each Object.entries(windowServer.runningApps) as [AppName, RunningApp][] as [appName, app], i (appName)}
+		<Window {appName} props={app.instance?.props} />
 	{/each}
 	<!-- FIXME remove noscript after fixing SSR window position -->
 	<noscript>
