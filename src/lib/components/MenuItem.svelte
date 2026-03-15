@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { getMenubarContext } from '$lib/context.svelte';
+	import { getMenubarContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
 
 	const {
@@ -30,10 +30,11 @@
 		  }
 	) = $props();
 
+	const windowServer = getWindowServerContext();
 	const { dismissMenu } = getMenubarContext();
 
 	let opening = $state(false);
-	const openAnimDuration = 200;
+	const openAnimDuration = $derived(windowServer.reduceMotion ? 0 : 200);
 
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
@@ -90,8 +91,7 @@
 				color: white;
 
 				@media (forced-colors: active) {
-					background-color: CanvasText;
-					color: Canvas;
+					text-decoration: underline;
 				}
 			}
 		}

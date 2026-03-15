@@ -14,6 +14,7 @@
 			windowServer.openApp(windowServer.initialAppName);
 			goto('/');
 		}
+
 		const adblockEl = document.getElementById('ftf-dma-note');
 		if (adblockEl) {
 			window.setTimeout(() => {
@@ -26,12 +27,15 @@
 				}
 			}, 500);
 		}
-		setTimeout(() => document.body.classList.remove('loading'), 500);
-	});
 
-	// function onkeydown(e: KeyboardEvent) {
-	// 	if (e.key === 'Escape') windowServer.closeCurrent();
-	// }
+		setTimeout(() => document.body.classList.remove('loading'), 500);
+
+		const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+		windowServer.reduceMotion = reduceMotionQuery.matches;
+		reduceMotionQuery.addEventListener('change', (e) => {
+			windowServer.reduceMotion = e.matches;
+		});
+	});
 </script>
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>

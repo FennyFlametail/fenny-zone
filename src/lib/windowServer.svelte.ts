@@ -77,6 +77,7 @@ export default class WindowServer {
 	desktopFocused = $state(true);
 	draggingEl = $state<HTMLElement>();
 	resizingEl = $state<HTMLElement>();
+	reduceMotion = $state(false);
 
 	apps = $state(getApps());
 
@@ -246,7 +247,7 @@ export default class WindowServer {
 	};
 
 	setAnimating = (app: RunningApp) => {
-		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		if (!this.reduceMotion) {
 			app.instance.animating = true;
 		}
 	};

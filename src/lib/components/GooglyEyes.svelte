@@ -79,7 +79,7 @@
 		align-items: center;
 		gap: 1px;
 	}
-
+	
 	.googlyEye {
 		--eye-width: 20px;
 		position: relative;
@@ -124,6 +124,10 @@
 				@media (prefers-reduced-motion: reduce) {
 					translate: 0 33%;
 					rotate: 0deg;
+				}
+
+				@media (forced-colors: active) {
+					background: CanvasText;
 				}
 			}
 		}

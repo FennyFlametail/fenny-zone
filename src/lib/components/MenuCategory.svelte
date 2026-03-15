@@ -75,11 +75,9 @@
 		&:active,
 		&:focus-visible,
 		[open] & {
-			@media (forced-colors: none) {
-				outline: none;
-				background-color: var(--accent-color);
-				color: white;
-			}
+			outline: none;
+			background-color: var(--accent-color);
+			color: white;
 		}
 
 		&::-webkit-details-marker {
@@ -92,21 +90,6 @@
 		padding: 4px 0;
 		list-style-type: none;
 		box-shadow: var(--panel-box-shadow);
-
-		@media (forced-colors: active) {
-			border: 1px solid ButtonBorder;
-			background-color: Canvas;
-		}
-
-		&::before {
-			/* background on separate layer to control opacity */
-			position: absolute;
-			top: 0;
-			left: 0;
-			background-color: white;
-			width: 100%;
-			height: 100%;
-			content: '';
-		}
+		background: white;
 	}
 </style>

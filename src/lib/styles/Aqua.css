@@ -10,6 +10,14 @@
 		#eff0f0 2px,
 		#eff0f0 4px
 	);
+	/* f2 is ~95% */
+	--pinstripe-bg-image-translucent: repeating-linear-gradient(
+		to bottom,
+		#ebececf2,
+		#ebececf2 2px,
+		#eff0f0f2 2px,
+		#eff0f0f2 4px
+	);
 	--pulse-overlay-bg: radial-gradient(rgb(0 0 0 / 10%), transparent);
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
@@ -46,9 +54,7 @@ body {
 		&:active,
 		&:focus-visible,
 		[open] & {
-			@media (forced-colors: none) {
-				background-image: var(--menu-item-active-bg-image);
-			}
+			background-image: var(--menu-item-active-bg-image);
 		}
 
 		&::-webkit-details-marker {
@@ -77,14 +83,15 @@ body {
 	}
 
 	.menu {
-		@media not (prefers-reduced-transparency: reduce) {
-			&::before {
-				opacity: 0.95;
-			}
+		background: var(--pinstripe-bg-image-translucent);
+
+		@media (prefers-reduced-transparency: reduce) {
+			background: var(--pinstripe-bg-image);
 		}
 
-		&::before {
-			background-image: var(--pinstripe-bg-image);
+		@media (forced-colors: active) {
+			border: 1px solid ButtonBorder;
+			background: Canvas;
 		}
 	}
 
@@ -97,6 +104,10 @@ body {
 	.desktop {
 		background-image: url('$lib/images/wallpapers/beach.webp');
 		background-position: 50% 25%;
+
+		@media (forced-colors: active) {
+			background-image: none;
+		}
 	}
 	/* #endregion */
 
@@ -212,6 +223,11 @@ body {
 		.windowControls:is(:hover, :focus-visible, :has(.windowButton:active)) & {
 			visibility: visible;
 		}
+
+		@media (forced-colors: active) {
+			color: CanvasText;
+			mix-blend-mode: normal;
+		}
 	}
 
 	/* brushed metal */
@@ -244,6 +260,10 @@ body {
 
 		&.inactive {
 			box-shadow: var(--panel-box-shadow-inactive), var(--top-highlight-shadow);
+		}
+
+		@media (forced-colors: active) {
+			background: Canvas;
 		}
 
 		.windowTitlebar {
@@ -321,28 +341,26 @@ body {
 		}
 
 		&:focus-visible {
-			@media (forced-colors: none) {
-				--button-border-gradient: #6f89a0, #6f89a0;
-				outline: none;
-				box-shadow: var(--focus-box-shadow);
-			}
+			--button-border-gradient: #6f89a0, #6f89a0;
+			outline: none;
+			box-shadow: var(--focus-box-shadow);
 		}
 
 		&:is(.aqua-button:is(:active, .active), .aqua-tab:is(:has(input:checked), .active)):not(
 				:disabled,
 				.disabled
-			) {
-			--button-gradient: var(--button-active-gradient);
-			--button-border-gradient: var(--button-border-active-gradient);
-		}
-
+			),
 		&.primary:not(.window.inactive .primary) {
 			--button-gradient: var(--button-active-gradient);
 			--button-border-gradient: var(--button-border-active-gradient);
 
-			&:not(:active) {
-				animation: 0.5s linear infinite alternate pulsate;
+			@media (forced-colors: active) {
+				text-decoration: underline;
 			}
+		}
+
+		&.primary:not(.window.inactive .primary):not(:active) {
+			animation: 0.5s linear infinite alternate pulsate;
 		}
 
 		svg {
