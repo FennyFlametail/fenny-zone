@@ -129,10 +129,10 @@
 		inactive: !focused && !ssr,
 		animating: app.instance.animating
 	}}
-	style:--x={`${app.instance.position.x}px`}
-	style:--y={`${app.instance.position.y}px`}
-	style:--width={`${app.instance.position.width}px`}
-	style:--height={`${app.instance.position.height}px`}
+	style:--window-x={`${app.instance.position.x}px`}
+	style:--window-y={`${app.instance.position.y}px`}
+	style:--window-width={`${app.instance.position.width}px`}
+	style:--window-height={`${app.instance.position.height}px`}
 	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag
@@ -186,9 +186,9 @@
 <style>
 	.window {
 		grid-area: 1 / 1;
-		transform: translate(var(--x), var(--y));
-		width: var(--width);
-		height: var(--height);
+		transform: translate(var(--window-x), var(--window-y));
+		width: var(--window-width);
+		height: var(--window-height);
 		display: grid;
 		grid-template:
 			'titlebar' auto
@@ -212,8 +212,8 @@
 
 		@media (scripting: none) {
 			position: absolute;
-			left: max(0px, 50vw - var(--width) / 2);
-			top: max(0px, (var(--desktop-safe-height) / 2 - var(--height) / 2) * (2/3));
+			left: max(0px, 50vw - var(--window-width) / 2);
+			top: max(0px, (var(--desktop-safe-height) / 2 - var(--window-height) / 2) * (2/3));
 			max-width: 100vw;
 			max-height: var(--desktop-safe-height);
 		}
@@ -224,7 +224,7 @@
 		position: relative;
 		display: grid;
 		grid-template:
-			'title' 28px
+			'title' var(--titlebar-height)
 			'toolbar' auto / 100%;
 		padding-inline: var(--titlebar-padding);
 		touch-action: pinch-zoom;

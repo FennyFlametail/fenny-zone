@@ -98,6 +98,7 @@ h6 {
 	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 	/** space between the menubar and Dock */
 	--desktop-safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
+	--titlebar-height: 28px;
 	--titlebar-padding: 11px;
 	--label-shadow:
 		black 0 1px 2px,

@@ -193,6 +193,7 @@
 		#root .window[data-appname='bluesky'] {
 			--sidebar-width: 65px;
 			--spacing: 10px;
+			--titlebar-height: 35px;
 			--titlebar-gradient: linear-gradient(
 				to bottom,
 				#59595c 1px,
@@ -244,15 +245,14 @@
 
 			.windowContent {
 				grid-template:
-					'titlebar titlebar' auto
+					'titlebar titlebar' var(--titlebar-height)
 					'sidebar content' 1fr
-					'footer footer' auto / var(--sidebar-width) auto;
+					'footer footer' 25px / var(--sidebar-width) auto;
 			}
 		}
 
 		.blueskyTitlebar {
 			grid-area: titlebar;
-			height: 35px;
 			display: grid;
 			grid-template: 'controls title userButton' / auto 1fr auto;
 			background-image: var(--titlebar-gradient);
@@ -299,6 +299,7 @@
 		}
 
 		.blueskySidebar {
+			min-height: 0;
 			grid-area: 'sidebar';
 			padding: var(--spacing);
 			display: flex;
@@ -850,7 +851,6 @@
 
 		.blueskyFooter {
 			grid-area: footer;
-			height: 25px;
 			background-image: var(--titlebar-gradient);
 			border-top: 1px solid black;
 
