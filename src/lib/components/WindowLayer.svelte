@@ -29,9 +29,9 @@
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
-	function onkeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') windowServer.closeCurrent();
-	}
+	// function onkeydown(e: KeyboardEvent) {
+	// 	if (e.key === 'Escape') windowServer.closeCurrent();
+	// }
 </script>
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
@@ -45,8 +45,6 @@
 		{/if}
 	</noscript>
 </main>
-
-<svelte:body {onkeydown} />
 
 <style>
 	.windowLayer {
