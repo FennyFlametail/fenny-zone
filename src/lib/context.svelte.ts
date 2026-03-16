@@ -8,6 +8,7 @@ export const [getWindowServerContext, setWindowServerContext] = createContext<Wi
 export const [getAppContext, setAppContext] = createContext<{
 	appName: AppName;
 	app: RunningApp;
+	getFocused: () => boolean;
 }>();
 
 export const [getToolbarEntryContext, setToolbarEntryContext] = createContext<{

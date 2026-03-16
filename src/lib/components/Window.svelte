@@ -20,7 +20,8 @@
 
 	const windowServer = getWindowServerContext();
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
-	setAppContext({ appName, app });
+	let focused = $derived(app === windowServer.focusedApp?.app);
+	setAppContext({ appName, app, getFocused: () => focused });
 
 	const title = $derived.by(() => {
 		if (app.hideWindowTitle) return '';
@@ -50,7 +51,6 @@
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
 
-	let focused = $derived(app === windowServer.focusedApp?.app);
 	// used to focus single window when JavaScript is disabled
 	let ssr = $state(true);
 	onMount(() => (ssr = false));
