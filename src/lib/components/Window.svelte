@@ -116,6 +116,12 @@
 		windowServer.draggingEl = undefined;
 		windowServer.resizingEl = undefined;
 	}
+
+	function onfocusin() {
+		if (element?.matches(':focus-within')) {
+			windowServer.focusApp(appName);
+		}
+	}
 </script>
 
 <article
@@ -181,6 +187,7 @@
 	{/if}
 </article>
 
+<svelte:window {onfocusin} />
 <svelte:body onpointermove={pointerMove} onpointerup={pointerUp} />
 
 <style>
