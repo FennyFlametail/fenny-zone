@@ -1,21 +1,8 @@
 <script lang="ts">
-	import BlueskyPost from '$lib/components/BlueskyPost.svelte';
-import Sheet from '$lib/components/Sheet.svelte';
-	import WindowControls from '$lib/components/WindowControls.svelte';
-import getHandleRegex from '$lib/helpers/blueskyHandleRegex';
-	import { intlFormat } from 'date-fns';
-	import {
-		AtSign,
-		List,
-		Mail,
-		MessageCircle,
-		MessageCircleX,
-		Repeat2,
-		Search,
-		Star,
-		User
-	} from 'lucide-svelte';
-	import { SvelteSet } from 'svelte/reactivity';
+	import BlueskySidebar from '$lib/components/bluesky/BlueskySidebar.svelte';
+	import BlueskyTimeline from '$lib/components/bluesky/BlueskyTimeline.svelte';
+	import BlueskyTitlebar from '$lib/components/bluesky/BlueskyTitlebar.svelte';
+	import BlueskyUserSheet from '$lib/components/bluesky/BlueskyUserSheet.svelte';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
 
@@ -27,208 +14,33 @@ import getHandleRegex from '$lib/helpers/blueskyHandleRegex';
 	// TODO update title in Window menu to match display name
 	// TODO add menu item for Change User
 
-	const numberFormatter = new Intl.NumberFormat();
+	let userSheetIsOpen = $state(false);
+	let scrollToTop = $state(() => {});
 
-	let content = $state<HTMLDivElement>();
-function scrollToTop() {
-		content?.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
+	function openUserSheet() {
+		userSheetIsOpen = true;
 	}
 
-	let lastX = $state(0);
-	let lastY = $state(0);
-	function onTitleDown() {
-		if (!content) return;
-		const { left, top } = content.getBoundingClientRect();
-		lastX = left;
-		lastY = top;
-	}
-	function onTitleUp() {
-		if (!content) return;
-		const { left, top } = content.getBoundingClientRect();
-		if (Math.abs(left - lastX) < 1 && Math.abs(top - lastY) < 1) {
-			scrollToTop();
-		}
+	function closeUserSheet() {
+		userSheetIsOpen = false;
 	}
 
-	let userSheetOpen = $state(false);
-	let userHandle = $state<string>('');
-	async function openUserSheet() {
-		userHandle = '';
-		userSheetOpen = true;
-	}
-	async function submitUserSheet(e: SubmitEvent) {
-		e.preventDefault();
-		if (userHandle.replace('@', '').match(getHandleRegex())) {
-			// TODO loading indicator
-			scrollToTop();
-			// FIXME store these separately so going back is instant
-			({ profile, posts } = await getBlueskyData(userHandle));
-		userSheetOpen = false;
-		} else {
-			// TODO better error messaging
-			alert('Invalid handle');
-		}
-	}
-	function userSheetKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') userSheetOpen = false;
-	}
-	async function resetUser() {
-		({ profile, posts } = await getBlueskyData());
+	async function loadUser(handle: string) {
+		// FIXME
+		({ profile, posts } = await getBlueskyData(handle));
 	}
 
-	let highlightedTabs = $state(new SvelteSet([]));
-
-	const tabs: [
-		any,
-		{
-			classes?: string[];
-			iconClass?: string[];
-			strokeWidth?: number;
-		}
-	][] = [
-		[MessageCircle, { iconClass: ['fill'] }],
-		[AtSign, { strokeWidth: 3 }],
-		[Mail, { iconClass: ['fill'] }],
-		[Star, { iconClass: ['fill'] }],
-		[Search, { strokeWidth: 4 }],
-		[User, { classes: ['highlighted', 'selected'], iconClass: ['fill'], strokeWidth: 0 }],
-		[List, { strokeWidth: 3 }],
-		[Repeat2, { strokeWidth: 3 }],
-		[MessageCircleX, { iconClass: ['fill'] }]
-	];
+	async function closeUser() {
+		// FIXME
+		({ profile, posts } = await getBlueskyData(undefined));
+	}
 </script>
 
-<div class="blueskyTitlebar" data-allow-window-drag>
-	<WindowControls />
-<button class="blueskyUserBackButton" onclick={resetUser} disabled={userSheetOpen}>
-		fenny.zone
-	</button>
-	<button
-		class="blueskyWindowTitle"
-		onpointerdown={onTitleDown}
-		onpointerup={onTitleUp}
-		data-allow-window-drag
-title="Scroll to top"
-		disabled={userSheetOpen}
-	>
-		<h2 data-allow-window-drag>{profile?.displayName}</h2>
-	</button>
-	<button
-		class="blueskyUserButton"
-		onclick={openUserSheet}
-		title="Go to User"
-		disabled={userSheetOpen}
-	>
-		<User class="blueskyTabIcon fill" strokeWidth={0} />
-	</button>
-</div>
-<div class="blueskySidebar" data-allow-window-drag inert={userSheetOpen}>
-	<div class="blueskyAvatar">
-		<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
-	</div>
-	<div class="blueskyTabContainer">
-		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
-			{@const highlighted = highlightedTabs.has(index)}
-			<button
-				class={['blueskyTab', highlighted && 'highlighted', ...classes]}
-				onclick={/* () => (highlighted ? highlightedTabs.delete(index) : highlightedTabs.add(index)) */
-				() => {}}
-disabled
-				aria-hidden="true"
-			>
-				<div class="blueskyTabIconWrapper">
-					<Icon class={['blueskyTabIcon', ...iconClass].join(' ')} {strokeWidth} />
-				</div>
-			</button>
-		{/each}
-	</div>
-</div>
-<div bind:this={content} class="bluesky aqua-no-scrollbar" inert={userSheetOpen}>
-	{#if profile && posts}
-		<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
-		<article class="blueskyProfile">
-			<div class="blueskyProfileHeader">
-				<div class="blueskyAvatar">
-					<img src={profile.avatar} alt="" draggable="false" />
-				</div>
-				<hgroup class="blueskyAuthor">
-					<h3 class="blueskyDisplayName">{profile.displayName}</h3>
-					<p class="blueskyHandle">@{profile.handle}</p>
-				</hgroup>
-				<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
-			</div>
-<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			<p class="blueskyBio">{@html profile.description}</p>
-			<div class="blueskyStatsContainer">
-				<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
-					<span>Followers</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.followersCount)}</span>
-				</a>
-				<a class="blueskyStat" href={`${profile.link}/follows`} target="_blank">
-					<span>Following</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.followsCount)}</span>
-				</a>
-				<a class="blueskyStat" href={profile.link} target="_blank">
-					<span>Posts</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
-				</a>
-				<div class="blueskyStat">
-					<span>Lists</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.listsCount)}</span>
-				</div>
-				<!-- <span class="blueskyStat blueskyStatLocation">
-					<MapPin class="blueskyMapPin" aria-label="Location" />
-					<span>your computer</span>
-				</span> -->
-			</div>
-			<p class="blueskyJoinDate">
-				Member Since {intlFormat(profile.createdAt, {
-					month: 'long',
-					year: 'numeric'
-				})}
-			</p>
-		</article>
-		<div class="blueskyPosts">
-			{#each posts as post}
-				<BlueskyPost {profile} {post} />
-			{/each}
-		</div>
-	{/if}
-</div>
+<BlueskyTitlebar {profile} {userSheetIsOpen} {openUserSheet} {closeUser} {scrollToTop} />
+<BlueskySidebar {profile} {userSheetIsOpen} />
+<BlueskyTimeline {profile} {posts} {userSheetIsOpen} bind:scrollToTop />
 <div class="blueskyFooter" data-allow-window-drag></div>
-
-<Sheet open={userSheetOpen}>
-	<form class="blueskyUserSheet" onsubmit={submitUserSheet}>
-		<label class="blueskyUserSheetInputLabel">
-			<span>Enter handle:</span>
-			<!-- svelte-ignore a11y_autofocus -->
-			<input
-				class="aqua-textinput"
-				type="text"
-				bind:value={userHandle}
-				autofocus
-				onkeydown={userSheetKeydown}
-			/>
-		</label>
-		<div class="blueskyUserSheetButtons">
-			<button
-				type="button"
-				class="aqua-button"
-				onclick={() => (userSheetOpen = false)}
-				onkeydown={userSheetKeydown}>Cancel</button
-			>
-			<button
-				type="submit"
-				class="aqua-button primary"
-				disabled={!userHandle}
-				onkeydown={userSheetKeydown}>Go to User</button
-			>
-		</div>
-	</form>
-</Sheet>
+<BlueskyUserSheet isOpen={userSheetIsOpen} close={closeUserSheet} submit={loadUser} />
 
 <svg class="blueskyGradientDefs">
 	<defs>
@@ -248,292 +60,15 @@ disabled
 			<stop offset="0%" stop-color="#606060" />
 			<stop offset="100%" stop-color="#838383" />
 		</linearGradient>
-<linearGradient id="tabIconDisabledGradient" gradientTransform="rotate(90)">
+		<linearGradient id="tabIconDisabledGradient" gradientTransform="rotate(90)">
 			<stop offset="0%" stop-color="#8F8F90" />
 			<stop offset="100%" stop-color="#7C7C7D" />
 		</linearGradient>
 	</defs>
 </svg>
 
-<!-- TODO un-globalize CSS -->
 <style>
 	:global {
-		#root .window[data-appname='bluesky'] {
-			--sidebar-width: 65px;
-			--spacing: 10px;
-			--window-radius: 5px;
-			--titlebar-height: 35px;
-			--titlebar-gradient: linear-gradient(
-				to bottom,
-				#59595c 1px,
-				#4b4c4f 1px,
-				#4b4c4f 2px,
-				#444548 2px,
-				#2a2b2d
-			);
---glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
-			--text-medium: #2d2f31;
-			--text-light: #81878b;
-
-			background-color: #2a2b2d;
-			background-image: none;
-			background-clip: padding-box;
-			border-color: rgb(0 0 0 / 75%);
-			border-radius: 5px;
-
-			.windowControls {
-				grid-area: controls;
-				width: calc(var(--sidebar-width) + 1px);
-				height: 100%;
-				padding-inline: 6px;
-				justify-content: space-between;
-				gap: 0;
-				background-image: linear-gradient(
-					to left,
-					#535357 1px,
-					#18191a 1px,
-					#18191a 2px,
-					transparent 2px
-				);
-
-				.window.inactive & {
-					background-image: linear-gradient(
-						to left,
-						#535357 1px,
-						#2e2f31 1px,
-						#2e2f31 2px,
-						transparent 2px
-					);
-				}
-			}
-
-			.windowButton {
-				width: 12px;
-				height: 12px;
-				box-shadow: 0 1px 1px rgb(255 255 255 / 15%);
-			}
-
-			.windowContent {
-				grid-template:
-					'titlebar titlebar' var(--titlebar-height)
-					'sidebar content' 1fr
-					'footer footer' 25px / var(--sidebar-width) auto;
-			}
-		}
-
-		.blueskyTitlebar {
-			grid-area: titlebar;
-position: relative;
-			display: grid;
-			grid-template: 'controls title userButton' / auto 1fr auto;
-			background-image: var(--titlebar-gradient);
-			border-bottom: 1px solid black;
-border-top-left-radius: calc(var(--window-radius) - 1px);
-			border-top-right-radius: calc(var(--window-radius) - 1px);
-			-webkit-user-select: none;
-			user-select: none;
-
-			.window.inactive & {
-				background-image: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
-			}
-		}
-
-		.blueskyUserBackButton {
-			--inset: 0px;
-			--gradient-dir: bottom;
-			all: unset;
-			box-sizing: border-box;
-			grid-area: title;
-			align-self: center;
-			justify-self: start;
-			position: relative;
-			display: grid;
-			place-items: center;
-			height: 26px;
-			margin-left: 5px;
-			padding-left: 22px;
-			padding-right: 10px;
-			background: linear-gradient(to var(--gradient-dir), #1a1a1c, #111213);
-			color: white;
-			font-size: 12px;
-			text-shadow: 0 -1px var(--text-medium);
-			cursor: pointer;
-
-			&,
-			&::before,
-			&::after {
-				border-top-right-radius: calc(3px - var(--inset) * 0.25);
-				border-bottom-right-radius: calc(3px - var(--inset) * 0.25);
-				clip-path: polygon(
-					100% 0%,
-					100% 100%,
-					calc(12px - var(--inset) / 4) 100%,
-					calc(var(--inset) / 4) calc(50% + 0.5px),
-					calc(var(--inset) / 4) 50%,
-					calc(var(--inset) / 4) calc(50% - 0.5px),
-					calc(12px - var(--inset) / 4) 0%
-				);
-			}
-
-			&::before,
-			&::after {
-				content: '';
-				display: block;
-				position: absolute;
-				z-index: -1;
-				width: calc(100% - var(--inset));
-				height: calc(100% - var(--inset));
-			}
-
-			&::before {
-				--inset: 2px;
-				background: linear-gradient(to var(--gradient-dir), #7b7c7f, #4e4e51);
-			}
-
-			&::after {
-				--inset: 4px;
-				background: linear-gradient(to var(--gradient-dir), #606063, #3f3f42);
-			}
-
-			&:active {
-				--gradient-dir: top;
-			}
-		}
-
-		.blueskyWindowTitle {
-			all: unset;
-			grid-area: title;
-
-			&:not(:disabled) {
-			cursor: pointer;
-}
-
-			h2 {
-				text-align: center;
-				font-size: 14px;
-				color: white;
-				text-shadow: 0 -1px black;
-			
-			.window.inactive & {
-				color: #c7c7c8;
-}
-			}
-		}
-
-		.blueskyUserButton {
-			--gradient: url('#tabIconGradient');
-			all: unset;
-			grid-area: userButton;
-			padding-inline: 5px;
-			cursor: pointer;
-
-&:focus-visible {
-				filter: var(--glow-drop-shadow);
-				svg {
-					fill: url('#tabHighlightedIconGradient');
-				}
-			}
-
-			&:disabled {
-				cursor: default;
-			}
-
-			&:active:not(:disabled) .blueskyTabIcon {
-				--gradient: url('#tabIconActiveGradient');
-			}
-
-			.window.inactive & .blueskyTabIcon,
-			&:disabled .blueskyTabIcon {
-				--gradient: url('#tabIconDisabledGradient');
-			}
-
-			@media (scripting: none) {
-				display: none;
-			}
-		}
-
-		.blueskySidebar {
-			min-height: 0;
-			grid-area: 'sidebar';
-			padding: var(--spacing);
-			display: flex;
-			flex-direction: column;
-			gap: var(--spacing);
-			background-color: #4f5153;
-			border-right: 1px solid black;
-		}
-
-		.blueskyTabContainer {
-			position: relative;
-			display: flex;
-			flex-flow: column;
-			gap: 1px;
-			border: 1px solid black;
-			border-radius: 5px;
-			background-color: black;
-			box-shadow: 0 1px 1px 0 #6d6f71;
-			overflow: hidden;
-
-			&::after {
-				content: '';
-				position: absolute;
-				height: 100%;
-				width: 100%;
-				border-radius: 4px;
-				border-top: 1px solid #2f3132;
-				pointer-events: none;
-			}
-		}
-
-		.blueskyTab {
-			all: unset;
-			display: grid;
-			grid-template: 'indicator icon' 44px / 5px 1fr;
-			gap: 1px;
-
-			/* indicator */
-
-			&::after {
-				grid-area: indicator;
-				content: '';
-				background: #4c4f51;
-				border-top: 1px solid #5e6163;
-				border-right: 1px solid #5e6163;
-			}
-
-			&.highlighted::after {
-				background: linear-gradient(to right, #2182db, #3793e7);
-				border-top: none;
-				border-right-color: #48b8f7;
-				isolation: isolate;
-			}
-
-			&.highlighted::before {
-				grid-area: indicator;
-				content: '';
-				background-color: #3793e7;
-				scale: 1.75 1.25;
-				filter: blur(4px);
-			}
-		}
-
-		.blueskyTabIconWrapper {
-			--background: #3d3f41;
-			grid-area: icon;
-			display: grid;
-			justify-content: center;
-			align-items: center;
-			border-top: 1px solid #515354;
-			border-bottom: 1px solid transparent;
-			background-color: var(--background);
-
-			.blueskyTab.selected &,
-			.blueskyTab:active & {
-				--background: #242425;
-				border-top-color: #1d1d1e;
-			}
-		}
-
 		.blueskyTabIcon {
 			--gradient: url('#tabIconGradient');
 			--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
@@ -568,69 +103,6 @@ border-top-left-radius: calc(var(--window-radius) - 1px);
 			&.lucide-list {
 				stroke: #a4a6a9;
 			}
-
-			.blueskyTab.highlighted & {
-				--gradient: url('#tabHighlightedIconGradient');
-				filter: var(--outline-shadow) var(--glow-drop-shadow);
-
-				&.lucide-list {
-					stroke: #42a1f5;
-				}
-			}
-		}
-
-		.bluesky {
-			grid-area: content;
-			overflow-x: hidden;
-			overflow-y: auto;
-			color: #44484a;
-		}
-
-		.blueskyBanner {
-			aspect-ratio: 3 / 1;
-			min-height: 100px;
-			max-height: 25cqh;
-			width: 100%;
-			object-fit: cover;
-		}
-
-		.blueskyProfile {
-			display: flex;
-			flex-flow: column;
-			padding: var(--spacing);
-			gap: var(--spacing);
-			background: linear-gradient(to bottom, #f4f8fa, #d9dde0);
-			border-bottom: 1px solid #525556;
-			box-shadow: 0 0 5px rgb(0 0 0 / 50%);
-		}
-
-		.blueskyProfileHeader {
-			display: flex;
-			align-items: center;
-			gap: var(--spacing);
-		}
-
-		.blueskyFollowButton {
-			--gradient-dir: bottom;
-			height: 26px;
-			display: flex;
-			align-items: center;
-			padding-inline: var(--spacing);
-			border: 1px solid black;
-			border-radius: 5px;
-			box-shadow: inset 0 0 0 1px rgb(255 255 255 / 15%);
-			background: linear-gradient(to var(--gradient-dir), #449df5, #1462aa);
-			font-size: 14px;
-			font-weight: bold;
-			color: white;
-			text-shadow: 0 -1px rgb(0 0 0 / 50%);
-			text-decoration: none;
-			-webkit-user-select: none;
-			user-select: none;
-
-			&:active {
-				--gradient-dir: top;
-			}
 		}
 
 		.blueskyAvatar {
@@ -653,41 +125,6 @@ border-top-left-radius: calc(var(--window-radius) - 1px);
 				border-radius: inherit;
 				pointer-events: none;
 			}
-
-			.blueskySidebar & {
-				--top-highlight: #a9adb1;
-				height: auto;
-				width: auto;
-				aspect-ratio: 1 / 1;
-				display: grid;
-				place-items: center;
-				border: 1px solid black;
-				background-image: linear-gradient(to bottom, #92969a, #7b8084);
-				box-shadow: 0 1px 1px 0 #6d6f71;
-
-				&.highlighted {
-					box-shadow: 0 0 5px 2px #3793e7;
-				}
-
-				&:active {
-					--top-highlight: #2f3132;
-					background-image: linear-gradient(to bottom, #3d3f41, #3d3f41);
-				}
-
-				&::after {
-					border-radius: 4px;
-					box-shadow: inset 0 1px 0 0 var(--top-highlight);
-				}
-
-				img {
-					border: 1px solid black;
-					border-radius: 3px;
-				}
-			}
-
-			.blueskyPost & {
-				margin-block-start: 5px;
-			}
 		}
 
 		.blueskyAuthor {
@@ -695,358 +132,32 @@ border-top-left-radius: calc(var(--window-radius) - 1px);
 				text-box-trim: trim-both;
 				text-box-edge: text;
 			}
-
-			.blueskyProfile & {
-				flex-grow: 1;
-			}
-
-			.blueskyPost & {
-				display: flex;
-				flex-wrap: wrap;
-				align-items: baseline;
-				column-gap: 0.5em;
-				color: inherit;
-				text-decoration: none;
-				&:hover {
-					text-decoration: underline;
-					text-decoration-color: var(--text-light);
-				}
-			}
 		}
 
 		.blueskyDisplayName {
 			font-weight: bold;
-
-			.blueskyProfile & {
-				color: black;
-			}
 		}
 
 		.blueskyHandle {
 			display: inline;
-
-			.blueskyProfile & {
-				font-size: 15px;
-			}
-
-			.blueskyPost & {
-				color: var(--text-light);
-			}
-		}
-
-		.blueskyBio {
-			font-size: 15px;
-			line-height: 1.3;
-			white-space: pre-wrap;
-			color: var(--text-medium);
-		}
-
-		.blueskyMention {
-			color: #465a6e;
-			font-weight: bold;
-			&:not(:hover) {
-				text-decoration: none;
-			}
-		}
-
-		.blueskyLink {
-			color: #286fb4;
-			&:not(:hover) {
-				text-decoration: none;
-			}
-		}
-
-		.blueskyStatsContainer {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-rows: repeat(2, 40px);
-			gap: 1px;
-			border: 1px solid #a8abad;
-			border-radius: 5px;
-			overflow: hidden;
-			background-color: #a8abad;
-		}
-
-		.blueskyStat {
-			--stat-bg: #f3f6f8;
-			min-width: 0;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding-inline: 17px;
-			gap: var(--spacing);
-			background-color: var(--stat-bg);
-			font-size: 14px;
-			color: var(--text-medium);
-			text-decoration: none;
-			-webkit-user-select: none;
-			user-select: none;
-
-			&:is(a):active {
-				background-color: #caced0;
-			}
-		}
-
-		/* .blueskyStatLocation {
-			padding-inline-start: 12px;
-			justify-content: flex-start;
-
-			span {
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
-
-		.blueskyMapPin {
-			flex-shrink: 0;
-			stroke: transparent;
-			fill: url('#statIconGradient');
-
-			> circle {
-				fill: var(--stat-bg);
-			}
-		} */
-
-		.blueskyStatNumber {
-			height: 19px;
-			display: flex;
-			align-items: center;
-			padding-inline: 8px;
-			border: 1px solid #2368ad;
-			border-radius: 9999px;
-			background-color: #3982c7;
-			font-weight: bold;
-			color: white;
-		}
-
-		.blueskyJoinDate {
-			text-align: center;
-			font-size: 14px;
-			color: var(--text-light);
-			text-shadow: 0 1px white;
-			-webkit-user-select: none;
-			user-select: none;
-		}
-
-		.blueskyPost {
-			--card-border-color: #d5d9dc;
-			display: flex;
-			padding: var(--spacing);
-			padding-block-start: 5px;
-			gap: var(--spacing);
-			background-color: #fafafb;
-			border-top: 1px solid white;
-			border-bottom: 1px solid #d5d9dc;
-
-			&.blueskyQuotePost {
-				border: 1px solid var(--card-border-color);
-				border-radius: 5px;
-			}
-
-			&:has(a:active),
-			&:focus-within,
-			&:focus-within & {
-				--card-border-color: #7e8082;
-				background: linear-gradient(to bottom, #e4e6ea, #caced0);
-				border-color: var(--card-border-color);
-			}
-		}
-
-		.blueskyPostHeader {
-			display: flex;
-			justify-content: space-between;
-			align-items: baseline;
-		}
-
-		.blueskyTimestamp {
-			font-weight: bold;
-			color: var(--text-light);
-			text-box-trim: trim-both;
-			text-box-edge: text;
-			&:not(:hover) {
-				text-decoration: none;
-			}
-		}
-
-		.blueskyPostContent {
-			min-width: 0;
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			gap: var(--spacing);
-		}
-
-		.blueskyPostText {
-			margin-block-start: -10px;
-			white-space: pre-wrap;
-		}
-
-		.blueskyImageContainer {
-			--gap: 2px;
-			margin-inline-end: 5px;
-			margin-block-end: 5px;
-			position: relative;
-			aspect-ratio: 1.825;
-			max-height: 230px;
-			display: grid;
-			grid-template-columns: repeat(2, calc(50% - var(--gap) / 2));
-			grid-template-rows: repeat(2, calc(50% - var(--gap) / 2));
-			gap: var(--gap);
-			border-radius: 5px;
-			overflow: hidden;
-		}
-
-		.blueskyImage {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			object-position: center;
-
-			/* 1 image */
-			&:first-of-type:last-of-type {
-				grid-column: span 2;
-				grid-row: span 2;
-			}
-
-			/* 2 images */
-			&:first-of-type:nth-last-of-type(2),
-			&:nth-child(2):last-of-type {
-				grid-row: span 2;
-			}
-
-			/* 3 images */
-			&:first-of-type:nth-last-of-type(3) {
-				grid-row: span 2;
-			}
-		}
-
-		.blueskyPlayIcon {
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			translate: -50% -50%;
-			width: 72px;
-			height: 72px;
-			display: grid;
-			place-items: center;
-			padding-left: 7.5px;
-			background-color: rgb(255 255 255 / 75%);
-			border-radius: 50%;
-			font-size: 42px;
-			color: rgb(0 0 0 / 75%);
-		}
-
-		.blueskyLinkPreview {
-			max-height: 230px;
-			display: flex;
-			flex-direction: column;
-			border: 1px solid var(--card-border-color);
-			border-radius: 5px;
-			overflow: hidden;
-			color: inherit;
-			text-decoration: none;
-
-			&:hover .blueskyLinkPreviewTitle {
-				text-decoration: underline;
-			}
-		}
-
-		.blueskyLinkPreviewThumb {
-			min-height: 0;
-			object-fit: cover;
-			object-position: center;
-		}
-
-		.blueskyLinkPreviewText {
-			padding: var(--spacing);
-		}
-
-		.blueskyLinkPreviewDescription {
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 2;
-			line-clamp: 2;
-			overflow: hidden;
-		}
-
-		.blueskyContentWarning .blueskyLinkPreviewDescription {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-
-			span:first-of-type {
-				flex-grow: 1;
-				font-weight: bold;
-			}
-		}
-
-		.blueskyLinkPreviewTitle {
-			font-weight: bold;
-		}
-
-		.blueskyLinkPreviewDomain {
-			font-size: 14px;
-			color: var(--text-light);
-		}
-
-		.blueskyRepostLabel {
-			margin-top: -5px;
-			display: flex;
-			gap: 5px;
-			font-weight: bold;
-			-webkit-user-select: none;
-			user-select: none;
-
-			svg {
-				color: #b2b7be;
-				stroke-width: 3;
-			}
-		}
-
-		.blueskyFooter {
-			grid-area: footer;
-			background-image: var(--titlebar-gradient);
-			border-top: 1px solid black;
-border-bottom-left-radius: calc(var(--window-radius) - 1px);
-			border-bottom-right-radius: calc(var(--window-radius) - 1px);
-
-			.window.inactive & {
-				background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
-			}
-		}
-
-		.blueskyGradientDefs {
-			position: fixed;
-			top: 100vh;
-			left: 100vw;
 		}
 	}
 
-	.blueskyUserSheet {
-		width: 300px;
-	}
+	.blueskyFooter {
+		grid-area: footer;
+		background-image: var(--titlebar-gradient);
+		border-top: 1px solid black;
+		border-bottom-left-radius: calc(var(--window-radius) - 1px);
+		border-bottom-right-radius: calc(var(--window-radius) - 1px);
 
-	.blueskyUserSheetInputLabel {
-		display: flex;
-		gap: 10px;
-
-		span {
-			flex-shrink: 0;
-			-webkit-user-select: none;
-			user-select: none;
-		}
-		input {
-			width: 100%;
-			&:user-invalid {
-				background-color: pink;
-			}
+		:global(.window.inactive) & {
+			background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
 		}
 	}
 
-	.blueskyUserSheetButtons {
-		margin-top: 20px;
-		display: flex;
-		justify-content: flex-end;
-		gap: 15px;
+	.blueskyGradientDefs {
+		position: fixed;
+		top: 100vh;
+		left: 100vw;
 	}
 </style>
