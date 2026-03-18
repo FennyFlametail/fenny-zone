@@ -209,7 +209,6 @@
 		background-color: white;
 		border: 1px solid black;
 		box-shadow: var(--panel-box-shadow);
-		overflow: hidden;
 		touch-action: auto; /* needed for touch dragging to work */
 
 		&.inactive {

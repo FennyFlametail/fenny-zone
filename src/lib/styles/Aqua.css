@@ -22,7 +22,7 @@
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--text-secondary: rgb(0 0 0 / 50%);
-	--focus-box-shadow: 0 0 3px 2px #92b9db;
+	--focus-box-shadow: 0 0 5px 3px #7cb1e8;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
 	--button-border-gradient: #666666, #666666;
@@ -82,7 +82,8 @@ body {
 		font-weight: bold;
 	}
 
-	.menu {
+	.menu,
+	.sheetWrapper {
 		background: var(--pinstripe-bg-image-translucent);
 
 		@media (prefers-reduced-transparency: reduce) {
@@ -336,6 +337,13 @@ body {
 			padding-inline: 14px;
 		}
 
+		svg {
+			opacity: 0.75;
+		}
+		&:is(:disabled, .disabled) svg {
+			opacity: 0.33;
+		}
+
 		.window.brushed .windowToolbar & {
 			box-shadow: var(--widget-sunken-box-shadow);
 		}
@@ -350,7 +358,7 @@ body {
 				:disabled,
 				.disabled
 			),
-		&.primary:not(.window.inactive .primary) {
+		&.primary:not(.window.inactive .primary, :disabled, .disabled) {
 			--button-gradient: var(--button-active-gradient);
 			--button-border-gradient: var(--button-border-active-gradient);
 
@@ -359,20 +367,17 @@ body {
 			}
 		}
 
-		&.primary:not(.window.inactive .primary):not(:active) {
+		&.primary:not(.window.inactive .primary, :active, :disabled, .disabled) {
 			animation: 0.5s linear infinite alternate pulsate;
-		}
-
-		svg {
-			opacity: 0.75;
-		}
-		&:is(:disabled, .disabled) svg {
-			opacity: 0.33;
 		}
 
 		@media not (scripting: none) {
 			cursor: default;
 		}
+	}
+
+	.aqua-button:not(.square):is(:disabled, .disabled) {
+		opacity: 0.5;
 	}
 
 	.aqua-tab {
@@ -391,6 +396,18 @@ body {
 
 		&:not(:has(input:checked), .active):active {
 			filter: brightness(0.9);
+		}
+	}
+
+	.aqua-textinput {
+		--textinput-shadow: inset 0 1px 1px 0 #7c7c7c, inset 0 0 0 1px var(--accent-color-inactive);
+		border-radius: 0;
+		border: none;
+		box-shadow: var(--textinput-shadow);
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--textinput-shadow), var(--focus-box-shadow);
 		}
 	}
 	/* #endregion */

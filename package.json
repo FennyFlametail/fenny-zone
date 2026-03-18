@@ -37,6 +37,7 @@
 		"es-toolkit": "^1.42.0",
 		"lucide-svelte": "^0.474.0",
 		"nanoid": "^5.1.6",
+		"trap-focus-svelte": "^1.1.0",
 		"valibot": "^1.2.0",
 		"xss": "^1.0.15"
 	}

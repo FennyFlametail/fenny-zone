@@ -20,7 +20,7 @@ export default async function fetchBlueskyData(
 		return defaultDataCache.data;
 	}
 
-	const fetchResult = await fetchData(fetchFn, userHandle);
+	const fetchResult = await fetchData(fetchFn, userHandle.toLowerCase());
 
 	if (fetchResult.profile && fetchResult.posts) {
 		if (defaultUser) {

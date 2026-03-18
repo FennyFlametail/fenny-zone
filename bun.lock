@@ -8,6 +8,7 @@
         "es-toolkit": "^1.42.0",
         "lucide-svelte": "^0.474.0",
         "nanoid": "^5.1.6",
+        "trap-focus-svelte": "^1.1.0",
         "valibot": "^1.2.0",
         "xss": "^1.0.15",
       },
@@ -598,6 +599,8 @@
     "totalist": ["totalist@3.0.1", "", {}, "sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ=="],
 
     "tr46": ["tr46@0.0.3", "", {}, "sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw=="],
+
+    "trap-focus-svelte": ["trap-focus-svelte@1.1.0", "", {}, "sha512-EZW66cASC5lTMH5v3AA8BtN3lzBNnRJDGlyIkRptsmjYgSD2OdsiZ8OOWROrhbfvmx6P4c382ZD39cv5JkCxww=="],
 
     "ts-api-utils": ["ts-api-utils@2.1.0", "", { "peerDependencies": { "typescript": ">=4.8.4" } }, "sha512-CUgTZL1irw8u29bzrOD/nH85jqyc74D6SshFgujOIA7osm2Rz7dYH77agkx7H4FBNxDq7Cjf+IjaX/8zwFW+ZQ=="],
 

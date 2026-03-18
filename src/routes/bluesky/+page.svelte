@@ -1,6 +1,8 @@
 <script lang="ts">
 	import BlueskyPost from '$lib/components/BlueskyPost.svelte';
+import Sheet from '$lib/components/Sheet.svelte';
 	import WindowControls from '$lib/components/WindowControls.svelte';
+import getHandleRegex from '$lib/helpers/blueskyHandleRegex';
 	import { intlFormat } from 'date-fns';
 	import {
 		AtSign,
@@ -18,7 +20,9 @@
 	import { getBlueskyData } from './bluesky.remote';
 
 	const { data }: PageProps = $props();
-	let { profile, posts } = $state(data?.bluesky ?? (await getBlueskyData()));
+
+	// eslint-disable-next-line svelte/valid-compile
+	let { profile, posts } = $state(data?.bluesky ?? (await getBlueskyData(undefined)));
 
 	// TODO update title in Window menu to match display name
 	// TODO add menu item for Change User
@@ -26,6 +30,13 @@
 	const numberFormatter = new Intl.NumberFormat();
 
 	let content = $state<HTMLDivElement>();
+function scrollToTop() {
+		content?.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	}
+
 	let lastX = $state(0);
 	let lastY = $state(0);
 	function onTitleDown() {
@@ -38,22 +49,37 @@
 		if (!content) return;
 		const { left, top } = content.getBoundingClientRect();
 		if (Math.abs(left - lastX) < 1 && Math.abs(top - lastY) < 1) {
-			content?.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			});
+			scrollToTop();
 		}
 	}
 
-	async function changeUser() {
-		// TODO proper sheet with loading and error states
-		const userHandle = prompt('Enter handle...');
-		if (userHandle) {
+	let userSheetOpen = $state(false);
+	let userHandle = $state<string>('');
+	async function openUserSheet() {
+		userHandle = '';
+		userSheetOpen = true;
+	}
+	async function submitUserSheet(e: SubmitEvent) {
+		e.preventDefault();
+		if (userHandle.replace('@', '').match(getHandleRegex())) {
+			// TODO loading indicator
+			scrollToTop();
+			// FIXME store these separately so going back is instant
 			({ profile, posts } = await getBlueskyData(userHandle));
+		userSheetOpen = false;
+		} else {
+			// TODO better error messaging
+			alert('Invalid handle');
 		}
 	}
+	function userSheetKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') userSheetOpen = false;
+	}
+	async function resetUser() {
+		({ profile, posts } = await getBlueskyData());
+	}
 
-	let highlightedTabs = $state(new SvelteSet([0]));
+	let highlightedTabs = $state(new SvelteSet([]));
 
 	const tabs: [
 		any,
@@ -68,7 +94,7 @@
 		[Mail, { iconClass: ['fill'] }],
 		[Star, { iconClass: ['fill'] }],
 		[Search, { strokeWidth: 4 }],
-		[User, { classes: ['selected'], iconClass: ['fill'], strokeWidth: 0 }],
+		[User, { classes: ['highlighted', 'selected'], iconClass: ['fill'], strokeWidth: 0 }],
 		[List, { strokeWidth: 3 }],
 		[Repeat2, { strokeWidth: 3 }],
 		[MessageCircleX, { iconClass: ['fill'] }]
@@ -77,24 +103,29 @@
 
 <div class="blueskyTitlebar" data-allow-window-drag>
 	<WindowControls />
+<button class="blueskyUserBackButton" onclick={resetUser} disabled={userSheetOpen}>
+		fenny.zone
+	</button>
 	<button
 		class="blueskyWindowTitle"
 		onpointerdown={onTitleDown}
 		onpointerup={onTitleUp}
 		data-allow-window-drag
+title="Scroll to top"
+		disabled={userSheetOpen}
 	>
 		<h2 data-allow-window-drag>{profile?.displayName}</h2>
 	</button>
-	<!-- <button
+	<button
 		class="blueskyUserButton"
-		onclick={changeUser}
-		title="Change User"
-		aria-label="Change User"
+		onclick={openUserSheet}
+		title="Go to User"
+		disabled={userSheetOpen}
 	>
 		<User class="blueskyTabIcon fill" strokeWidth={0} />
-	</button> -->
+	</button>
 </div>
-<div class="blueskySidebar" data-allow-window-drag>
+<div class="blueskySidebar" data-allow-window-drag inert={userSheetOpen}>
 	<div class="blueskyAvatar">
 		<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
 	</div>
@@ -105,6 +136,8 @@
 				class={['blueskyTab', highlighted && 'highlighted', ...classes]}
 				onclick={/* () => (highlighted ? highlightedTabs.delete(index) : highlightedTabs.add(index)) */
 				() => {}}
+disabled
+				aria-hidden="true"
 			>
 				<div class="blueskyTabIconWrapper">
 					<Icon class={['blueskyTabIcon', ...iconClass].join(' ')} {strokeWidth} />
@@ -113,7 +146,7 @@
 		{/each}
 	</div>
 </div>
-<div class="bluesky aqua-no-scrollbar" bind:this={content}>
+<div bind:this={content} class="bluesky aqua-no-scrollbar" inert={userSheetOpen}>
 	{#if profile && posts}
 		<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
 		<article class="blueskyProfile">
@@ -127,6 +160,7 @@
 				</hgroup>
 				<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
 			</div>
+<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			<p class="blueskyBio">{@html profile.description}</p>
 			<div class="blueskyStatsContainer">
 				<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
@@ -166,6 +200,36 @@
 </div>
 <div class="blueskyFooter" data-allow-window-drag></div>
 
+<Sheet open={userSheetOpen}>
+	<form class="blueskyUserSheet" onsubmit={submitUserSheet}>
+		<label class="blueskyUserSheetInputLabel">
+			<span>Enter handle:</span>
+			<!-- svelte-ignore a11y_autofocus -->
+			<input
+				class="aqua-textinput"
+				type="text"
+				bind:value={userHandle}
+				autofocus
+				onkeydown={userSheetKeydown}
+			/>
+		</label>
+		<div class="blueskyUserSheetButtons">
+			<button
+				type="button"
+				class="aqua-button"
+				onclick={() => (userSheetOpen = false)}
+				onkeydown={userSheetKeydown}>Cancel</button
+			>
+			<button
+				type="submit"
+				class="aqua-button primary"
+				disabled={!userHandle}
+				onkeydown={userSheetKeydown}>Go to User</button
+			>
+		</div>
+	</form>
+</Sheet>
+
 <svg class="blueskyGradientDefs">
 	<defs>
 		<linearGradient id="statIconGradient" gradientTransform="rotate(90)">
@@ -184,6 +248,10 @@
 			<stop offset="0%" stop-color="#606060" />
 			<stop offset="100%" stop-color="#838383" />
 		</linearGradient>
+<linearGradient id="tabIconDisabledGradient" gradientTransform="rotate(90)">
+			<stop offset="0%" stop-color="#8F8F90" />
+			<stop offset="100%" stop-color="#7C7C7D" />
+		</linearGradient>
 	</defs>
 </svg>
 
@@ -193,6 +261,7 @@
 		#root .window[data-appname='bluesky'] {
 			--sidebar-width: 65px;
 			--spacing: 10px;
+			--window-radius: 5px;
 			--titlebar-height: 35px;
 			--titlebar-gradient: linear-gradient(
 				to bottom,
@@ -202,6 +271,7 @@
 				#444548 2px,
 				#2a2b2d
 			);
+--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
 			--text-medium: #2d2f31;
 			--text-light: #81878b;
 
@@ -253,10 +323,13 @@
 
 		.blueskyTitlebar {
 			grid-area: titlebar;
+position: relative;
 			display: grid;
 			grid-template: 'controls title userButton' / auto 1fr auto;
 			background-image: var(--titlebar-gradient);
 			border-bottom: 1px solid black;
+border-top-left-radius: calc(var(--window-radius) - 1px);
+			border-top-right-radius: calc(var(--window-radius) - 1px);
 			-webkit-user-select: none;
 			user-select: none;
 
@@ -265,20 +338,85 @@
 			}
 		}
 
+		.blueskyUserBackButton {
+			--inset: 0px;
+			--gradient-dir: bottom;
+			all: unset;
+			box-sizing: border-box;
+			grid-area: title;
+			align-self: center;
+			justify-self: start;
+			position: relative;
+			display: grid;
+			place-items: center;
+			height: 26px;
+			margin-left: 5px;
+			padding-left: 22px;
+			padding-right: 10px;
+			background: linear-gradient(to var(--gradient-dir), #1a1a1c, #111213);
+			color: white;
+			font-size: 12px;
+			text-shadow: 0 -1px var(--text-medium);
+			cursor: pointer;
+
+			&,
+			&::before,
+			&::after {
+				border-top-right-radius: calc(3px - var(--inset) * 0.25);
+				border-bottom-right-radius: calc(3px - var(--inset) * 0.25);
+				clip-path: polygon(
+					100% 0%,
+					100% 100%,
+					calc(12px - var(--inset) / 4) 100%,
+					calc(var(--inset) / 4) calc(50% + 0.5px),
+					calc(var(--inset) / 4) 50%,
+					calc(var(--inset) / 4) calc(50% - 0.5px),
+					calc(12px - var(--inset) / 4) 0%
+				);
+			}
+
+			&::before,
+			&::after {
+				content: '';
+				display: block;
+				position: absolute;
+				z-index: -1;
+				width: calc(100% - var(--inset));
+				height: calc(100% - var(--inset));
+			}
+
+			&::before {
+				--inset: 2px;
+				background: linear-gradient(to var(--gradient-dir), #7b7c7f, #4e4e51);
+			}
+
+			&::after {
+				--inset: 4px;
+				background: linear-gradient(to var(--gradient-dir), #606063, #3f3f42);
+			}
+
+			&:active {
+				--gradient-dir: top;
+			}
+		}
+
 		.blueskyWindowTitle {
 			all: unset;
 			grid-area: title;
+
+			&:not(:disabled) {
 			cursor: pointer;
+}
 
 			h2 {
 				text-align: center;
 				font-size: 14px;
 				color: white;
 				text-shadow: 0 -1px black;
-			}
-
+			
 			.window.inactive & {
 				color: #c7c7c8;
+}
 			}
 		}
 
@@ -289,8 +427,24 @@
 			padding-inline: 5px;
 			cursor: pointer;
 
-			&:active .blueskyTabIcon {
+&:focus-visible {
+				filter: var(--glow-drop-shadow);
+				svg {
+					fill: url('#tabHighlightedIconGradient');
+				}
+			}
+
+			&:disabled {
+				cursor: default;
+			}
+
+			&:active:not(:disabled) .blueskyTabIcon {
 				--gradient: url('#tabIconActiveGradient');
+			}
+
+			.window.inactive & .blueskyTabIcon,
+			&:disabled .blueskyTabIcon {
+				--gradient: url('#tabIconDisabledGradient');
 			}
 
 			@media (scripting: none) {
@@ -417,7 +571,7 @@
 
 			.blueskyTab.highlighted & {
 				--gradient: url('#tabHighlightedIconGradient');
-				filter: var(--outline-shadow) drop-shadow(0 0 5px #3793e7);
+				filter: var(--outline-shadow) var(--glow-drop-shadow);
 
 				&.lucide-list {
 					stroke: #42a1f5;
@@ -648,7 +802,7 @@
 			stroke: transparent;
 			fill: url('#statIconGradient');
 
-			> :global(circle) {
+			> circle {
 				fill: var(--stat-bg);
 			}
 		} */
@@ -843,7 +997,7 @@
 			-webkit-user-select: none;
 			user-select: none;
 
-			:global(svg) {
+			svg {
 				color: #b2b7be;
 				stroke-width: 3;
 			}
@@ -853,6 +1007,8 @@
 			grid-area: footer;
 			background-image: var(--titlebar-gradient);
 			border-top: 1px solid black;
+border-bottom-left-radius: calc(var(--window-radius) - 1px);
+			border-bottom-right-radius: calc(var(--window-radius) - 1px);
 
 			.window.inactive & {
 				background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
@@ -864,5 +1020,33 @@
 			top: 100vh;
 			left: 100vw;
 		}
+	}
+
+	.blueskyUserSheet {
+		width: 300px;
+	}
+
+	.blueskyUserSheetInputLabel {
+		display: flex;
+		gap: 10px;
+
+		span {
+			flex-shrink: 0;
+			-webkit-user-select: none;
+			user-select: none;
+		}
+		input {
+			width: 100%;
+			&:user-invalid {
+				background-color: pink;
+			}
+		}
+	}
+
+	.blueskyUserSheetButtons {
+		margin-top: 20px;
+		display: flex;
+		justify-content: flex-end;
+		gap: 15px;
 	}
 </style>
