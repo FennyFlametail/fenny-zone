@@ -9,6 +9,8 @@
 	} from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
+	import { prefersReducedMotion } from 'svelte/motion';
+	import { scale } from 'svelte/transition';
 
 	let {
 		appName,
@@ -142,6 +144,7 @@
 	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag
+	out:scale={{ duration: 150, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
 >
 	{#if app.windowStyle !== 'custom'}
 		<header class="windowTitlebar" data-allow-window-drag>
