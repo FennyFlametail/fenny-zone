@@ -3,6 +3,7 @@
 	import TrashFullIcon from '$lib/images/icons/trash-full.webp';
 	import TrashPoster from '$lib/images/trash-poster.webp';
 	import TrashVideo from '$lib/images/trash.mp4';
+	import { prefersReducedMotion } from 'svelte/motion';
 
 	const { app, appName } = getAppContext();
 	const windowServer = getWindowServerContext();
@@ -20,8 +21,8 @@
 		src={TrashVideo}
 		poster={TrashPoster}
 		muted
-		autoplay={!windowServer.reduceMotion}
-		controls={windowServer.reduceMotion}
+		autoplay={!prefersReducedMotion.current}
+		controls={prefersReducedMotion.current}
 		{onended}
 		playsinline
 		disablepictureinpicture>Baby fox jumping into a trash can</video

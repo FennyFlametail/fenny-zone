@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import getApps, { type AppName, type RunningApp } from '$lib/apps.svelte';
+import { prefersReducedMotion } from 'svelte/motion';
 
 const STORAGE_KEY = 'windowState';
 
@@ -77,7 +78,6 @@ export default class WindowServer {
 	desktopFocused = $state(true);
 	draggingEl = $state<HTMLElement>();
 	resizingEl = $state<HTMLElement>();
-	reduceMotion = $state(false);
 
 	apps = $state(getApps());
 
@@ -247,7 +247,7 @@ export default class WindowServer {
 	};
 
 	setAnimating = (app: RunningApp) => {
-		if (!this.reduceMotion) {
+		if (!prefersReducedMotion.current) {
 			app.instance.animating = true;
 		}
 	};

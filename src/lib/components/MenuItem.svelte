@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { getMenubarContext, getWindowServerContext } from '$lib/context.svelte';
+	import { getMenubarContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
+	import { prefersReducedMotion } from 'svelte/motion';
 
 	const {
 		disabled,
@@ -30,18 +31,21 @@
 		  }
 	) = $props();
 
-	const windowServer = getWindowServerContext();
 	const { dismissMenu } = getMenubarContext();
 
 	let opening = $state(false);
-	const openAnimDuration = $derived(windowServer.reduceMotion ? 0 : 200);
+	const openAnimDuration = $derived(prefersReducedMotion.current ? 0 : 200);
 
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
 		opening = true;
 		window.setTimeout(() => {
 			opening = false;
-			href ? open(href, newTab ? '_blank' : '_self') : onclick?.();
+			if (href) {
+				open(href, newTab ? '_blank' : '_self');
+			} else {
+				onclick?.();
+			}
 			dismissMenu();
 		}, openAnimDuration);
 	}

@@ -29,12 +29,6 @@
 		}
 
 		setTimeout(() => document.body.classList.remove('loading'), 500);
-
-		const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-		windowServer.reduceMotion = reduceMotionQuery.matches;
-		reduceMotionQuery.addEventListener('change', (e) => {
-			windowServer.reduceMotion = e.matches;
-		});
 	});
 </script>
 

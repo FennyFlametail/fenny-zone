@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
+	import { getAppContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
+	import { prefersReducedMotion } from 'svelte/motion';
+	import { fly } from 'svelte/transition';
 	import { trapFocus } from 'trap-focus-svelte';
 
-	const windowServer = getWindowServerContext();
 	const { getFocused } = getAppContext();
 	const focused = $derived(getFocused());
 
@@ -17,24 +18,19 @@
 		open: boolean;
 		children: Snippet;
 	} = $props();
-
-	const transitionDuration = $derived(windowServer.reduceMotion ? 0 : 250);
-
-	let render = $state(false);
-	let closeTimeout: number;
-	$effect(() => {
-		if (open) {
-			render = true;
-			clearTimeout(closeTimeout);
-		} else {
-			closeTimeout = setTimeout(() => (render = false), transitionDuration);
-		}
-	});
 </script>
 
-{#if render}
-	<div class={['sheet', { open }]} style:--transition-duration={`${transitionDuration}ms`}>
-		<div class="sheetWrapper" use:trapFocus={focused}>
+{#if open}
+	<div class={['sheet', { open }]}>
+		<div
+			class="sheetWrapper"
+			use:trapFocus={focused}
+			transition:fly={{
+				duration: 250,
+				y: !prefersReducedMotion.current ? '-100%' : 0,
+				opacity: !prefersReducedMotion.current ? 1 : 0
+			}}
+		>
 			{@render children()}
 		</div>
 	</div>
@@ -59,32 +55,5 @@
 		padding: 20px;
 		box-shadow: var(--panel-box-shadow-inactive);
 		margin-top: 1px;
-		animation: slideOut var(--transition-duration) both;
-
-		.sheet.open & {
-			animation-name: slideIn;
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			animation: none !important;
-		}
-	}
-
-	@keyframes slideIn {
-		from {
-			translate: 0 -100%;
-		}
-		to {
-			translate: 0;
-		}
-	}
-
-	@keyframes slideOut {
-		from {
-			translate: 0;
-		}
-		to {
-			translate: 0 -100%;
-		}
 	}
 </style>
