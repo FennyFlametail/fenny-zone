@@ -9,10 +9,11 @@
 	<h3>2026-03-19</h3>
 	<ul>
 		<li>Added window close animation</li>
+		<li>Fixed crash if JavaScript is disabled</li>
 	</ul>
 	<h3>2026-03-14</h3>
 	<ul>
-		<li>Improved support for reduced motion & forced color accessibility options</li>
+		<li>Improved support for reduced motion & forced color modes</li>
 	</ul>
 	<h3>2026-03-10</h3>
 	<ul>
