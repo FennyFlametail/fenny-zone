@@ -1,35 +1,48 @@
 import { FilterXSS } from 'xss';
 
 const DEFAULT_HANDLE = 'fenny.zone';
-const defaultDataCache = {
+const cache = new Map<
+	string,
+	{
+		timestamp: number;
+		data: FetchDataResult;
+	}
+>();
+cache.set(DEFAULT_HANDLE, {
 	timestamp: 0,
 	data: {
 		profile: null,
 		posts: null
-	} as FetchDataResult
-};
+	}
+});
 
 export default async function fetchBlueskyData(
 	fetchFn: typeof globalThis.fetch,
-	userHandle = DEFAULT_HANDLE
+	handleRaw = DEFAULT_HANDLE
 ): Promise<FetchDataResult> {
-	const defaultUser = userHandle === DEFAULT_HANDLE;
-	const cacheExpired = Date.now() - defaultDataCache.timestamp > 1000 * 60 * 15;
+	const handle = handleRaw.toLowerCase();
+	let cacheEntry = cache.get(handle);
+	const cacheExpired = !cacheEntry || Date.now() - cacheEntry.timestamp > 1000 * 60 * 15;
 
-	if (defaultUser && !cacheExpired) {
-		return defaultDataCache.data;
+	if (!cacheExpired) {
+		console.debug(`Returning ${handle} from cache`);
+		return cacheEntry!.data;
 	}
 
-	const fetchResult = await fetchData(fetchFn, userHandle.toLowerCase());
+	const fetchResult = await fetchData(fetchFn, handle.toLowerCase());
 
 	if (fetchResult.profile && fetchResult.posts) {
-		if (defaultUser) {
-			defaultDataCache.timestamp = Date.now();
-			defaultDataCache.data = fetchResult;
+		if (!cacheEntry) {
+			cacheEntry = {
+				timestamp: Date.now(),
+				data: fetchResult
+			};
+			cache.set(handle, cacheEntry);
 		}
 		return fetchResult;
-	} else if (defaultUser) {
-		return defaultDataCache.data;
+	} else if (cacheEntry) {
+		console.warn(`Failed to fetch ${handle}, returning stale cache data`);
+		return cacheEntry.data;
 	} else {
 		throw new Error('No data available');
 	}
@@ -37,24 +50,17 @@ export default async function fetchBlueskyData(
 
 // #region Helpers
 
-const enum PostFilter {
-	posts_with_replies = 'posts_with_replies',
-	posts_no_replies = 'posts_no_replies',
-	posts_with_media = 'posts_with_media',
-	posts_and_author_threads = 'posts_and_author_threads',
-	posts_with_video = 'posts_with_video'
-}
-
 async function fetchData(
 	fetchFn: typeof globalThis.fetch,
-	userHandle = DEFAULT_HANDLE
+	handle = DEFAULT_HANDLE
 ): Promise<FetchDataResult> {
-	console.log('Fetching Bluesky data...', userHandle);
+	console.log('Fetching Bluesky data...', handle);
+	console.time(`bluesky-${handle}`);
 	const profileFetch = fetchFn(
-		`https://api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${userHandle}`
+		`https://api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${handle}`
 	);
 	const feedFetch = fetchFn(
-		`https://api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${userHandle}&filter=${PostFilter.posts_and_author_threads}`
+		`https://api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${handle}&filter=${PostFilter.posts_and_author_threads}`
 	);
 
 	const [profileResponse, feedResponse] = await Promise.all([profileFetch, feedFetch]);
@@ -72,12 +78,13 @@ async function fetchData(
 			avatar: profile.avatar,
 			banner: profile.banner,
 			createdAt: profile.createdAt,
-			description: parseLinks(profile.description),
+			description: parseLinks(profile.description, profile.handle),
 			followersCount: profile.followersCount,
 			followsCount: profile.followsCount,
 			postsCount: profile.postsCount,
 			listsCount: profile.associated.lists,
-			link: `https://bsky.app/profile/${profile.handle}`
+			link: `https://bsky.app/profile/${profile.handle}`,
+			private: profile.labels.some((label: any) => label.val === '!no-unauthenticated')
 		};
 	} else {
 		console.error(
@@ -87,34 +94,36 @@ async function fetchData(
 
 	if (feedResponse.ok) {
 		const feed = await feedResponse.json();
-		result.posts = feed.feed.map((item: any) => parsePost(item.post, userHandle)).filter(Boolean);
+		result.posts = feed.feed.map((item: any) => parsePost(item.post, handle)).filter(Boolean);
 	} else {
 		console.error(
 			`Error fetching Bluesky profile: ${profileResponse.status} ${profileResponse.statusText}`
 		);
 	}
 
+	console.timeEnd(`bluesky-${handle}`);
 	return result;
 }
 
 const xssFilter = new FilterXSS({
 	whiteList: {
-		a: ['class', 'href', 'target']
+		a: ['class', 'href', 'target'],
+		span: ['class']
 	}
 });
 
-function parseLinks(text: string) {
+function parseLinks(text: string, activeHandle: string) {
 	return xssFilter.process(
 		text
 			.replaceAll(/https?:\/\/[^\s]+/g, '<a class="blueskyLink" href="$&" target="_blank">$&</a>')
-			.replaceAll(
-				/@([\w.]+)/g,
-				'<a class="blueskyMention" href="https://bsky.app/profile/$1" target="_blank">$&</a>'
-			)
+			.replaceAll(/@([\w]+\.[\w.]+)/g, (match, p1) => {
+				if (p1 === activeHandle) return `<span class="blueskyMention">${match}</span>`;
+				return `<a class="blueskyMention" href="https://bsky.app/profile/${p1}" target="_blank">${match}</a>`;
+			})
 	);
 }
 
-function parsePost(post: any, userHandle: string): BlueskyPost | undefined {
+function parsePost(post: any, activeHandle: string): BlueskyPost | undefined {
 	try {
 		if (post.author.labels.some((label: any) => label.val === '!no-unauthenticated')) {
 			return undefined;
@@ -130,14 +139,14 @@ function parsePost(post: any, userHandle: string): BlueskyPost | undefined {
 			displayName: post.author.displayName,
 			avatar: post.author.avatar,
 			createdAt: record.createdAt,
-			text: parseLinks(record.text),
+			text: parseLinks(record.text, activeHandle),
 			link: `https://bsky.app/profile/${post.author.handle}/post/${rkey}`,
 			profileLink: `https://bsky.app/profile/${post.author.handle}`,
-			isRepost: post.author.handle !== userHandle,
+			isRepost: post.author.handle !== activeHandle,
 			isLabeled: post.labels.some((label: any) => (label.src = 'did:plc:ar7c4by46qjdydhdevvrndac')),
 			...parseEmbed(
 				post.embed ?? post.embeds?.[0] ?? post.value?.embed,
-				userHandle,
+				activeHandle,
 				post.author.did
 			)
 		};
@@ -147,7 +156,7 @@ function parsePost(post: any, userHandle: string): BlueskyPost | undefined {
 	}
 }
 
-function parseEmbed(embed: any, userHandle: string, authorDid: string): Partial<BlueskyPost> {
+function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partial<BlueskyPost> {
 	try {
 		switch (embed?.$type) {
 			case 'app.bsky.embed.images':
@@ -196,12 +205,12 @@ function parseEmbed(embed: any, userHandle: string, authorDid: string): Partial<
 				};
 			case 'app.bsky.embed.record#view':
 				return {
-					quotePost: parsePost(embed.record, userHandle)
+					quotePost: parsePost(embed.record, activeHandle)
 				};
 			case 'app.bsky.embed.recordWithMedia#view': {
 				return {
-					...parseEmbed(embed.media, userHandle, authorDid),
-					quotePost: parsePost(embed.record.record, userHandle)
+					...parseEmbed(embed.media, activeHandle, authorDid),
+					quotePost: parsePost(embed.record.record, activeHandle)
 				};
 			}
 			default:
@@ -214,6 +223,14 @@ function parseEmbed(embed: any, userHandle: string, authorDid: string): Partial<
 }
 
 // #region Types
+
+const enum PostFilter {
+	posts_with_replies = 'posts_with_replies',
+	posts_no_replies = 'posts_no_replies',
+	posts_with_media = 'posts_with_media',
+	posts_and_author_threads = 'posts_and_author_threads',
+	posts_with_video = 'posts_with_video'
+}
 
 interface FetchDataResult {
 	profile: BlueskyProfile | null;
@@ -232,6 +249,7 @@ export interface BlueskyProfile {
 	postsCount: number;
 	listsCount: number;
 	link: string;
+	private: boolean;
 }
 
 export interface BlueskyImage {

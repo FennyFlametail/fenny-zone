@@ -12,8 +12,8 @@ export const getBlueskyData = query(
 			regex(getHandleRegex())
 		)
 	),
-	async (userHandle?: string) => {
+	async (handle?: string) => {
 		const { fetch } = getRequestEvent();
-		return await fetchBlueskyData(fetch, userHandle);
+		return await fetchBlueskyData(fetch, handle);
 	}
 );
