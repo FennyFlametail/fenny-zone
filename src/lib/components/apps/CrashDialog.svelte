@@ -14,7 +14,7 @@
 
 	if (!crashedAppName) {
 		// failsafe because reloading doesn't preserve props
-		// TODO serialize props in localStorage
+		// TODO serialize props in localStorage?
 		setTimeout(() => windowServer.closeApp(appName), 0);
 	}
 
@@ -25,7 +25,7 @@
 	title={`The application ${crashedAppTitle} quit unexpectedly.`}
 	body={`fenny.zone and other applications are not affected.
 	
-	Click Reopen to open the application again. There's no crash reporting so DM me on Bluesky if this keeps happening I guess`}
+	Click Reopen to open the application again. DM me on Bluesky if this keeps happening I guess`}
 >
 	{#snippet buttonsLeft()}
 		<button class="aqua-button" onclick={() => windowServer.closeApp(appName)}>Close</button>

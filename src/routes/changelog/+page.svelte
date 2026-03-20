@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach setModified(app)}>
+	<h3>2026-03-19</h3>
+	<ul>
+		<li>Added window close animation</li>
+	</ul>
 	<h3>2026-03-14</h3>
 	<ul>
 		<li>Improved support for reduced motion & forced color accessibility options</li>
