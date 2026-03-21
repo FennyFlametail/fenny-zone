@@ -13,7 +13,7 @@
 	</ul>
 	<h3>2026-03-14</h3>
 	<ul>
-		<li>Improved support for reduced motion & forced color modes</li>
+		<li>Improved support for reduced motion & forced color settings</li>
 	</ul>
 	<h3>2026-03-10</h3>
 	<ul>
@@ -22,6 +22,7 @@
 	<h3>2026-03-08</h3>
 	<ul>
 		<li>Added support for Bluesky content warnings</li>
+		<li>Added Bluesky sidebar</li>
 		<li>Fixed Bluesky feed parsing</li>
 	</ul>
 	<h3>2026-02-14</h3>
