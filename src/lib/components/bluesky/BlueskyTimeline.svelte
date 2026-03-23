@@ -102,6 +102,7 @@
 				<EyeOff size={64} />
 				<h3>Sign-in Required</h3>
 				<p>This account has requested that users sign in to view their profile.</p>
+				<a class="blueskyLink" href={profile.link} target="_blank">View on Bluesky</a>
 			</article>
 		{/if}
 	{:else}
