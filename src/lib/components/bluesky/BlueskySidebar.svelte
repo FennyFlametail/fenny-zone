@@ -76,13 +76,14 @@
 
 <style>
 	.blueskySidebar {
+		--sidebar-bg: #4f5153;
 		min-height: 0;
-		grid-area: 'sidebar';
+		grid-area: sidebar;
 		padding: var(--spacing);
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing);
-		background-color: #4f5153;
+		background-color: var(--sidebar-bg);
 		border-right: 1px solid black;
 	}
 
@@ -117,6 +118,10 @@
 			height: 35px;
 			border: 1px solid black;
 			border-radius: 3px;
+		}
+
+		.image-placeholder {
+			background-color: var(--sidebar-bg);
 		}
 	}
 
