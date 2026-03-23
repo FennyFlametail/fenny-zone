@@ -29,12 +29,12 @@
 	fullName="Nocturne Blackmoon"
 	species="Goat"
 	icon={NocturneIcon}
-	iconAlt="Icon of a goat giving you a disgruntled look. They have a nose ring and ear piercings, and a constellation pattern marked on their horns."
+	iconAlt="Icon of a goat giving you a disgruntled look. They have a mohawk, nose and ear piercings, and a constellation pattern on their horns."
 	photo={main ? NocturneMainPhoto : NocturnePhoto}
 	photoAlt={main
-		? 'A goat sitting and slurping noodles from a bowl of ramen.'
-		: 'A goat wearing a futuristic black jacket, giving you a disgruntled look. They have a robotic right arm, and a long, thin tail with a tuft on the end.'}
-	relationships={main ? ['rigel', 'aren', 'fenny', 'ceph'] : []}
+		? 'A goat sitting and slurping noodles from a bowl of ramen, holding chopsticks in their robotic hand.'
+		: 'A goat standing and holding a tray of food squares. They’re holding one up with their robotic hand and inspecting it with some aversion.'}
+	relationships={main ? ['rigel', 'aren', 'fenny'] : []}
 >
 	{#snippet bio()}
 		{@render tabContent?.()}

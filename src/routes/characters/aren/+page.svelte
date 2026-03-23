@@ -9,9 +9,9 @@
 	fullName="Aren Flametail"
 	species="Ethiopian Wolf"
 	icon={ArenIcon}
-	iconAlt="Icon of a rugged-looking wolf, grinning at you in an alluring way."
+	iconAlt="Icon of a wolf with a mohawk and goatee, grinning at you in an alluring way."
 	photo={ArenPhoto}
-	photoAlt="A wolf with a goatee, wearing a bomber jacket and confidently playing the guitar."
+	photoAlt="A wolf wearing a bomber jacket and playing the guitar confidently."
 	relationships={['fenny', 'ceph', 'nocturne', 'rigel']}
 >
 	{#snippet bio()}

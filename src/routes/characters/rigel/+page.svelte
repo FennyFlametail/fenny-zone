@@ -9,9 +9,9 @@
 	fullName="Rigel Azulux"
 	species="Luxray"
 	icon={RigelIcon}
-	iconAlt="Icon of a Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
+	iconAlt="Icon of a Luxray looking at you sideways and sticking his tongue out seductively. He has a single earring and a tongue stud."
 	photo={RigelPhoto}
-	photoAlt="A nude Luxray facing away from you, sticking his tongue out seductively. He has a single earring on his right ear and a tongue stud."
+	photoAlt="A Luxray wearing a fishnet top and latex sleeves, taking a selfie with his tongue out. He has top surgery scars, and pierced nipples with a chain between them."
 	relationships={['ceph', 'nocturne', 'aren', 'fenny']}
 >
 	{#snippet bio()}
@@ -75,7 +75,7 @@
 			<dd>punk, ska, alternative, EDM</dd>
 
 			<dt>Clothing style</dt>
-			<dd>punk, scene, occasionally raver</dd>
+			<dd>punk, scene, raver</dd>
 
 			<dt>Typical outfit</dt>
 			<dd>

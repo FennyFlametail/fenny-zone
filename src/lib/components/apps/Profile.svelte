@@ -228,7 +228,7 @@
 		pointer-events: none;
 	}
 
-	@container window (width < 768px) {
+	@container window (width < 1000px) {
 		.profile {
 			display: flex;
 			flex-direction: column;
