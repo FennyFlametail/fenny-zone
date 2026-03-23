@@ -353,6 +353,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing);
+		-webkit-user-select: none;
+		user-select: none;
 
 		h3,
 		p {
