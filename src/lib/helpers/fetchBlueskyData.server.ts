@@ -112,7 +112,7 @@ const xssFilter = new FilterXSS({
 	}
 });
 
-function parseLinks(text: string, activeHandle: string) {
+function parseLinks(text = '', activeHandle: string) {
 	return xssFilter.process(
 		text
 			.replaceAll(/https?:\/\/[^\s]+/g, '<a class="blueskyLink" href="$&" target="_blank">$&</a>')

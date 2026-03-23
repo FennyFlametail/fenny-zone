@@ -1,19 +1,31 @@
 import { getRequestEvent, query } from '$app/server';
 import getHandleRegex from '$lib/helpers/blueskyHandleRegex';
 import fetchBlueskyData from '$lib/helpers/fetchBlueskyData.server';
-import { optional, pipe, regex, string, transform } from 'valibot';
+import * as v from 'valibot';
 
 export const getBlueskyData = query(
-	optional(
-		pipe(
-			string(),
-			transform((str) => str.replace('@', '')),
-			/* this is the same regex the valibot domain() validator will use when it's released */
-			regex(getHandleRegex())
-		)
-	),
-	async (handle?: string) => {
+	v.object({
+		handle: v.optional(
+			v.pipe(
+				v.string(),
+				v.transform((str) => str.replace('@', '')),
+				/* this is the same regex the valibot domain() validator will use when it's released */
+				v.regex(getHandleRegex())
+			)
+		),
+		initialLoad: v.optional(v.boolean())
+	}),
+	async ({ handle, initialLoad }) => {
+		console.debug('remote', { handle, initialLoad });
 		const { fetch } = getRequestEvent();
-		return await fetchBlueskyData(fetch, handle);
+
+		const startTime = Date.now();
+		const result = await fetchBlueskyData(fetch, handle);
+		const elapsedTime = Date.now() - startTime;
+
+		if (!initialLoad && elapsedTime < 500) {
+			await new Promise((resolve) => setTimeout(resolve, 500 - elapsedTime));
+		}
+		return result;
 	}
 );
