@@ -5,9 +5,9 @@
 		BlueskyProfile
 	} from '$lib/helpers/fetchBlueskyData.server';
 	import { intlFormat } from 'date-fns';
+	import { EyeOff, Loader } from 'lucide-svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fly } from 'svelte/transition';
-	import { EyeOff } from 'lucide-svelte';
 
 	let {
 		profile,
@@ -49,8 +49,8 @@
 >
 	{#if profile && posts}
 		{#if !profile.private}
+			<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
 			<article bind:this={profileElement} class="blueskyProfile">
-				<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
 				<div class="blueskyProfileHeader">
 					<div class="blueskyAvatar">
 						<img src={profile.avatar} alt="" draggable="false" />
@@ -104,18 +104,51 @@
 				<p>This account has requested that users sign in to view their profile.</p>
 			</article>
 		{/if}
+	{:else}
+		<div class="blueskyTimelineLoadingBar">
+			<div class="blueskyTimelineSpinner">
+				<Loader size={24} />
+			</div>
+		</div>
 	{/if}
 </div>
 
 <style>
 	.blueskyTimeline {
+		/* circle size */
+		--sz: 3px;
+		/* circle spacing */
+		--sp: 15px;
+		/* circle offset */
+		--of: calc(var(--sp) / 2);
+		/* circle smoothness */
+		--sm: 0.75;
 		grid-area: timeline;
 		min-height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
 		isolation: isolate;
+		background:
+			linear-gradient(to bottom, rgb(0 0 0 / 75%), transparent 20px),
+			radial-gradient(circle, black calc(var(--sz) * var(--sm)), transparent var(--sz)) var(--sz)
+				var(--sz) / var(--sp) var(--sp),
+			radial-gradient(circle, hsl(none none 25%) calc(var(--sz) * var(--sm)), transparent var(--sz))
+				var(--sz) calc(var(--sz) + 1px) / var(--sp) var(--sp),
+			radial-gradient(circle, black calc(var(--sz) * var(--sm)), transparent var(--sz))
+				calc(var(--of) + var(--sz)) calc(var(--of) + var(--sz)) / var(--sp) var(--sp),
+			radial-gradient(circle, hsl(none none 25%) calc(var(--sz) * var(--sm)), transparent var(--sz))
+				calc(var(--of) + var(--sz)) calc(var(--of) + var(--sz) + 1px) / var(--sp) var(--sp),
+			#28282b;
 		color: #44484a;
+		box-shadow: inset var(--panel-box-shadow-inactive);
 		filter: drop-shadow(0 2px 2px #8b8b8b);
+	}
+
+	.blueskyBanner {
+		aspect-ratio: 3 / 1;
+		min-height: 100px;
+		max-height: 25cqh;
+		object-fit: cover;
 	}
 
 	.blueskyProfile {
@@ -126,13 +159,7 @@
 		background: var(--profile-bg);
 		border-bottom: 1px solid #525556;
 		box-shadow: 0 0 5px rgb(0 0 0 / 50%);
-	}
-
-	.blueskyBanner {
-		aspect-ratio: 3 / 1;
-		min-height: 100px;
-		max-height: 25cqh;
-		object-fit: cover;
+		filter: drop-shadow(0 0 10px rgb(0 0 0 / 25%));
 	}
 
 	.blueskyProfileHeader {
@@ -273,6 +300,60 @@
 			padding: 16px;
 			border-radius: 50%;
 			margin-bottom: var(--spacing);
+		}
+	}
+
+	.blueskyTimelineLoadingBar {
+		height: 60px;
+		display: grid;
+		place-items: center;
+		background: linear-gradient(to bottom, #707475, #383835);
+		box-shadow: var(--panel-box-shadow);
+	}
+
+	.blueskyTimelineSpinner {
+		width: 28px;
+		height: 28px;
+		display: grid;
+		place-items: center;
+		background: linear-gradient(to bottom, #111618, #383b3a);
+		border-radius: 50%;
+		padding: 2px;
+		color: rgb(255 255 255 / 50%);
+		filter: drop-shadow(0 0 1px rgb(255 255 255 / 75%));
+
+		:global(.lucide-loader) {
+			animation: spin 1s steps(8) infinite;
+
+			:global(path) {
+				--lightness: 75%;
+				color: hsl(none none var(--lightness));
+
+				&:nth-child(1) {
+					--lightness: 100%;
+				}
+				&:nth-last-child(1) {
+					--lightness: 95%;
+				}
+				&:nth-last-child(2) {
+					--lightness: 90%;
+				}
+				&:nth-last-child(3) {
+					--lightness: 85%;
+				}
+				&:nth-last-child(4) {
+					--lightness: 80%;
+				}
+			}
+		}
+	}
+
+	@keyframes spin {
+		from {
+			rotate: 0;
+		}
+		to {
+			rotate: 360deg;
 		}
 	}
 </style>

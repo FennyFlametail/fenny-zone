@@ -52,7 +52,11 @@
 
 <div class="blueskySidebar" data-allow-window-drag inert={userSheetIsOpen}>
 	<div class="blueskyAvatar">
-		<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
+		{#if profile}
+			<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
+		{:else}
+			<div class="image-placeholder"></div>
+		{/if}
 	</div>
 	<div class="blueskyTabContainer">
 		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
@@ -107,7 +111,10 @@
 			box-shadow: inset 0 1px 0 0 var(--top-highlight);
 		}
 
-		img {
+		img,
+		.image-placeholder {
+			width: 35px;
+			height: 35px;
 			border: 1px solid black;
 			border-radius: 3px;
 		}

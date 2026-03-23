@@ -71,7 +71,7 @@
 		onpointerup={onTitleUp}
 		data-allow-window-drag
 		title="Scroll to top"
-		disabled={userSheetIsOpen}
+		disabled={!activeProfile || userSheetIsOpen}
 	>
 		<h2 data-allow-window-drag>{activeProfile?.displayName ?? ''}</h2>
 	</button>
@@ -80,7 +80,7 @@
 			class="blueskyChangeUserButton"
 			onclick={openUserSheet}
 			title="Go to User"
-			disabled={userSheetIsOpen}
+			disabled={!activeProfile || userSheetIsOpen}
 		>
 			<User class="blueskyTabIcon fill" strokeWidth={0} />
 		</button>

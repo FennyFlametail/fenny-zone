@@ -8,16 +8,19 @@
 	import { slide } from 'svelte/transition';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
+	import { onMount } from 'svelte';
 
 	const { data }: PageProps = $props();
 
-	/* FIXME fix initial loading state to show loader */
-	// eslint-disable-next-line svelte/valid-compile
-	let { profile, posts } = $state(data?.bluesky ?? (await getBlueskyData({ initialLoad: true })));
+	let { profile, posts } = $state(data?.bluesky ?? { profile: null, posts: null });
 	let customUsers: {
 		profile: BlueskyProfile;
 		posts: BlueskyPost[];
 	}[] = $state([]);
+
+	onMount(async () => {
+		if (!profile || !posts) ({ profile, posts } = await getBlueskyData(undefined));
+	});
 
 	let timelines = $state<HTMLDivElement>();
 
@@ -44,7 +47,7 @@
 		closeUserSheet();
 		loadingHandle = handle.replace('@', '');
 		try {
-			const { profile, posts } = await getBlueskyData({ handle });
+			const { profile, posts } = await getBlueskyData(handle);
 			if (profile && posts) {
 				customUsers.push({ profile, posts });
 				loadingHandle = undefined;
@@ -90,7 +93,7 @@
 />
 <!-- TODO two finger back swipe -->
 <div bind:this={timelines} class={['blueskyContent', loadingHandle && 'loading']}>
-	{#if loadingHandle}
+	{#if loadingHandle && !errorSheetIsOpen}
 		<div
 			class="blueskyLoadingBar"
 			transition:slide={{
@@ -149,7 +152,7 @@
 	:global {
 		#root .window[data-appname='bluesky'] {
 			--window-radius: 5px;
-			--sidebar-width: 65px;
+			--sidebar-width: 66px;
 			--spacing: 10px;
 			--titlebar-height: 35px;
 			--titlebar-gradient: linear-gradient(
@@ -309,7 +312,7 @@
 			linear-gradient(to bottom, rgb(255 255 255 / 25%), transparent),
 			repeating-linear-gradient(-45deg, #469be5, #469be5 3px, #297bb7 3px, #297bb7 5px);
 		background-size: 92px;
-		box-shadow: inset 0 0 1px 0 rgb(0 0 0 / 50%);
+		box-shadow: inset 0 0 2px 0 white;
 		animation: progressbar 5s linear infinite;
 	}
 
