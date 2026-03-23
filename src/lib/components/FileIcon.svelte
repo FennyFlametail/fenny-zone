@@ -84,7 +84,7 @@
 			src={icon ?? app?.icon}
 			alt=""
 			draggable="false"
-			style:--openAnimDuration={`${openAnimDuration}ms`}
+			style:--openAnimDuration="{openAnimDuration}ms"
 		/>
 		{#if href || (app?.url && !browser)}
 			<img class="aliasIcon" src={AliasIcon} alt="" draggable="false" />

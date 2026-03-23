@@ -140,10 +140,10 @@
 		inactive: !focused && !ssr,
 		animating: app.instance.animating
 	}}
-	style:--window-x={`${app.instance.position.x}px`}
-	style:--window-y={`${app.instance.position.y}px`}
-	style:--window-width={`${app.instance.position.width}px`}
-	style:--window-height={`${app.instance.position.height}px`}
+	style:--window-x="{app.instance.position.x}px"
+	style:--window-y="{app.instance.position.y}px"
+	style:--window-width="{app.instance.position.width}px"
+	style:--window-height="{app.instance.position.height}px"
 	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag

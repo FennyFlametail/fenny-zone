@@ -52,10 +52,7 @@
 </script>
 
 {#if browser || noScript}
-	<li
-		class={['menuItem', { opening, disabled }]}
-		style:--openAnimDuration={`${openAnimDuration}ms`}
-	>
+	<li class={['menuItem', { opening, disabled }]} style:--openAnimDuration="{openAnimDuration}ms">
 		{#if checked}
 			<span class="menuItemCheckmark">✓</span>
 		{/if}

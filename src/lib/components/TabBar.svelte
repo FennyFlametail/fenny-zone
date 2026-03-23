@@ -38,7 +38,7 @@
 	{#each options as option, index}
 		<label class="aqua-tab square">
 			<input
-				id={`TabBar-${id}-${index}`}
+				id="TabBar-{id}-{index}"
 				type="radio"
 				name={id}
 				value={index}
@@ -52,10 +52,11 @@
 
 {#snippet content()}
 	{#each options as option, index}
-		<div class="tabBarContentSnippet" id={`TabBar-${id}-${index}`}>
+		<div class="tabBarContentSnippet" id="TabBar-{id}-{index}">
 			{@render option.snippet()}
 		</div>
 	{/each}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html optionStyles}
 {/snippet}
 

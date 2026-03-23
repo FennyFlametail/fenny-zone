@@ -22,7 +22,7 @@
 </script>
 
 <WarningDialog
-	title={`The application ${crashedAppTitle} quit unexpectedly.`}
+	title="The application {crashedAppTitle} quit unexpectedly."
 	body={`fenny.zone and other applications are not affected.
 	
 	Click Reopen to open the application again. DM me on Bluesky if this keeps happening I guess`}

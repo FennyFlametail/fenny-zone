@@ -36,7 +36,7 @@
 
 <a
 	class={['dockIcon', { open: isOpen }]}
-	style:--bounceAnimDuration={`${bounceAnimDuration}ms`}
+	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
 	out:delayRemove|global
 	{onclick}

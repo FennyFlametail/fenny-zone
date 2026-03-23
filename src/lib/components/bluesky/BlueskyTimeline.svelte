@@ -64,11 +64,11 @@
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				<p class="blueskyBio">{@html profile.description}</p>
 				<div class="blueskyStatsContainer">
-					<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
+					<a class="blueskyStat" href="{profile.link}/followers" target="_blank">
 						<span>Followers</span>
 						<span class="blueskyStatNumber">{numberFormatter.format(profile.followersCount)}</span>
 					</a>
-					<a class="blueskyStat" href={`${profile.link}/follows`} target="_blank">
+					<a class="blueskyStat" href="{profile.link}/follows" target="_blank">
 						<span>Following</span>
 						<span class="blueskyStatNumber">{numberFormatter.format(profile.followsCount)}</span>
 					</a>
