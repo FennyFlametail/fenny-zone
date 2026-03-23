@@ -147,7 +147,7 @@
 	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag
-	out:scale={{ duration: 200, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
+	out:scale={{ duration: 100, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
 >
 	{#if app.windowStyle !== 'custom'}
 		<header class="windowTitlebar" data-allow-window-drag>
