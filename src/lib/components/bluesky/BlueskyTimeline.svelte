@@ -127,6 +127,7 @@
 		min-height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
+		scrollbar-color: rgb(0 0 0 / 50%) transparent;
 		isolation: isolate;
 		background:
 			linear-gradient(to bottom, rgb(0 0 0 / 75%), transparent 20px),
