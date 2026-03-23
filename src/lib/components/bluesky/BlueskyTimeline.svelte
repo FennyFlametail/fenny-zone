@@ -291,9 +291,11 @@
 		align-items: center;
 		gap: var(--spacing);
 		padding-inline: calc(var(--spacing) * 2);
+		background: var(--profile-bg);
 		text-align: center;
 		text-wrap: pretty;
-		background: var(--profile-bg);
+		-webkit-user-select: none;
+		user-select: none;
 
 		:global(.lucide-icon) {
 			background-color: var(--text-light);
