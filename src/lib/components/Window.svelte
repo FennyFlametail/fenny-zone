@@ -170,17 +170,7 @@
 	{/if}
 	<div class="windowContent">
 		{#if browser}
-			<svelte:boundary
-				onerror={(e) => {
-					console.error(e);
-					windowServer.closeApp(appName);
-					windowServer.openApp('crashDialog', {
-						props: {
-							crashedAppName: appName
-						}
-					});
-				}}
-			>
+			<svelte:boundary onerror={(e) => windowServer.closeAppWithError(appName, e)}>
 				<app.Page {...props} />
 				{#snippet pending()}{/snippet}
 			</svelte:boundary>

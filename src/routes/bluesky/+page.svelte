@@ -4,13 +4,17 @@
 	import BlueskyTitlebar from '$lib/components/bluesky/BlueskyTitlebar.svelte';
 	import BlueskyUserSheet from '$lib/components/bluesky/BlueskyUserSheet.svelte';
 	import Sheet from '$lib/components/Sheet.svelte';
+	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyPost, BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
-	import { onMount } from 'svelte';
 
 	const { data }: PageProps = $props();
+
+	const windowServer = getWindowServerContext();
+	const { appName } = getAppContext();
 
 	let { profile, posts } = $state(data?.bluesky ?? { profile: null, posts: null });
 	let customUsers: {
@@ -19,7 +23,13 @@
 	}[] = $state([]);
 
 	onMount(async () => {
-		if (!profile || !posts) ({ profile, posts } = await getBlueskyData(undefined));
+		if (!profile || !posts) {
+			try {
+				({ profile, posts } = await getBlueskyData(undefined));
+			} catch (e) {
+				windowServer.closeAppWithError(appName, e);
+			}
+		}
 	});
 
 	let timelines = $state<HTMLDivElement>();

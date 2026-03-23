@@ -246,6 +246,16 @@ export default class WindowServer {
 		}
 	};
 
+	closeAppWithError = (appName: AppName, error: any) => {
+		console.error(error);
+		this.closeApp(appName);
+		this.openApp('crashDialog', {
+			props: {
+				crashedAppName: appName
+			}
+		});
+	};
+
 	setAnimating = (app: RunningApp) => {
 		if (!prefersReducedMotion.current) {
 			app.instance.animating = true;
