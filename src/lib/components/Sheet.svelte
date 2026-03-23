@@ -12,21 +12,21 @@
 	disabling the window itself, but doesn't matter for Bluesky */
 
 	const {
-		open,
+		isOpen,
 		children
 	}: {
-		open: boolean;
+		isOpen: boolean;
 		children: Snippet;
 	} = $props();
 </script>
 
-{#if open}
-	<div class={['sheet', { open }]}>
+{#if isOpen}
+	<div class="sheet">
 		<div
 			class="sheetWrapper"
 			use:trapFocus={focused}
 			transition:fly={{
-				duration: 250,
+				duration: 300,
 				y: !prefersReducedMotion.current ? '-100%' : 0,
 				opacity: !prefersReducedMotion.current ? 1 : 0
 			}}

@@ -4,43 +4,67 @@
 	import { User } from 'lucide-svelte';
 
 	const {
-		profile,
+		activeProfile,
+		lastProfile,
+		showBackButton,
+		showChangeUserButton,
 		userSheetIsOpen,
 		openUserSheet,
-		closeUser,
+		closeCustomUser,
+		closeAllCustomUsers,
 		scrollToTop
 	}: {
-		profile: BlueskyProfile | null;
+		activeProfile: BlueskyProfile | null;
+		lastProfile: BlueskyProfile | null;
+		showBackButton: boolean;
+		showChangeUserButton: boolean;
 		userSheetIsOpen: boolean;
 		openUserSheet: () => void;
-		closeUser: () => void;
+		closeCustomUser: () => void;
+		closeAllCustomUsers: () => void;
 		scrollToTop: () => void;
 	} = $props();
 
-	let titlebar = $state<HTMLDivElement>();
 	let lastX = $state(0);
 	let lastY = $state(0);
 
-	function onTitleDown() {
-		if (!titlebar) return;
-		const { left, top } = titlebar.getBoundingClientRect();
-		lastX = left;
-		lastY = top;
+	function onTitleDown(e: PointerEvent) {
+		lastX = e.clientX;
+		lastY = e.clientY;
 	}
-	function onTitleUp() {
-		if (!titlebar) return;
-		const { left, top } = titlebar.getBoundingClientRect();
-		if (Math.abs(left - lastX) < 1 && Math.abs(top - lastY) < 1) {
+	function onTitleUp(e: PointerEvent) {
+		if (Math.abs(e.clientX - lastX) < 1 && Math.abs(e.clientY - lastY) < 1) {
 			scrollToTop();
 		}
 	}
+
+	let closeAllTimeout = $state<number>();
+	function onBackButtonDown(e: PointerEvent) {
+		if (e.button === 0) {
+			closeAllTimeout = setTimeout(() => {
+				closeAllCustomUsers();
+			}, 500);
+		}
+	}
+	function onBackButtonUp() {
+		clearTimeout(closeAllTimeout);
+	}
 </script>
 
-<div bind:this={titlebar} class="blueskyTitlebar" data-allow-window-drag>
+<div class="blueskyTitlebar" data-allow-window-drag>
 	<WindowControls />
-	<button class="blueskyUserBackButton" onclick={closeUser} disabled={userSheetIsOpen}>
-		fenny.zone
-	</button>
+	{#if showBackButton}
+		<button
+			class="blueskyUserBackButton"
+			onclick={closeCustomUser}
+			onpointerdown={onBackButtonDown}
+			onpointerup={onBackButtonUp}
+			onpointerleave={onBackButtonUp}
+			disabled={userSheetIsOpen}
+		>
+			{lastProfile?.displayName ?? ''}
+		</button>
+	{/if}
 	<button
 		class="blueskyWindowTitle"
 		onpointerdown={onTitleDown}
@@ -49,43 +73,23 @@
 		title="Scroll to top"
 		disabled={userSheetIsOpen}
 	>
-		<h2 data-allow-window-drag>{profile?.displayName}</h2>
+		<h2 data-allow-window-drag>{activeProfile?.displayName ?? ''}</h2>
 	</button>
-	<button
-		class="blueskyChangeUserButton"
-		onclick={openUserSheet}
-		title="Go to User"
-		disabled={userSheetIsOpen}
-	>
-		<User class="blueskyTabIcon fill" strokeWidth={0} />
-	</button>
+	{#if showChangeUserButton}
+		<button
+			class="blueskyChangeUserButton"
+			onclick={openUserSheet}
+			title="Go to User"
+			disabled={userSheetIsOpen}
+		>
+			<User class="blueskyTabIcon fill" strokeWidth={0} />
+		</button>
+	{/if}
 </div>
 
 <style>
 	:global {
 		#root .window[data-appname='bluesky'] {
-			--sidebar-width: 65px;
-			--spacing: 10px;
-			--window-radius: 5px;
-			--titlebar-height: 35px;
-			--titlebar-gradient: linear-gradient(
-				to bottom,
-				#59595c 1px,
-				#4b4c4f 1px,
-				#4b4c4f 2px,
-				#444548 2px,
-				#2a2b2d
-			);
-			--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
-			--text-medium: #2d2f31;
-			--text-light: #81878b;
-
-			background-color: #2a2b2d;
-			background-image: none;
-			background-clip: padding-box;
-			border-color: rgb(0 0 0 / 75%);
-			border-radius: 5px;
-
 			.windowControls {
 				grid-area: controls;
 				width: calc(var(--sidebar-width) + 1px);
@@ -131,7 +135,7 @@
 		grid-area: titlebar;
 		position: relative;
 		display: grid;
-		grid-template: 'controls title userButton' / auto 1fr auto;
+		grid-template: 'controls backButton title userButton' / auto auto 1fr auto;
 		background-image: var(--titlebar-gradient);
 		border-bottom: 1px solid black;
 		border-top-left-radius: calc(var(--window-radius) - 1px);
@@ -148,10 +152,9 @@
 		--inset: 0px;
 		--gradient-dir: bottom;
 		all: unset;
+		grid-area: backButton;
 		box-sizing: border-box;
-		grid-area: title;
 		align-self: center;
-		justify-self: start;
 		position: relative;
 		display: grid;
 		place-items: center;
@@ -160,6 +163,7 @@
 		padding-left: 22px;
 		padding-right: 10px;
 		background: linear-gradient(to var(--gradient-dir), #1a1a1c, #111213);
+		white-space: nowrap;
 		color: white;
 		font-size: 12px;
 		text-shadow: 0 -1px var(--text-medium);
@@ -209,16 +213,27 @@
 	.blueskyWindowTitle {
 		all: unset;
 		grid-area: title;
+		overflow: hidden;
+		padding-left: 34px;
 
 		&:not(:disabled) {
 			cursor: pointer;
 		}
 
+		.blueskyUserBackButton ~ & {
+			padding-left: 0;
+			padding-right: 100px;
+		}
+
 		h2 {
+			padding-inline: 10px;
+			overflow: hidden;
 			text-align: center;
 			font-size: 14px;
 			color: white;
 			text-shadow: 0 -1px black;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 
 			:global(.window.inactive) & {
 				color: #c7c7c8;

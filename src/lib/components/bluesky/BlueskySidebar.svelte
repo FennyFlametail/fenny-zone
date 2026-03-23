@@ -11,17 +11,18 @@
 		Star,
 		User
 	} from 'lucide-svelte';
-	import { SvelteSet } from 'svelte/reactivity';
 
 	const {
 		profile,
-		userSheetIsOpen
+		userSheetIsOpen,
+		customUserCount,
+		closeAllCustomUsers
 	}: {
 		profile: BlueskyProfile | null;
 		userSheetIsOpen: boolean;
+		customUserCount: number;
+		closeAllCustomUsers: () => void;
 	} = $props();
-
-	let highlightedTabs = $state(new SvelteSet<number>([]));
 
 	const tabs: [
 		any,
@@ -41,6 +42,12 @@
 		[Repeat2, { strokeWidth: 3 }],
 		[MessageCircleX, { iconClass: ['fill'] }]
 	];
+
+	function onTabClick(icon: any) {
+		if (icon === User) {
+			closeAllCustomUsers();
+		}
+	}
 </script>
 
 <div class="blueskySidebar" data-allow-window-drag inert={userSheetIsOpen}>
@@ -49,13 +56,11 @@
 	</div>
 	<div class="blueskyTabContainer">
 		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
-			{@const highlighted = highlightedTabs.has(index)}
 			<button
-				class={['blueskyTab', highlighted && 'highlighted', ...classes]}
-				onclick={/* () => (highlighted ? highlightedTabs.delete(index) : highlightedTabs.add(index)) */
-				() => {}}
-				disabled
-				aria-hidden="true"
+				class={['blueskyTab', ...classes]}
+				onclick={() => onTabClick(Icon)}
+				disabled={Icon !== User || !customUserCount}
+				aria-hidden={Icon !== User || !customUserCount}
 			>
 				<div class="blueskyTabIconWrapper">
 					<Icon class={['blueskyTabIcon', ...iconClass].join(' ')} {strokeWidth} />
@@ -135,6 +140,10 @@
 		display: grid;
 		grid-template: 'indicator icon' 44px / 5px 1fr;
 		gap: 1px;
+
+		&:not(:disabled) {
+			cursor: pointer;
+		}
 
 		/* indicator */
 

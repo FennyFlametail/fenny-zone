@@ -5,88 +5,117 @@
 		BlueskyProfile
 	} from '$lib/helpers/fetchBlueskyData.server';
 	import { intlFormat } from 'date-fns';
+	import { prefersReducedMotion } from 'svelte/motion';
+	import { fly } from 'svelte/transition';
+	import { EyeOff } from 'lucide-svelte';
 
 	let {
 		profile,
 		posts,
 		userSheetIsOpen,
-		scrollToTop = $bindable()
+		isCustomUser,
+		loadCustomUser
 	}: {
 		profile: BlueskyProfile | null;
 		posts: BlueskyPostType[] | null;
 		userSheetIsOpen: boolean;
-		scrollToTop: () => void;
+		isCustomUser?: boolean;
+		loadCustomUser: (handle: string) => void;
 	} = $props();
 
 	const numberFormatter = new Intl.NumberFormat();
 
-	let timeline = $state<HTMLDivElement>();
-	scrollToTop = () =>
-		timeline?.scrollTo({
-			top: 0,
-			behavior: 'smooth'
+	let profileElement = $state<HTMLElement>();
+	$effect(() => {
+		profileElement?.querySelectorAll('a.blueskyMention').forEach((el) => {
+			(el as HTMLAnchorElement).onclick = (e) => {
+				e.preventDefault();
+				loadCustomUser(el.textContent);
+			};
 		});
+	});
+
+	let animate = $derived(isCustomUser && !prefersReducedMotion.current);
 </script>
 
-<div bind:this={timeline} class="bluesky aqua-no-scrollbar" inert={userSheetIsOpen}>
+<div
+	class="blueskyTimeline aqua-no-scrollbar"
+	inert={userSheetIsOpen}
+	transition:fly={{
+		duration: animate ? 300 : 0,
+		x: animate ? '100%' : 0,
+		opacity: animate ? 1 : 0
+	}}
+>
 	{#if profile && posts}
-		<article class="blueskyProfile">
-			<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
-			<div class="blueskyProfileHeader">
-				<div class="blueskyAvatar">
-					<img src={profile.avatar} alt="" draggable="false" />
+		{#if !profile.private}
+			<article bind:this={profileElement} class="blueskyProfile">
+				<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
+				<div class="blueskyProfileHeader">
+					<div class="blueskyAvatar">
+						<img src={profile.avatar} alt="" draggable="false" />
+					</div>
+					<hgroup class="blueskyAuthor">
+						<h3 class="blueskyDisplayName">{profile.displayName}</h3>
+						<p class="blueskyHandle">@{profile.handle}</p>
+					</hgroup>
+					<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
 				</div>
-				<hgroup class="blueskyAuthor">
-					<h3 class="blueskyDisplayName">{profile.displayName}</h3>
-					<p class="blueskyHandle">@{profile.handle}</p>
-				</hgroup>
-				<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
-			</div>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			<p class="blueskyBio">{@html profile.description}</p>
-			<div class="blueskyStatsContainer">
-				<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
-					<span>Followers</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.followersCount)}</span>
-				</a>
-				<a class="blueskyStat" href={`${profile.link}/follows`} target="_blank">
-					<span>Following</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.followsCount)}</span>
-				</a>
-				<a class="blueskyStat" href={profile.link} target="_blank">
-					<span>Posts</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
-				</a>
-				<div class="blueskyStat">
-					<span>Lists</span>
-					<span class="blueskyStatNumber">{numberFormatter.format(profile.listsCount)}</span>
-				</div>
-				<!-- <span class="blueskyStat blueskyStatLocation">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				<p class="blueskyBio">{@html profile.description}</p>
+				<div class="blueskyStatsContainer">
+					<a class="blueskyStat" href={`${profile.link}/followers`} target="_blank">
+						<span>Followers</span>
+						<span class="blueskyStatNumber">{numberFormatter.format(profile.followersCount)}</span>
+					</a>
+					<a class="blueskyStat" href={`${profile.link}/follows`} target="_blank">
+						<span>Following</span>
+						<span class="blueskyStatNumber">{numberFormatter.format(profile.followsCount)}</span>
+					</a>
+					<a class="blueskyStat" href={profile.link} target="_blank">
+						<span>Posts</span>
+						<span class="blueskyStatNumber">{numberFormatter.format(profile.postsCount)}</span>
+					</a>
+					<div class="blueskyStat">
+						<span>Lists</span>
+						<span class="blueskyStatNumber">{numberFormatter.format(profile.listsCount)}</span>
+					</div>
+					<!-- <span class="blueskyStat blueskyStatLocation">
 					<MapPin class="blueskyMapPin" aria-label="Location" />
 					<span>your computer</span>
 				</span> -->
+				</div>
+				<p class="blueskyJoinDate">
+					Member Since {intlFormat(profile.createdAt, {
+						month: 'long',
+						year: 'numeric'
+					})}
+				</p>
+			</article>
+			<div class="blueskyPosts">
+				{#each posts as post}
+					<BlueskyPost {profile} {post} {loadCustomUser} />
+				{/each}
 			</div>
-			<p class="blueskyJoinDate">
-				Member Since {intlFormat(profile.createdAt, {
-					month: 'long',
-					year: 'numeric'
-				})}
-			</p>
-		</article>
-		<div class="blueskyPosts">
-			{#each posts as post}
-				<BlueskyPost {profile} {post} />
-			{/each}
-		</div>
+		{:else}
+			<article class="blueskyProfilePrivate">
+				<EyeOff size={64} />
+				<h3>Sign-in Required</h3>
+				<p>This account has requested that users sign in to view their profile.</p>
+			</article>
+		{/if}
 	{/if}
 </div>
 
 <style>
-	.bluesky {
-		grid-area: content;
+	.blueskyTimeline {
+		grid-area: timeline;
+		min-height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
+		isolation: isolate;
 		color: #44484a;
+		filter: drop-shadow(0 2px 2px #8b8b8b);
 	}
 
 	.blueskyProfile {
@@ -94,17 +123,15 @@
 		flex-flow: column;
 		padding: var(--spacing);
 		gap: var(--spacing);
-		background: linear-gradient(to bottom, #f4f8fa, #d9dde0);
+		background: var(--profile-bg);
 		border-bottom: 1px solid #525556;
 		box-shadow: 0 0 5px rgb(0 0 0 / 50%);
 	}
 
 	.blueskyBanner {
-		/* TEST moved into profile element, double check */
 		aspect-ratio: 3 / 1;
 		min-height: 100px;
 		max-height: 25cqh;
-		width: 100%;
 		object-fit: cover;
 	}
 
@@ -226,5 +253,26 @@
 		text-shadow: 0 1px white;
 		-webkit-user-select: none;
 		user-select: none;
+	}
+
+	.blueskyProfilePrivate {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: var(--spacing);
+		padding-inline: calc(var(--spacing) * 2);
+		text-align: center;
+		text-wrap: pretty;
+		background: var(--profile-bg);
+
+		:global(.lucide-icon) {
+			background-color: var(--text-light);
+			color: #e7ebed;
+			padding: 16px;
+			border-radius: 50%;
+			margin-bottom: var(--spacing);
+		}
 	}
 </style>

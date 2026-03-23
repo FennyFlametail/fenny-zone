@@ -7,17 +7,29 @@
 	const {
 		profile,
 		post,
-		isQuotePost = false
+		isQuotePost = false,
+		loadCustomUser
 	}: {
 		profile: BlueskyProfile;
 		post: BlueskyPost;
 		isQuotePost?: boolean;
+		loadCustomUser: (handle: string) => void;
 	} = $props();
 
-	let showWarnings = $state(true);
-	function bypassWarnings(e: MouseEvent) {
+	let postText = $state<HTMLParagraphElement>();
+	$effect(() => {
+		postText?.querySelectorAll('a.blueskyMention').forEach((el) => {
+			(el as HTMLAnchorElement).onclick = (e) => {
+				e.preventDefault();
+				loadCustomUser(el.textContent);
+			};
+		});
+	});
+
+	let showContentWarning = $state(true);
+	function bypassContentWarning(e: MouseEvent) {
 		e.preventDefault();
-		showWarnings = false;
+		showContentWarning = false;
 	}
 
 	function formatTimestamp(timestamp: string) {
@@ -26,34 +38,59 @@
 			numeric: 'always'
 		}).replace(' ago', '');
 	}
+
+	function openProfile(e: MouseEvent) {
+		e.preventDefault();
+		loadCustomUser(post.handle);
+	}
 </script>
 
 <article class={['blueskyPost', isQuotePost && 'blueskyQuotePost']}>
-	<a class="blueskyAvatar" href={post.profileLink} target="_blank" tabindex="-1">
-		<img src={post.avatar} alt="" draggable="false" />
-	</a>
+	{#if post.handle !== profile.handle}
+		<a
+			class="blueskyAvatar"
+			href={post.profileLink}
+			target="_blank"
+			onclick={openProfile}
+			tabindex="-1"
+		>
+			<img src={post.avatar} alt="" draggable="false" />
+		</a>
+	{:else}
+		<div class="blueskyAvatar">
+			<img src={post.avatar} alt="" draggable="false" />
+		</div>
+	{/if}
 	<div class="blueskyPostContent">
 		<hgroup class="blueskyPostHeader">
-			<!-- TODO make these links change the active user in the parent -->
-			<a class="blueskyAuthor" href={post.profileLink} target="_blank">
+			{#snippet authorContent()}
 				<h3 class="blueskyDisplayName">
 					<span>{post.displayName}</span>
 				</h3>
 				<p class="blueskyHandle">@{post.handle}</p>
-			</a>
+			{/snippet}
+			{#if post.handle !== profile.handle}
+				<a class="blueskyAuthor" href={post.profileLink} target="_blank" onclick={openProfile}>
+					{@render authorContent()}
+				</a>
+			{:else}
+				<span class="blueskyAuthor">
+					{@render authorContent()}
+				</span>
+			{/if}
 
 			<a class="blueskyTimestamp" href={post.link} target="_blank"
 				>{formatTimestamp(post.createdAt)}</a
 			>
 		</hgroup>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		<p class="blueskyPostText">{@html post.text}</p>
-		{#if post.isLabeled && showWarnings}
+		<p bind:this={postText} class="blueskyPostText">{@html post.text}</p>
+		{#if post.isLabeled && showContentWarning}
 			<a
 				class="blueskyLinkPreview blueskyContentWarning"
 				href={post.link}
 				target="_blank"
-				onclick={bypassWarnings}
+				onclick={bypassContentWarning}
 			>
 				<div class="blueskyLinkPreviewText">
 					<div class="blueskyLinkPreviewDescription">
@@ -94,7 +131,7 @@
 			</a>
 		{/if}
 		{#if post.quotePost && !isQuotePost}
-			<Self {profile} post={post.quotePost} isQuotePost={true} />
+			<Self {profile} post={post.quotePost} isQuotePost={true} {loadCustomUser} />
 		{/if}
 		{#if post.isRepost && !isQuotePost}
 			<div class="blueskyRepostLabel">
@@ -154,11 +191,10 @@
 		align-items: baseline;
 		column-gap: 0.5em;
 		color: inherit;
-		text-decoration: none;
+		text-decoration-color: var(--text-light);
 
-		&:hover {
-			text-decoration: underline;
-			text-decoration-color: var(--text-light);
+		&:not(:hover) {
+			text-decoration: none;
 		}
 	}
 
@@ -182,30 +218,13 @@
 		white-space: pre-wrap;
 	}
 
-	:global(.blueskyLink) {
-		color: #286fb4;
-
-		&:not(:hover) {
-			text-decoration: none;
-		}
-	}
-
-	:global(.blueskyMention) {
-		color: #465a6e;
-		font-weight: bold;
-
-		&:not(:hover) {
-			text-decoration: none;
-		}
-	}
-
 	.blueskyImageContainer {
 		--gap: 2px;
 		margin-inline-end: 5px;
 		margin-block-end: 5px;
 		position: relative;
-		aspect-ratio: 1.825;
-		max-height: 230px;
+		/* aspect-ratio: 1.825; */
+		max-height: 500px;
 		display: grid;
 		grid-template-columns: repeat(2, calc(50% - var(--gap) / 2));
 		grid-template-rows: repeat(2, calc(50% - var(--gap) / 2));

@@ -13,18 +13,20 @@
 	} = $props();
 
 	let handle = $state<string>('');
+	let showWarning = $state(false);
 	$effect(() => {
-		if (isOpen) handle = '';
+		if (isOpen) {
+			handle = '';
+			showWarning = false;
+		}
 	});
 
 	async function submitUserSheet(e: SubmitEvent) {
 		e.preventDefault();
 		if (handle.replace('@', '').match(getHandleRegex())) {
-			// TODO loading indicator
 			submit(handle);
 		} else {
-			// TODO better error messaging
-			alert('Invalid handle');
+			showWarning = true;
 		}
 	}
 
@@ -33,19 +35,26 @@
 	}
 </script>
 
-<Sheet open={isOpen}>
+<Sheet {isOpen}>
 	<form class="blueskyUserSheet" onsubmit={submitUserSheet}>
-		<label class="blueskyUserSheetInputLabel">
+		<label class="blueskyUserSheetInputRow">
 			<span>Enter handle:</span>
 			<!-- svelte-ignore a11y_autofocus -->
 			<input
 				class="aqua-textinput"
 				type="text"
 				bind:value={handle}
-				autofocus
 				onkeydown={userSheetKeydown}
+				autofocus
+				autocapitalize="off"
+				autocorrect="off"
+				spellcheck="false"
+				writingsuggestions="false"
+				inputmode="url"
+				enterkeyhint="go"
 			/>
 		</label>
+		<p class="blueskyUserSheetWarning" hidden={!showWarning}>Invalid handle.</p>
 		<div class="blueskyUserSheetButtons">
 			<button type="button" class="aqua-button" onclick={close} onkeydown={userSheetKeydown}
 				>Cancel</button
@@ -63,9 +72,12 @@
 <style>
 	.blueskyUserSheet {
 		width: 300px;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 	}
 
-	.blueskyUserSheetInputLabel {
+	.blueskyUserSheetInputRow {
 		display: flex;
 		gap: 10px;
 
@@ -82,8 +94,14 @@
 		}
 	}
 
+	.blueskyUserSheetWarning {
+		color: var(--text-secondary);
+		-webkit-user-select: none;
+		user-select: none;
+		margin-block: -10px;
+	}
+
 	.blueskyUserSheetButtons {
-		margin-top: 20px;
 		display: flex;
 		justify-content: flex-end;
 		gap: 15px;
