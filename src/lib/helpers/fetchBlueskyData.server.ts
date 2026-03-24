@@ -96,9 +96,7 @@ async function fetchData(
 		const feed = await feedResponse.json();
 		result.posts = feed.feed.map((item: any) => parsePost(item.post, handle)).filter(Boolean);
 	} else {
-		console.error(
-			`Error fetching Bluesky profile: ${profileResponse.status} ${profileResponse.statusText}`
-		);
+		console.error(`Error fetching Bluesky feed: ${feedResponse.status} ${feedResponse.statusText}`);
 	}
 
 	console.timeEnd(`bluesky-${handle}`);
