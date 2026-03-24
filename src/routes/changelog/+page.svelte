@@ -6,6 +6,11 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach setModified(app)}>
+	<h3>2026-03-23</h3>
+	<ul>
+		<li>Group character profiles under main window</li>
+		<li>Minor style fixes</li>
+	</ul>
 	<h3>2026-03-22</h3>
 	<ul>
 		<li>Added user navigation to Bluesky</li>

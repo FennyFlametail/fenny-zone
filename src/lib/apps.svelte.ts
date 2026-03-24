@@ -171,11 +171,12 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
-			width: 1650,
+			width: 1200,
 			height: 1000
 		}
 	},
 	fenny: {
+		parent: 'characters',
 		Page: Fenny,
 		title: 'Fenny',
 		menuTitle: 'Address Book',
@@ -186,6 +187,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		defaultSize: defaultProfileSize
 	},
 	aren: {
+		parent: 'characters',
 		Page: Aren,
 		title: 'Aren',
 		menuTitle: 'Address Book',
@@ -196,6 +198,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		defaultSize: defaultProfileSize
 	},
 	ceph: {
+		parent: 'characters',
 		Page: Ceph,
 		title: 'Ceph',
 		menuTitle: 'Address Book',
@@ -206,6 +209,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		defaultSize: defaultProfileSize
 	},
 	rigel: {
+		parent: 'characters',
 		Page: Rigel,
 		title: 'Rigel',
 		menuTitle: 'Address Book',
@@ -216,6 +220,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		defaultSize: defaultProfileSize
 	},
 	nocturne: {
+		parent: 'characters',
 		Page: Nocturne,
 		title: 'Nocturne',
 		menuTitle: 'Address Book',
