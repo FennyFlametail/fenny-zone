@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import BlueskySidebar from '$lib/components/bluesky/BlueskySidebar.svelte';
 	import BlueskyTimeline from '$lib/components/bluesky/BlueskyTimeline.svelte';
 	import BlueskyTitlebar from '$lib/components/bluesky/BlueskyTitlebar.svelte';
@@ -16,7 +17,9 @@
 	const windowServer = getWindowServerContext();
 	const { appName } = getAppContext();
 
-	let { profile, posts } = $state(data?.bluesky ?? { profile: null, posts: null });
+	let { profile, posts } = $state(
+		(data?.bluesky ?? browser) ? { profile: null, posts: null } : await getBlueskyData(undefined)
+	);
 	let customUsers: {
 		profile: BlueskyProfile;
 		posts: BlueskyPost[];
