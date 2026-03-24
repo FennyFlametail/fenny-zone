@@ -140,7 +140,6 @@
 		border-bottom: 1px solid black;
 		border-top-left-radius: calc(var(--window-radius) - 1px);
 		border-top-right-radius: calc(var(--window-radius) - 1px);
-		touch-action: pinch-zoom;
 		-webkit-user-select: none;
 		user-select: none;
 

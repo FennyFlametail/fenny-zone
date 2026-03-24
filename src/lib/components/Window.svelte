@@ -199,7 +199,7 @@
 		background-color: white;
 		border: 1px solid black;
 		box-shadow: var(--panel-box-shadow);
-		touch-action: auto; /* needed for touch dragging to work */
+		touch-action: manipulation; /* needed for touch dragging to work */
 
 		&.inactive {
 			box-shadow: var(--panel-box-shadow-inactive);
@@ -229,7 +229,6 @@
 			'title' var(--titlebar-height)
 			'toolbar' auto / 100%;
 		padding-inline: var(--titlebar-padding);
-		touch-action: pinch-zoom;
 		-webkit-user-select: none;
 		user-select: none;
 	}

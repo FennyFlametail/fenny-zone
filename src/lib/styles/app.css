@@ -134,6 +134,10 @@ body {
 	color: rgb(0 0 238);
 }
 
+[data-allow-window-drag] {
+	touch-action: pinch-zoom;
+}
+
 .textEdit {
 	background-color: white;
 	outline: none;
