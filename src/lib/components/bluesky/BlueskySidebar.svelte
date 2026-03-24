@@ -51,13 +51,18 @@
 </script>
 
 <div class="blueskySidebar" data-allow-window-drag inert={userSheetIsOpen}>
-	<div class="blueskyAvatar">
+	<button
+		class="blueskyAvatar"
+		onclick={closeAllCustomUsers}
+		disabled={!customUserCount}
+		aria-hidden={!customUserCount}
+	>
 		{#if profile}
 			<img src={profile?.avatar} alt="" draggable="false" width={35} height={35} />
 		{:else}
 			<div class="image-placeholder"></div>
 		{/if}
-	</div>
+	</button>
 	<div class="blueskyTabContainer">
 		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
 			<button
@@ -94,9 +99,14 @@
 		aspect-ratio: 1 / 1;
 		display: grid;
 		place-items: center;
+		padding: 0;
 		border: 1px solid black;
 		background-image: linear-gradient(to bottom, #92969a, #7b8084);
 		box-shadow: 0 1px 1px 0 #6d6f71;
+
+		&:not(:disabled) {
+			cursor: pointer;
+		}
 
 		&.highlighted {
 			box-shadow: 0 0 5px 2px #3793e7;
