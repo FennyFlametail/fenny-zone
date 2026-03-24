@@ -232,7 +232,6 @@
 		touch-action: pinch-zoom;
 		-webkit-user-select: none;
 		user-select: none;
-		cursor: default;
 	}
 
 	.windowTitle {

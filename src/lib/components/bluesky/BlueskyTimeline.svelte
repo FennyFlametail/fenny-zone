@@ -294,7 +294,6 @@
 		padding-inline: calc(var(--spacing) * 2);
 		background: var(--profile-bg);
 		text-align: center;
-		text-wrap: pretty;
 		-webkit-user-select: none;
 		user-select: none;
 
