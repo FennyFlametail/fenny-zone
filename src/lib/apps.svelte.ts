@@ -96,7 +96,7 @@ export interface AppEntry {
 export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
 
 const defaultProfileSize = {
-	width: 1250,
+	width: 600,
 	height: 800
 };
 
@@ -178,11 +178,9 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	fenny: {
 		Page: Fenny,
 		title: 'Fenny',
-		/* TODO make Characters parent instead, but need better window management first */
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: FennyIcon,
-		/* FIXME make character routes open Characters page with character pre-selected, instead of new window (but still support opening in separate windows) */
 		route: '/characters/fenny',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
