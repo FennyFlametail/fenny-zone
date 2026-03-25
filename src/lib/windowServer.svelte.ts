@@ -146,15 +146,19 @@ export default class WindowServer {
 };
 
 		const app = this.apps[appName];
-		const childApps = Object.entries(this.runningApps)
-			.filter(([, runningApp]) => runningApp.parent === appName)
-			.sort(([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex);
+		const childApps = Object.entries(this.runningApps).filter(
+([, runningApp]) => runningApp.parent === appName
+);
 		if (childApps.length) {
-			// focus all the apps that have this app as their parent
-			childApps.forEach(([name]) => this.focusApp(name as AppName));
+			// focus all this app's children, plus the app itself if it's running
+			const appSpread = app.instance ? ([[appName, app]] as [string, RunningApp][]) : [];
+			const sortedApps = [...childApps, ...appSpread].sort(
+				([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex
+			);
+			sortedApps.forEach(([name]) => this.focusApp(name as AppName));
 
 			// open the parent app (main window) if it isn't open
-			if (app.Page && !(appName in this.runningApps)) {
+			if (app.Page && !app.instance) {
 				openNewInstance();
 			}
 		} else if (appName === 'Finder' && !childApps.length) {
@@ -162,6 +166,9 @@ export default class WindowServer {
 			this.openApp('projects');
 		} else if (app.instance) {
 			this.focusApp(appName);
+if (options.props) {
+				this.runningApps[appName].instance.props = options.props;
+			}
 		} else {
 			openNewInstance();
 		}
