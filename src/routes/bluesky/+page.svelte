@@ -136,57 +136,8 @@
 	</div>
 </Sheet>
 
-<svg class="blueskyGradientDefs">
-	<defs>
-		<linearGradient id="statIconGradient" gradientTransform="rotate(90)">
-			<stop offset="0%" stop-color="#BFC3C6" />
-			<stop offset="100%" stop-color="#A9AFB3" />
-		</linearGradient>
-		<linearGradient id="tabIconGradient" gradientTransform="rotate(90)">
-			<stop offset="0%" stop-color="#CCCED1" />
-			<stop offset="100%" stop-color="#7C7E81" />
-		</linearGradient>
-		<linearGradient id="tabHighlightedIconGradient" gradientTransform="rotate(90)">
-			<stop offset="0%" stop-color="#84C6FF" />
-			<stop offset="100%" stop-color="#007BEB" />
-		</linearGradient>
-		<linearGradient id="tabIconActiveGradient" gradientTransform="rotate(90)">
-			<stop offset="0%" stop-color="#606060" />
-			<stop offset="100%" stop-color="#838383" />
-		</linearGradient>
-		<linearGradient id="tabIconDisabledGradient" gradientTransform="rotate(90)">
-			<stop offset="0%" stop-color="#8F8F90" />
-			<stop offset="100%" stop-color="#7C7C7D" />
-		</linearGradient>
-	</defs>
-</svg>
-
 <style>
 	:global {
-		#root .window[data-appname='bluesky'] {
-			--window-radius: 5px;
-			--sidebar-width: 66px;
-			--spacing: 10px;
-			--titlebar-height: 35px;
-			--titlebar-gradient: linear-gradient(
-				to bottom,
-				#59595c 1px,
-				#4b4c4f 1px,
-				#4b4c4f 2px,
-				#444548 2px,
-				#2a2b2d
-			);
-			--profile-bg: linear-gradient(to bottom, #f4f8fa, #d9dde0);
-			--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
-			--text-medium: #2d2f31;
-			--text-light: #81878b;
-			background-color: #2a2b2d;
-			background-image: none;
-			background-clip: padding-box;
-			border-color: rgb(0 0 0 / 75%);
-			border-radius: 5px;
-		}
-
 		:where(.window[data-appname='bluesky']) {
 			.blueskyTabIcon {
 				--gradient: url('#tabIconGradient');
@@ -379,11 +330,5 @@
 			margin-top: 5px;
 			align-self: flex-end;
 		}
-	}
-
-	.blueskyGradientDefs {
-		position: fixed;
-		top: 100vh;
-		left: 100vw;
 	}
 </style>

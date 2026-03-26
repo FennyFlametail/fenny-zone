@@ -138,6 +138,66 @@ body {
 	touch-action: pinch-zoom;
 }
 
+#root .window:is([data-appname='bluesky'], [data-appname='blueskyMedia']) {
+	--window-radius: 5px;
+	--titlebar-height: 35px;
+	--titlebar-gradient: linear-gradient(
+		to bottom,
+		#59595c 1px,
+		#4b4c4f 1px,
+		#4b4c4f 2px,
+		#444548 2px,
+		#2a2b2d
+	);
+	--sidebar-width: 66px;
+	--spacing: 10px;
+	--profile-bg: linear-gradient(to bottom, #f4f8fa, #d9dde0);
+	--tab-bg: #3d3f41;
+	--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
+	--text-medium: #2d2f31;
+	--text-light: #81878b;
+	background-color: #2a2b2d;
+	background-image: none;
+	background-clip: padding-box;
+	border-color: rgb(0 0 0 / 75%);
+}
+
+.blueskyTabIcon {
+	--gradient: url('#tabIconGradient');
+	--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
+		drop-shadow(0 0 0.5px black);
+	width: 20px;
+	height: 20px;
+	stroke: var(--gradient);
+	filter: var(--outline-shadow);
+
+	&.fill {
+		fill: var(--gradient);
+	}
+
+	&.lucide-mail path,
+	&.lucide-message-circle-x path:not(:first-child) {
+		stroke: var(--tab-bg);
+	}
+
+	&.lucide-search path {
+		stroke: #909295;
+
+		.blueskyTab.highlighted & {
+			stroke: #218ef0;
+		}
+	}
+
+	&.lucide-user {
+		width: 24px;
+		height: 24px;
+	}
+
+	&.lucide-list {
+		stroke: #a4a6a9;
+	}
+}
+
 .textEdit {
 	background-color: white;
 	outline: none;

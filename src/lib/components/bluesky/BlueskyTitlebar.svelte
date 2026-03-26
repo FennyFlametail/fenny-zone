@@ -79,7 +79,7 @@
 		<button
 			class="blueskyChangeUserButton"
 			onclick={openUserSheet}
-			title="Go to User"
+			title="Go to user"
 			disabled={!activeProfile || userSheetIsOpen}
 		>
 			<User class="blueskyTabIcon fill" strokeWidth={0} />

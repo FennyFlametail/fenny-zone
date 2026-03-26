@@ -1,8 +1,16 @@
 <script lang="ts">
-	import type { BlueskyPost, BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
+	import BlueskyPlayIcon from '$lib/components/bluesky/BlueskyPlayIcon.svelte';
+	import { getWindowServerContext } from '$lib/context.svelte';
+	import type {
+		BlueskyImage,
+		BlueskyPost,
+		BlueskyProfile
+	} from '$lib/helpers/fetchBlueskyData.server';
 	import { intlFormatDistance } from 'date-fns';
 	import { Info, Repeat2 } from 'lucide-svelte';
 	import Self from './BlueskyPost.svelte';
+
+	const windowServer = getWindowServerContext();
 
 	const {
 		profile,
@@ -42,6 +50,11 @@
 	function openProfile(e: MouseEvent) {
 		e.preventDefault();
 		loadCustomUser(post.handle);
+	}
+
+	function openImage(e: MouseEvent, image: BlueskyImage) {
+		e.preventDefault();
+		windowServer.openApp('blueskyMedia', { props: { postLink: post.link, image } });
 	}
 </script>
 
@@ -104,22 +117,23 @@
 				{#each post.images as img}
 					<a
 						class="blueskyImage"
-href={post.link}
+						href={post.link}
 						target="_blank"
+						onclick={(e) => openImage(e, img)}
 						tabindex="-1"
 					>
 						<img
-							src={img.src}
-						alt={img.alt}
-						title={img.alt}
-						draggable="false"
-						width={img.width}
-						height={img.height}
-					/>
-					{#if img.isVideo}
-						<div class="blueskyPlayIcon">▶</div>
-					{/if}
-</a>
+							src={img.thumb}
+							alt={img.alt}
+							title={img.alt}
+							draggable="false"
+							width={img.width}
+							height={img.height}
+						/>
+						{#if img.isVideo}
+							<BlueskyPlayIcon />
+						{/if}
+					</a>
 				{/each}
 			</div>
 		{/if}
@@ -239,7 +253,7 @@ href={post.link}
 	}
 
 	.blueskyImage {
-				/* 1 image */
+		/* 1 image */
 		&:first-of-type:last-of-type {
 			grid-column: span 2;
 			grid-row: span 2;
@@ -262,22 +276,6 @@ href={post.link}
 			object-fit: cover;
 			object-position: center;
 		}
-	}
-
-	.blueskyPlayIcon {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		translate: -50% -50%;
-		width: 72px;
-		height: 72px;
-		display: grid;
-		place-items: center;
-		padding-left: 7.5px;
-		background-color: rgb(255 255 255 / 75%);
-		border-radius: 50%;
-		font-size: 42px;
-		color: rgb(0 0 0 / 75%);
 	}
 
 	.blueskyLinkPreview {

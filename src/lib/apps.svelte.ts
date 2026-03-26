@@ -6,6 +6,7 @@ import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import Browser from '$lib/components/apps/Browser.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
+import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
 import Aren from '../routes/characters/aren/+page.svelte';
@@ -42,6 +43,7 @@ export type AppName =
 	| 'readme'
 	| 'changelog'
 	| 'bluesky'
+	| 'blueskyMedia'
 	| 'characters'
 	| 'fenny'
 	| 'aren'
@@ -68,7 +70,7 @@ export interface AppEntry {
 	readonly hideWindowTitle?: boolean;
 	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
 	readonly hideWindowControls?: boolean;
-	readonly icon: string;
+	readonly icon?: string;
 	dockIconOverride?: string;
 	readonly hideInDock?: boolean;
 	readonly route?: Pathname;
@@ -82,6 +84,8 @@ export interface AppEntry {
 		/** @default 500 */
 		height?: number;
 	};
+	readonly minWindowSize?: number;
+	readonly lockAspectRatio?: boolean;
 	readonly noResize?: boolean;
 	instance?: {
 		position: Position;
@@ -89,7 +93,7 @@ export interface AppEntry {
 		launchOrder: number;
 		modified?: boolean;
 		animating?: boolean;
-// TODO try to type props based on component
+		// TODO try to type props based on component
 		/** Props must be serializable */
 		props?: Record<string, any>;
 	};
@@ -117,7 +121,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Adblock Warning',
 		hideWindowTitle: true,
 		hideWindowControls: true,
-		icon: '',
 		hideInDock: true,
 		noResize: true,
 		defaultSize: {
@@ -130,15 +133,23 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Crash Reporter',
 		hideWindowTitle: true,
 		hideWindowControls: true,
-		icon: '',
 		hideInDock: true,
 		noResize: true,
 		defaultSize: {
 			width: 580,
-			height: 240
+			height: 260
 		}
 	},
-	// #region Real apps
+	blueskyMedia: {
+		parent: 'bluesky',
+		Page: BlueskyMedia,
+		title: 'Bluesky Media',
+		windowTitle: 'Media',
+		windowStyle: 'custom',
+		minWindowSize: 200,
+		lockAspectRatio: true
+	},
+	// #region Primary apps
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,

@@ -194,18 +194,17 @@
 	}
 
 	.blueskyTabIconWrapper {
-		--background: #3d3f41;
 		grid-area: icon;
 		display: grid;
 		justify-content: center;
 		align-items: center;
 		border-top: 1px solid #515354;
 		border-bottom: 1px solid transparent;
-		background-color: var(--background);
+		background-color: var(--tab-bg);
 
 		.blueskyTab.selected &,
 		.blueskyTab:active & {
-			--background: #242425;
+			--tab-bg: #242425;
 			border-top-color: #1d1d1e;
 		}
 	}

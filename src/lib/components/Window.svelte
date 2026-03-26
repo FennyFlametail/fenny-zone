@@ -46,9 +46,9 @@
 		);
 	});
 
-	let minWindowSize = 500;
+	let minWindowSize = app.minWindowSize ?? 500;
 	if (browser) {
-		minWindowSize = Math.min(500, document.documentElement.clientWidth);
+		minWindowSize = Math.min(minWindowSize, document.documentElement.clientWidth);
 	}
 
 	let element = $state<HTMLElement>();
@@ -90,11 +90,28 @@
 			const resizeFromCenter = e.altKey;
 
 			const deltaX = e.screenX - lastX;
-			const deltaY = e.screenY - lastY;
+			let deltaY = e.screenY - lastY;
+			if (app.lockAspectRatio) {
+				deltaY = (deltaX * app.instance.position.height) / app.instance.position.width;
+			}
+
+			lastX = e.screenX;
+			lastY = e.screenY;
+
 			let newWidth = app.instance.position.width + deltaX;
 			let newHeight = app.instance.position.height + deltaY;
 
+			if (app.lockAspectRatio) {
+				if (
+					Math.min(newWidth, newHeight) <= minWindowSize ||
+					newHeight >= WindowServer.safeHeight - app.instance.position.y
+				) {
+					return;
+				}
+			}
+
 			if (resizeFromCenter) {
+				// FIXME can break lockAspectRatio by resizing against menubar
 				if (app.instance.position.width > minWindowSize) {
 					newWidth += deltaX;
 					app.instance.position.x -= deltaX;
@@ -111,9 +128,6 @@
 				Math.max(newHeight, minWindowSize),
 				WindowServer.safeHeight - app.instance.position.y
 			);
-
-			lastX = e.screenX;
-			lastY = e.screenY;
 		}
 	}
 
@@ -147,7 +161,7 @@
 	style:z-index={app.instance.position.zIndex}
 	data-appname={appName}
 	data-allow-window-drag
-	out:scale={{ duration: 100, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
+	out:scale={{ duration: 150, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
 >
 	{#if app.windowStyle !== 'custom'}
 		<header class="windowTitlebar" data-allow-window-drag>

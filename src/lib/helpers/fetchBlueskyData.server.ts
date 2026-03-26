@@ -157,22 +157,12 @@ function parsePost(post: any, activeHandle: string): BlueskyPost | undefined {
 function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partial<BlueskyPost> {
 	try {
 		switch (embed?.$type) {
-			case 'app.bsky.embed.images':
-				return {
-					images: embed.images.map(
-						(img: any): BlueskyImage => ({
-							src: `https://cdn.bsky.app/img/feed_thumbnail/plain/${authorDid}/${img.image.ref.$link}@jpeg`,
-							alt: img.alt,
-							width: img.aspectRatio?.width,
-							height: img.aspectRatio?.height
-						})
-					)
-				};
 			case 'app.bsky.embed.images#view':
 				return {
 					images: embed.images.map(
 						(img: any): BlueskyImage => ({
-							src: img.thumb,
+							thumb: img.thumb,
+							src: img.fullsize,
 							alt: img.alt,
 							width: img.aspectRatio?.width,
 							height: img.aspectRatio?.height
@@ -183,9 +173,9 @@ function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partia
 				return {
 					images: [
 						{
-							src: embed.thumbnail,
-							// TODO see if it's possible to get video alt text
-							alt: '',
+							thumb: embed.thumbnail,
+							src: embed.playlist,
+							alt: embed.alt,
 							width: embed.aspectRatio?.width,
 							height: embed.aspectRatio?.height,
 							isVideo: true
@@ -250,7 +240,9 @@ export interface BlueskyProfile {
 	private: boolean;
 }
 
+/* TODO rename this to media */
 export interface BlueskyImage {
+	thumb: string;
 	src: string;
 	alt: string;
 	width?: number;
