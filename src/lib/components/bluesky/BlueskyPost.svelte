@@ -83,7 +83,6 @@
 				>{formatTimestamp(post.createdAt)}</a
 			>
 		</hgroup>
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<p bind:this={postText} class="blueskyPostText">{@html post.text}</p>
 		{#if post.isLabeled && showContentWarning}
 			<a

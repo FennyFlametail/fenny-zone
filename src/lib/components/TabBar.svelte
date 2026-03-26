@@ -56,7 +56,6 @@
 			{@render option.snippet()}
 		</div>
 	{/each}
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html optionStyles}
 {/snippet}
 

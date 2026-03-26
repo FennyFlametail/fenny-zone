@@ -23,7 +23,14 @@ export default ts.config(
 		},
 
 		rules: {
-			'@typescript-eslint/no-explicit-any': 'off'
+			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unused-expressions': [
+				'error',
+				{
+					allowTernary: true
+				}
+			],
+			'svelte/no-at-html-tags': 'off'
 		}
 	},
 	{

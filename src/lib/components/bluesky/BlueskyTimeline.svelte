@@ -61,7 +61,6 @@
 					</hgroup>
 					<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
 				</div>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				<p class="blueskyBio">{@html profile.description}</p>
 				<div class="blueskyStatsContainer">
 					<a class="blueskyStat" href="{profile.link}/followers" target="_blank">
