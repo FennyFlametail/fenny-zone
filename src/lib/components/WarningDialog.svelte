@@ -35,6 +35,7 @@
 			'icon buttons' auto / auto 1fr;
 		padding: 22.5px 25px;
 		column-gap: 25px;
+		row-gap: 20px;
 		line-height: 1.3;
 		-webkit-user-select: none;
 		user-select: none;
@@ -48,6 +49,7 @@
 
 	.dialogTitle {
 		font-size: 17px;
+		text-wrap: pretty;
 	}
 
 	.dialogBody {
