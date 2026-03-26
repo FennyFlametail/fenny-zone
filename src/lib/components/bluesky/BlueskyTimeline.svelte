@@ -148,6 +148,7 @@
 
 	.blueskyBanner {
 		aspect-ratio: 3 / 1;
+		width: 100%;
 		min-height: 100px;
 		max-height: 25cqh;
 		object-fit: cover;
