@@ -101,11 +101,16 @@
 				</div>
 			</a>
 		{:else if post.images}
-			<a class="blueskyImageContainer" href={post.link} target="_blank" tabindex="-1">
+			<div class="blueskyImageContainer">
 				{#each post.images as img}
-					<img
+					<a
 						class="blueskyImage"
-						src={img.src}
+href={post.link}
+						target="_blank"
+						tabindex="-1"
+					>
+						<img
+							src={img.src}
 						alt={img.alt}
 						title={img.alt}
 						draggable="false"
@@ -115,8 +120,9 @@
 					{#if img.isVideo}
 						<div class="blueskyPlayIcon">▶</div>
 					{/if}
+</a>
 				{/each}
-			</a>
+			</div>
 		{/if}
 		{#if post.linkPreview}
 			<a class="blueskyLinkPreview" href={post.linkPreview.link} target="_blank">
@@ -234,12 +240,7 @@
 	}
 
 	.blueskyImage {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-
-		/* 1 image */
+				/* 1 image */
 		&:first-of-type:last-of-type {
 			grid-column: span 2;
 			grid-row: span 2;
@@ -254,6 +255,13 @@
 		/* 3 images */
 		&:first-of-type:nth-last-of-type(3) {
 			grid-row: span 2;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
 		}
 	}
 
