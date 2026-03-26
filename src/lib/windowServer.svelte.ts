@@ -12,6 +12,13 @@ export interface Position {
 	zIndex: number;
 }
 
+type AppState = {
+	[name in AppName]?: {
+		position: Position;
+		props?: Record<string, any>;
+	};
+};
+
 export const WINDOW_PADDING = 0;
 
 export default class WindowServer {
@@ -312,19 +319,20 @@ if (options.props) {
 
 	loadState = () => {
 		if (!browser) return;
-		// TODO use cookies to fix SSR on app pages
+		// TODO use cookies to fix SSR on app pages?
 		const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {
-				const state = JSON.parse(stateString);
-				(Object.entries(state) as [AppName, Position][]).forEach(([appName, position]) => {
-					const app = this.apps[appName];
+				const state: AppState = JSON.parse(stateString);
+				Object.entries(state).forEach(([appName, { position, props }]) => {
+					const app = this.apps[appName as AppName];
 					if (!app) {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 						return;
 					}
-					this.openApp(appName, {
+					this.openApp(appName as AppName, {
 						position,
+props,
 						fromState: true
 					});
 				});
@@ -339,10 +347,13 @@ if (options.props) {
 	};
 
 	saveState = () => {
-		const state = Object.fromEntries(
+		const state: AppState = Object.fromEntries(
 			Object.entries(this.runningAppsByFocusOrder).map(([appName, app]) => [
 				appName,
-				app.instance.position
+{
+					position: app.instance.position,
+					props: app.instance.props
+				}
 			])
 		);
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));

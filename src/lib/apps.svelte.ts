@@ -89,6 +89,8 @@ export interface AppEntry {
 		launchOrder: number;
 		modified?: boolean;
 		animating?: boolean;
+// TODO try to type props based on component
+		/** Props must be serializable */
 		props?: Record<string, any>;
 	};
 }
