@@ -100,6 +100,7 @@
 />
 <BlueskySidebar
 	{profile}
+	{openUserSheet}
 	{userSheetIsOpen}
 	customUserCount={customUsers.length}
 	{closeAllCustomUsers}

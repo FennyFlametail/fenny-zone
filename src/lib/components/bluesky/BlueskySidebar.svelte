@@ -14,11 +14,13 @@
 
 	const {
 		profile,
+		openUserSheet,
 		userSheetIsOpen,
 		customUserCount,
 		closeAllCustomUsers
 	}: {
 		profile: BlueskyProfile | null;
+		openUserSheet: () => void;
 		userSheetIsOpen: boolean;
 		customUserCount: number;
 		closeAllCustomUsers: () => void;
@@ -45,7 +47,11 @@
 
 	function onTabClick(icon: any) {
 		if (icon === User) {
-			closeAllCustomUsers();
+			if (customUserCount > 0) {
+				closeAllCustomUsers();
+			} else {
+				openUserSheet();
+			}
 		}
 	}
 </script>
@@ -68,8 +74,10 @@
 			<button
 				class={['blueskyTab', ...classes]}
 				onclick={() => onTabClick(Icon)}
-				disabled={Icon !== User || !customUserCount}
-				aria-hidden={Icon !== User || !customUserCount}
+				disabled={Icon !== User || userSheetIsOpen}
+				aria-hidden={Icon !== User || userSheetIsOpen}
+				aria-label={customUserCount === 0 ? 'Go to user' : 'Back'}
+				title={customUserCount === 0 ? 'Go to user' : `Back to ${profile?.displayName}`}
 			>
 				<div class="blueskyTabIconWrapper">
 					<Icon class={['blueskyTabIcon', ...iconClass].join(' ')} {strokeWidth} />
