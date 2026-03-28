@@ -50,12 +50,15 @@
 	}
 
 	function getWindowMenuTitle(app: AppEntry) {
-		let title = app.windowTitle ?? app.title;
+		const defaultTitle = app.windowTitle ?? app.title;
+		const instanceTitle = app.instance?.title;
 		const parent = app.parent ? windowServer.apps[app.parent] : undefined;
-		if (parent) {
-			title = `${title} - ${parent.title}`;
+		if (instanceTitle) {
+			return `${instanceTitle} - ${parent?.title ?? defaultTitle}`;
+		} else if (parent) {
+			return `${defaultTitle} - ${parent.title}`;
 		}
-		return title;
+		return defaultTitle;
 	}
 </script>
 

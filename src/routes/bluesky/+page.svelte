@@ -15,7 +15,7 @@
 	const { data }: PageProps = $props();
 
 	const windowServer = getWindowServerContext();
-	const { appName } = getAppContext();
+	const { app, appName } = getAppContext();
 
 	let { profile, posts } = $state(
 		(data?.bluesky ?? browser) ? { profile: null, posts: null } : await getBlueskyData(undefined)
@@ -24,6 +24,9 @@
 		profile: BlueskyProfile;
 		posts: BlueskyPost[];
 	}[] = $state([]);
+	$effect(() => {
+		app.instance.title = customUsers.at(-1)?.profile.displayName ?? profile?.displayName;
+	});
 
 	onMount(async () => {
 		if (!profile || !posts) {
@@ -37,7 +40,6 @@
 
 	let timelines = $state<HTMLDivElement>();
 
-	// TODO update title in Window menu to match display name
 	// TODO add menu item for Change User
 
 	let userSheetIsOpen = $state(false);

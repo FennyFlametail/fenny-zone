@@ -87,15 +87,18 @@ export interface AppEntry {
 	readonly minWindowSize?: number;
 	readonly lockAspectRatio?: boolean;
 	readonly noResize?: boolean;
+// TODO support multiple instances with instance array
 	instance?: {
+// TODO try to type props based on component
+		/** Props must be serializable */
+		props?: Record<string, any>;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
 		modified?: boolean;
 		animating?: boolean;
-		// TODO try to type props based on component
-		/** Props must be serializable */
-		props?: Record<string, any>;
+		// overrides
+		title?: string;
 	};
 }
 
