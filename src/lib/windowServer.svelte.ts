@@ -269,8 +269,9 @@ if (options.props) {
 		}
 	};
 
-	closeAppWithError = (appName: AppName, error: any) => {
-		console.error(error);
+	closeAppWithError = (appName?: AppName, error?: any) => {
+if (!appName) return;
+		if (error) console.error(error);
 		this.closeApp(appName);
 		this.openApp('crashDialog', {
 			props: {
@@ -285,14 +286,19 @@ if (options.props) {
 		}
 	};
 
-	closeAll = () => {
-		Object.keys(this.runningApps).forEach((appName) => this.closeApp(appName as AppName));
+	closeAppAndChildren = (appName?: AppName) => {
+		if (!appName) return;
+		const parentName = this.apps[appName].parent ?? appName;
+
+		const childApps = this.appsByParent.get(parentName);
+		if (childApps) {
+			childApps.forEach(([childName]) => this.closeApp(childName));
+		}
+		this.closeApp(parentName);
 	};
 
-	closeCurrent = () => {
-		if (this.focusedApp) {
-			this.closeApp(this.focusedApp.name);
-		}
+	closeAll = () => {
+		Object.keys(this.runningApps).forEach((appName) => this.closeApp(appName as AppName));
 	};
 
 	closeOthers = () => {

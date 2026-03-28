@@ -14,7 +14,7 @@
 		}
 		return windowServer.focusedApp?.app as AppEntry | undefined;
 	});
-	const title = $derived.by(() => {
+	const appMenuTitle = $derived.by(() => {
 		if (!focusedApp) return windowServer.apps.Finder.title;
 		if (focusedApp.parent) {
 			const parent = windowServer.apps[focusedApp.parent];
@@ -67,12 +67,19 @@
 			>View Source...</MenuItem
 		>
 	</MenuCategory>
-	<MenuCategory {menubar} {title} isAppMenu={true} noScript={true}>
+	<!-- FIXME make this h1 -->
+	<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
 		<MenuItem
-			onclick={windowServer.closeCurrent}
+			onclick={() => windowServer.closeApp(windowServer.focusedApp?.name)}
 			href={!browser ? (focusedApp?.backTo ?? '/') : undefined}
 			disabled={browser && windowServer.desktopFocused}
 			noScript={true}>Close Window</MenuItem
+		>
+		<hr />
+		<MenuItem
+			onclick={() => windowServer.closeAppAndChildren(windowServer.focusedApp?.name)}
+			disabled={browser && windowServer.desktopFocused}
+			noScript={false}>Quit {appMenuTitle}</MenuItem
 		>
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
