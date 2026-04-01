@@ -78,7 +78,7 @@
 			disabled={browser && windowServer.desktopFocused}
 			noScript={true}>Close Window</MenuItem
 		>
-		<hr />
+		<hr class="noJS-hide" />
 		<MenuItem
 			onclick={() => windowServer.closeAppAndChildren(windowServer.focusedApp?.name)}
 			disabled={browser && windowServer.desktopFocused}
