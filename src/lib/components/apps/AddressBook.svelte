@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
+	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import addToolbarEntry from '$lib/helpers/toolbar.svelte';
 	import { ExternalLink } from 'lucide-svelte';
 
 	let {
@@ -14,16 +14,6 @@
 	} = $props();
 
 	const windowServer = getWindowServerContext();
-
-	const gridTemplateColumns = `[list] 150px [separator] var(--titlebar-padding) [profile] auto;`;
-
-	addToolbarEntry({
-		snippet: toolbar,
-		style: {
-			'grid-template-columns': gridTemplateColumns,
-			gap: '0'
-		}
-	});
 
 	let selectedAppName = $state<AppName>();
 	let selectedApp = $derived(selectedAppName ? windowServer.apps[selectedAppName] : undefined);
@@ -47,19 +37,17 @@
 	}
 </script>
 
-<!-- TODO make this work without JS -->
-{#snippet toolbar()}
-	<a
-		class={['aqua-button', 'square', 'icon', { disabled: !selectedAppName }]}
-		title="Open in New Window"
-		href={selectedApp?.route}
-		onclick={openInNewWindow}
-	>
-		<ExternalLink size={18} />
-	</a>
-{/snippet}
-
-<div class="addressBook brushedNoInset" style:grid-template-columns={gridTemplateColumns}>
+<div class="addressBook brushedNoInset">
+	<WindowToolbar class="noJS-hide">
+		<a
+			class={['aqua-button', 'square', 'icon', { disabled: !selectedAppName }]}
+			title="Open in New Window"
+			href={selectedApp?.route}
+			onclick={openInNewWindow}
+		>
+			<ExternalLink size={18} />
+		</a>
+	</WindowToolbar>
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<ul class="addressBookList brushedInset" onclick={deselect}>
@@ -92,9 +80,13 @@
 <style>
 	.addressBook {
 		display: grid;
+		grid-template:
+			'toolbar toolbar toolbar' auto
+			'list separator profile' 1fr / 150px var(--titlebar-padding) auto;
 	}
 
 	.addressBookList {
+		grid-area: list;
 		overflow-y: auto;
 		background-color: white;
 		padding: 0;
@@ -131,14 +123,19 @@
 		padding-inline: 4px;
 		color: inherit;
 		text-decoration: none;
-			}
+	}
 
 	.addressBookListIcon {
 		width: 16px;
 		height: 16px;
 	}
 
+	.addressBookSeparator {
+		grid-area: separator;
+	}
+
 	.addressBookProfile {
+		grid-area: profile;
 		container: window / size;
 		background-color: white;
 		overflow: hidden;

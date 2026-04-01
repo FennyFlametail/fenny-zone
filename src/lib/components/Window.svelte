@@ -2,11 +2,7 @@
 	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
 	import WindowControls from '$lib/components/WindowControls.svelte';
-	import {
-		getWindowServerContext,
-		setAppContext,
-		setToolbarEntryContext
-	} from '$lib/context.svelte';
+	import { getWindowServerContext, setAppContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
@@ -28,22 +24,6 @@
 	const title = $derived.by(() => {
 		if (app.hideWindowTitle) return '';
 		return app.windowTitle ?? app.title;
-	});
-
-	const toolbarEntriesWrapper = $state<ReturnType<typeof setToolbarEntryContext>>({
-		entries: []
-	});
-	setToolbarEntryContext(toolbarEntriesWrapper);
-
-	const toolbarStyles = $derived.by(() => {
-		const mergedStyles: Record<string, string> = Object.assign(
-			{},
-			...toolbarEntriesWrapper.entries.map(({ style }) => style)
-		);
-		return Object.entries(mergedStyles).reduce(
-			(acc, [key, value]) => acc.concat(`${key}:${value};`),
-			''
-		);
 	});
 
 	let minWindowSize = app.minWindowSize ?? 500;
@@ -173,13 +153,6 @@
 					{title}
 				</h2>
 			{/if}
-			{#if toolbarEntriesWrapper.entries.length}
-				<menu class="windowToolbar" style={toolbarStyles} data-allow-window-drag>
-					{#each toolbarEntriesWrapper.entries as { snippet }}
-						{@render snippet()}
-					{/each}
-				</menu>
-			{/if}
 		</header>
 	{/if}
 	<div class="windowContent">
@@ -239,9 +212,7 @@
 		grid-area: titlebar;
 		position: relative;
 		display: grid;
-		grid-template:
-			'title' var(--titlebar-height)
-			'toolbar' auto / 100%;
+		grid-template: 'title' var(--titlebar-height) / 100%;
 		padding-inline: var(--titlebar-padding);
 		-webkit-user-select: none;
 		user-select: none;
@@ -256,22 +227,6 @@
 		font-weight: normal;
 		font-size: 16px;
 		white-space: nowrap;
-	}
-
-	.windowToolbar {
-		&:empty {
-			display: none;
-		}
-		grid-area: toolbar;
-		display: grid;
-		grid-auto-flow: column;
-		justify-content: start;
-		justify-items: start;
-		padding-top: 8px;
-		padding-bottom: 11px;
-		padding-inline: 0;
-		gap: 7px;
-		list-style: none;
 	}
 
 	.windowContent {
