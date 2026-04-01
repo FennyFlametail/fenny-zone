@@ -77,7 +77,7 @@
 	</button>
 	{#if showChangeUserButton}
 		<button
-			class="blueskyChangeUserButton"
+			class="blueskyChangeUserButton noJS-hide"
 			onclick={openUserSheet}
 			title="Go to user"
 			disabled={!activeProfile || userSheetIsOpen}
@@ -267,10 +267,6 @@
 		:global(.window.inactive) & :global(.blueskyTabIcon),
 		&:disabled :global(.blueskyTabIcon) {
 			--gradient: url('#tabIconDisabledGradient');
-		}
-
-		@media (scripting: none) {
-			display: none;
 		}
 	}
 </style>

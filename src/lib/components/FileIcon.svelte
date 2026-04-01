@@ -109,11 +109,6 @@
 		align-items: center;
 		-webkit-user-select: none;
 		user-select: none;
-		cursor: default;
-
-		@media (scripting: none) {
-			cursor: pointer;
-		}
 
 		&.desktopIcon {
 			width: 200px;

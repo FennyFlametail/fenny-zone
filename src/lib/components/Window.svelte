@@ -193,7 +193,7 @@
 		{/if}
 	</div>
 	{#if !app.noResize}
-		<div class="windowResizeHandle" onpointerdown={startResize}></div>
+		<div class="windowResizeHandle noJS-hide" onpointerdown={startResize}></div>
 	{/if}
 </article>
 
@@ -293,9 +293,5 @@
 		height: 20px;
 		touch-action: pinch-zoom;
 		cursor: nwse-resize;
-
-		@media (scripting: none) {
-			display: none;
-		}
 	}
 </style>

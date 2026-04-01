@@ -69,7 +69,7 @@
 			<li class={['addressBookListItem', { selected: selectedAppName === appName }]}>
 				<AppLink
 					{appName}
-					class="addressBookLink"
+					class="addressBookLink noJS-pointer"
 					onclick={openHandler(appName)}
 					ondblclick={openInNewWindow}
 				>
@@ -131,10 +131,7 @@
 		padding-inline: 4px;
 		color: inherit;
 		text-decoration: none;
-		@media not (scripting: none) {
-			cursor: default;
-		}
-	}
+			}
 
 	.addressBookListIcon {
 		width: 16px;

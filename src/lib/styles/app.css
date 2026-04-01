@@ -138,8 +138,26 @@ body {
 	touch-action: pinch-zoom;
 }
 
+.noJS-hide {
+	@media (scripting: none) {
+		display: none !important;
+	}
+}
+
+.noJS-show {
+	@media not (scripting: none) {
+		display: none !important;
+	}
+}
+
+.noJS-pointer {
+	@media not (scripting: none) {
+		cursor: default;
+	}
+}
+
 #root .window:is([data-appname='bluesky'], [data-appname='blueskyMedia']) {
-		--titlebar-height: 35px;
+	--titlebar-height: 35px;
 	--titlebar-gradient: linear-gradient(
 		to bottom,
 		#59595c 1px,

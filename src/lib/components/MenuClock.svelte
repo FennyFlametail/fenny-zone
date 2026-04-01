@@ -29,6 +29,5 @@
 	.menuClock {
 		display: flex;
 		align-items: center;
-		cursor: default;
 	}
 </style>

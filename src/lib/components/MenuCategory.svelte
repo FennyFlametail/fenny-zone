@@ -43,8 +43,6 @@
 
 <style>
 	.menuCategory {
-		cursor: default;
-
 		&:not([open])::details-content {
 			content-visibility: visible;
 			transition-property: opacity, display;

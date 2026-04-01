@@ -35,7 +35,7 @@
 </script>
 
 <a
-	class={['dockIcon', { open: isOpen }]}
+	class={['dockIcon', 'noJS-pointer', { open: isOpen }]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
 	out:delayRemove|global
@@ -59,7 +59,6 @@
 		border: none;
 		transition: 250ms ease;
 		transition-property: width, height, margin-bottom;
-		cursor: default;
 		-webkit-user-select: none;
 		user-select: none;
 
@@ -129,10 +128,6 @@
 					}
 				}
 			}
-		}
-
-		@media (scripting: none) {
-			cursor: pointer;
 		}
 	}
 
