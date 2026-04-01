@@ -1,35 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import Window from '$lib/components/Window.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import { onMount } from 'svelte';
 
 	const windowServer = getWindowServerContext();
-
-	onMount(() => {
-		windowServer.loadState();
-		if (windowServer.initialAppName) {
-			windowServer.openApp(windowServer.initialAppName);
-			goto('/');
-		}
-
-		const adblockEl = document.getElementById('ftf-dma-note');
-		if (adblockEl) {
-			window.setTimeout(() => {
-				if (
-					getComputedStyle(adblockEl).display !== 'none' &&
-					!localStorage.getItem('adblockWarningSeen')
-				) {
-					windowServer.openApp('adblockWarning');
-					localStorage.setItem('adblockWarningSeen', 'true');
-				}
-			}, 500);
-		}
-
-		setTimeout(() => document.body.classList.remove('loading'), 500);
-	});
 </script>
 
 <main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>

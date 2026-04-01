@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import getApps, { type AppName } from '$lib/apps.svelte';
 	import Desktop from '$lib/components/Desktop.svelte';
@@ -9,11 +10,10 @@
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
 	import WindowServer from '$lib/windowServer.svelte';
+	import { onMount } from 'svelte';
 
 	const windowServer = new WindowServer();
 	setWindowServerContext(windowServer);
-
-	$effect(windowServer.saveState);
 
 	if (page.route.id !== '/') {
 		const apps = getApps();
@@ -22,6 +22,31 @@
 		)!;
 		windowServer.initialAppName = appName;
 	}
+
+	onMount(() => {
+		windowServer.loadState();
+		if (windowServer.initialAppName) {
+			windowServer.openApp(windowServer.initialAppName);
+			goto('/');
+		}
+
+		const adblockEl = document.getElementById('ftf-dma-note');
+		if (adblockEl) {
+			window.setTimeout(() => {
+				if (
+					getComputedStyle(adblockEl).display !== 'none' &&
+					!localStorage.getItem('adblockWarningSeen')
+				) {
+					windowServer.openApp('adblockWarning');
+					localStorage.setItem('adblockWarningSeen', 'true');
+				}
+			}, 500);
+		}
+
+		setTimeout(() => document.body.classList.remove('loading'), 500);
+	});
+
+	$effect(windowServer.saveState);
 </script>
 
 <MenuBar />
