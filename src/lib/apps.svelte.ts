@@ -95,6 +95,7 @@ export interface AppEntry {
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
+focused: boolean;
 		modified?: boolean;
 		animating?: boolean;
 		// overrides

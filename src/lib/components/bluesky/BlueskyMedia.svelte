@@ -186,6 +186,10 @@
 	.blueskyMediaOpenButton {
 		cursor: pointer;
 
+		:global(.window.inactive) & :global(.blueskyTabIcon) {
+			--gradient: url('#tabIconDisabledGradient');
+		}
+
 		&:active :global(.blueskyTabIcon) {
 			--gradient: url('#tabIconActiveGradient');
 		}

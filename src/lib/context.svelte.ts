@@ -7,7 +7,6 @@ export const [getWindowServerContext, setWindowServerContext] = createContext<Wi
 export const [getAppContext, setAppContext] = createContext<{
 	appName: AppName;
 	app: RunningApp;
-	getFocused: () => boolean;
 }>();
 
 export const [getFileIconContext, setFileIconContext] = createContext<{

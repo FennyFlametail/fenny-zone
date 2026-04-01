@@ -31,6 +31,7 @@ export default ts.config(
 					allowTernary: true
 				}
 			],
+			'@typescript-eslint/no-this-alias': 'off',
 			'svelte/no-at-html-tags': 'off'
 		}
 	},

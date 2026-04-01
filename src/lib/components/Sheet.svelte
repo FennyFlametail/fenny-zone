@@ -5,8 +5,7 @@
 	import { fly } from 'svelte/transition';
 	import { trapFocus } from 'trap-focus-svelte';
 
-	const { getFocused } = getAppContext();
-	const focused = $derived(getFocused());
+	const { app } = getAppContext();
 
 	/* sheet should make all controls in window appear disabled without
 	disabling the window itself, but doesn't matter for Bluesky */
@@ -24,7 +23,7 @@
 	<div class="sheet">
 		<div
 			class="sheetWrapper"
-			use:trapFocus={focused}
+			use:trapFocus={app.instance.focused}
 			transition:fly={{
 				duration: 300,
 				y: !prefersReducedMotion.current ? '-100%' : 0,

@@ -18,8 +18,7 @@
 
 	const windowServer = getWindowServerContext();
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
-	let focused = $derived(app === windowServer.focusedApp?.app);
-	setAppContext({ appName, app, getFocused: () => focused });
+	setAppContext({ appName, app });
 
 	const title = $derived.by(() => {
 		if (app.hideWindowTitle) return '';
@@ -131,7 +130,7 @@
 		window: true,
 		brushed: app.windowStyle === 'brushed',
 		custom: app.windowStyle === 'custom',
-		inactive: !focused && !ssr,
+		inactive: !app.instance.focused && !ssr,
 		animating: app.instance.animating
 	}}
 	style:--window-x="{app.instance.position.x}px"

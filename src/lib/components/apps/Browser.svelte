@@ -2,9 +2,7 @@
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
-	const { appName, app, getFocused } = getAppContext();
-
-	let focused = $derived(getFocused());
+	const { appName, app } = getAppContext();
 </script>
 
 <div class="browser">
@@ -13,8 +11,8 @@
 		class={[
 			'browserCover',
 			{
-				solid: windowServer.draggingEl || windowServer.resizingEl || !focused,
-				visible: !focused
+				solid: windowServer.draggingEl || windowServer.resizingEl || !app.instance.focused,
+				visible: !app.instance.focused
 			}
 		]}
 		onclick={() => windowServer.focusApp(appName)}

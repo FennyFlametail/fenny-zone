@@ -137,6 +137,7 @@ export default class WindowServer {
 		} = {}
 	) => {
 		const openNewInstance = () => {
+const self = this;
 			app.instance = {
 				position: WindowServer.getInitialPosition(
 					{
@@ -147,6 +148,9 @@ export default class WindowServer {
 					options.fromState
 				),
 				launchOrder: this.#launchCount++,
+get focused() {
+					return self.focusedApp?.app === app;
+				},
 				props: options.props
 			};
 			this.desktopFocused = false;
