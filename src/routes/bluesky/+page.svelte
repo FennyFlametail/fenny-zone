@@ -141,6 +141,11 @@
 
 <style>
 	:global {
+		#root .window[data-appname='bluesky'] {
+			--window-radius: 5px;
+			border-radius: var(--window-radius);
+		}
+
 		:where(.window[data-appname='bluesky']) {
 			.blueskyTabIcon {
 				--gradient: url('#tabIconGradient');

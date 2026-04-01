@@ -139,8 +139,7 @@ body {
 }
 
 #root .window:is([data-appname='bluesky'], [data-appname='blueskyMedia']) {
-	--window-radius: 5px;
-	--titlebar-height: 35px;
+		--titlebar-height: 35px;
 	--titlebar-gradient: linear-gradient(
 		to bottom,
 		#59595c 1px,
