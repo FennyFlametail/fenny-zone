@@ -40,8 +40,16 @@
 		}
 	});
 
+	let wasFocused = $state(false);
+	$effect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		app.instance.focused;
+		setTimeout(() => (wasFocused = app.instance.focused), 100);
+	});
+
 	function toggleControls(e: MouseEvent) {
 		e.preventDefault();
+		if (showControls && !wasFocused) return;
 		showControls = !showControls;
 		if (video) {
 			showControls ? video.pause() : video.play();
