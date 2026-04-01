@@ -65,6 +65,7 @@
 <a
 	class={[
 		'fileIcon',
+		'noJS-pointer',
 		{
 			selected: getSelectedIcon() === identifier,
 			opening,
@@ -102,11 +103,12 @@
 
 <style>
 	.fileIcon {
-		all: unset;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		color: inherit;
+		text-decoration: none;
 		-webkit-user-select: none;
 		user-select: none;
 
