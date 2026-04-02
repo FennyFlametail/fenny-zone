@@ -87,15 +87,13 @@ export interface AppEntry {
 	readonly minWindowSize?: number;
 	readonly lockAspectRatio?: boolean;
 	readonly noResize?: boolean;
-// TODO support multiple instances with instance array
 	instance?: {
-// TODO try to type props based on component
 		/** Props must be serializable */
 		props?: Record<string, any>;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
-focused: boolean;
+		focused: boolean;
 		modified?: boolean;
 		animating?: boolean;
 		// overrides
@@ -185,7 +183,6 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: AddressBookIcon,
-		/* TODO titlebar icon */
 		route: '/characters',
 		defaultSize: {
 			width: 1200,

@@ -31,6 +31,18 @@ export default ts.config(
 					allowTernary: true
 				}
 			],
+			'@typescript-eslint/no-unused-expressions': [
+				'error',
+				{
+					args: 'all',
+					argsIgnorePattern: '^_',
+					caughtErrors: 'all',
+					caughtErrorsIgnorePattern: '^_',
+					destructuredArrayIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					ignoreRestSiblings: true
+				}
+			],
 			'@typescript-eslint/no-this-alias': 'off',
 			'svelte/no-at-html-tags': 'off'
 		}

@@ -11,7 +11,6 @@
 	{#each Object.entries(windowServer.runningApps) as [AppName, RunningApp][] as [appName, app], i (appName)}
 		<Window {appName} props={app.instance?.props} />
 	{/each}
-	<!-- FIXME remove noscript after fixing SSR window position -->
 	<noscript>
 		{#if !browser && windowServer.initialAppName}
 			<Window appName={windowServer.initialAppName} />

@@ -12,12 +12,6 @@
 	const windowServer = getWindowServerContext();
 	const { appName } = getAppContext();
 
-	if (!crashedAppName) {
-		// failsafe because reloading doesn't preserve props
-		// TODO serialize props in localStorage?
-		setTimeout(() => windowServer.closeApp(appName), 0);
-	}
-
 	const crashedAppTitle = $derived(windowServer.apps[crashedAppName]?.title);
 </script>
 

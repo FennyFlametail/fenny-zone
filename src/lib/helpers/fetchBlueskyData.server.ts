@@ -240,7 +240,6 @@ export interface BlueskyProfile {
 	private: boolean;
 }
 
-/* TODO rename this to media */
 export interface BlueskyImage {
 	thumb: string;
 	src: string;

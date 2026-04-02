@@ -40,8 +40,6 @@
 
 	let timelines = $state<HTMLDivElement>();
 
-	// TODO add menu item for Change User
-
 	let userSheetIsOpen = $state(false);
 	function openUserSheet() {
 		userSheetIsOpen = true;
@@ -107,7 +105,6 @@
 	customUserCount={customUsers.length}
 	{closeAllCustomUsers}
 />
-<!-- TODO two finger back swipe -->
 <div bind:this={timelines} class={['blueskyContent', loadingHandle && 'loading']}>
 	{#if loadingHandle && !errorSheetIsOpen}
 		<div
