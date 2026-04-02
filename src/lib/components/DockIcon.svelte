@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { type AppName } from '$lib/apps.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
@@ -23,6 +24,12 @@
 
 	const isOpen = $derived.by(() => {
 		if (typeof open === 'boolean') return open;
+		if (!browser) {
+			const childApps = Object.entries(windowServer.apps)
+				.filter(([, app]) => app.parent === appName)
+				.map(([name]) => name);
+			return [appName, ...childApps].includes(windowServer.initialAppName as AppName);
+		}
 		return windowServer.appsByParent.has(appName) || appName in windowServer.runningApps;
 	});
 

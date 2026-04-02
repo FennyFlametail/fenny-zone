@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { AppName } from '$lib/apps.svelte';
+	import { browser } from '$app/environment';
+	import type { AppName, RunningApp } from '$lib/apps.svelte';
 	import DockIcon from '$lib/components/DockIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 
@@ -8,24 +9,33 @@
 	const pinned: AppName[] = ['Finder', 'characters', 'bluesky'];
 </script>
 
+{#snippet runningApps(parent: AppName | null, apps: [AppName, RunningApp][])}
+	{#if parent}
+		{#if !pinned.includes(parent)}
+			<DockIcon appName={parent} />
+		{/if}
+	{:else}
+		{#each apps as [name, app]}
+			{#if !pinned.includes(name) && !app.hideInDock}
+				<DockIcon appName={name} />
+			{/if}
+		{/each}
+	{/if}
+{/snippet}
+
 <footer class="dock">
 	<div class="dockSection">
 		{#each pinned as name}
 			<DockIcon appName={name} open={name === 'Finder' || undefined} />
 		{/each}
 		{#each windowServer.appsByParent as [parent, apps] (parent)}
-			{#if parent}
-				{#if !pinned.includes(parent)}
-					<DockIcon appName={parent} />
-				{/if}
-			{:else}
-				{#each apps as [name, app]}
-					{#if !pinned.includes(name) && !app.hideInDock}
-						<DockIcon appName={name} />
-					{/if}
-				{/each}
-			{/if}
+			{@render runningApps(parent, apps)}
 		{/each}
+		{#if !browser && windowServer.initialAppName}
+			{@const appName = windowServer.initialAppName}
+			{@const app = windowServer.apps[appName]}
+			{@render runningApps(app.parent || null, [[appName, app as RunningApp]])}
+		{/if}
 	</div>
 	<div class="dockSection">
 		<DockIcon appName="projects" open={false} />

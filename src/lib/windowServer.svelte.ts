@@ -329,8 +329,7 @@ if (!appName) return;
 
 	loadState = () => {
 		if (!browser) return;
-		// TODO use cookies to fix SSR on app pages?
-		const stateString = localStorage.getItem(STORAGE_KEY);
+				const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {
 				const state: AppState = JSON.parse(stateString);
