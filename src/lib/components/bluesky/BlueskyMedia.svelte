@@ -33,6 +33,7 @@
 	let showControls = $state(true);
 	let video = $state<HTMLVideoElement>();
 	let canPlayVideo = $state(true);
+	let videoPaused = $state(true);
 
 	$effect(() => {
 		if (video && !video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -40,38 +41,29 @@
 		}
 	});
 
-	let wasFocused = $state(false);
-	$effect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		app.instance.focused;
-		setTimeout(() => (wasFocused = app.instance.focused), 100);
-	});
-
-	function toggleControls(e: MouseEvent) {
-		e.preventDefault();
-		if (showControls && !wasFocused) return;
-		showControls = !showControls;
-		if (video) {
-			showControls ? video.pause() : video.play();
-		}
+	function onpointerenter() {
+		showControls = true;
+	}
+	function onpointerleave() {
+		showControls = false;
 	}
 </script>
 
-<div class="blueskyMediaContainer">
-	<button class="blueskyMediaWrapper" onclick={toggleControls}>
+<div class="blueskyMediaContainer" {onpointerenter} {onpointerleave}>
+	<button class="blueskyMediaWrapper">
 		{#if image.isVideo && canPlayVideo}
 			<!-- svelte-ignore a11y_media_has_caption -->
 			<video
 				bind:this={video}
+				bind:paused={videoPaused}
 				class="blueskyMedia"
 				src={image.src}
 				width={image.width}
 				height={image.height}
 				controls
-				onabort={() => 'video error'}
 			></video>
-			{#if showControls}
-				<BlueskyPlayIcon data-allow-window-drag />
+			{#if videoPaused}
+				<BlueskyPlayIcon onclick={() => (videoPaused = false)} data-allow-window-drag />
 			{/if}
 		{:else}
 			<!-- TODO add indicator if this is a video that can't be played -->
