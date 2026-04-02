@@ -13,6 +13,11 @@
 	const { appName } = getAppContext();
 
 	const crashedAppTitle = $derived(windowServer.apps[crashedAppName]?.title);
+
+	function handleClick(reopenApp: boolean) {
+		if (reopenApp) windowServer.openApp(crashedAppName);
+		windowServer.closeApp(appName);
+	}
 </script>
 
 <WarningDialog
@@ -22,11 +27,9 @@
 	Click Reopen to open the application again. DM me on Bluesky if this keeps happening I guess`}
 >
 	{#snippet buttonsLeft()}
-		<button class="aqua-button" onclick={() => windowServer.closeApp(appName)}>Close</button>
+		<button class="aqua-button" onclick={() => handleClick(false)}>Close</button>
 	{/snippet}
 	{#snippet buttonsRight()}
-		<button class="aqua-button primary" onclick={() => windowServer.openApp(crashedAppName)}
-			>Reopen</button
-		>
+		<button class="aqua-button primary" onclick={() => handleClick(true)}>Reopen</button>
 	{/snippet}
 </WarningDialog>
