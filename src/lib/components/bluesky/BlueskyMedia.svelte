@@ -111,7 +111,7 @@
 			</a>
 		</div>
 		{#if image.alt}
-			<p class="blueskyMediaAltText" transition:fade={fadeParams}>
+			<p class="blueskyMediaAltText" transition:fade|global={fadeParams}>
 				{image.alt}
 			</p>
 		{/if}
