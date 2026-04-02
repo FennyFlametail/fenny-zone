@@ -3,6 +3,7 @@
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 	import { CircleX, ExternalLink } from 'lucide-svelte';
+	import { fade, type FadeParams } from 'svelte/transition';
 
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
@@ -47,6 +48,10 @@
 	function onpointerleave() {
 		showControls = false;
 	}
+
+	const fadeParams: FadeParams = {
+		duration: 250
+	};
 </script>
 
 <div class="blueskyMediaContainer" {onpointerenter} {onpointerleave}>
@@ -63,10 +68,13 @@
 				controls
 			></video>
 			{#if videoPaused}
-				<BlueskyPlayIcon onclick={() => (videoPaused = false)} data-allow-window-drag />
+				<BlueskyPlayIcon
+					onclick={() => (videoPaused = false)}
+					{fadeParams}
+					data-allow-window-drag
+				/>
 			{/if}
 		{:else}
-			<!-- TODO add indicator if this is a video that can't be played -->
 			<img
 				class="blueskyMedia"
 				src={image.isVideo ? image.thumb : image.src}
@@ -76,31 +84,36 @@
 				draggable={false}
 				data-allow-window-drag
 			/>
+			{#if image.isVideo && !canPlayVideo && showControls}
+				<BlueskyPlayIcon blocked {fadeParams} data-allow-window-drag />
+			{/if}
 		{/if}
 	</button>
-	<div class={['blueskyMediaControls', showControls && 'visible']} data-allow-window-drag>
-		<button
-			class="blueskyMediaCloseButton"
-			aria-label="Close"
-			title="Close"
-			onclick={() => windowServer.closeApp(appName)}
-		>
-			<CircleX class="blueskyTabIcon fill" size={16} />
-		</button>
-		<a
-			class="blueskyMediaOpenButton"
-			href={postLink}
-			target="_blank"
-			aria-label="Open post in new tab"
-			title="Open post in new tab"
-		>
-			<ExternalLink class="blueskyTabIcon" size={16} strokeWidth={3} />
-		</a>
-	</div>
-	{#if image.alt}
-		<p class={['blueskyMediaAltText', showControls && 'visible']}>
-			{image.alt}
-		</p>
+	{#if showControls}
+		<div class="blueskyMediaControls" data-allow-window-drag transition:fade={fadeParams}>
+			<button
+				class="blueskyMediaCloseButton"
+				aria-label="Close"
+				title="Close"
+				onclick={() => windowServer.closeApp(appName)}
+			>
+				<CircleX class="blueskyTabIcon fill" size={16} />
+			</button>
+			<a
+				class="blueskyMediaOpenButton"
+				href={postLink}
+				target="_blank"
+				aria-label="Open post in new tab"
+				title="Open post in new tab"
+			>
+				<ExternalLink class="blueskyTabIcon" size={16} strokeWidth={3} />
+			</a>
+		</div>
+		{#if image.alt}
+			<p class="blueskyMediaAltText" transition:fade={fadeParams}>
+				{image.alt}
+			</p>
+		{/if}
 	{/if}
 </div>
 
@@ -136,9 +149,6 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 8px;
-		opacity: 0;
-		transition: opacity 250ms;
-		pointer-events: none;
 
 		&::after {
 			content: '';
@@ -150,11 +160,6 @@
 			background: var(--titlebar-gradient);
 			opacity: 0.9;
 			z-index: -1;
-		}
-
-		&.visible {
-			opacity: 1;
-			pointer-events: auto;
 		}
 	}
 
