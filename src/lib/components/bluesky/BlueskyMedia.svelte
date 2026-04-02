@@ -105,6 +105,7 @@
 				target="_blank"
 				aria-label="Open post in new tab"
 				title="Open post in new tab"
+				onclick={() => (videoPaused = true)}
 			>
 				<ExternalLink class="blueskyTabIcon" size={16} strokeWidth={3} />
 			</a>
