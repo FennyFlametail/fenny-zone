@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { SvelteDate } from 'svelte/reactivity';
+	import { getWindowServerContext } from '$lib/context.svelte';
 
+	const windowServer = getWindowServerContext();
 	const date = new SvelteDate();
 
 	const formatter = new Intl.DateTimeFormat(undefined, {
@@ -19,10 +21,26 @@
 			clearInterval(interval);
 		};
 	});
+
+	function onclick(e: MouseEvent) {
+		if (e.metaKey && e.altKey) {
+			if (e.shiftKey) {
+				windowServer.openApp('adblockWarning');
+			} else {
+				windowServer.openApp('crashDialog', {
+					props: {
+						crashedAppName: 'Finder'
+					}
+				});
+			}
+		}
+	}
 </script>
 
 {#if browser}
-	<div class="menuClock">{formatter.format(date)}</div>
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div class="menuClock" {onclick}>{formatter.format(date)}</div>
 {/if}
 
 <style>
