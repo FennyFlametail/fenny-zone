@@ -227,6 +227,10 @@ body {
 		font-family: 'Monaco', 'Courier New', monospace;
 		-webkit-font-smoothing: none;
 		-moz-osx-font-smoothing: grayscale;
+
+		@media (prefers-contrast: more) {
+			font-weight: bold;
+		}
 	}
 }
 

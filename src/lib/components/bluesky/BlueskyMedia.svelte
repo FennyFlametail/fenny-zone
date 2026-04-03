@@ -168,6 +168,13 @@
 			opacity: 0.9;
 			z-index: -1;
 		}
+
+		@media (forced-colors: active) {
+			background: Canvas;
+			&::after {
+				content: none;
+			}
+		}
 	}
 
 	.blueskyMediaControls {

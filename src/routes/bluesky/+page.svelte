@@ -8,6 +8,7 @@
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyPost, BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
 	import { onMount } from 'svelte';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import { slide } from 'svelte/transition';
 	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
@@ -112,7 +113,7 @@
 		<div
 			class="blueskyLoadingBar"
 			transition:slide={{
-				duration: 300,
+				duration: prefersReducedMotion ? 0 : 300,
 				axis: 'y'
 			}}
 		>
@@ -297,7 +298,9 @@
 			repeating-linear-gradient(-45deg, #469be5, #469be5 3px, #297bb7 3px, #297bb7 5px);
 		background-size: 92px;
 		box-shadow: inset 0 0 2px 0 white;
-		animation: progressbar 5s linear infinite;
+		@media not (prefers-reduced-motion: reduce) {
+			animation: progressbar 5s linear infinite;
+		}
 	}
 
 	@keyframes progressbar {

@@ -98,6 +98,10 @@ body {
 
 	.menuItem:not(.disabled):is(:hover, :focus-within) {
 		background-color: var(--menu-option-active-bg-color);
+
+		@media (forced-colors: active) {
+			background-color: CanvasText;
+		}
 	}
 	/* #endregion */
 
@@ -140,6 +144,12 @@ body {
 				#8c8c8c calc(100% - 1px)
 			);
 			color: var(--text-secondary);
+		}
+
+		&:not(.window.brushed &) {
+			@media (forced-colors: active) {
+				border-bottom: 1px solid CanvasText;
+			}
 		}
 	}
 
@@ -363,7 +373,7 @@ body {
 			--button-border-gradient: var(--button-border-active-gradient);
 
 			@media (forced-colors: active) {
-				text-decoration: underline;
+				border-color: Highlight;
 			}
 		}
 
@@ -404,6 +414,10 @@ body {
 		border-radius: 0;
 		border: none;
 		box-shadow: var(--textinput-shadow);
+
+		@media (forced-colors: active) {
+			border: 1px solid white;
+		}
 
 		&:focus-visible {
 			outline: none;
@@ -447,12 +461,6 @@ body {
 		var(--pulse-overlay-bg) 0% 0% / var(--scrollbar-size) var(--scrollbar-size) fixed,
 		linear-gradient(to var(--scrollbar-dir), var(--scrollbar-gradient));
 	background-blend-mode: multiply, normal, normal;
-}
-
-@media (forced-colors: active) {
-	:not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
-		background-color: CanvasText !important;
-	}
 }
 
 .window.inactive :not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {

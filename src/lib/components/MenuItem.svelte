@@ -102,10 +102,6 @@
 				outline: none;
 				background-color: var(--accent-color);
 				color: white;
-
-				@media (forced-colors: active) {
-					text-decoration: underline;
-				}
 			}
 		}
 

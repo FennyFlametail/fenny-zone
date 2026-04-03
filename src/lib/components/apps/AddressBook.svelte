@@ -115,6 +115,10 @@
 				background-color: var(--accent-color-inactive);
 				color: black;
 			}
+
+			@media (forced-colors: active) {
+				background-color: SelectedItem;
+			}
 		}
 	}
 

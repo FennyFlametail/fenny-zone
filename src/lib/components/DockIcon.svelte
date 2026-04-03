@@ -151,6 +151,18 @@
 			white-space: nowrap;
 			color: white;
 			text-shadow: var(--label-shadow);
+
+			@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
+				padding-inline: 5px;
+				border-radius: 5px;
+				border: 1px solid white;
+				background-color: rgb(0 0 0 / 75%);
+				text-shadow: none;
+
+				@media (prefers-reduced-transparency: reduce) {
+					background-color: black;
+				}
+			}
 		}
 	}
 

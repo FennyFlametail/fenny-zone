@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach setModified(app)}>
+	<h3>2026-04-03</h3>
+	<ul>
+		<li>Better support for screen readers and accessibility settings</li>
+	</ul>
 	<h3>2026-03-27</h3>
 	<ul>
 		<li>Allow opening Bluesky user sheet from sidebar</li>

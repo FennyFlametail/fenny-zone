@@ -188,6 +188,12 @@
 			box-shadow: 0 1px 0 0 rgb(0 0 0 / 50%);
 		}
 
+		.hasColor & {
+			@media (forced-colors: active) {
+				background-color: Mark;
+			}
+		}
+
 		.selected & {
 			background-color: var(--accent-color);
 			color: white;
@@ -199,7 +205,7 @@
 			.hasColor & {
 				color: transparent;
 				&::after {
-					content: attr(data-label) / "";
+					content: attr(data-label) / '';
 					position: absolute;
 					inset: 0;
 					padding: 4px;
@@ -208,12 +214,20 @@
 					background-color: var(--accent-color);
 					background-clip: content-box;
 					border-radius: 9999px;
+
+					@media (forced-colors: active) {
+						background-color: SelectedItem;
+					}
 				}
 			}
 
 			:global(.window.inactive) & {
 				background-color: rgb(0 0 0 / 20%);
 				color: black;
+			}
+
+			@media (forced-colors: active) {
+				background-color: SelectedItem;
 			}
 		}
 	}
