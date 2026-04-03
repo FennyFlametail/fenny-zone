@@ -28,9 +28,16 @@
 	function menuHover(e: PointerEvent) {
 		let anyMenuOpen = menubar.querySelector('details[open]');
 		if (!anyMenuOpen || !details) return;
-				if (!details.open) {
+		if (!details.open) {
 			// open this menu, which will close the currently open one
 			details.open = true;
+		}
+	}
+
+	function onkeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			details!.open = false;
+			summary?.blur();
 		}
 	}
 </script>
@@ -39,14 +46,16 @@
 	<details bind:this={details} class="menuCategory" name="menubar" onpointerenter={menuHover}>
 		<summary bind:this={summary} class="menuName" aria-label="{label} Menu">
 			<svelte:element this={nameTag} class={{ menuLogo: isLogo, menuApp: isAppMenu }}
->{title}</svelte:element
->
+				>{title}</svelte:element
+			>
 		</summary>
 		<menu class="menu" aria-label="Menu Items">
 			{@render children?.()}
 		</menu>
 	</details>
 {/if}
+
+<svelte:window {onkeydown} />
 
 <style>
 	.menuCategory {
