@@ -129,6 +129,7 @@
 		brushed: app.windowStyle === 'brushed',
 		custom: app.windowStyle === 'custom',
 		inactive: !app.instance.focused && !ssr,
+		dragging: windowServer.draggingEl === element,
 		animating: app.instance.animating
 	}}
 	style:--window-x="{app.instance.position.x}px"
@@ -174,7 +175,7 @@
 <style>
 	.window {
 		grid-area: 1 / 1;
-		transform: translate(var(--window-x), var(--window-y));
+		translate: var(--window-x) var(--window-y);
 		width: var(--window-width);
 		height: var(--window-height);
 		display: grid;
@@ -190,10 +191,14 @@
 			box-shadow: var(--panel-box-shadow-inactive);
 		}
 
+		&.dragging {
+			will-change: translate;
+		}
+
 		&.animating {
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
-				transition-property: width, height, transform;
+				transition-property: width, height, translate;
 			}
 		}
 
