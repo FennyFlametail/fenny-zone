@@ -96,17 +96,6 @@ export default class WindowServer {
 		) as Readonly<Record<AppName, RunningApp>>
 	);
 
-	runningAppsByFocusOrder = $derived(
-		Object.fromEntries(
-			Object.entries(this.apps)
-				.filter(([, app]) => app.instance)
-				.sort(
-					([, appA], [, appB]) => appA.instance!.position.zIndex - appB.instance!.position.zIndex
-				)
-				.reverse()
-		) as Readonly<Record<AppName, RunningApp>>
-	);
-
 	appsByParent = $derived(
 		Map.groupBy(Object.entries(this.runningApps), ([, app]) => app.parent || null) as ReadonlyMap<
 			AppName | null,
@@ -137,7 +126,7 @@ export default class WindowServer {
 		} = {}
 	) => {
 		const openNewInstance = () => {
-const self = this;
+			const self = this;
 			app.instance = {
 				position: WindowServer.getInitialPosition(
 					{
@@ -148,18 +137,18 @@ const self = this;
 					options.fromState
 				),
 				launchOrder: this.#launchCount++,
-get focused() {
+				get focused() {
 					return self.focusedApp?.app === app;
 				},
 				props: options.props
 			};
 			this.desktopFocused = false;
-};
+		};
 
 		const app = this.apps[appName];
 		const childApps = Object.entries(this.runningApps).filter(
-([, runningApp]) => runningApp.parent === appName
-);
+			([, runningApp]) => runningApp.parent === appName
+		);
 		if (childApps.length) {
 			// focus all this app's children, plus the app itself if it's running
 			const appSpread = app.instance ? ([[appName, app]] as [string, RunningApp][]) : [];
@@ -177,7 +166,7 @@ get focused() {
 			this.openApp('projects');
 		} else if (app.instance) {
 			this.focusApp(appName);
-if (options.props) {
+			if (options.props) {
 				this.runningApps[appName].instance.props = options.props;
 			}
 		} else {
@@ -274,7 +263,7 @@ if (options.props) {
 	};
 
 	closeAppWithError = (appName?: AppName, error?: any) => {
-if (!appName) return;
+		if (!appName) return;
 		if (error) console.error(error);
 		this.closeApp(appName);
 		this.openApp('crashDialog', {
@@ -329,7 +318,7 @@ if (!appName) return;
 
 	loadState = () => {
 		if (!browser) return;
-				const stateString = localStorage.getItem(STORAGE_KEY);
+		const stateString = localStorage.getItem(STORAGE_KEY);
 		if (stateString) {
 			try {
 				const state: AppState = JSON.parse(stateString);
@@ -341,7 +330,7 @@ if (!appName) return;
 					}
 					this.openApp(appName as AppName, {
 						position,
-props,
+						props,
 						fromState: true
 					});
 				});
@@ -357,9 +346,9 @@ props,
 
 	saveState = () => {
 		const state: AppState = Object.fromEntries(
-			Object.entries(this.runningAppsByFocusOrder).map(([appName, app]) => [
+			Object.entries(this.runningApps).map(([appName, app]) => [
 				appName,
-{
+				{
 					position: app.instance.position,
 					props: app.instance.props
 				}
