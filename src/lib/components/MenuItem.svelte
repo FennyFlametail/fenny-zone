@@ -30,6 +30,7 @@
 				newTab?: never;
 		  }
 	) = $props();
+	const itemId = $props.id();
 
 	const { dismissMenu } = getMenubarContext();
 
@@ -52,20 +53,31 @@
 </script>
 
 {#if browser || noScript}
-	<li class={['menuItem', { opening, disabled }]} style:--openAnimDuration="{openAnimDuration}ms">
+	<li
+		class={['menuItem', { opening, disabled }]}
+		style:--openAnimDuration="{openAnimDuration}ms"
+		role="menuitem"
+		aria-labelledby={itemId}
+		aria-disabled={disabled}
+	>
 		{#if checked}
 			<span class="menuItemCheckmark">✓</span>
 		{/if}
 		{#if href}
 			{#if !disabled}
-				<a class="menuItemLink" {href} target={newTab ? '_blank' : '_self'} onclick={setSelected}
-					>{@render children?.()}</a
+				<a
+					id={itemId}
+					class="menuItemLink"
+					{href}
+					target={newTab ? '_blank' : '_self'}
+					onclick={setSelected}>{@render children?.()}</a
 				>
 			{:else}
-				<span class="menuItemLink">{@render children?.()}</span>
+				<span id={itemId} class="menuItemLink">{@render children?.()}</span>
 			{/if}
 		{:else}
-			<button class="menuItemButton" onclick={setSelected} {disabled}>{@render children?.()}</button
+			<button id={itemId} class="menuItemButton" onclick={setSelected} {disabled}
+				>{@render children?.()}</button
 			>
 		{/if}
 	</li>

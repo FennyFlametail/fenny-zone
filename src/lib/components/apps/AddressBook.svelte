@@ -44,13 +44,15 @@
 			title="Open in New Window"
 			href={selectedApp?.route}
 			onclick={openInNewWindow}
+			aria-label="Open in New Window"
+			aria-disabled={!selectedAppName}
 		>
-			<ExternalLink size={18} />
+			<ExternalLink size={18} aria-hidden="true" />
 		</a>
 	</WindowToolbar>
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<ul class="addressBookList brushedInset" onclick={deselect}>
+	<ul class="addressBookList brushedInset" aria-label="Character List" onclick={deselect}>
 		<h3 class="addressBookListHeader">Name</h3>
 		{#each entries as { appName }}
 			{@const app = windowServer.apps[appName]}

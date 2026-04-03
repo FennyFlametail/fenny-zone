@@ -64,14 +64,13 @@
 
 <div class="menubarShadow"></div>
 
-<header bind:this={menubar} class="menubar">
+<header bind:this={menubar} class="menubar" role="menubar">
 	<MenuCategory {menubar} title="🦊" isLogo={true} noScript={true}>
 		<MenuItem href="https://github.com/FennyFlametail/fenny-zone" newTab={true} noScript={true}
 			>View Source...</MenuItem
 		>
 	</MenuCategory>
-	<!-- FIXME make this h1 -->
-	<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
+		<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
 		<MenuItem
 			onclick={() => windowServer.closeApp(windowServer.focusedApp?.name)}
 			href={!browser ? (focusedApp?.backTo ?? '/') : undefined}

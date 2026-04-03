@@ -54,7 +54,9 @@
 				enterkeyhint="go"
 			/>
 		</label>
-		<p class="blueskyUserSheetWarning" hidden={!showWarning}>Invalid handle.</p>
+		<p class="blueskyUserSheetWarning" aria-live="assertive">
+			{showWarning ? 'Invalid handle.' : ''}
+		</p>
 		<div class="blueskyUserSheetButtons">
 			<button type="button" class="aqua-button" onclick={close} onkeydown={userSheetKeydown}
 				>Cancel</button

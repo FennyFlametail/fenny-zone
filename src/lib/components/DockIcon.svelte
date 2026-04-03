@@ -11,6 +11,7 @@
 		appName: AppName;
 		open?: boolean;
 	} = $props();
+	const labelId = $props.id();
 
 	const windowServer = getWindowServerContext();
 	const app = windowServer.apps[appName];
@@ -45,12 +46,13 @@
 	class={['dockIcon', 'noJS-pointer', { open: isOpen }]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
+	aria-labelledby={labelId}
 	out:delayRemove|global
 	{onclick}
 	href={app.route ?? ''}
 >
-	<span class="dockIconLabel" aria-hidden="true">{app.title}</span>
-	<img src={icon} alt={app.title} class="dockIconImage" draggable="false" />
+	<span id={labelId} class="dockIconLabel">{app.title}</span>
+	<img src={icon} alt="" class="dockIconImage" draggable="false" />
 </a>
 
 <style>

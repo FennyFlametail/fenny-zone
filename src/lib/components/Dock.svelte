@@ -23,7 +23,7 @@
 	{/if}
 {/snippet}
 
-<footer class="dock">
+<nav class="dock" aria-label="Dock">
 	<div class="dockSection">
 		{#each pinned as name}
 			<DockIcon appName={name} open={name === 'Finder' || undefined} />
@@ -41,7 +41,7 @@
 		<DockIcon appName="projects" open={false} />
 		<DockIcon appName="trash" open={false} />
 	</div>
-</footer>
+</nav>
 
 <style>
 	.dock {

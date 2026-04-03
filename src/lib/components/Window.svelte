@@ -20,10 +20,8 @@
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
 	setAppContext({ appName, app });
 
-	const title = $derived.by(() => {
-		if (app.hideWindowTitle) return '';
-		return app.windowTitle ?? app.title;
-	});
+	const title = $derived(app.instance.title ?? app.windowTitle ?? app.title);
+	const displayTitle = $derived(app.hideWindowTitle ? '' : title);
 
 	let minWindowSize = app.minWindowSize ?? 500;
 	if (browser) {
@@ -138,18 +136,19 @@
 	style:--window-width="{app.instance.position.width}px"
 	style:--window-height="{app.instance.position.height}px"
 	style:z-index={app.instance.position.zIndex}
+	aria-label={app.instance.ariaLabel ?? title}
 	data-appname={appName}
 	data-allow-window-drag
 	out:scale={{ duration: 150, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
 >
 	{#if app.windowStyle !== 'custom'}
-		<header class="windowTitlebar" data-allow-window-drag>
+		<header class="windowTitlebar" aria-label={title} data-allow-window-drag>
 			{#if !app.hideWindowControls}
 				<WindowControls />
 			{/if}
-			{#if title}
+			{#if displayTitle}
 				<h2 class="windowTitle" data-allow-window-drag>
-					{title}
+					{displayTitle}
 				</h2>
 			{/if}
 		</header>
@@ -161,7 +160,7 @@
 				{#snippet pending()}{/snippet}
 			</svelte:boundary>
 		{:else}
-			<app.Page />
+			<app.Page {...props} />
 		{/if}
 	</div>
 	{#if !app.noResize}

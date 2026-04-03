@@ -30,15 +30,16 @@
 		relationships: Exclude<CharacterName, ThisCharacter>[];
 		links: Snippet;
 	} = $props();
+	const nameId = $props.id();
 
 	const windowServer = getWindowServerContext();
 </script>
 
-<div class="profile brushedInset">
+<article class="profile brushedInset" aria-labelledby={nameId}>
 	<header class="profileHeader">
 		<img class="profileIcon" src={icon} alt={iconAlt} draggable="false" />
 		<hgroup>
-			<h3 class="profileName">{fullName}</h3>
+			<h3 id={nameId} class="profileName">{fullName}</h3>
 			<p class="profileSpecies">{species}</p>
 		</hgroup>
 	</header>
@@ -63,13 +64,13 @@
 	{#if relationshipOrder?.length}
 		<div class="profileRelationships profileSection">
 			<h3 class="profileSectionHeading">Relationships</h3>
-			{#each relationshipOrder as other}
+			{#each relationshipOrder as other, i}
 				{@const relationship = relationships[character][other]}
 				<details class="profileRelationshipBlock">
 					<summary>{windowServer.apps[other].title}</summary>
 					<h4>How they met:</h4>
 					<p>{relationship.met}</p>
-					<h4>How they view each other:</h4>
+					<h4>How they see each other:</h4>
 					<p>{relationship.views}</p>
 				</details>
 			{/each}
@@ -79,7 +80,7 @@
 		<h3 class="profileSectionHeading">Links</h3>
 		{@render links()}
 	</div>
-</div>
+</article>
 
 <style>
 	.profile {

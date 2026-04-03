@@ -3,17 +3,18 @@
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 	import { CircleX, ExternalLink } from 'lucide-svelte';
-	import { fade, type FadeParams } from 'svelte/transition';
 
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
 
 	const {
+		image,
 		postLink,
-		image
+		handle
 	}: {
-		postLink: string;
 		image: BlueskyImage;
+		postLink: string;
+		handle: string;
 	} = $props();
 
 	$effect(() => {
@@ -29,6 +30,10 @@
 			app.instance.position.width = landscape ? maxSize : shorterEdge;
 			app.instance.position.height = landscape ? shorterEdge : maxSize;
 		}
+	});
+
+	$effect(() => {
+		app.instance.ariaLabel = `Bluesky - ${image.isVideo ? 'Video' : 'Image'} from ${handle}`;
 	});
 
 	let showControls = $state(true);
@@ -48,13 +53,9 @@
 	function onpointerleave() {
 		showControls = false;
 	}
-
-	const fadeParams: FadeParams = {
-		duration: 250
-	};
 </script>
 
-<div class="blueskyMediaContainer" {onpointerenter} {onpointerleave}>
+<figure class="blueskyMediaContainer" {onpointerenter} {onpointerleave}>
 	<button class="blueskyMediaWrapper">
 		{#if image.isVideo && canPlayVideo}
 			<!-- svelte-ignore a11y_media_has_caption -->
@@ -67,56 +68,53 @@
 				height={image.height}
 				controls
 			></video>
-			{#if videoPaused}
-				<BlueskyPlayIcon
-					onclick={() => (videoPaused = false)}
-					{fadeParams}
-					data-allow-window-drag
-				/>
-			{/if}
+			<BlueskyPlayIcon
+				visible={videoPaused}
+				play={() => (videoPaused = false)}
+				data-allow-window-drag
+			/>
 		{:else}
 			<img
 				class="blueskyMedia"
 				src={image.isVideo ? image.thumb : image.src}
-				alt={''}
+				alt={image.alt}
 				width={image.width}
 				height={image.height}
 				draggable={false}
 				data-allow-window-drag
 			/>
-			{#if image.isVideo && !canPlayVideo && showControls}
-				<BlueskyPlayIcon blocked {fadeParams} data-allow-window-drag />
-			{/if}
+			<BlueskyPlayIcon
+				visible={Boolean(image.isVideo && !canPlayVideo && showControls)}
+				data-allow-window-drag
+			/>
 		{/if}
 	</button>
-	{#if showControls}
-		<div class="blueskyMediaControls" data-allow-window-drag transition:fade={fadeParams}>
-			<button
-				class="blueskyMediaCloseButton"
-				aria-label="Close"
-				title="Close"
-				onclick={() => windowServer.closeApp(appName)}
-			>
-				<CircleX class="blueskyTabIcon fill" size={16} />
-			</button>
-			<a
-				class="blueskyMediaOpenButton"
-				href={postLink}
-				target="_blank"
-				aria-label="Open post in new tab"
-				title="Open post in new tab"
-				onclick={() => (videoPaused = true)}
-			>
-				<ExternalLink class="blueskyTabIcon" size={16} strokeWidth={3} />
-			</a>
-		</div>
-		{#if image.alt}
-			<p class="blueskyMediaAltText" transition:fade|global={fadeParams}>
-				{image.alt}
-			</p>
-		{/if}
+	<div class={['blueskyMediaControls', showControls && 'visible']} data-allow-window-drag>
+		<button
+			class="blueskyMediaCloseButton"
+			aria-label="Close"
+			title="Close"
+			onclick={() => windowServer.closeApp(appName)}
+		>
+			<CircleX class="blueskyTabIcon fill" size={16} aria-hidden="true" />
+		</button>
+		<a
+			class="blueskyMediaOpenButton"
+			href={postLink}
+			target="_blank"
+			aria-label="Open post in new tab"
+			title="Open post in new tab"
+			onclick={() => (videoPaused = true)}
+		>
+			<ExternalLink class="blueskyTabIcon" size={16} strokeWidth={3} aria-hidden="true" />
+		</a>
+	</div>
+	{#if image.alt}
+		<figcaption class={['blueskyMediaAltText', showControls && 'visible']}>
+			{image.alt}
+		</figcaption>
 	{/if}
-</div>
+</figure>
 
 <style>
 	:global(#root .window.window[data-appname='blueskyMedia']) {
@@ -150,6 +148,14 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 8px;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 250ms;
+
+		&.visible {
+			opacity: 1;
+			pointer-events: auto;
+		}
 
 		&::after {
 			content: '';

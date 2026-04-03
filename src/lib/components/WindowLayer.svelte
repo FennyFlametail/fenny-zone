@@ -7,7 +7,10 @@
 	const windowServer = getWindowServerContext();
 </script>
 
-<main class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}>
+<main
+	class={['windowLayer', (windowServer.draggingEl || windowServer.resizingEl) && 'noSelect']}
+	aria-label="Windows"
+>
 	{#each Object.entries(windowServer.runningApps) as [AppName, RunningApp][] as [appName, app], i (appName)}
 		<Window {appName} props={app.instance?.props} />
 	{/each}

@@ -13,12 +13,14 @@
 		profile,
 		posts,
 		userSheetIsOpen,
+		active,
 		isCustomUser,
 		loadCustomUser
 	}: {
 		profile: BlueskyProfile | null;
 		posts: BlueskyPostType[] | null;
 		userSheetIsOpen: boolean;
+		active: boolean;
 		isCustomUser?: boolean;
 		loadCustomUser: (handle: string) => void;
 	} = $props();
@@ -40,7 +42,8 @@
 
 <div
 	class="blueskyTimeline aqua-no-scrollbar"
-	inert={userSheetIsOpen}
+	inert={!active || userSheetIsOpen}
+	aria-hidden={!active}
 	transition:fly={{
 		duration: animate ? 300 : 0,
 		x: animate ? '100%' : 0,
@@ -49,11 +52,20 @@
 >
 	{#if profile && posts}
 		{#if !profile.private}
-			<img class="blueskyBanner" src={profile.banner} alt="" draggable="false" />
-			<article bind:this={profileElement} class="blueskyProfile">
+			<img
+				class="blueskyBanner"
+				src={profile.banner}
+				alt="Banner for {profile.handle}"
+				draggable="false"
+			/>
+			<article
+				bind:this={profileElement}
+				class="blueskyProfile"
+				aria-label="Profile for {profile.handle}"
+			>
 				<div class="blueskyProfileHeader">
 					<div class="blueskyAvatar">
-						<img src={profile.avatar} alt="" draggable="false" />
+						<img src={profile.avatar} alt="Avatar for {profile.handle}" draggable="false" />
 					</div>
 					<hgroup class="blueskyAuthor">
 						<h3 class="blueskyDisplayName">{profile.displayName}</h3>
@@ -79,10 +91,6 @@
 						<span>Lists</span>
 						<span class="blueskyStatNumber">{numberFormatter.format(profile.listsCount)}</span>
 					</div>
-					<!-- <span class="blueskyStat blueskyStatLocation">
-					<MapPin class="blueskyMapPin" aria-label="Location" />
-					<span>your computer</span>
-				</span> -->
 				</div>
 				<p class="blueskyJoinDate">
 					Member Since {intlFormat(profile.createdAt, {
@@ -98,16 +106,16 @@
 			</div>
 		{:else}
 			<article class="blueskyProfilePrivate">
-				<EyeOff size={64} />
+				<EyeOff size={64} aria-hidden="true" />
 				<h3>Sign-in Required</h3>
 				<p>This account has requested that users sign in to view their profile.</p>
 				<a class="blueskyLink" href={profile.link} target="_blank">View on Bluesky</a>
 			</article>
 		{/if}
 	{:else}
-		<div class="blueskyTimelineLoadingBar">
+		<div class="blueskyTimelineLoadingBar" aria-label="Loading" role="progressbar">
 			<div class="blueskyTimelineSpinner">
-				<Loader size={24} />
+				<Loader size={24} aria-hidden="true" />
 			</div>
 		</div>
 	{/if}

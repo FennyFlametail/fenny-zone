@@ -40,6 +40,7 @@
 			<input
 				id="TabBar-{id}-{index}"
 				type="radio"
+				role="tab"
 				name={id}
 				value={index}
 				checked={index === selectedIndex}

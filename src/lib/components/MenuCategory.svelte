@@ -19,11 +19,16 @@
 		children?: Snippet;
 	} = $props();
 
+	const nameTag = $derived(isAppMenu ? 'h1' : 'span');
+	const label = $derived(isLogo ? 'System' : title);
+
+	let details = $state<HTMLDetailsElement>();
+	let summary = $state<HTMLElement>();
+
 	function menuHover(e: PointerEvent) {
-		let isOpenMenu = menubar.querySelector('details[open]');
-		if (!isOpenMenu) return;
-		const details = e.currentTarget as HTMLDetailsElement;
-		if (!details.open) {
+		let anyMenuOpen = menubar.querySelector('details[open]');
+		if (!anyMenuOpen || !details) return;
+				if (!details.open) {
 			// open this menu, which will close the currently open one
 			details.open = true;
 		}
@@ -31,11 +36,13 @@
 </script>
 
 {#if browser || noScript}
-	<details class="menuCategory" name="menubar" onpointerenter={menuHover}>
-		<summary class="menuName">
-			<span class={{ menuLogo: isLogo, menuApp: isAppMenu }}>{title}</span>
+	<details bind:this={details} class="menuCategory" name="menubar" onpointerenter={menuHover}>
+		<summary bind:this={summary} class="menuName" aria-label="{label} Menu">
+			<svelte:element this={nameTag} class={{ menuLogo: isLogo, menuApp: isAppMenu }}
+>{title}</svelte:element
+>
 		</summary>
-		<menu class="menu">
+		<menu class="menu" aria-label="Menu Items">
 			{@render children?.()}
 		</menu>
 	</details>
@@ -89,5 +96,9 @@
 		list-style-type: none;
 		box-shadow: var(--panel-box-shadow);
 		background: white;
+	}
+
+	.menuApp {
+		font-size: inherit;
 	}
 </style>

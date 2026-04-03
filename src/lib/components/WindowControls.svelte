@@ -18,7 +18,13 @@
 	>
 		<X class="windowButtonGlyph" size={14} />
 	</svelte:element>
-	<button class="windowButton minimize" aria-label="Minimize" disabled={!browser}>
+	<button
+		class="windowButton minimize"
+		aria-label="Minimize"
+		disabled={!browser}
+		aria-hidden="true"
+		tabindex="-1"
+	>
 		<Minus class="windowButtonGlyph" size={14} />
 	</button>
 	<button

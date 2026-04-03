@@ -61,6 +61,7 @@
 		class="blueskyAvatar"
 		onclick={closeAllCustomUsers}
 		disabled={!customUserCount}
+		aria-label="Back to {profile?.handle}"
 		aria-hidden={!customUserCount}
 	>
 		{#if profile}
@@ -76,7 +77,7 @@
 				onclick={() => onTabClick(Icon)}
 				disabled={Icon !== User || userSheetIsOpen}
 				aria-hidden={Icon !== User || userSheetIsOpen}
-				aria-label={customUserCount === 0 ? 'Go to user' : 'Back'}
+				aria-label={customUserCount === 0 ? 'Go to user' : `Back to ${profile?.handle}`}
 				title={customUserCount === 0 ? 'Go to user' : `Back to ${profile?.displayName}`}
 			>
 				<div class="blueskyTabIconWrapper">

@@ -64,7 +64,7 @@ export interface AppEntry {
 	readonly title: string;
 	/** Defaults to `title` */
 	readonly menuTitle?: string;
-	/** Defaults to `title` */
+	/** Defaults to `title`, used for titlebar & Window menu */
 	readonly windowTitle?: string;
 	/** Hides title from titlebar, but will still show in Window menu */
 	readonly hideWindowTitle?: boolean;
@@ -96,8 +96,9 @@ export interface AppEntry {
 		focused: boolean;
 		modified?: boolean;
 		animating?: boolean;
-		// overrides
+		/** overrides `windowTitle` and `title` */
 		title?: string;
+		ariaLabel?: string;
 	};
 }
 
@@ -109,7 +110,7 @@ const defaultProfileSize = {
 };
 
 const getApps = (): Record<AppName, AppEntry> => ({
-	// #region Utility apps
+	/* #region Parent stubs */
 	Finder: {
 		title: 'Finder',
 		icon: FinderIcon
@@ -118,6 +119,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'TextEdit',
 		icon: TextEditIcon
 	},
+	// #region Utility apps
 	adblockWarning: {
 		Page: AdblockWarning,
 		title: 'Adblock Warning',

@@ -25,7 +25,9 @@
 		posts: BlueskyPost[];
 	}[] = $state([]);
 	$effect(() => {
-		app.instance.title = customUsers.at(-1)?.profile.displayName ?? profile?.displayName;
+		const currentUserName = customUsers.at(-1)?.profile.displayName ?? profile?.displayName;
+		app.instance.title = currentUserName;
+		app.instance.ariaLabel = `Bluesky - ${currentUserName}`;
 	});
 
 	onMount(async () => {
@@ -120,9 +122,22 @@
 			</div>
 		</div>
 	{/if}
-	<BlueskyTimeline {profile} {posts} {userSheetIsOpen} {loadCustomUser} />
-	{#each customUsers as { profile, posts }}
-		<BlueskyTimeline {profile} {posts} {userSheetIsOpen} isCustomUser={true} {loadCustomUser} />
+	<BlueskyTimeline
+		{profile}
+		{posts}
+		active={!customUsers.length}
+		{userSheetIsOpen}
+		{loadCustomUser}
+	/>
+	{#each customUsers as { profile, posts }, i}
+		<BlueskyTimeline
+			{profile}
+			{posts}
+			active={i === customUsers.length - 1}
+			{userSheetIsOpen}
+			isCustomUser={true}
+			{loadCustomUser}
+		/>
 	{/each}
 </div>
 <div class="blueskyFooter" data-allow-window-drag></div>

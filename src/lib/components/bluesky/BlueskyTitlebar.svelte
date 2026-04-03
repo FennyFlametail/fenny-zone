@@ -71,6 +71,7 @@
 		onpointerup={onTitleUp}
 		data-allow-window-drag
 		title="Scroll to top"
+		aria-label="Scroll to top"
 		disabled={!activeProfile || userSheetIsOpen}
 	>
 		<h2 data-allow-window-drag>{activeProfile?.displayName ?? ''}</h2>

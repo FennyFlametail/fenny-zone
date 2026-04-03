@@ -40,6 +40,13 @@
 		showContentWarning = false;
 	}
 
+	function formatTimestampLabel(timestamp: string) {
+		return intlFormatDistance(timestamp, new Date(), {
+			style: 'long',
+			numeric: 'always'
+		});
+	}
+
 	function formatTimestamp(timestamp: string) {
 		return intlFormatDistance(timestamp, new Date(), {
 			style: 'narrow',
@@ -54,11 +61,16 @@
 
 	function openImage(e: MouseEvent, image: BlueskyImage) {
 		e.preventDefault();
-		windowServer.openApp('blueskyMedia', { props: { postLink: post.link, image } });
+		windowServer.openApp('blueskyMedia', {
+			props: { postLink: post.link, handle: post.handle, image }
+		});
 	}
 </script>
 
-<article class={['blueskyPost', isQuotePost && 'blueskyQuotePost']}>
+<article
+	class={['blueskyPost', isQuotePost && 'blueskyQuotePost']}
+	aria-label="Post by {post.handle}"
+>
 	{#if post.handle !== profile.handle}
 		<a
 			class="blueskyAvatar"
@@ -67,11 +79,11 @@
 			onclick={openProfile}
 			tabindex="-1"
 		>
-			<img src={post.avatar} alt="" draggable="false" />
+			<img src={post.avatar} alt="Avatar for {post.handle}" draggable="false" />
 		</a>
 	{:else}
 		<div class="blueskyAvatar">
-			<img src={post.avatar} alt="" draggable="false" />
+			<img src={post.avatar} alt="Avatar for {post.handle}" draggable="false" />
 		</div>
 	{/if}
 	<div class="blueskyPostContent">
@@ -83,7 +95,13 @@
 				<p class="blueskyHandle">@{post.handle}</p>
 			{/snippet}
 			{#if post.handle !== profile.handle}
-				<a class="blueskyAuthor" href={post.profileLink} target="_blank" onclick={openProfile}>
+				<a
+					class="blueskyAuthor"
+					aria-label="{post.displayName}, @{post.handle}, click to view profile"
+					href={post.profileLink}
+					target="_blank"
+					onclick={openProfile}
+				>
 					{@render authorContent()}
 				</a>
 			{:else}
@@ -92,8 +110,11 @@
 				</span>
 			{/if}
 
-			<a class="blueskyTimestamp" href={post.link} target="_blank"
-				>{formatTimestamp(post.createdAt)}</a
+			<a
+				class="blueskyTimestamp"
+				aria-label="{formatTimestampLabel(post.createdAt)}, click to open post"
+				href={post.link}
+				target="_blank">{formatTimestamp(post.createdAt)}</a
 			>
 		</hgroup>
 		<p bind:this={postText} class="blueskyPostText">{@html post.text}</p>
@@ -103,10 +124,11 @@
 				href={post.link}
 				target="_blank"
 				onclick={bypassContentWarning}
+				aria-label="Content warning, click to show"
 			>
 				<div class="blueskyLinkPreviewText">
 					<div class="blueskyLinkPreviewDescription">
-						<Info size={20} />
+						<Info size={20} aria-hidden="true" />
 						<span>Content Warning</span>
 						<span>Show</span>
 					</div>
@@ -117,6 +139,7 @@
 				{#each post.images as img}
 					<a
 						class="blueskyImage"
+						aria-label={img.alt || (img.isVideo ? 'Video' : 'Image')}
 						href={post.link}
 						target="_blank"
 						onclick={(e) => openImage(e, img)}
@@ -131,7 +154,7 @@
 							height={img.height}
 						/>
 						{#if img.isVideo}
-							<BlueskyPlayIcon />
+							<BlueskyPlayIcon visible={true} />
 						{/if}
 					</a>
 				{/each}
@@ -154,7 +177,7 @@
 		{/if}
 		{#if post.isRepost && !isQuotePost}
 			<div class="blueskyRepostLabel">
-				<Repeat2 />
+				<Repeat2 aria-hidden="true" />
 				<span>Reposted by {profile?.displayName}</span>
 			</div>
 		{/if}

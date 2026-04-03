@@ -199,7 +199,7 @@
 			.hasColor & {
 				color: transparent;
 				&::after {
-					content: attr(data-label);
+					content: attr(data-label) / "";
 					position: absolute;
 					inset: 0;
 					padding: 4px;

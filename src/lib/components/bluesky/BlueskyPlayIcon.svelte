@@ -1,26 +1,31 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { fade, type FadeParams } from 'svelte/transition';
 
-	interface BlueskyPlayIconProps extends HTMLAttributes<HTMLDivElement> {
+	interface BlueskyPlayIconProps extends HTMLAttributes<HTMLButtonElement> {
 		blocked?: boolean;
-		fadeParams?: FadeParams;
+		play?: () => void;
+		visible: boolean;
 	}
 
-	const { blocked, fadeParams, ...rest }: BlueskyPlayIconProps = $props();
+	const { blocked, play, visible, ...rest }: BlueskyPlayIconProps = $props();
+	const tag = play ? 'button' : 'div';
 </script>
 
-<div
-	class={['blueskyPlayIcon', { blocked }]}
+<svelte:element
+	this={tag}
+	class={['blueskyPlayIcon', { blocked, visible }]}
+	aria-label={!blocked ? 'Play icon' : "Can't play video"}
+	aria-hidden={!visible}
 	{...rest}
-	transition:fade={fadeParams ?? { duration: 0 }}
 >
 	▶
-</div>
+</svelte:element>
 
 <style>
 	.blueskyPlayIcon {
 		--gray: #333333;
+		border: none;
+		padding: 0;
 		position: absolute;
 		left: 50%;
 		top: 50%;
@@ -34,9 +39,16 @@
 		border-radius: 50%;
 		font-size: 42px;
 		color: var(--gray);
-		opacity: 0.75;
 		-webkit-user-select: none;
 		user-select: none;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 250ms;
+
+		&.visible {
+			opacity: 0.75;
+			pointer-events: auto;
+		}
 
 		&.blocked::after {
 			content: '';

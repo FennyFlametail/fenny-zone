@@ -10,7 +10,12 @@
 	const { children, class: className, ...rest }: WindowToolbarProps = $props();
 </script>
 
-<menu class={['windowToolbar', 'brushedNoInset', className]} data-allow-window-drag {...rest}>
+<menu
+	class={['windowToolbar', 'brushedNoInset', className]}
+	role="toolbar"
+	data-allow-window-drag
+	{...rest}
+>
 	{@render children()}
 </menu>
 

@@ -16,8 +16,8 @@
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="desktop" {onclick}>
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<nav class="desktop" aria-label="Desktop" {onclick}>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />
@@ -36,7 +36,7 @@
 			href="https://howlongtobeat.com/user/FennyFlametail/"
 		/>
 	</div>
-</div>
+</nav>
 
 <style>
 	.desktop {

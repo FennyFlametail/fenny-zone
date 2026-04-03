@@ -12,7 +12,9 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="finder" onclick={onClickIconContainer}>
-	<div class="finderStatusBar">{icons?.childElementCount ?? ''} items, ∞ GB available</div>
+	<div class="finderStatusBar" aria-hidden="true">
+		{icons?.childElementCount ?? ''} items, ∞ GB available
+	</div>
 	<div class="finderIcons" bind:this={icons}>
 		{@render children()}
 	</div>
