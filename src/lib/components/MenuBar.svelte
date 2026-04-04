@@ -8,12 +8,7 @@
 	import { getWindowServerContext, setMenubarContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
-	const focusedApp = $derived.by(() => {
-		if (!browser && windowServer.initialAppName) {
-			return windowServer.apps[windowServer.initialAppName];
-		}
-		return windowServer.focusedApp?.app as AppEntry | undefined;
-	});
+	const focusedApp = $derived(windowServer.focusedApp?.app);
 	const appMenuTitle = $derived.by(() => {
 		if (!focusedApp) return windowServer.apps.Finder.title;
 		if (focusedApp.parent) {
@@ -22,6 +17,9 @@
 		}
 		return focusedApp.menuTitle ?? focusedApp.title;
 	});
+	const isFinder = $derived(
+		!focusedApp || focusedApp === windowServer.apps.Finder || focusedApp?.parent === 'Finder'
+	);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();
@@ -70,7 +68,7 @@
 			>View Source...</MenuItem
 		>
 	</MenuCategory>
-		<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
+	<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
 		<MenuItem
 			onclick={() => windowServer.closeApp(windowServer.focusedApp?.name)}
 			href={!browser ? (focusedApp?.backTo ?? '/') : undefined}
@@ -81,7 +79,7 @@
 		<MenuItem
 			onclick={() => windowServer.closeAppAndChildren(windowServer.focusedApp?.name)}
 			disabled={browser && windowServer.desktopFocused}
-			noScript={false}>Quit {appMenuTitle}</MenuItem
+			noScript={false}>{isFinder ? 'Close Finder Windows' : `Quit ${appMenuTitle}`}</MenuItem
 		>
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">

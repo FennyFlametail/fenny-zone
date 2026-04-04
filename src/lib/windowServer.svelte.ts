@@ -104,6 +104,11 @@ export default class WindowServer {
 	);
 
 	focusedApp = $derived.by(() => {
+		if (!browser && this.initialAppName)
+			return {
+				name: this.initialAppName,
+				app: this.apps[this.initialAppName]
+			};
 		if (this.desktopFocused) return null;
 
 		const [name, app] =
