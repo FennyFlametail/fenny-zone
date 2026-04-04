@@ -163,7 +163,7 @@ function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partia
 						(img: any): BlueskyImage => ({
 							thumb: img.thumb,
 							src: img.fullsize,
-							alt: img.alt,
+							alt: img.alt || '',
 							width: img.aspectRatio?.width,
 							height: img.aspectRatio?.height
 						})
@@ -175,7 +175,7 @@ function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partia
 						{
 							thumb: embed.thumbnail,
 							src: embed.playlist,
-							alt: embed.alt,
+							alt: embed.alt || '',
 							width: embed.aspectRatio?.width,
 							height: embed.aspectRatio?.height,
 							isVideo: true
@@ -186,8 +186,8 @@ function parseEmbed(embed: any, activeHandle: string, authorDid: string): Partia
 				return {
 					linkPreview: {
 						link: embed.external.uri,
-						title: embed.external.title,
-						description: embed.external.description,
+						title: embed.external.title || '',
+						description: embed.external.description || '',
 						thumb: embed.external.thumb
 					}
 				};

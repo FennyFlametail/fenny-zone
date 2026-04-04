@@ -139,7 +139,7 @@
 				{#each post.images as img}
 					<a
 						class="blueskyImage"
-						aria-label={img.alt || (img.isVideo ? 'Video' : 'Image')}
+						aria-label={img.isVideo ? 'Video' : 'Image'}
 						href={post.link}
 						target="_blank"
 						onclick={(e) => openImage(e, img)}
@@ -154,7 +154,7 @@
 							height={img.height}
 						/>
 						{#if img.isVideo}
-							<BlueskyPlayIcon visible={true} />
+							<BlueskyPlayIcon />
 						{/if}
 					</a>
 				{/each}
@@ -299,6 +299,10 @@
 			object-fit: cover;
 			object-position: center;
 		}
+	}
+
+	.blueskyImage :global(.blueskyPlayIcon) {
+		opacity: 0.9;
 	}
 
 	.blueskyLinkPreview {

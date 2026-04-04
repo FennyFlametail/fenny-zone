@@ -1,22 +1,31 @@
 <script lang="ts">
-	import CrashReporterIcon from '$lib/images/icons/CrashReporter.webp';
+	import WarningTriangle from '$lib/images/icons/warning.webp';
 	import type { Snippet } from 'svelte';
+	import type { AriaRole } from 'svelte/elements';
 
 	const {
 		title,
 		body,
+		role = 'alert',
 		buttonsLeft,
 		buttonsRight
 	}: {
 		title: string;
 		body: string;
+		role?: AriaRole;
 		buttonsLeft: Snippet;
 		buttonsRight: Snippet;
 	} = $props();
 </script>
 
-<div class="dialog">
-	<img class="dialogIcon" src={CrashReporterIcon} alt="Warning icon" draggable="false" />
+<div class="dialog" {role} aria-label="Warning dialog">
+	<img
+		class="dialogIcon"
+		src={WarningTriangle}
+		alt="Warning triangle"
+		draggable="false"
+		aria-hidden="true"
+	/>
 	<h2 class="dialogTitle">{title}</h2>
 	<p class="dialogBody">{body}</p>
 	<div class="dialogButtons">

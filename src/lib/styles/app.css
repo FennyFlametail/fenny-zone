@@ -166,6 +166,15 @@ body {
 		#444548 2px,
 		#2a2b2d
 	);
+	--titlebar-gradient-translucent: linear-gradient(
+		to bottom,
+		/* e6 is ~90% */
+		#59595ce6 1px,
+		#4b4c4fe6 1px,
+		#4b4c4fe6 2px,
+		#444548e6 2px,
+		#2a2b2de6
+	);
 	--sidebar-width: 66px;
 	--spacing: 10px;
 	--profile-bg: linear-gradient(to bottom, #f4f8fa, #d9dde0);

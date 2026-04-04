@@ -36,7 +36,8 @@
 		app.instance.ariaLabel = `Bluesky - ${image.isVideo ? 'Video' : 'Image'} from ${handle}`;
 	});
 
-	let showControls = $state(true);
+	let showControlsMobile = $state(true);
+
 	let video = $state<HTMLVideoElement>();
 	let canPlayVideo = $state(true);
 	let videoPaused = $state(true);
@@ -46,17 +47,10 @@
 			canPlayVideo = false;
 		}
 	});
-
-	function onpointerenter() {
-		showControls = true;
-	}
-	function onpointerleave() {
-		showControls = false;
-	}
 </script>
 
-<figure class="blueskyMediaContainer" {onpointerenter} {onpointerleave}>
-	<button class="blueskyMediaWrapper">
+<figure class={['blueskyMediaContainer', { showControlsMobile }]}>
+	<button class="blueskyMediaWrapper" onclick={() => (showControlsMobile = !showControlsMobile)}>
 		{#if image.isVideo && canPlayVideo}
 			<!-- svelte-ignore a11y_media_has_caption -->
 			<video
@@ -68,11 +62,6 @@
 				height={image.height}
 				controls
 			></video>
-			<BlueskyPlayIcon
-				visible={videoPaused}
-				play={() => (videoPaused = false)}
-				data-allow-window-drag
-			/>
 		{:else}
 			<img
 				class="blueskyMedia"
@@ -83,13 +72,12 @@
 				draggable={false}
 				data-allow-window-drag
 			/>
-			<BlueskyPlayIcon
-				visible={Boolean(image.isVideo && !canPlayVideo && showControls)}
-				data-allow-window-drag
-			/>
+			{#if image.isVideo && !canPlayVideo}
+				<BlueskyPlayIcon blocked data-allow-window-drag />
+			{/if}
 		{/if}
 	</button>
-	<div class={['blueskyMediaControls', showControls && 'visible']} data-allow-window-drag>
+	<div class="blueskyMediaControls" data-allow-window-drag>
 		<button
 			class="blueskyMediaCloseButton"
 			aria-label="Close"
@@ -110,7 +98,7 @@
 		</a>
 	</div>
 	{#if image.alt}
-		<figcaption class={['blueskyMediaAltText', showControls && 'visible']}>
+		<figcaption class="blueskyMediaAltText aqua-no-scrollbar">
 			{image.alt}
 		</figcaption>
 	{/if}
@@ -139,41 +127,42 @@
 	}
 
 	.blueskyMediaControls,
-	.blueskyMediaAltText {
-		--titlebar-opacity: 50%;
-		grid-area: media;
-		align-self: start;
-		position: relative;
-		isolation: isolate;
-		display: flex;
-		justify-content: space-between;
-		padding: 8px;
+	.blueskyMediaAltText,
+	.blueskyMediaContainer :global(.blueskyPlayIcon:not(.blocked)) {
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity 250ms;
 
-		&.visible {
-			opacity: 1;
-			pointer-events: auto;
+		@media (hover: hover) {
+			.blueskyMediaContainer:hover & {
+				opacity: 1;
+				pointer-events: auto;
+			}
 		}
+		@media (hover: none) {
+			.blueskyMediaContainer.showControlsMobile & {
+				opacity: 1;
+				pointer-events: auto;
+			}
+		}
+	}
 
-		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
+	.blueskyMediaControls,
+	.blueskyMediaAltText {
+		grid-area: media;
+		align-self: start;
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		padding: 8px;
+		background: var(--titlebar-gradient-translucent);
+
+		@media (prefers-reduced-transparency: reduce) {
 			background: var(--titlebar-gradient);
-			opacity: 0.9;
-			z-index: -1;
 		}
 
 		@media (forced-colors: active) {
 			background: Canvas;
-			&::after {
-				content: none;
-			}
 		}
 	}
 
@@ -183,10 +172,13 @@
 
 	.blueskyMediaAltText {
 		align-self: end;
+		z-index: 1;
+		max-height: 80%;
+		overflow-y: auto;
+		padding-inline: 16px;
 		border-top: 1px solid black;
 		font-size: 14px;
 		color: #ccced1;
-		padding-inline: 16px;
 
 		&::selection {
 			color: black;

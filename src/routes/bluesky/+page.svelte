@@ -145,7 +145,7 @@
 
 <BlueskyUserSheet isOpen={userSheetIsOpen} close={closeUserSheet} submit={loadCustomUser} />
 <Sheet isOpen={errorSheetIsOpen}>
-	<div class="blueskyErrorSheet">
+	<div class="blueskyErrorSheet" role="alert">
 		<h3>Unable to Access Account</h3>
 		<p>There was a problem loading the account {loadingHandle}.</p>
 		<button class="aqua-button primary" onclick={closeErrorSheet}>OK</button>

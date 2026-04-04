@@ -1,25 +1,21 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface BlueskyPlayIconProps extends HTMLAttributes<HTMLButtonElement> {
+	interface BlueskyPlayIconProps extends HTMLAttributes<HTMLDivElement> {
 		blocked?: boolean;
-		play?: () => void;
-		visible: boolean;
 	}
 
-	const { blocked, play, visible, ...rest }: BlueskyPlayIconProps = $props();
-	const tag = play ? 'button' : 'div';
+	const { blocked, ...rest }: BlueskyPlayIconProps = $props();
 </script>
 
-<svelte:element
-	this={tag}
-	class={['blueskyPlayIcon', { blocked, visible }]}
-	aria-label={!blocked ? 'Play icon' : "Can't play video"}
-	aria-hidden={!visible}
+<div
+	class={['blueskyPlayIcon', { blocked }]}
+	aria-hidden={!blocked}
+	aria-label="Can't play video"
 	{...rest}
 >
 	▶
-</svelte:element>
+</div>
 
 <style>
 	.blueskyPlayIcon {
@@ -41,14 +37,6 @@
 		color: var(--gray);
 		-webkit-user-select: none;
 		user-select: none;
-		opacity: 0;
-		pointer-events: none;
-		transition: opacity 250ms;
-
-		&.visible {
-			opacity: 0.75;
-			pointer-events: auto;
-		}
 
 		&.blocked::after {
 			content: '';

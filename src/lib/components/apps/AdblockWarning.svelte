@@ -9,6 +9,7 @@
 <WarningDialog
 	title="Ad blocker not detected."
 	body="Consider installing a browser extension that blocks ads and other malicious scripts to protect your privacy and security."
+	role="status"
 >
 	{#snippet buttonsLeft()}
 		<button class="aqua-button" onclick={() => windowServer.closeApp(appName)}>Close</button>

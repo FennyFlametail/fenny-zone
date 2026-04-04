@@ -54,7 +54,7 @@
 				enterkeyhint="go"
 			/>
 		</label>
-		<p class="blueskyUserSheetWarning" aria-live="assertive">
+		<p class="blueskyUserSheetWarning" role="alert">
 			{showWarning ? 'Invalid handle.' : ''}
 		</p>
 		<div class="blueskyUserSheetButtons">

@@ -105,7 +105,7 @@
 				{/each}
 			</div>
 		{:else}
-			<article class="blueskyProfilePrivate">
+			<article class="blueskyProfilePrivate" role="status">
 				<EyeOff size={64} aria-hidden="true" />
 				<h3>Sign-in Required</h3>
 				<p>This account has requested that users sign in to view their profile.</p>
