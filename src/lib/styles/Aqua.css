@@ -25,6 +25,7 @@
 
 .aqua-button,
 .aqua-tab {
+	--box-shadow: var(--widget-box-shadow);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -66,14 +67,14 @@
 	}
 
 	.window.brushed .windowToolbar & {
-		box-shadow: var(--widget-sunken-box-shadow);
+		--box-shadow: var(--widget-sunken-box-shadow);
 	}
 
 	&:focus-visible,
 	&:focus-within {
 		--button-border-gradient: #6f89a0, #6f89a0;
 		outline: none;
-		box-shadow: var(--focus-box-shadow);
+		box-shadow: var(--box-shadow), var(--focus-box-shadow);
 	}
 
 	&:is(.aqua-button:is(:active, .active), .aqua-tab:is(:has(input:checked), .active)):not(
@@ -99,7 +100,10 @@
 }
 
 .aqua-tab {
-	box-shadow: none;
+	/* box-shadow handled on tab bar element */
+	&:not(:focus-visible, :focus-within) {
+		box-shadow: none;
+	}
 
 	&:has(+ &) {
 		border-top-right-radius: 0;
