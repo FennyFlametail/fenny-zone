@@ -4,7 +4,6 @@
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
-	import { onMount } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { scale } from 'svelte/transition';
 
@@ -30,12 +29,13 @@
 
 	let element = $state<HTMLElement>();
 
+	let dragging = $state(false);
+	$effect(() => {
+		// using $derived breaks the menu bar hover for some reason - maybe accessing windowServer too early?
+		dragging = windowServer.draggingEl === element;
+	});
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
-
-	// used to focus single window when JavaScript is disabled
-	let ssr = $state(true);
-	onMount(() => (ssr = false));
 
 	function startDrag(e: PointerEvent) {
 		delete app.instance.preZoomPosition;
@@ -128,8 +128,8 @@
 		window: true,
 		brushed: app.windowStyle === 'brushed',
 		custom: app.windowStyle === 'custom',
-		inactive: !app.instance.focused && !ssr,
-		dragging: windowServer.draggingEl === element,
+		inactive: browser && !app.instance.focused,
+		dragging,
 		animating: app.instance.animating
 	}}
 	style:--window-x="{app.instance.position.x}px"
