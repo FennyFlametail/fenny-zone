@@ -7,7 +7,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	function onclick(e: MouseEvent) {
+	function onclick() {
 		windowServer.desktopFocused = true;
 	}
 </script>
@@ -15,6 +15,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <nav class="desktop" aria-label="Desktop" {onclick}>
+	<button class="desktopFocusButton" aria-label="Focus Desktop" {onclick}></button>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />
@@ -50,7 +51,22 @@
 		}
 	}
 
+	.desktopFocusButton {
+		all: unset;
+		box-sizing: border-box;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: calc(100% - var(--menubar-height));
+
+		&:focus-visible {
+			border: 7.5px solid var(--accent-color);
+		}
+	}
+
 	.desktopColumn {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap-reverse;
