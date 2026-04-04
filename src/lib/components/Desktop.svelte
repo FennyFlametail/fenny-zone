@@ -1,17 +1,14 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
 	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
 
 	const windowServer = getWindowServerContext();
-	const { onClickIconContainer } = setupFileIconContainer(true);
 
 	function onclick(e: MouseEvent) {
 		windowServer.desktopFocused = true;
-		onClickIconContainer(e);
 	}
 </script>
 

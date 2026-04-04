@@ -1,17 +1,14 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import setupFileIconContainer from '$lib/helpers/fileIconContainer.svelte';
 
 	const { children }: { children: Snippet } = $props();
-
-	const { onClickIconContainer } = setupFileIconContainer();
 
 	let icons = $state<HTMLElement>();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="finder" onclick={onClickIconContainer}>
+<div class="finder">
 	<div class="finderStatusBar" aria-hidden="true">
 		{icons?.childElementCount ?? ''} items, ∞ GB available
 	</div>

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { type AppName } from '$lib/apps.svelte';
-	import { getFileIconContext, getWindowServerContext } from '$lib/context.svelte';
-	import type { MouseEventHandler } from 'svelte/elements';
+	import { getWindowServerContext } from '$lib/context.svelte';
 	import AliasIcon from '$lib/images/alias.png';
 
 	let {
@@ -31,10 +30,6 @@
 	const windowServer = getWindowServerContext();
 	const app = appName && windowServer.apps[appName];
 
-	const { getSelectedIcon, setSelectedIcon, isDesktop } = getFileIconContext();
-
-	const identifier = Symbol(`FileIcon-${appName}`);
-
 	const labelColors: Record<NonNullable<typeof label>, [string, string]> = {
 		red: ['#fda29e', '#fc5f59'],
 		orange: ['#facf93', '#f7a843'],
@@ -48,18 +43,17 @@
 	let opening = $state(false);
 	const openAnimDuration = 200;
 
-	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
+	function onclick(e: MouseEvent) {
 		e.preventDefault();
-		setSelectedIcon(identifier);
-	};
+	}
 
-	const ondblclick: MouseEventHandler<HTMLAnchorElement> = () => {
+	function ondblclick() {
 		opening = true;
 		window.setTimeout(() => {
 			opening = false;
 			href ? open(href, '_blank') : windowServer.openApp(appName!);
 		}, openAnimDuration);
-	};
+	}
 </script>
 
 <a
@@ -67,9 +61,7 @@
 		'fileIcon',
 		'noJS-pointer',
 		{
-			selected: getSelectedIcon() === identifier,
 			opening,
-			desktopIcon: isDesktop,
 			hasColor: label
 		}
 	]}
@@ -112,9 +104,13 @@
 		-webkit-user-select: none;
 		user-select: none;
 
-		&.desktopIcon {
+		:global(.desktop) & {
 			width: 200px;
 			height: 120px;
+		}
+
+		&:focus {
+			outline: none;
 		}
 	}
 
@@ -126,7 +122,7 @@
 		padding: 5px;
 		border-radius: 4px;
 
-		.selected & {
+		.fileIcon:focus & {
 			background-color: rgb(0 0 0 / 25%);
 		}
 	}
@@ -177,14 +173,14 @@
 		white-space: nowrap;
 		background: linear-gradient(to bottom, var(--color1), var(--color2));
 
-		.desktopIcon:not(.hasColor) & {
+		:global(.desktop) .fileIcon:not(.hasColor) & {
 			font-weight: 600;
 			color: white;
 			text-shadow: var(--label-text-shadow);
 		}
 
 		.hasColor &,
-		.selected & {
+		.fileIcon:focus & {
 			box-shadow: 0 1px 0 0 rgb(0 0 0 / 50%);
 		}
 
@@ -194,11 +190,11 @@
 			}
 		}
 
-		.selected & {
+		.fileIcon:focus & {
 			background-color: var(--accent-color);
 			color: white;
 
-			.desktopIcon & {
+			:global(.desktop) & {
 				text-shadow: none;
 			}
 

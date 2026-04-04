@@ -49,6 +49,8 @@
 	}
 
 	.windowButton {
+		--base-box-shadow: inset 0 0 1px 1px rgb(0 0 0 / 50%),
+			var(--widget-sunken-box-shadow);
 		width: 18px;
 		height: 18px;
 		display: flex;
@@ -57,9 +59,7 @@
 		padding: 0;
 		border: 1px solid transparent;
 		border-radius: 9999px;
-		box-shadow:
-			inset 0 0 1px 1px rgb(0 0 0 / 50%),
-			var(--widget-sunken-box-shadow);
+		box-shadow: var(--base-box-shadow);
 		background:
 			/* top highlight */
 			radial-gradient(ellipse 60% 30% at center top, white, rgb(255 255 255 / 80%), transparent)
@@ -88,6 +88,10 @@
 		/* TODO remove .minimize when minimize is implemented */
 		&:active:not(:disabled, .minimize) {
 			filter: brightness(0.75);
+		}
+
+		&:focus-visible {
+			box-shadow: var(--base-box-shadow), var(--focus-box-shadow);
 		}
 
 		/* TODO remove when minimize is implemented */

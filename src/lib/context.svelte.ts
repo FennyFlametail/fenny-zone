@@ -9,12 +9,6 @@ export const [getAppContext, setAppContext] = createContext<{
 	app: RunningApp;
 }>();
 
-export const [getFileIconContext, setFileIconContext] = createContext<{
-	getSelectedIcon: () => symbol | undefined;
-	setSelectedIcon: (identifier: symbol) => void;
-	isDesktop: boolean;
-}>();
-
 export const [getMenubarContext, setMenubarContext] = createContext<{
 	dismissMenu: () => void;
 }>();

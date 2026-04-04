@@ -71,6 +71,10 @@
 		-webkit-user-select: none;
 		user-select: none;
 
+		&:focus-visible {
+			outline: none;
+		}
+
 		@media not ((prefers-reduced-motion: reduce) or (scripting: none)) {
 			:global(body:not(.loading)) & {
 				/* zoom in and expand Dock */
@@ -143,7 +147,7 @@
 	.dockIconLabel {
 		display: none;
 
-		.dockIcon:hover & {
+		.dockIcon:is(:hover, :focus-visible) & {
 			display: inline;
 			position: absolute;
 			bottom: calc(100% + 5px);
@@ -193,6 +197,10 @@
 
 		&:active {
 			filter: brightness(0.5);
+		}
+
+		.dockIcon:focus-visible & {
+			outline: auto;
 		}
 	}
 
