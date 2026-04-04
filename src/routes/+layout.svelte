@@ -7,8 +7,10 @@
 	import MenuBar from '$lib/components/MenuBar.svelte';
 	import WindowLayer from '$lib/components/WindowLayer.svelte';
 	import { setWindowServerContext } from '$lib/context.svelte';
+	import '$lib/styles/reset.css';
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
+	import '$lib/styles/shared.css';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
 

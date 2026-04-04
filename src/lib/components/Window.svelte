@@ -182,13 +182,15 @@
 		grid-template:
 			'titlebar' auto
 			'content' 1fr;
-		background-color: white;
-		border: 1px solid black;
-		box-shadow: var(--panel-box-shadow);
+		background: var(--pinstripe-bg-image);
+		background-clip: padding-box;
+		border-top-right-radius: var(--window-radius);
+		border-top-left-radius: var(--window-radius);
+		box-shadow: var(--panel-box-shadow), var(--panel-border-box-shadow);
 		touch-action: manipulation; /* needed for touch dragging to work */
 
 		&.inactive {
-			box-shadow: var(--panel-box-shadow-inactive);
+			box-shadow: var(--panel-box-shadow-inactive), var(--panel-border-box-shadow);
 		}
 
 		&.dragging {
@@ -209,6 +211,10 @@
 			max-width: 100vw;
 			max-height: var(--desktop-safe-height);
 		}
+
+		@media (forced-colors: active) {
+			border: 1px solid CanvasText;
+		}
 	}
 
 	.windowTitlebar {
@@ -217,8 +223,23 @@
 		display: grid;
 		grid-template: 'title' var(--titlebar-height) / 100%;
 		padding-inline: var(--titlebar-padding);
+		border-radius: inherit;
+		border-bottom: 1px solid #8c8c8c;
+		background: linear-gradient(to bottom, #efefef, #cacaca);
 		-webkit-user-select: none;
 		user-select: none;
+
+		.window.inactive & {
+			background: none;
+			color: var(--text-secondary);
+		}
+
+		&:not(.window.brushed &) {
+			@media (forced-colors: active) {
+				background-color: Canvas;
+				border-bottom: 1px solid CanvasText;
+			}
+		}
 	}
 
 	.windowTitle {
@@ -251,5 +272,75 @@
 		height: 20px;
 		touch-action: pinch-zoom;
 		cursor: nwse-resize;
+	}
+
+	/* keep this at the bottom to override regular window styles */
+	.window.brushed {
+		--top-highlight-shadow: inset 0 2px 0px 0px rgb(217 217 217);
+		box-shadow:
+			var(--panel-box-shadow), var(--panel-border-box-shadow), var(--top-highlight-shadow);
+		border-bottom-right-radius: var(--window-radius);
+		border-bottom-left-radius: var(--window-radius);
+		background: linear-gradient(
+			to right,
+			rgb(175 175 175),
+			rgb(220 220 220) 40%,
+			rgb(220 220 220) 60%,
+			rgb(175 175 175)
+		);
+		padding-bottom: 32px;
+		padding-inline: var(--titlebar-padding);
+
+		@media (forced-colors: active) {
+			background: Canvas;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 50%;
+			/* background on separate layer to control opacity */
+			background: url('$lib/images/metal.webp');
+			width: 100%;
+			height: 100%;
+			border-top-left-radius: inherit;
+			border-top-right-radius: inherit;
+		}
+
+		&.inactive {
+			box-shadow:
+				var(--panel-box-shadow-inactive), var(--panel-border-box-shadow),
+				var(--top-highlight-shadow);
+		}
+
+		.windowTitlebar {
+			background: none;
+			border-bottom: none;
+			padding-inline: 0;
+		}
+
+		.windowTitle {
+			text-shadow: 0 1px 1px white;
+		}
+
+		.windowContent {
+			:global(> :not(.brushedInset, .brushedNoInset)::before) {
+				content: '⚠️ Use the .brushedInset class to render the inset border, or .brushedNoInset to hide this message ⚠️';
+				font-size: 1rem;
+			}
+		}
+
+		.windowResizeHandle {
+			right: 0;
+			bottom: 0;
+			background: url('$lib/images/resize.webp');
+			background-position: center;
+			background-size: 20px 20px;
+			background-repeat: no-repeat;
+			width: 36px;
+			height: 32px;
+		}
 	}
 </style>

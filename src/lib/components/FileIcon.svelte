@@ -180,7 +180,7 @@
 		.desktopIcon:not(.hasColor) & {
 			font-weight: 600;
 			color: white;
-			text-shadow: var(--label-shadow);
+			text-shadow: var(--label-text-shadow);
 		}
 
 		.hasColor &,

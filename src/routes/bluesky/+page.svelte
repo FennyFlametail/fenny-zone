@@ -154,7 +154,7 @@
 
 <style>
 	:global {
-		#root .window[data-appname='bluesky'] {
+		.window[data-appname='bluesky'] {
 			--window-radius: 5px;
 			border-radius: var(--window-radius);
 		}
@@ -325,13 +325,13 @@
 
 	.blueskyFooter {
 		grid-area: footer;
-		background-image: var(--titlebar-gradient);
+		background: var(--titlebar-gradient);
 		border-top: 1px solid black;
 		border-bottom-left-radius: calc(var(--window-radius) - 1px);
 		border-bottom-right-radius: calc(var(--window-radius) - 1px);
 
 		:global(.window.inactive) & {
-			background-image: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
+			background: linear-gradient(to bottom, #57585b 1px, #434447 1px, #3c3d3f);
 		}
 	}
 

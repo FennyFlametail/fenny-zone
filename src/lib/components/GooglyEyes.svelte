@@ -73,7 +73,7 @@
 
 <style>
 	.googlyEyeContainer {
-		padding-inline: var(--menu-item-padding);
+		padding-inline: var(--menu-category-padding);
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;

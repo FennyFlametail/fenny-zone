@@ -44,9 +44,15 @@
 		display: flex;
 		justify-content: space-between;
 		background-color: var(--desktop-color);
+		background-image: url('$lib/images/wallpapers/beach.webp');
 		background-size: cover;
-		background-position: top center;
+		background-position: 50% 25%;
+
+		@media (forced-colors: active) {
+			background-image: none;
+		}
 	}
+
 	.desktopColumn {
 		display: flex;
 		flex-direction: column;

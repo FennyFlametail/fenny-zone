@@ -105,7 +105,7 @@
 </figure>
 
 <style>
-	:global(#root .window.window[data-appname='blueskyMedia']) {
+	:global(.window[data-appname='blueskyMedia']) {
 		--window-radius: 0;
 	}
 

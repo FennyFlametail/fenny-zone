@@ -150,7 +150,7 @@
 			translate: -50%;
 			white-space: nowrap;
 			color: white;
-			text-shadow: var(--label-shadow);
+			text-shadow: var(--label-text-shadow);
 
 			@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
 				padding-inline: 5px;

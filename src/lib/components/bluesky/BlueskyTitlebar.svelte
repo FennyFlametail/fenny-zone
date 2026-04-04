@@ -90,7 +90,7 @@
 
 <style>
 	:global {
-		#root .window[data-appname='bluesky'] {
+		.window[data-appname='bluesky'] {
 			.windowControls {
 				grid-area: controls;
 				width: calc(var(--sidebar-width) + 1px);
@@ -98,7 +98,7 @@
 				padding-inline: 6px;
 				justify-content: space-between;
 				gap: 0;
-				background-image: linear-gradient(
+				background: linear-gradient(
 					to left,
 					#535357 1px,
 					#18191a 1px,
@@ -107,7 +107,7 @@
 				);
 
 				.window.inactive & {
-					background-image: linear-gradient(
+					background: linear-gradient(
 						to left,
 						#535357 1px,
 						#2e2f31 1px,
@@ -137,7 +137,7 @@
 		position: relative;
 		display: grid;
 		grid-template: 'controls backButton title userButton' / auto auto 1fr auto;
-		background-image: var(--titlebar-gradient);
+		background: var(--titlebar-gradient);
 		border-bottom: 1px solid black;
 		border-top-left-radius: calc(var(--window-radius) - 1px);
 		border-top-right-radius: calc(var(--window-radius) - 1px);
@@ -145,7 +145,7 @@
 		user-select: none;
 
 		:global(.window.inactive) & {
-			background-image: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
+			background: linear-gradient(to bottom, #57585b 1px, #444548 1px, #444548);
 		}
 	}
 

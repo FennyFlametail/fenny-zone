@@ -85,23 +85,23 @@
 
 <style>
 	.menuItem {
-		--menu-item-padding: 22px;
 		position: relative;
-		white-space: nowrap;
 		display: flex;
 		flex-flow: column;
 		align-items: stretch;
+		white-space: nowrap;
 
 		&.disabled {
 			opacity: 0.5;
 		}
 
-		&:not(.disabled) {
-			&:hover,
-			&:focus-within {
-				outline: none;
-				background-color: var(--accent-color);
-				color: white;
+		&:not(.disabled):is(:hover, :focus-within) {
+			outline: none;
+			background-color: var(--menu-option-active-bg-color);
+			color: white;
+
+			@media (forced-colors: active) {
+				background-color: CanvasText;
 			}
 		}
 

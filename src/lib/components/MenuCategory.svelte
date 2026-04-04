@@ -83,14 +83,14 @@
 		align-items: center;
 		height: 100%;
 		line-height: 1;
-		padding-inline: var(--menu-item-padding);
+		padding-inline: var(--menu-category-padding);
 		list-style-type: none;
 
 		&:active,
 		&:focus-visible,
 		[open] & {
 			outline: none;
-			background-color: var(--accent-color);
+			background: var(--menu-item-active-bg-image);
 			color: white;
 		}
 
@@ -104,10 +104,26 @@
 		padding: 4px 0;
 		list-style-type: none;
 		box-shadow: var(--panel-box-shadow);
-		background: white;
+	}
+
+	.menuLogo {
+		background: linear-gradient(135deg, #3dadff, #1666ee);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+
+		.menuName:active &,
+		.menuName:focus-visible &,
+		[open] & {
+			background: none;
+			-webkit-background-clip: text;
+			background-clip: text;
+			background-color: white;
+		}
 	}
 
 	.menuApp {
 		font-size: inherit;
+		font-weight: bold;
 	}
 </style>

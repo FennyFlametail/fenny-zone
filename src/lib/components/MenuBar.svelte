@@ -133,12 +133,15 @@
 	}
 
 	.menubar {
-		--menu-item-padding: 10px;
 		flex-shrink: 0;
 		display: flex;
 		z-index: 10000;
-		background-color: white;
 		padding-inline: 20px;
+		border-top: 1px solid #d9d9d9;
+		border-bottom: 1px solid #bcbcbc;
+		border-top-right-radius: 9px;
+		border-top-left-radius: 9px;
+		background: linear-gradient(to bottom, #ffffff, #f0f0f0 50%, #e8e8e8 50%, #ffffff);
 		-webkit-user-select: none;
 		user-select: none;
 

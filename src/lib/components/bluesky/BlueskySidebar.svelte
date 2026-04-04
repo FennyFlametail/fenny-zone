@@ -110,7 +110,7 @@
 		place-items: center;
 		padding: 0;
 		border: 1px solid black;
-		background-image: linear-gradient(to bottom, #92969a, #7b8084);
+		background: linear-gradient(to bottom, #92969a, #7b8084);
 		box-shadow: 0 1px 1px 0 #6d6f71;
 
 		&:not(:disabled) {
@@ -123,7 +123,7 @@
 
 		&:active {
 			--top-highlight: #2f3132;
-			background-image: linear-gradient(to bottom, #3d3f41, #3d3f41);
+			background: linear-gradient(to bottom, #3d3f41, #3d3f41);
 		}
 
 		&::after {

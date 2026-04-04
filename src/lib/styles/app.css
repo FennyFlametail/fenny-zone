@@ -1,109 +1,52 @@
-/* Josh Comeau's Modern CSS Reset - https://www.joshwcomeau.com/css/custom-css-reset/ */
-
-/* 1. Use a more-intuitive box-sizing model */
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
-/* 2. Remove default margin */
-* {
-	margin: 0;
-}
-
-body {
-	/* 3. Add accessible line-height */
-	line-height: 1.5;
-	/* 4. Improve text rendering */
-	-webkit-font-smoothing: antialiased;
-}
-
-/* 5. Improve media defaults */
-img,
-picture,
-video,
-canvas,
-svg {
-	display: block;
-	max-width: 100%;
-}
-
-/* 6. Inherit fonts for form controls */
-input,
-button,
-textarea,
-select {
-	font: inherit;
-}
-
-/* 7. Avoid text overflows */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	overflow-wrap: break-word;
-}
-
-/* 8. Improve line wrapping */
-p {
-	text-wrap: pretty;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	text-wrap: balance;
-}
-
-/*
-	9. Create a root stacking context
-  */
-#root,
-#__next {
-	isolation: isolate;
-}
-
-/* My styles */
-
-@property --menubar-height {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: 30px;
-}
-@property --dock-height {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: 79px;
-}
-@property --desktop-safe-height {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: calc(100vh - 30px - 79px);
-}
-
 :root {
-	--accent-color: blue;
-	--selection-color: lightskyblue;
-	--menubar-height: 30px;
-	--desktop-color: gray;
-	--dock-padding: 7.5px;
-	--dock-icon-size: 64px;
-	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
+	--accent-color-inactive: #d4d4d4;
+	--accent-color: #3471cf;
+	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
+	--button-border-active-gradient: #272798, #616161;
+	--button-border-gradient: #666666, #666666;
+	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
+	--desktop-color: #daa15f;
 	/** space between the menubar and Dock */
 	--desktop-safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
+	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
+	--dock-icon-size: 64px;
+	--dock-padding: 7.5px;
+	--focus-box-shadow: 0 0 5px 3px #7cb1e8;
+	--label-text-shadow: black 0 1px 2px, black 0 1px 3px, black 0 1px 4px;
+	--menu-button-bg-image: linear-gradient(135deg, #3dadff, #1666ee);
+	--menu-category-padding: 10px;
+	--menu-item-active-bg-image: linear-gradient(to bottom, #237ee9, #015cd8);
+	--menu-item-padding: 22px;
+	--menu-option-active-bg-color: #336fcb;
+	--menubar-height: 30px;
+	--panel-border-box-shadow: 0 0 0 1px rgb(0 0 0 / 33%);
+	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
+	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
+	--pinstripe-bg-image: repeating-linear-gradient(
+		to bottom,
+		#ebecec,
+		#ebecec 2px,
+		#eff0f0 2px,
+		#eff0f0 4px
+	);
+	/* f2 is ~95% */
+	--pinstripe-bg-image-translucent: repeating-linear-gradient(
+		to bottom,
+		#ebececf2,
+		#ebececf2 2px,
+		#eff0f0f2 2px,
+		#eff0f0f2 4px
+	);
+	--pulse-overlay-bg: radial-gradient(rgb(0 0 0 / 10%), transparent);
+	--scrollbar-outline-color: #ababab;
+	--scrollbar-size: 15px;
+	--selection-color: #b5d5ff;
+	--text-secondary: rgb(0 0 0 / 50%);
 	--titlebar-height: 28px;
 	--titlebar-padding: 11px;
-	--label-shadow:
-		black 0 1px 2px,
-		black 0 1px 3px,
-		black 0 1px 4px;
+	--widget-box-shadow: 0 2px 2px -1px #8b8b8b;
+	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
+	--window-radius: 12px;
 
 	accent-color: var(--accent-color);
 
@@ -119,15 +62,14 @@ html {
 
 body {
 	display: grid;
-	grid-template:
-		'menubar' var(--menubar-height) 'desktop' minmax(0, 1fr);
 	grid-template-columns: 100svw;
+	grid-template: 'menubar' var(--menubar-height) 'desktop' minmax(0, 1fr);
 	background-color: black;
 	width: 100svw;
 	height: 100svh;
 	overflow: hidden;
 	touch-action: manipulation;
-	font-family: system-ui, sans-serif;
+	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
 }
 
 :where(a, a:visited) {
@@ -156,91 +98,37 @@ body {
 	}
 }
 
-#root .window:is([data-appname='bluesky'], [data-appname='blueskyMedia']) {
-	--titlebar-height: 35px;
-	--titlebar-gradient: linear-gradient(
-		to bottom,
-		#59595c 1px,
-		#4b4c4f 1px,
-		#4b4c4f 2px,
-		#444548 2px,
-		#2a2b2d
-	);
-	--titlebar-gradient-translucent: linear-gradient(
-		to bottom,
-		/* e6 is ~90% */
-		#59595ce6 1px,
-		#4b4c4fe6 1px,
-		#4b4c4fe6 2px,
-		#444548e6 2px,
-		#2a2b2de6
-	);
-	--sidebar-width: 66px;
-	--spacing: 10px;
-	--profile-bg: linear-gradient(to bottom, #f4f8fa, #d9dde0);
-	--tab-bg: #3d3f41;
-	--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
-	--text-medium: #2d2f31;
-	--text-light: #81878b;
-	background-color: #2a2b2d;
-	background-image: none;
-	background-clip: padding-box;
-	border-color: rgb(0 0 0 / 75%);
+@property --menubar-height {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 30px;
+}
+@property --dock-height {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 79px;
+}
+@property --desktop-safe-height {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: calc(100vh - 30px - 79px);
 }
 
-.blueskyTabIcon {
-	--gradient: url('#tabIconGradient');
-	--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
-		drop-shadow(0 0 0.5px black);
-	width: 20px;
-	height: 20px;
-	stroke: var(--gradient);
-	filter: var(--outline-shadow);
-
-	&.fill {
-		fill: var(--gradient);
-	}
-
-	&.lucide-mail path,
-	&.lucide-message-circle-x path:not(:first-child) {
-		stroke: var(--tab-bg);
-	}
-
-	&.lucide-search path {
-		stroke: #909295;
-
-		.blueskyTab.highlighted & {
-			stroke: #218ef0;
-		}
-	}
-
-	&.lucide-user {
-		width: 24px;
-		height: 24px;
-	}
-
-	&.lucide-list {
-		stroke: #a4a6a9;
-	}
+@font-face {
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('$lib/fonts/Lunasima-Regular.ttf') format('truetype');
+	font-family: 'Lunasima';
 }
 
-.textEdit {
-	background-color: white;
-	outline: none;
-	padding: 0 0.5em;
-	overflow-y: auto;
-	font-size: 10pt;
-	text-wrap: stable;
-	
-	&.plaintext {
-		font-family: 'Monaco', 'Courier New', monospace;
-		-webkit-font-smoothing: none;
-		-moz-osx-font-smoothing: grayscale;
-
-		@media (prefers-contrast: more) {
-			font-weight: bold;
-		}
-	}
+@font-face {
+	font-weight: bold;
+	src:
+		local('Lucida Grande'),
+		local('Lunasima'),
+		url('$lib/fonts/Lunasima-Bold.ttf') format('truetype');
+	font-family: 'Lunasima';
 }
 
 @font-face {
