@@ -6,7 +6,7 @@
 
 	const { onClickIconContainer } = setupFileIconContainer();
 
-	let icons = $state<HTMLDivElement>();
+	let icons = $state<HTMLElement>();
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -15,9 +15,9 @@
 	<div class="finderStatusBar" aria-hidden="true">
 		{icons?.childElementCount ?? ''} items, ∞ GB available
 	</div>
-	<div class="finderIcons" bind:this={icons}>
+	<nav class="finderIcons" aria-label="Icons" bind:this={icons}>
 		{@render children()}
-	</div>
+	</nav>
 </div>
 
 <style>
