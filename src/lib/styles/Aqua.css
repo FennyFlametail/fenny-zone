@@ -69,7 +69,8 @@
 		box-shadow: var(--widget-sunken-box-shadow);
 	}
 
-	&:focus-visible {
+	&:focus-visible,
+	&:focus-within {
 		--button-border-gradient: #6f89a0, #6f89a0;
 		outline: none;
 		box-shadow: var(--focus-box-shadow);
