@@ -113,7 +113,7 @@
 		<div
 			class="blueskyLoadingBar"
 			transition:slide={{
-				duration: prefersReducedMotion ? 0 : 300,
+				duration: prefersReducedMotion.current ? 0 : 300,
 				axis: 'y'
 			}}
 		>
