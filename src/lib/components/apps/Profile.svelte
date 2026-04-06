@@ -70,7 +70,7 @@
 					<summary>{windowServer.apps[other].title}</summary>
 					<h4>How they met:</h4>
 					<p>{relationship.met}</p>
-					<h4>How they see each other:</h4>
+					<h4>Their relationship:</h4>
 					<p>{relationship.views}</p>
 				</details>
 			{/each}
