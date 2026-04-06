@@ -13,12 +13,26 @@
 	--dock-padding: 7.5px;
 	--focus-box-shadow: 0 0 5px 3px #7cb1e8;
 	--label-text-shadow: black 0 1px 2px, black 0 1px 3px, black 0 1px 4px;
-	--menu-button-bg-image: linear-gradient(135deg, #3dadff, #1666ee);
 	--menu-category-padding: 10px;
-	--menu-item-active-bg-image: linear-gradient(to bottom, #237ee9, #015cd8);
+	--menu-category-active-bg-image: linear-gradient(
+		to bottom,
+		#237ee9,
+		#015cd8 calc(100% - 1px),
+		#003da4 calc(100% - 1px)
+	);
 	--menu-item-padding: 22px;
+	--menu-logo-bg-image: linear-gradient(135deg, #3dadff, #1666ee);
 	--menu-option-active-bg-color: #336fcb;
-	--menubar-height: 30px;
+	--menubar-bg-image: linear-gradient(
+		to bottom,
+		#ffffff,
+		#f0f0f0 50%,
+		#e8e8e8 50%,
+		#f8f8f8 75%,
+		#efefef calc(100% - 1px),
+		#bbbbbb calc(100% - 1px)
+	);
+	--menubar-height: 29px;
 	--panel-border-box-shadow: 0 0 0 1px rgb(0 0 0 / 33%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
@@ -41,6 +55,8 @@
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--selection-color: #b5d5ff;
+	--sidebar-item-active-bg-image: linear-gradient(to bottom, #397ad0 1px, #5a98dd 1px, #265cc5);
+	--sidebar-item-inactive-bg-image: linear-gradient(to bottom, #7f7e7e 1px, #979797 1px, #666666);
 	--text-secondary: rgb(0 0 0 / 50%);
 	--titlebar-height: 28px;
 	--titlebar-padding: 11px;

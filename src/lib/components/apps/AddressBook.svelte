@@ -108,12 +108,11 @@
 		list-style: none;
 
 		&.selected {
-			background-color: var(--accent-color);
+			background: var(--sidebar-item-active-bg-image);
 			color: white;
 
 			:global(.window.inactive) & {
-				background-color: var(--accent-color-inactive);
-				color: black;
+				background: var(--sidebar-item-inactive-bg-image);
 			}
 
 			@media (forced-colors: active) {
@@ -126,14 +125,14 @@
 		display: flex;
 		align-items: center;
 		gap: 4px;
-		padding-inline: 4px;
+		padding: 4px;
 		color: inherit;
 		text-decoration: none;
 	}
 
 	.addressBookListIcon {
-		width: 16px;
-		height: 16px;
+		width: 32px;
+		height: 32px;
 	}
 
 	.addressBookSeparator {

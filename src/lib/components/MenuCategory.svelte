@@ -90,7 +90,7 @@
 		&:focus-visible,
 		[open] & {
 			outline: none;
-			background: var(--menu-item-active-bg-image);
+			background: var(--menu-category-active-bg-image);
 			color: white;
 		}
 
@@ -107,7 +107,7 @@
 	}
 
 	.menuLogo {
-		background: linear-gradient(135deg, #3dadff, #1666ee);
+		background: var(--menu-logo-bg-image);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;

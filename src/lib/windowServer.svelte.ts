@@ -25,7 +25,7 @@ export default class WindowServer {
 	// #region Static
 	static menubarHeight = browser
 		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menubar-height'))
-		: 30;
+		: 29;
 	static dockHeight = browser
 		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-height'))
 		: 79;

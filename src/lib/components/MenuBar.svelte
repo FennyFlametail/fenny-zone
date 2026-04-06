@@ -137,11 +137,9 @@
 		display: flex;
 		z-index: 10000;
 		padding-inline: 20px;
-		border-top: 1px solid #d9d9d9;
-		border-bottom: 1px solid #bcbcbc;
 		border-top-right-radius: 9px;
 		border-top-left-radius: 9px;
-		background: linear-gradient(to bottom, #ffffff, #f0f0f0 50%, #e8e8e8 50%, #ffffff);
+		background: var(--menubar-bg-image);
 		-webkit-user-select: none;
 		user-select: none;
 
@@ -149,8 +147,8 @@
 			position: relative;
 			margin-block: 5px;
 			border: none;
-			height: 2px;
-			background: linear-gradient(to bottom, rgb(207 209 211) 50%, rgb(237 239 241) 50%);
+			height: 1px;
+			background-color: #ccced1;
 		}
 	}
 
