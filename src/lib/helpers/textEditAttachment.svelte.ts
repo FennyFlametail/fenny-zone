@@ -11,6 +11,7 @@ export default function textEdit(app: RunningApp): Attachment {
 ${element.innerHTML}
 </pre>`;
 		const inputHandler = () => {
+			window.addEventListener('beforeunload', beforeunloadHandler);
 			app.instance.saveData = new Blob([wrappedHTML], {
 				type: 'text/html'
 			});
@@ -21,7 +22,6 @@ ${element.innerHTML}
 
 		element.role = 'textbox';
 		element.addEventListener('input', inputHandler);
-		window.addEventListener('beforeunload', beforeunloadHandler);
 
 		return () => {
 			element.role = null;
