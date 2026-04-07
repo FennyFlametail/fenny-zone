@@ -36,6 +36,7 @@ export default class WindowServer {
 				)
 			: Infinity;
 	}
+	static sheetDuration = 300;
 
 	static getInitialPosition = (
 		initialPosition?: Partial<Position>,
@@ -239,7 +240,12 @@ export default class WindowServer {
 		// app.instance.position.height = initialPosition.height;
 	};
 
-	closeApp = (appName?: AppName) => {
+	closeApp = async (
+		appName?: AppName,
+		options: {
+			closeSaveSheet?: boolean;
+		} = {}
+	) => {
 		if (!appName) return;
 		const app = this.apps[appName];
 		if (!app.instance) {
@@ -247,10 +253,15 @@ export default class WindowServer {
 			return;
 		}
 
-		// placeholder
-		// if (app.instance?.modified && !confirm('Discard unsaved changes?')) {
-		// 	return;
-		// }
+		if (app.instance.saveData && !app.instance.showSaveSheet) {
+			app.instance.showSaveSheet = true;
+			return;
+		}
+
+		if (options.closeSaveSheet) {
+			app.instance.showSaveSheet = false;
+			await new Promise((resolve) => setTimeout(resolve, WindowServer.sheetDuration));
+		}
 
 		const oldZIndex = app.instance.position.zIndex;
 		app.instance = undefined;

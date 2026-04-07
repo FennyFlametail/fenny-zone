@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context.svelte';
+	import WindowServer from '$lib/windowServer.svelte';
 	import type { Snippet } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fly } from 'svelte/transition';
@@ -24,8 +25,8 @@
 		<div
 			class="sheetWrapper"
 			use:trapFocus={app.instance.focused}
-			transition:fly={{
-				duration: 300,
+			transition:fly|global={{
+				duration: WindowServer.sheetDuration,
 				y: !prefersReducedMotion.current ? '-100%' : 0,
 				opacity: !prefersReducedMotion.current ? 1 : 0
 			}}
@@ -39,8 +40,7 @@
 	.sheet {
 		--shadow-padding: 10px;
 		position: absolute;
-		/* 1px covers up gaps caused by rounding */
-		top: calc(var(--titlebar-height) - 1px);
+		top: var(--titlebar-height);
 		left: 50%;
 		translate: -50%;
 		background: none;
@@ -53,6 +53,12 @@
 	.sheetWrapper {
 		padding: 20px;
 		box-shadow: var(--panel-box-shadow-inactive);
-		margin-top: 1px;
+		border-top: 1px solid rgb(0 0 0 / 50%);
+
+		:global(:where(h3, p)) {
+			font-size: 16px;
+			line-height: 1.4;
+			text-wrap: pretty;
+		}
 	}
 </style>

@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context.svelte';
-	import setModified from '$lib/helpers/setModifiedAttachment.svelte';
+	import textEdit from '$lib/helpers/textEditAttachment.svelte';
 
 	const { app } = getAppContext();
 </script>
 
-<div class="textEdit" contenteditable="true" {@attach setModified(app)}>
+<div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-06</h3>
+	<ul>
+		<li>Ask to save changes when closing text files</li>
+	</ul>
 	<h3>2026-04-03</h3>
 	<ul>
 		<li>Better support for screen readers and accessibility settings</li>

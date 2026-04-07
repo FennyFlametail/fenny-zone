@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { AppName } from '$lib/apps.svelte';
+	import Sheet from '$lib/components/Sheet.svelte';
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
@@ -18,6 +19,7 @@
 	const windowServer = getWindowServerContext();
 	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
 	setAppContext({ appName, app });
+	const parent = app.parent ? windowServer.apps[app.parent] : null;
 
 	const title = $derived(app.instance.title ?? app.windowTitle ?? app.title);
 	const displayTitle = $derived(app.hideWindowTitle ? '' : title);
@@ -118,6 +120,26 @@
 			windowServer.focusApp(appName);
 		}
 	}
+
+	function dontSave() {
+		windowServer.closeApp(appName, { closeSaveSheet: true });
+	}
+
+	function save() {
+		if (app.instance.saveData) {
+			const url = URL.createObjectURL(app.instance.saveData);
+			// extend if needed for other data types
+			const extension = 'html';
+			const link = document.createElement('a');
+			link.download = `${app.title}.${extension}`;
+			link.href = url;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		}
+		windowServer.closeApp(appName, { closeSaveSheet: true });
+	}
 </script>
 
 <article
@@ -166,6 +188,29 @@
 	</div>
 	{#if !app.noResize}
 		<div class="windowResizeHandle noJS-hide" onpointerdown={startResize}></div>
+	{/if}
+	{#if app.instance.showSaveSheet && app.instance.saveData}
+		<Sheet isOpen={true}>
+			<div class="saveSheet" role="dialog">
+				<img
+					class="saveSheetIcon"
+					src={parent?.icon ?? app.icon}
+					alt=""
+					width="85"
+					height="85"
+					draggable="false"
+				/>
+				<h3 class="saveSheetTitle">Do you want to save changes to this document before closing?</h3>
+				<p class="saveSheetBody">If you don't save, your changes will be lost.</p>
+				<div class="saveSheetButtons">
+					<button class="aqua-button" onclick={dontSave}>Don't Save</button>
+					<button class="aqua-button" onclick={() => (app.instance.showSaveSheet = false)}
+						>Cancel</button
+					>
+					<button class="aqua-button primary" onclick={save}>Save</button>
+				</div>
+			</div>
+		</Sheet>
 	{/if}
 </article>
 
@@ -249,7 +294,8 @@
 		align-items: center;
 		text-align: center;
 		font-weight: normal;
-		font-size: 16px;
+		font-size: 17px;
+		line-height: 1;
 		white-space: nowrap;
 	}
 
@@ -342,5 +388,42 @@
 			width: 36px;
 			height: 32px;
 		}
+	}
+
+	.saveSheet {
+		width: 550px;
+		display: grid;
+		grid-template:
+			'icon title'
+			'icon body'
+			'icon buttons' / auto 1fr;
+		row-gap: 10px;
+		column-gap: 25px;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
+	.saveSheetIcon {
+		grid-area: icon;
+	}
+
+	.saveSheetTitle {
+		grid-area: title;
+	}
+
+	.saveSheetBody {
+		grid-area: body;
+		font-size: 14px;
+	}
+
+	.saveSheetButtons {
+		grid-area: buttons;
+		margin-top: 15px;
+		display: grid;
+		grid-template-columns: 1fr auto auto;
+		justify-items: start;
+		gap: 20px;
+		padding-right: 20px;
+		margin-bottom: 10px;
 	}
 </style>

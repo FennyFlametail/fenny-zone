@@ -145,7 +145,7 @@
 
 <BlueskyUserSheet isOpen={userSheetIsOpen} close={closeUserSheet} submit={loadCustomUser} />
 <Sheet isOpen={errorSheetIsOpen}>
-	<div class="blueskyErrorSheet" role="alert">
+	<div class="blueskyErrorSheet" role="alertdialog">
 		<h3>Unable to Access Account</h3>
 		<p>There was a problem loading the account {loadingHandle}.</p>
 		<button class="aqua-button primary" onclick={closeErrorSheet}>OK</button>
@@ -342,12 +342,6 @@
 		gap: var(--spacing);
 		-webkit-user-select: none;
 		user-select: none;
-
-		h3,
-		p {
-			font-size: 17px;
-			text-wrap: pretty;
-		}
 
 		button {
 			margin-top: 5px;

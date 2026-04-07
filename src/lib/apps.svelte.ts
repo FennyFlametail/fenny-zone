@@ -94,7 +94,8 @@ export interface AppEntry {
 		preZoomPosition?: Position;
 		launchOrder: number;
 		focused: boolean;
-		modified?: boolean;
+		saveData?: Blob;
+		showSaveSheet?: boolean;
 		animating?: boolean;
 		/** overrides `windowTitle` and `title` */
 		title?: string;

@@ -1,17 +1,17 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { getAppContext } from '$lib/context.svelte';
-	import setModified from '$lib/helpers/setModifiedAttachment.svelte';
-	import FennyWave from '$lib/images/fenny-wave.webp';
-	import NoAi from '$lib/images/no_ai.png';
-	import MwMac from '$lib/images/mwmac.png';
+	import textEdit from '$lib/helpers/textEditAttachment.svelte';
 
 	const { app } = getAppContext();
+
+	const baseUrl = browser ? location.origin : '';
 </script>
 
-<pre class="textEdit plaintext" contenteditable="true" {@attach setModified(app)}>
+<pre class="textEdit monospace" contenteditable="true" {@attach textEdit(app)}>
 Hi, I'm Fenny! I make silly web toys, like the one you're looking at now :3
 
-<img src={FennyWave} alt="My fox Fenny, waving at you!" width="256" height="256" />
+<img src="{baseUrl}/fenny-wave.webp" alt="My fox Fenny, waving at you!" width="256" height="256" />
 
 Check out the icons at the bottom of the screen, or find me elsewhere on the right!
 
@@ -48,8 +48,8 @@ No AI badge by <a href="https://samvieten.itch.io/no-ai" target="_blank" content
 	>
 
 <div class="badges">
-	<img src={NoAi} alt="NO AI - Handmade" />
-	<img src={MwMac} alt="Made on a Mac" />
+	<img src="{baseUrl}/no_ai.png" alt="NO AI - Handmade" />
+	<img src="{baseUrl}/mwmac.png" alt="Made on a Mac" />
 </div>
 </pre>
 

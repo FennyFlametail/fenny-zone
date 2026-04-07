@@ -54,7 +54,7 @@
 				enterkeyhint="go"
 			/>
 		</label>
-		<p class="blueskyUserSheetWarning" role="alert">
+		<p class="blueskyUserSheetWarning" role={showWarning ? 'alert' : 'none'}>
 			{showWarning ? 'Invalid handle.' : ''}
 		</p>
 		<div class="blueskyUserSheetButtons">

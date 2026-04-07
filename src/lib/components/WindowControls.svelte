@@ -11,7 +11,7 @@
 	<svelte:element
 		this={browser ? 'button' : 'a'}
 		role={browser ? 'button' : 'link'}
-		class={['windowButton', 'close', app.instance?.modified && 'modified']}
+		class={['windowButton', 'close', app.instance?.saveData && 'modified']}
 		aria-label="Close"
 		onclick={() => windowServer.closeApp(appName)}
 		href={app.backTo ?? '/'}
@@ -49,8 +49,7 @@
 	}
 
 	.windowButton {
-		--base-box-shadow: inset 0 0 1px 1px rgb(0 0 0 / 50%),
-			var(--widget-sunken-box-shadow);
+		--base-box-shadow: inset 0 0 1px 1px rgb(0 0 0 / 50%), var(--widget-sunken-box-shadow);
 		width: 18px;
 		height: 18px;
 		display: flex;
