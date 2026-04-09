@@ -130,7 +130,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		noResize: true,
 		defaultSize: {
 			width: 580,
-			height: 230
+			height: 210
 		}
 	},
 	crashDialog: {
@@ -142,7 +142,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		noResize: true,
 		defaultSize: {
 			width: 580,
-			height: 260
+			height: 240
 		}
 	},
 	blueskyMedia: {

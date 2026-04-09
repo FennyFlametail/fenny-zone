@@ -4,6 +4,7 @@
 	import BlueskyTimeline from '$lib/components/bluesky/BlueskyTimeline.svelte';
 	import BlueskyTitlebar from '$lib/components/bluesky/BlueskyTitlebar.svelte';
 	import BlueskyUserSheet from '$lib/components/bluesky/BlueskyUserSheet.svelte';
+	import Prompt from '$lib/components/Prompt.svelte';
 	import Sheet from '$lib/components/Sheet.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyPost, BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
@@ -145,10 +146,15 @@
 
 <BlueskyUserSheet isOpen={userSheetIsOpen} close={closeUserSheet} submit={loadCustomUser} />
 <Sheet isOpen={errorSheetIsOpen}>
-	<div class="blueskyErrorSheet" role="alertdialog">
-		<h3>Unable to Access Account</h3>
-		<p>There was a problem loading the account {loadingHandle}.</p>
-		<button class="aqua-button primary" onclick={closeErrorSheet}>OK</button>
+	<div class="blueskyErrorSheet">
+		<Prompt
+			title="Unable to Access Account"
+			body="There was a problem loading the account {loadingHandle}."
+		>
+			{#snippet buttonsRight()}
+				<button class="aqua-button primary" onclick={closeErrorSheet}>OK</button>
+			{/snippet}
+		</Prompt>
 	</div>
 </Sheet>
 
@@ -337,15 +343,5 @@
 
 	.blueskyErrorSheet {
 		width: 300px;
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing);
-		-webkit-user-select: none;
-		user-select: none;
-
-		button {
-			margin-top: 5px;
-			align-self: flex-end;
-		}
 	}
 </style>

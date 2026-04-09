@@ -1,12 +1,15 @@
 <script lang="ts">
+	import Prompt from '$lib/components/Prompt.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
-	import WarningDialog from '$lib/components/WarningDialog.svelte';
+	import WarningTriangle from '$lib/images/icons/warning.webp';
 
 	const windowServer = getWindowServerContext();
 	const { appName } = getAppContext();
 </script>
 
-<WarningDialog
+<Prompt
+	icon={WarningTriangle}
+	padding={true}
 	title="Ad blocker not detected."
 	body="Consider installing a browser extension that blocks ads and other malicious scripts to protect your privacy and security."
 	role="status"
@@ -22,4 +25,4 @@
 			onclick={() => windowServer.closeApp(appName)}>Learn More</a
 		>
 	{/snippet}
-</WarningDialog>
+</Prompt>

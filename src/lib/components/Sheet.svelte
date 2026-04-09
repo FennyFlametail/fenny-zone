@@ -2,6 +2,7 @@
 	import { getAppContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { fly } from 'svelte/transition';
 	import { trapFocus } from 'trap-focus-svelte';
@@ -13,15 +14,17 @@
 
 	const {
 		isOpen,
+		class: className,
 		children
 	}: {
 		isOpen: boolean;
+		class?: ClassValue;
 		children: Snippet;
 	} = $props();
 </script>
 
 {#if isOpen}
-	<div class="sheet">
+	<div class={['sheet', className]}>
 		<div
 			class="sheetWrapper"
 			use:trapFocus={app.instance.focused}
@@ -54,11 +57,5 @@
 		padding: 20px;
 		box-shadow: var(--panel-box-shadow-inactive);
 		border-top: 1px solid rgb(0 0 0 / 50%);
-
-		:global(:where(h3, p)) {
-			font-size: 16px;
-			line-height: 1.4;
-			text-wrap: pretty;
-		}
 	}
 </style>

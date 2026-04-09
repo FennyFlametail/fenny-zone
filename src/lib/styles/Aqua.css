@@ -25,6 +25,7 @@
 
 .aqua-button,
 .aqua-tab {
+	--button-height: 28px;
 	--box-shadow: var(--widget-box-shadow);
 	display: flex;
 	justify-content: center;
@@ -37,9 +38,10 @@
 		linear-gradient(to bottom, var(--button-border-gradient)) border-box;
 	padding-inline: 24px;
 	min-width: 105px;
-	height: 28px;
+	height: var(--button-height);
 	color: black;
 	font-size: 17px;
+	line-height: var(--button-height);
 	-webkit-user-select: none;
 	user-select: none;
 	text-align: center;

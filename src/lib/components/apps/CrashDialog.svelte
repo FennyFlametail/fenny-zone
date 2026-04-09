@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
-	import WarningDialog from '$lib/components/WarningDialog.svelte';
+	import Prompt from '$lib/components/Prompt.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
+	import WarningTriangle from '$lib/images/icons/warning.webp';
 
 	const {
 		crashedAppName
@@ -20,7 +21,9 @@
 	}
 </script>
 
-<WarningDialog
+<Prompt
+	icon={WarningTriangle}
+	padding={true}
 	title="The application {crashedAppTitle} quit unexpectedly."
 	body={`fenny.zone and other applications are not affected.
 	
@@ -32,4 +35,4 @@
 	{#snippet buttonsRight()}
 		<button class="aqua-button primary" onclick={() => handleClick(true)}>Reopen</button>
 	{/snippet}
-</WarningDialog>
+</Prompt>
