@@ -123,6 +123,7 @@
 	.menuItemButton {
 		all: unset;
 		padding-inline: var(--menu-item-padding);
+		cursor: default;
 	}
 
 	@media (scripting: none) {
