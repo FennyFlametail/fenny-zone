@@ -22,7 +22,7 @@
 		class="windowButton minimize"
 		aria-label="Minimize"
 		disabled={!browser}
-		aria-hidden="true"
+		aria-hidden={!browser}
 		tabindex="-1"
 	>
 		<Minus class="windowButtonGlyph" size={14} />
@@ -31,7 +31,8 @@
 		class="windowButton maximize"
 		aria-label="Maximize"
 		onclick={() => windowServer.zoomApp(appName)}
-		disabled={!browser}
+		disabled={!browser || app.noResize}
+		aria-hidden={!browser || app.noResize}
 	>
 		<Plus class="windowButtonGlyph" size={14} />
 	</button>
@@ -79,7 +80,7 @@
 		}
 
 		:global(.window.inactive) .windowControls:not(:hover, :focus-visible) &,
-		.windowControls:not(:hover, :focus-visible) &:disabled {
+		&:disabled {
 			--background-color: #b5b5b5 !important;
 			opacity: 0.5;
 		}
@@ -150,7 +151,9 @@
 			--lightness: 0.8;
 		}
 
-		.windowControls:is(:hover, :focus-visible, :has(.windowButton:active)) & {
+		.windowControls:is(:hover, :focus-visible, :has(.windowButton:active))
+			.windowButton:not(:disabled)
+			:global(&) {
 			visibility: visible;
 		}
 	}

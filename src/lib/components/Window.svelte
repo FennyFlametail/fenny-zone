@@ -242,6 +242,7 @@
 		}
 
 		&.animating {
+will-change: width, height, translate;
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
 				transition-property: width, height, translate;

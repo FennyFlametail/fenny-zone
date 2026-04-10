@@ -29,7 +29,7 @@
 			} else {
 				windowServer.openApp('crashDialog', {
 					props: {
-						crashedAppName: 'Finder'
+						crashedAppName: windowServer.focusedApp?.name ?? windowServer.apps.Finder.title
 					}
 				});
 			}

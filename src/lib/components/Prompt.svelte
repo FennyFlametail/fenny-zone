@@ -52,6 +52,7 @@
 			'icon title' auto
 			'icon body' 1fr
 			'icon buttons' auto / auto 1fr;
+		align-items: center;
 		row-gap: 10px;
 		-webkit-user-select: none;
 		user-select: none;
@@ -62,6 +63,7 @@
 	}
 
 	.promptIcon {
+		align-self: start;
 		grid-area: icon;
 		min-width: 85px;
 		margin-right: 25px;
