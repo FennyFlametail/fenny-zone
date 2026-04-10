@@ -25,9 +25,9 @@
 	const title = $derived(app.instance.title ?? app.windowTitle ?? app.title);
 	const displayTitle = $derived(app.hideWindowTitle ? '' : title);
 
-	let minWindowSize = app.minWindowSize ?? 500;
+	let minSize = app.minSize ?? 500;
 	if (browser) {
-		minWindowSize = Math.min(minWindowSize, document.documentElement.clientWidth);
+		minSize = Math.min(minSize, document.documentElement.clientWidth);
 	}
 
 	let element = $state<HTMLElement>();
@@ -83,7 +83,7 @@
 
 			if (app.lockAspectRatio) {
 				if (
-					Math.min(newWidth, newHeight) <= minWindowSize ||
+					Math.min(newWidth, newHeight) <= minSize ||
 					newHeight >= WindowServer.safeHeight - app.instance.position.y
 				) {
 					return;
@@ -92,20 +92,20 @@
 
 			if (resizeFromCenter) {
 				// FIXME can break lockAspectRatio by resizing against menubar
-				if (app.instance.position.width > minWindowSize) {
+				if (app.instance.position.width > minSize) {
 					newWidth += deltaX;
 					app.instance.position.x -= deltaX;
 				}
 				const newY = Math.max(app.instance.position.y - deltaY, 0);
-				if (app.instance.position.height > minWindowSize && newY > 0) {
+				if (app.instance.position.height > minSize && newY > 0) {
 					newHeight += deltaY;
 					app.instance.position.y = newY;
 				}
 			}
 
-			app.instance.position.width = Math.max(newWidth, minWindowSize);
+			app.instance.position.width = Math.max(newWidth, minSize);
 			app.instance.position.height = Math.min(
-				Math.max(newHeight, minWindowSize),
+				Math.max(newHeight, minSize),
 				WindowServer.safeHeight - app.instance.position.y
 			);
 		}

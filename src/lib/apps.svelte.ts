@@ -84,7 +84,7 @@ export interface AppEntry {
 		/** @default 500 */
 		height?: number;
 	};
-	readonly minWindowSize?: number;
+	readonly minSize?: number;
 	readonly lockAspectRatio?: boolean;
 	readonly noResize?: boolean;
 	instance?: {
@@ -151,7 +151,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Bluesky Media',
 		windowTitle: 'Media',
 		windowStyle: 'custom',
-		minWindowSize: 200,
+		minSize: 200,
 		lockAspectRatio: true
 	},
 	// #region Primary apps
