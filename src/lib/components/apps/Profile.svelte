@@ -238,7 +238,6 @@
 		}
 		.profileTabs {
 			align-self: center;
-			margin-block-end: -15px;
 		}
 		.profilePhotoWrapper {
 			margin-block: -15px;
