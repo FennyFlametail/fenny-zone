@@ -43,13 +43,13 @@
 </script>
 
 <a
-	class={['dockIcon', 'noJS-pointer', { open: isOpen }]}
+	class={['dockIcon', 'noJS-pointer', { open: isOpen, finder: app === windowServer.apps.Finder }]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
 	aria-labelledby={labelId}
 	out:delayRemove|global
 	{onclick}
-	href={app.route ?? ''}
+	href={app.route ?? undefined}
 >
 	<span id={labelId} class="dockIconLabel">{app.title}</span>
 	<img src={icon} alt="" class="dockIconImage" draggable="false" />
@@ -118,6 +118,12 @@
 				margin-bottom: 5px;
 				width: calc(var(--dock-icon-size) * 1.4);
 				height: calc(var(--dock-icon-size) * 1.4);
+			}
+		}
+
+		@media (scripting: none) {
+			&:not([href], .finder) {
+				display: none;
 			}
 		}
 
