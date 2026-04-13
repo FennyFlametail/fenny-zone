@@ -33,9 +33,11 @@
 	let element = $state<HTMLElement>();
 
 	let dragging = $state(false);
+let resizing = $state(false);
 	$effect(() => {
 		// using $derived breaks the menu bar hover for some reason - maybe accessing windowServer too early?
 		dragging = windowServer.draggingEl === element;
+resizing = windowServer.resizingEl === element;
 	});
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
@@ -153,6 +155,7 @@
 		custom: app.windowStyle === 'custom',
 		inactive: browser && !app.instance.focused,
 		dragging,
+resizing,
 		animating: app.instance.animating
 	}}
 	style:--window-x="{app.instance.position.x}px"
@@ -219,7 +222,9 @@
 <style>
 	.window {
 		grid-area: 1 / 1;
-		translate: var(--window-x) var(--window-y);
+		position: absolute;
+		left: var(--window-x);
+		top: var(--window-y);
 		width: var(--window-width);
 		height: var(--window-height);
 		display: grid;
@@ -238,14 +243,18 @@
 		}
 
 		&.dragging {
-			will-change: translate;
+			will-change: left, top;
+		}
+
+		&.resizing {
+			will-change: width, height;
 		}
 
 		&.animating {
-will-change: width, height, translate;
+will-change: width, height, left, top;
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
-				transition-property: width, height, translate;
+				transition-property: width, height, left, top;
 			}
 		}
 
