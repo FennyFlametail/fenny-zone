@@ -33,11 +33,11 @@
 	let element = $state<HTMLElement>();
 
 	let dragging = $state(false);
-let resizing = $state(false);
+	let resizing = $state(false);
 	$effect(() => {
 		// using $derived breaks the menu bar hover for some reason - maybe accessing windowServer too early?
 		dragging = windowServer.draggingEl === element;
-resizing = windowServer.resizingEl === element;
+		resizing = windowServer.resizingEl === element;
 	});
 	let lastX = $state(app.instance.position.x);
 	let lastY = $state(app.instance.position.y);
@@ -152,10 +152,11 @@ resizing = windowServer.resizingEl === element;
 	class={{
 		window: true,
 		brushed: app.windowStyle === 'brushed',
+		unified: app.windowStyle === 'unified',
 		custom: app.windowStyle === 'custom',
 		inactive: browser && !app.instance.focused,
 		dragging,
-resizing,
+		resizing,
 		animating: app.instance.animating
 	}}
 	style:--window-x="{app.instance.position.x}px"
@@ -221,6 +222,7 @@ resizing,
 
 <style>
 	.window {
+		--window-titlebar-border-color: #8c8c8c;
 		grid-area: 1 / 1;
 		position: absolute;
 		left: var(--window-x);
@@ -251,7 +253,7 @@ resizing,
 		}
 
 		&.animating {
-will-change: width, height, left, top;
+			will-change: width, height, left, top;
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
 				transition-property: width, height, left, top;
@@ -278,7 +280,7 @@ will-change: width, height, left, top;
 		grid-template: 'title' var(--titlebar-height) / 100%;
 		padding-inline: var(--titlebar-padding);
 		border-radius: inherit;
-		border-bottom: 1px solid #8c8c8c;
+		border-bottom: 1px solid var(--window-titlebar-border-color);
 		background: linear-gradient(to bottom, #efefef, #cacaca);
 		-webkit-user-select: none;
 		user-select: none;
@@ -329,7 +331,6 @@ will-change: width, height, left, top;
 		cursor: nwse-resize;
 	}
 
-	/* keep this at the bottom to override regular window styles */
 	.window.brushed {
 		--top-highlight-shadow: inset 0 2px 0px 0px rgb(217 217 217);
 		box-shadow:
@@ -396,6 +397,15 @@ will-change: width, height, left, top;
 			background-repeat: no-repeat;
 			width: 36px;
 			height: 32px;
+		}
+	}
+
+	.window.unified .windowTitlebar {
+		border-bottom: none;
+
+		&:not(.window.inactive .windowTitlebar) {
+			box-shadow: inset 0 1px 0 0px #fbfbfb;
+			background: linear-gradient(to bottom, #ebebeb, #e5e5e5);
 		}
 	}
 

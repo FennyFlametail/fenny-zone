@@ -5,7 +5,9 @@
 	--button-border-active-gradient: #272798, #616161;
 	--button-border-gradient: #666666, #666666;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
+	--button-square-gradient: #f9f9f9, #ededed 50%, #dadada 50%, #ffffff;
 	--desktop-color: #daa15f;
+	--desktop-image: url('$lib/images/wallpapers/beach.webp');
 	/** space between the menubar and Dock */
 	--desktop-safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));
 	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
@@ -62,6 +64,7 @@
 	--titlebar-padding: 11px;
 	--widget-box-shadow: 0 2px 2px -1px #8b8b8b;
 	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
+	--widget-unified-box-shadow: 0 -1px #949394, 0 1px #c9c9c9;
 	--window-radius: 12px;
 
 	accent-color: var(--accent-color);

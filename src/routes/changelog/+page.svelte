@@ -6,6 +6,12 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-12</h3>
+	<ul>
+		<li>Add System Preferences app</li>
+		<li>Add unified window style</li>
+		<li>Add desktop picture options</li>
+	</ul>
 	<h3>2026-04-06</h3>
 	<ul>
 		<li>Ask to save changes when closing text files</li>

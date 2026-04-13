@@ -40,7 +40,7 @@
 <div class="addressBook brushedNoInset">
 	<WindowToolbar class="noJS-hide">
 		<a
-			class={['aqua-button', 'square', 'icon', { disabled: !selectedAppName }]}
+			class={['aqua-button', 'square', { disabled: !selectedAppName }]}
 			title="Open in New Window"
 			href={selectedApp?.route}
 			onclick={openInNewWindow}

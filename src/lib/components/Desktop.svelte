@@ -1,20 +1,44 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
+	import { desktopPictures } from '$lib/data/desktopPictures';
 	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
+	import { onMount } from 'svelte';
 
 	const windowServer = getWindowServerContext();
+
+	let loading = $state(true);
+
+	const desktopPicture = $derived(desktopPictures[windowServer.preferences.desktopPicture]);
+	const desktopColor = $derived(loading ? null : desktopPicture.fallbackColor);
+
+	onMount(async () => (loading = false));
 
 	function onclick() {
 		windowServer.desktopFocused = true;
 	}
 </script>
 
+<svelte:head>
+	<script>
+		document.documentElement.style.setProperty(
+			'--desktop-color',
+			localStorage.getItem('desktopColor')
+		);
+	</script>
+</svelte:head>
+
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<nav class="desktop" aria-label="Desktop" {onclick}>
+<nav
+	class={['desktop', { loading }]}
+	style:--desktop-color={desktopColor}
+	style:--desktop-image="url('{desktopPicture.src}')"
+	aria-label="Desktop"
+	{onclick}
+>
 	<button class="desktopFocusButton" aria-label="Focus Desktop" {onclick}></button>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
@@ -42,9 +66,15 @@
 		display: flex;
 		justify-content: space-between;
 		background-color: var(--desktop-color);
-		background-image: url('$lib/images/wallpapers/beach.webp');
 		background-size: cover;
 		background-position: 50% 25%;
+
+		&:not(.loading) {
+			background-image: var(--desktop-image);
+		}
+		@media (scripting: none) {
+			background-image: var(--desktop-image);
+		}
 
 		@media (forced-colors: active) {
 			background-image: none;

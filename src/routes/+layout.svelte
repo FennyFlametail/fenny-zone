@@ -27,6 +27,7 @@
 
 	onMount(() => {
 		windowServer.loadState();
+		windowServer.loadPrefs();
 		if (windowServer.initialAppName) {
 			windowServer.openApp(windowServer.initialAppName);
 			goto('/');
@@ -49,6 +50,7 @@
 	});
 
 	$effect(windowServer.saveState);
+	$effect(windowServer.savePrefs);
 </script>
 
 <MenuBar />

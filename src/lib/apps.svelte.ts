@@ -16,6 +16,7 @@ import Nocturne from '../routes/characters/nocturne/+page.svelte';
 import Rigel from '../routes/characters/rigel/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
+import SystemPreferences from './components/apps/SystemPreferences.svelte';
 import Trash from '../routes/trash/+page.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
@@ -29,6 +30,7 @@ import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
 import SauceIcon from '$lib/images/icons/sauce.webp';
+import SystemPreferencesIcon from '$lib/images/icons/system-preferences.webp';
 import TextEditIcon from '$lib/images/icons/textedit.webp';
 import ToddspinIcon from '$lib/images/icons/toddspin.webp';
 import TrashIcon from '$lib/images/icons/trash.webp';
@@ -54,6 +56,7 @@ export type AppName =
 	| 'toddspin'
 	| 'sauce'
 	| 'goat'
+	| 'system-preferences'
 	| 'trash';
 
 export interface AppEntry {
@@ -68,7 +71,7 @@ export interface AppEntry {
 	readonly windowTitle?: string;
 	/** Hides title from titlebar, but will still show in Window menu */
 	readonly hideWindowTitle?: boolean;
-	readonly windowStyle?: 'normal' | 'brushed' | 'custom';
+	readonly windowStyle?: 'normal' | 'brushed' | 'unified' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon?: string;
 	dockIconOverride?: string;
@@ -284,6 +287,13 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			width: 600,
 			height: 800
 		}
+	},
+	'system-preferences': {
+		Page: SystemPreferences,
+		title: 'System Preferences',
+		icon: SystemPreferencesIcon,
+		windowStyle: 'unified',
+		noResize: true
 	},
 	trash: {
 		parent: 'Finder',

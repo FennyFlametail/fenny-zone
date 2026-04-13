@@ -1,8 +1,15 @@
 import { browser } from '$app/environment';
 import getApps, { type AppName, type RunningApp } from '$lib/apps.svelte';
+import { type desktopPictures } from '$lib/data/desktopPictures';
 import { prefersReducedMotion } from 'svelte/motion';
 
-const STORAGE_KEY = 'windowState';
+const STATE_KEY = 'windowState';
+const PREFERENCES_KEY = 'preferences';
+
+const defaultPreferences = {
+	desktopPicture: 'beach' as keyof typeof desktopPictures
+};
+export type Preferences = typeof defaultPreferences;
 
 export interface Position {
 	x: number;
@@ -88,6 +95,7 @@ export default class WindowServer {
 	resizingEl = $state<HTMLElement>();
 
 	apps = $state(getApps());
+	preferences = $state(defaultPreferences);
 
 	runningApps = $derived(
 		Object.fromEntries(
@@ -334,7 +342,7 @@ export default class WindowServer {
 
 	loadState = () => {
 		if (!browser) return;
-		const stateString = localStorage.getItem(STORAGE_KEY);
+		const stateString = localStorage.getItem(STATE_KEY);
 		if (stateString) {
 			try {
 				const state: AppState = JSON.parse(stateString);
@@ -370,7 +378,21 @@ export default class WindowServer {
 				}
 			])
 		);
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		localStorage.setItem(STATE_KEY, JSON.stringify(state));
+	};
+
+	loadPrefs = () => {
+		if (!browser) return;
+		const prefsString = localStorage.getItem(PREFERENCES_KEY);
+		const userPreferences = prefsString ? JSON.parse(prefsString) : {};
+		this.preferences = {
+			...defaultPreferences,
+			...userPreferences
+		};
+	};
+
+	savePrefs = () => {
+		localStorage.setItem(PREFERENCES_KEY, JSON.stringify(this.preferences));
 	};
 	// #endregion
 }
