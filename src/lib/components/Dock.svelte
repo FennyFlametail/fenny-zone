@@ -56,6 +56,10 @@
 		box-shadow: 0 0 0 1px #00000026;
 		/* fix incorrect sizing in Safari */
 		max-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
+
+		@media (prefers-reduced-transparency: reduce) {
+			background-color: var(--desktop-color);
+		}
 	}
 
 	.dockSection {
@@ -65,10 +69,6 @@
 		padding-block: var(--dock-padding);
 		background-color: #ffffff66;
 		border: 1px solid #ffffff26;
-
-		@media (prefers-reduced-transparency: reduce) {
-			background-color: hsl(from var(--desktop-color) h s calc(l * 1.33));
-		}
 
 		&:first-child {
 			padding-inline-start: calc(var(--dock-padding) / 2);
