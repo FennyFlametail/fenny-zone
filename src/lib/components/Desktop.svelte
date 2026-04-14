@@ -9,10 +9,18 @@
 
 	const windowServer = getWindowServerContext();
 
+	const desktopPicture = $derived.by(() => {
+		const pic = desktopPictures[windowServer.preferences.desktopPicture];
+		if (!pic) {
+			window.queueMicrotask(() => {
+				windowServer.preferences.desktopPicture = 'beach';
+			});
+			return desktopPictures.beach;
+		}
+		return pic;
+	});
+
 	let loading = $state(true);
-
-	const desktopPicture = $derived(desktopPictures[windowServer.preferences.desktopPicture]);
-
 	onMount(async () => (loading = false));
 
 	function onclick() {
