@@ -6,7 +6,7 @@
 	--button-border-gradient: #666666, #666666;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--button-square-gradient: #f9f9f9, #ededed 50%, #dadada 50%, #ffffff;
-	--desktop-color: #daa15f;
+	--desktop-color: #bfae88;
 	--desktop-image: url('$lib/images/wallpapers/beach.webp');
 	/** space between the menubar and Dock */
 	--desktop-safe-height: calc(100vh - var(--menubar-height) - var(--dock-height));

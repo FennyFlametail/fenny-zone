@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-13</h3>
+	<ul>
+		<li>Add more desktop pictures</li>
+	</ul>
 	<h3>2026-04-12</h3>
 	<ul>
 		<li>Add System Preferences app</li>

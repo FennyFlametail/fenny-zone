@@ -12,7 +12,6 @@
 	let loading = $state(true);
 
 	const desktopPicture = $derived(desktopPictures[windowServer.preferences.desktopPicture]);
-	const desktopColor = $derived(loading ? null : desktopPicture.fallbackColor);
 
 	onMount(async () => (loading = false));
 
@@ -34,7 +33,6 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <nav
 	class={['desktop', { loading }]}
-	style:--desktop-color={desktopColor}
 	style:--desktop-image="url('{desktopPicture.src}')"
 	aria-label="Desktop"
 	{onclick}

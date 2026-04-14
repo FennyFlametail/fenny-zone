@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { desktopPictures, type DesktopPicture } from '$lib/data/desktopPictures';
+import { FastAverageColor } from 'fast-average-color';
 
 	const windowServer = getWindowServerContext();
 	const pic: DesktopPicture = $derived(desktopPictures[windowServer.preferences.desktopPicture]);
 
-	function setDesktopPicture(name: keyof typeof desktopPictures) {
-		const picture = desktopPictures[name];
-		windowServer.preferences.desktopPicture = name;
-		localStorage.setItem('desktopColor', picture.fallbackColor);
+	function setDesktopPicture(e: MouseEvent, name: keyof typeof desktopPictures) {
+				windowServer.preferences.desktopPicture = name;
+const fac = new FastAverageColor();
+		const desktopColor = fac.getColor(
+			(e.currentTarget as HTMLButtonElement).querySelector('img')
+		).hex;
+		localStorage.setItem('desktopColor', desktopColor);
+		document.documentElement.style.setProperty('--desktop-color', desktopColor);
 	}
 </script>
 
@@ -28,7 +33,7 @@
 	<div class="desktopPrefsThumbs">
 		{#each Object.keys(desktopPictures) as (keyof typeof desktopPictures)[] as name}
 			{@const pic = desktopPictures[name]}
-			<button class="desktopPrefsThumb" onclick={() => setDesktopPicture(name)}>
+			<button class="desktopPrefsThumb" onclick={(e) => setDesktopPicture(e, name)}>
 				<img src={pic.thumb} alt={pic.alt} draggable="false" />
 			</button>
 		{/each}
