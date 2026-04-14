@@ -67,6 +67,8 @@ export interface AppEntry {
 	readonly title: string;
 	/** Defaults to `title` */
 	readonly menuTitle?: string;
+	/** Defaults to `title` */
+	readonly dockTitle?: string;
 	/** Defaults to `title`, used for titlebar & Window menu */
 	readonly windowTitle?: string;
 	/** Hides title from titlebar, but will still show in Window menu */
@@ -185,8 +187,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	},
 	characters: {
 		Page: Characters,
-		title: 'Characters',
-		menuTitle: 'Address Book',
+		title: 'Address Book',
+		dockTitle: 'Characters',
 		windowStyle: 'brushed',
 		icon: AddressBookIcon,
 		route: '/characters',

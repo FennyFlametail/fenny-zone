@@ -51,7 +51,7 @@
 	{onclick}
 	href={app.route ?? undefined}
 >
-	<span id={labelId} class="dockIconLabel">{app.title}</span>
+	<span id={labelId} class="dockIconLabel">{app.dockTitle ?? app.title}</span>
 	<img src={icon} alt="" class="dockIconImage" draggable="false" />
 </a>
 
