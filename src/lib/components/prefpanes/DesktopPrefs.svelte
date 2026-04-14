@@ -61,6 +61,8 @@ const fac = new FastAverageColor();
 		border-radius: 7px;
 		background-color: #f3f3f3;
 		box-shadow: inset 0 2px 5px 0 #767676;
+		-webkit-user-select: none;
+		user-select: none;
 		object-fit: cover;
 	}
 
@@ -88,6 +90,8 @@ const fac = new FastAverageColor();
 		border: 1px solid #bebebe;
 		border-top-color: #8e8e8e;
 		overflow-y: auto;
+-webkit-user-select: none;
+		user-select: none;
 
 		:global(.systemPreferences.transition) & {
 			overflow-y: hidden;
