@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import getApps, { type AppName } from '$lib/apps.svelte';
@@ -7,9 +8,9 @@
 	import MenuBar from '$lib/components/MenuBar.svelte';
 	import WindowLayer from '$lib/components/WindowLayer.svelte';
 	import { setWindowServerContext } from '$lib/context.svelte';
-	import '$lib/styles/reset.css';
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
+	import '$lib/styles/reset.css';
 	import '$lib/styles/shared.css';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
@@ -57,6 +58,12 @@
 <Desktop />
 <WindowLayer />
 <Dock />
+
+<svelte:head>
+	{#if dev}
+		<title>(dev) fenny.zone</title>
+	{/if}
+</svelte:head>
 
 <svg class="blueskyGradients" aria-hidden="true">
 	<defs>
