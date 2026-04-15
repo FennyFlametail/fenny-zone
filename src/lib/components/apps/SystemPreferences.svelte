@@ -139,8 +139,14 @@
 
 		&:focus-visible {
 			outline: none;
-			box-shadow: var(--focus-box-shadow);
-			border-radius: 5px;
+
+			img {
+				filter: var(--focus-drop-shadow);
+			}
+			span {
+				box-shadow: var(--focus-box-shadow);
+				border-radius: 2px;
+			}
 		}
 
 		img {

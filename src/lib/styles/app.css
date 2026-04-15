@@ -14,6 +14,8 @@
 	--dock-icon-size: 64px;
 	--dock-padding: 7.5px;
 	--focus-box-shadow: 0 0 5px 3px #7cb1e8;
+	--focus-drop-shadow: drop-shadow(-1px -1px 1px #7cb1e8) drop-shadow(-1px 1px 1px #7cb1e8)
+		drop-shadow(1px 1px 1px #7cb1e8) drop-shadow(1px -1px 1px #7cb1e8);
 	--label-text-shadow: black 0 1px 2px, black 0 1px 3px, black 0 1px 4px;
 	--menu-category-padding: 10px;
 	--menu-category-active-bg-image: linear-gradient(
