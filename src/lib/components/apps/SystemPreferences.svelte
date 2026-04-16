@@ -3,6 +3,7 @@
 	import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import DesktopIcon from '$lib/images/icons/desktop.webp';
+	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -35,7 +36,10 @@
 		app.instance.title = activePane || app.title;
 		windowServer.setAnimating(app);
 		transition = true;
-		app.instance.position.height = activePane ? prefPanes[activePane].height : DEFAULT_HEIGHT;
+		app.instance.position.height = Math.min(
+			activePane ? prefPanes[activePane].height : DEFAULT_HEIGHT,
+			WindowServer.safeHeight
+		);
 	}
 
 	function openPane(pane: paneName | null) {
