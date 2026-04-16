@@ -8,6 +8,7 @@
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
 	<h3>2026-04-15</h3>
 	<ul>
+		<li>Add support for custom desktop pictures</li>
 		<li>Improve keyboard navigation & focus indicators</li>
 	</ul>
 	<h3>2026-04-13</h3>

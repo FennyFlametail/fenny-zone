@@ -21,7 +21,7 @@
 		Desktop: {
 			component: DesktopPrefs,
 			icon: DesktopIcon,
-			height: 500
+			height: 525
 		}
 	};
 	type paneName = keyof typeof prefPanes;

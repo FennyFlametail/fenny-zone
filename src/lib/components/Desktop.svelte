@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import { desktopPictures } from '$lib/data/desktopPictures';
+	import { getDesktopPicture } from '$lib/helpers/desktopPicture.svelte';
 	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
@@ -9,16 +9,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	const desktopPicture = $derived.by(() => {
-		const pic = desktopPictures[windowServer.preferences.desktopPicture];
-		if (!pic) {
-			window.queueMicrotask(() => {
-				windowServer.preferences.desktopPicture = 'beach';
-			});
-			return desktopPictures.beach;
-		}
-		return pic;
-	});
+	const desktopPicture = $derived(await getDesktopPicture(windowServer));
 
 	let loading = $state(true);
 	onMount(async () => (loading = false));

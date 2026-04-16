@@ -22,9 +22,9 @@ import SquareatImage from '$lib/images/wallpapers/squareat.webp';
 export interface DesktopPicture {
 	title: string;
 	src: string;
-	thumb: string;
-	alt: string;
-	artist: string;
+	thumb?: string;
+	alt?: string;
+	artist?: string;
 	link?: string;
 }
 export const desktopPictures = {
@@ -105,5 +105,12 @@ export const desktopPictures = {
 		alt: "Nocturne standing next to a vending machine in a rainy cyberpunk city. They're holding a tray of square food blocks, and examining one cautiously.",
 		artist: 'eLCyDog',
 		link: 'https://www.furaffinity.net/view/55769487/'
+	},
+	_custom: {
+		title: '',
+		src: '',
+		thumb: '',
+		alt: '',
+		artist: ''
 	}
 } satisfies Record<string, DesktopPicture>;
