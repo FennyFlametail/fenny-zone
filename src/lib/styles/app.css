@@ -13,9 +13,11 @@
 	--dock-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 	--dock-icon-size: 64px;
 	--dock-padding: 7.5px;
-	--focus-box-shadow: 0 0 5px 3px #7cb1e8;
-	--focus-drop-shadow: drop-shadow(-1px -1px 1px #7cb1e8) drop-shadow(-1px 1px 1px #7cb1e8)
-		drop-shadow(1px 1px 1px #7cb1e8) drop-shadow(1px -1px 1px #7cb1e8);
+	--focus-box-shadow: 0 0 5px 3px var(--focus-color);
+	--focus-color: #7cb1e8;
+	--focus-drop-shadow: drop-shadow(-1px -1px 1px var(--focus-color))
+		drop-shadow(-1px 1px 1px var(--focus-color)) drop-shadow(1px 1px 1px var(--focus-color))
+		drop-shadow(1px -1px 1px var(--focus-color));
 	--label-text-shadow: black 0 1px 2px, black 0 1px 3px, black 0 1px 4px;
 	--menu-category-padding: 10px;
 	--menu-category-active-bg-image: linear-gradient(
@@ -95,6 +97,12 @@ body {
 
 :where(a, a:visited) {
 	color: rgb(0 0 238);
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-box-shadow);
+		border-radius: 2px;
+	}
 }
 
 button {

@@ -133,6 +133,11 @@
 		pointer-events: none;
 		transition: opacity 250ms;
 
+		&:focus-within {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
 		@media (hover: hover) {
 			.blueskyMediaContainer:hover & {
 				opacity: 1;
@@ -199,6 +204,16 @@
 
 		:global(.window.inactive) & :global(.blueskyTabIcon) {
 			--gradient: url('#tabIconDisabledGradient');
+		}
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: none;
+
+			:global(.blueskyTabIcon) {
+				stroke: var(--tab-bg);
+				filter: var(--focus-drop-shadow);
+			}
 		}
 
 		&:active :global(.blueskyTabIcon) {

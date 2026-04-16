@@ -117,8 +117,9 @@
 			cursor: pointer;
 		}
 
-		&.highlighted {
-			box-shadow: 0 0 5px 2px #3793e7;
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-box-shadow);
 		}
 
 		&:active {
@@ -215,6 +216,10 @@
 		.blueskyTab:active & {
 			--tab-bg: #242425;
 			border-top-color: #1d1d1e;
+		}
+
+		.blueskyTab:focus-visible & {
+			box-shadow: inset var(--focus-box-shadow);
 		}
 	}
 

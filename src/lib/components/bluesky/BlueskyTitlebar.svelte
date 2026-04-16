@@ -206,6 +206,10 @@
 			background: linear-gradient(to var(--gradient-dir), #606063, #3f3f42);
 		}
 
+		&:focus-visible {
+			background: var(--focus-color);
+		}
+
 		&:active {
 			--gradient-dir: top;
 		}
@@ -219,6 +223,10 @@
 
 		&:not(:disabled) {
 			cursor: pointer;
+		}
+
+		&:focus-visible {
+			box-shadow: inset var(--focus-box-shadow);
 		}
 
 		.blueskyUserBackButton ~ & {

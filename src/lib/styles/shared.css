@@ -23,6 +23,10 @@
 	--spacing: 10px;
 	--profile-bg: linear-gradient(to bottom, #f4f8fa, #d9dde0);
 	--tab-bg: #3d3f41;
+	--focus-box-shadow: 0 0 5px 3px #3793e7;
+	--focus-color: #3793e7;
+	--focus-drop-shadow: drop-shadow(-1px -1px 1px #3793e7) drop-shadow(-1px 1px 1px #3793e7)
+		drop-shadow(1px 1px 1px #3793e7) drop-shadow(1px -1px 1px #3793e7);
 	--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
 	--text-medium: #2d2f31;
 	--text-light: #81878b;

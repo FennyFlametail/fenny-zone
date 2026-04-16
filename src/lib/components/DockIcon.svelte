@@ -42,7 +42,10 @@
 	});
 </script>
 
-<a
+<svelte:element
+	this={app.route ? 'a' : 'button'}
+	role="link"
+	tabindex="0"
 	class={['dockIcon', 'noJS-pointer', { open: isOpen, finder: app === windowServer.apps.Finder }]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
@@ -53,7 +56,7 @@
 >
 	<span id={labelId} class="dockIconLabel">{app.dockTitle ?? app.title}</span>
 	<img src={icon} alt="" class="dockIconImage" draggable="false" />
-</a>
+</svelte:element>
 
 <style>
 	.dockIcon {
@@ -73,6 +76,7 @@
 
 		&:focus-visible {
 			outline: none;
+			box-shadow: none;
 		}
 
 		@media not ((prefers-reduced-motion: reduce) or (scripting: none)) {
@@ -206,7 +210,7 @@
 		}
 
 		.dockIcon:focus-visible & {
-			outline: auto;
+			filter: brightness(0.5);
 		}
 	}
 

@@ -23,8 +23,12 @@
 	let loading = $state(true);
 	onMount(async () => (loading = false));
 
-	function onclick() {
-		windowServer.desktopFocused = true;
+	let element = $state<HTMLElement>();
+
+	function onfocusin() {
+		if (element?.matches(':focus-within')) {
+			windowServer.desktopFocused = true;
+		}
 	}
 </script>
 
@@ -36,16 +40,14 @@
 		);
 	</script>
 </svelte:head>
+<svelte:window {onfocusin} />
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <nav
+	bind:this={element}
 	class={['desktop', { loading }]}
 	style:--desktop-image="url('{desktopPicture.src}')"
 	aria-label="Desktop"
-	{onclick}
 >
-	<button class="desktopFocusButton" aria-label="Focus Desktop" {onclick}></button>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />

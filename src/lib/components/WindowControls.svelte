@@ -73,12 +73,6 @@
 		background-color: var(--background-color);
 		background-blend-mode: normal, overlay, normal, normal;
 
-		@media (forced-colors: active) {
-			&:enabled {
-				border: 1px solid ButtonBorder;
-			}
-		}
-
 		:global(.window.inactive) .windowControls:not(:hover, :focus-visible) &,
 		&:disabled {
 			--background-color: #b5b5b5 !important;
@@ -92,6 +86,12 @@
 
 		&:focus-visible {
 			box-shadow: var(--base-box-shadow), var(--focus-box-shadow);
+		}
+
+		@media (forced-colors: active) {
+			&:enabled {
+				border: 1px solid ButtonBorder;
+			}
 		}
 
 		/* TODO remove when minimize is implemented */

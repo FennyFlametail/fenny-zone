@@ -182,6 +182,7 @@
 			-webkit-user-select: none;
 			user-select: none;
 			list-style-type: none;
+
 			&::before {
 				display: inline-block;
 				content: '▶';
@@ -189,6 +190,11 @@
 				font-size: 0.9em;
 				margin-right: 10px;
 				transition: rotate 0.25s;
+			}
+
+			&:focus-visible {
+				box-shadow: var(--focus-box-shadow);
+				outline: none;
 			}
 		}
 

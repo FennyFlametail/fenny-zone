@@ -208,6 +208,10 @@
 		-webkit-user-select: none;
 		user-select: none;
 
+		&:focus-visible {
+			box-shadow: var(--focus-box-shadow);
+		}
+
 		&:active {
 			--gradient-dir: top;
 		}
@@ -249,27 +253,11 @@
 		&:is(a):active {
 			background-color: #caced0;
 		}
-	}
 
-	/* .blueskyStatLocation {
-		padding-inline-start: 12px;
-		justify-content: flex-start;
-
-		span {
-			overflow: hidden;
-			text-overflow: ellipsis;
+		&:focus-visible {
+			box-shadow: inset var(--focus-box-shadow);
 		}
 	}
-
-	.blueskyMapPin {
-		flex-shrink: 0;
-		stroke: transparent;
-		fill: url('#statIconGradient');
-
-		> circle {
-			fill: var(--stat-bg);
-		}
-	} */
 
 	.blueskyStatNumber {
 		height: 19px;

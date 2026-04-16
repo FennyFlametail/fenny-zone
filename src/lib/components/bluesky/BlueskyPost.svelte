@@ -143,7 +143,6 @@
 						href={post.link}
 						target="_blank"
 						onclick={(e) => openImage(e, img)}
-						tabindex="-1"
 					>
 						<img
 							src={img.thumb}
@@ -200,9 +199,7 @@
 			border-radius: 5px;
 		}
 
-		&:has(a:active),
-		&:focus-within,
-		&:focus-within :global(&) {
+		&:active {
 			--card-border-color: #7e8082;
 			background: linear-gradient(to bottom, #e4e6ea, #caced0);
 			border-color: var(--card-border-color);
@@ -271,26 +268,46 @@
 		grid-template-columns: repeat(2, calc(50% - var(--gap) / 2));
 		grid-template-rows: repeat(2, calc(50% - var(--gap) / 2));
 		gap: var(--gap);
-		border-radius: 5px;
-		overflow: hidden;
 	}
 
 	.blueskyImage {
+		--border-radius: 5px;
+		overflow: hidden;
+
 		/* 1 image */
-		&:first-of-type:last-of-type {
+		&:first-child:last-child {
 			grid-column: span 2;
 			grid-row: span 2;
 		}
 
 		/* 2 images */
-		&:first-of-type:nth-last-of-type(2),
-		&:nth-child(2):last-of-type {
+		&:first-child:nth-last-child(2),
+		&:nth-child(2):last-child {
 			grid-row: span 2;
 		}
 
 		/* 3 images */
-		&:first-of-type:nth-last-of-type(3) {
+		&:first-child:nth-last-child(3) {
 			grid-row: span 2;
+		}
+
+		/* dumb hacks to let the focus shadow bleed past the container edges */
+		&:first-child {
+			border-top-left-radius: var(--border-radius);
+		}
+
+		&:only-child,
+		&:nth-child(2) {
+			border-top-right-radius: var(--border-radius);
+		}
+
+		&:last-child {
+			border-bottom-right-radius: var(--border-radius);
+		}
+
+		&:first-child:not(:nth-last-child(4)),
+		&:nth-child(3):nth-last-child(2) {
+			border-bottom-left-radius: var(--border-radius);
 		}
 
 		img {
