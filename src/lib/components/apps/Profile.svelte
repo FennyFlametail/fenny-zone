@@ -119,6 +119,8 @@
 	.profileIcon {
 		width: 64px;
 		height: 64px;
+		-webkit-user-select: none;
+		user-select: none;
 	}
 
 	.profileName {

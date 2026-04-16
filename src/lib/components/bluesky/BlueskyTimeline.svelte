@@ -159,6 +159,8 @@
 		min-height: 100px;
 		max-height: 25cqh;
 		object-fit: cover;
+		-webkit-user-select: none;
+		user-select: none;
 	}
 
 	.blueskyProfile {
