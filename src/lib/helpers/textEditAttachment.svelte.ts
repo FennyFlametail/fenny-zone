@@ -7,11 +7,11 @@ messes up the spacing */
 
 export default function textEdit(app: RunningApp): Attachment {
 	return (element) => {
-		const wrappedHTML = `<pre>
-${element.innerHTML}
-</pre>`;
 		const inputHandler = () => {
 			window.addEventListener('beforeunload', beforeunloadHandler);
+			const wrappedHTML = `<pre>
+${element.innerHTML}
+</pre>`;
 			app.instance.saveData = new Blob([wrappedHTML], {
 				type: 'text/html'
 			});
