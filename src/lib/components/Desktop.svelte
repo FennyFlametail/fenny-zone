@@ -89,20 +89,6 @@
 		}
 	}
 
-	.desktopFocusButton {
-		all: unset;
-		box-sizing: border-box;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: calc(100% - var(--menubar-height));
-
-		&:focus-visible {
-			border: 7.5px solid var(--accent-color);
-		}
-	}
-
 	.desktopColumn {
 		position: relative;
 		display: flex;
