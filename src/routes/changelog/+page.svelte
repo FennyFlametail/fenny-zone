@@ -6,24 +6,28 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-16</h3>
+	<ul>
+		<li>Updated credits in README</li>
+	</ul>
 	<h3>2026-04-15</h3>
 	<ul>
-		<li>Add support for custom desktop pictures</li>
-		<li>Improve keyboard navigation & focus indicators</li>
+		<li>Added support for custom desktop pictures</li>
+		<li>Improved keyboard navigation & focus indicators</li>
 	</ul>
 	<h3>2026-04-13</h3>
 	<ul>
-		<li>Add more desktop pictures</li>
+		<li>Added more desktop pictures</li>
 	</ul>
 	<h3>2026-04-12</h3>
 	<ul>
-		<li>Add System Preferences app</li>
-		<li>Add unified window style</li>
-		<li>Add desktop picture options</li>
+		<li>Added System Preferences app</li>
+		<li>Added unified window style</li>
+		<li>Added desktop picture options</li>
 	</ul>
 	<h3>2026-04-06</h3>
 	<ul>
-		<li>Ask to save changes when closing text files</li>
+		<li>Added prompt to save changes when closing text files</li>
 	</ul>
 	<h3>2026-04-03</h3>
 	<ul>
@@ -41,7 +45,7 @@
 	</ul>
 	<h3>2026-03-23</h3>
 	<ul>
-		<li>Group character profiles under main window</li>
+		<li>Grouped character profiles under main window</li>
 		<li>Minor style fixes</li>
 	</ul>
 	<h3>2026-03-22</h3>
@@ -71,7 +75,7 @@
 	<ul>
 		<li>Added ad blocker warning</li>
 		<li>Added window list to Window menu</li>
-		<li>Made click on Bluesky title bar scroll to top</li>
+		<li>Scroll to top when clicking Bluesky title bar</li>
 	</ul>
 	<h3>2026-02-10</h3>
 	<ul>
