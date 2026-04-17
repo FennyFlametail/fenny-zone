@@ -169,12 +169,12 @@
 			@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
 				padding-inline: 5px;
 				border-radius: 5px;
-				border: 1px solid white;
-				background-color: rgb(0 0 0 / 75%);
+				background-color: rgb(255 255 255 / 75%);
+				color: black;
 				text-shadow: none;
 
 				@media (prefers-reduced-transparency: reduce) {
-					background-color: black;
+					background-color: white;
 				}
 			}
 		}
