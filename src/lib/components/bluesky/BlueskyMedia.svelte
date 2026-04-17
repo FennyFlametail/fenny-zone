@@ -184,6 +184,7 @@
 		border-top: 1px solid black;
 		font-size: 14px;
 		color: #ccced1;
+		white-space: pre-line;
 
 		&::selection {
 			color: black;
