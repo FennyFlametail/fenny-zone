@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getAppContext } from '$lib/context.svelte';
+	import WindowServer from '$lib/windowServer.svelte';
 	import type { Snippet } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import type { ClassValue } from 'svelte/elements';
@@ -24,7 +25,7 @@
 
 	function appear(_: HTMLElement): TransitionConfig {
 		return {
-			duration: 300,
+			duration: WindowServer.sheetDuration,
 			easing: cubicInOut,
 			css: (t, u) =>
 				!prefersReducedMotion.current
