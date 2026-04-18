@@ -18,63 +18,49 @@
 		noScript?: boolean;
 		children?: Snippet;
 	} = $props();
+	const menuId = $props.id();
 
 	const nameTag = $derived(isAppMenu ? 'h1' : 'span');
 	const label = $derived(isLogo ? 'System' : title);
 
-	let details = $state<HTMLDetailsElement>();
-	let summary = $state<HTMLElement>();
-
-	function menuHover(e: PointerEvent) {
-		let anyMenuOpen = menubar.querySelector('details[open]');
-		if (!anyMenuOpen || !details) return;
-		if (!details.open) {
-			// open this menu, which will close the currently open one
-			details.open = true;
-		}
-	}
-
-	function onkeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') {
-			details!.open = false;
-			summary?.blur();
-		}
+	let button = $state<HTMLButtonElement>();
+	let menu = $state<HTMLMenuElement>();
+	function menuHover() {
+		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
+		// @ts-expect-error
+		if (anyMenuOpen) menu!.showPopover({ source: button });
 	}
 </script>
 
 {#if browser || noScript}
-	<details bind:this={details} class="menuCategory" name="menubar" onpointerenter={menuHover}>
-		<summary bind:this={summary} class="menuName" aria-label="{label} Menu">
-			<svelte:element this={nameTag} class={{ menuLogo: isLogo, menuApp: isAppMenu }}
-				>{title}</svelte:element
-			>
-		</summary>
-		<menu class="menu" aria-label="Menu Items">
+	<button bind:this={button} class="menuCategory" popovertarget={menuId} onpointerenter={menuHover}>
+		<svelte:element
+			this={nameTag}
+			class={['menuName', { menuLogo: isLogo, menuApp: isAppMenu }]}
+			aria-label="{label} Menu">{title}</svelte:element
+		>
+		<menu bind:this={menu} id={menuId} class="aqua-menu" aria-label="Menu Items" popover>
 			{@render children?.()}
 		</menu>
-	</details>
+	</button>
 {/if}
-
-<svelte:window {onkeydown} />
 
 <style>
 	.menuCategory {
-		&:not([open])::details-content {
-			content-visibility: visible;
-			transition-property: opacity, display;
-			transition-duration: 0.1s;
-			transition-behavior: allow-discrete;
-			opacity: 0;
-			display: none;
-			pointer-events: none;
+		background: none;
+		border: none;
+		padding: 0;
+		/* this covers up a flicker in Safari when opening/closing menu  */
+		transition: 0s 0.05s step-start allow-discrete;
+		transition-property: background, color;
 
-			@media (prefers-reduced-motion: reduce) {
-				transition-duration: 0s;
-			}
-		}
-
-		&:is([open] ~ &, :global(:has(~ [open])))::details-content {
-			transition: none;
+		&:active,
+		&:focus-visible,
+		&:has(.aqua-menu:popover-open) {
+			outline: none;
+			background: var(--menu-category-active-bg-image);
+			color: white;
+			transition-delay: 0s;
 		}
 	}
 
@@ -84,26 +70,6 @@
 		height: 100%;
 		line-height: 1;
 		padding-inline: var(--menu-category-padding);
-		list-style-type: none;
-
-		&:active,
-		&:focus-visible,
-		[open] & {
-			outline: none;
-			background: var(--menu-category-active-bg-image);
-			color: white;
-		}
-
-		&::-webkit-details-marker {
-			display: none;
-		}
-	}
-
-	.menu {
-		position: absolute;
-		padding: 4px 0;
-		list-style-type: none;
-		box-shadow: var(--panel-box-shadow);
 	}
 
 	.menuLogo {
@@ -112,12 +78,10 @@
 		background-clip: text;
 		color: transparent;
 
-		.menuName:active &,
-		.menuName:focus-visible &,
-		[open] & {
-			background: none;
-			-webkit-background-clip: text;
-			background-clip: text;
+		.menuCategory:active &,
+		.menuCategory:focus-visible &,
+		.menuCategory:has(.aqua-menu:popover-open) & {
+			background-image: none;
 			background-color: white;
 		}
 	}
@@ -125,5 +89,16 @@
 	.menuApp {
 		font-size: inherit;
 		font-weight: bold;
+	}
+
+	.aqua-menu {
+		position-area: bottom center;
+		justify-self: start;
+
+		/* don't transition when moving mouse between menus */
+		:global(.menuCategory:has(> .aqua-menu:popover-open)) ~ .menuCategory > &,
+		.menuCategory:has(+ .menuCategory > .aqua-menu:popover-open) > & {
+			transition: none;
+		}
 	}
 </style>

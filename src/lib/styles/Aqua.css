@@ -9,7 +9,30 @@
 	border-inline: 1px solid #999999;
 }
 
-.menu,
+.aqua-menu {
+	position: fixed;
+	position-try: flip-start;
+	position-visibility: anchors-visible;
+	box-shadow: var(--panel-box-shadow);
+	border: none;
+	padding: 4px 0;
+	list-style-type: none;
+	text-align: start;
+
+	&:not(:popover-open) {
+		opacity: 0;
+		/* known bug: allow-discrete doesn't apply to display in Firefox */
+		transition-behavior: allow-discrete;
+		transition-duration: 0.1s;
+		transition-property: opacity, display, overlay;
+
+		@media (prefers-reduced-motion: reduce) {
+			transition-duration: 0s;
+		}
+	}
+}
+
+.aqua-menu,
 .sheetWrapper {
 	background: var(--pinstripe-bg-image-translucent);
 

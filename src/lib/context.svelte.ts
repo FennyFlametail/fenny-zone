@@ -8,7 +8,3 @@ export const [getAppContext, setAppContext] = createContext<{
 	appName: AppName;
 	app: RunningApp;
 }>();
-
-export const [getMenubarContext, setMenubarContext] = createContext<{
-	dismissMenu: () => void;
-}>();

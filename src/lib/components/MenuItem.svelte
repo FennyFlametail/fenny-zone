@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { getMenubarContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 
@@ -32,11 +31,10 @@
 	) = $props();
 	const itemId = $props.id();
 
-	const { dismissMenu } = getMenubarContext();
-
 	let opening = $state(false);
 	const openAnimDuration = $derived(prefersReducedMotion.current ? 0 : 200);
 
+	let item = $state<HTMLLIElement>();
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
 		opening = true;
@@ -47,13 +45,16 @@
 			} else {
 				onclick?.();
 			}
-			dismissMenu();
+
+			const parent = item!.parentElement as HTMLElement;
+			if (parent.popover) parent.hidePopover();
 		}, openAnimDuration);
 	}
 </script>
 
 {#if browser || noScript}
 	<li
+		bind:this={item}
 		class={['menuItem', { opening, disabled }]}
 		style:--openAnimDuration="{openAnimDuration}ms"
 		role="menuitem"

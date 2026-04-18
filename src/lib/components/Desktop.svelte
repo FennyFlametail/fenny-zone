@@ -13,10 +13,10 @@
 	let loading = $state(true);
 	onMount(() => (loading = false));
 
-	let element = $state<HTMLElement>();
+	let desktop = $state<HTMLElement>();
 
 	function onfocusin() {
-		if (element?.matches(':focus-within')) {
+		if (desktop?.matches(':focus-within')) {
 			windowServer.desktopFocused = true;
 		}
 	}
@@ -32,7 +32,7 @@
 </svelte:head>
 <svelte:window {onfocusin} />
 
-<nav bind:this={element} class={['desktop', { loading }]} aria-label="Desktop">
+<nav bind:this={desktop} class={['desktop', { loading }]} aria-label="Desktop">
 	{#await promise then desktopPicture}
 		{#if desktopPicture.isVideo}
 			<video

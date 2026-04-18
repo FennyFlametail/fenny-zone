@@ -5,7 +5,7 @@
 	import MenuCategory from '$lib/components/MenuCategory.svelte';
 	import MenuClock from '$lib/components/MenuClock.svelte';
 	import MenuItem from '$lib/components/MenuItem.svelte';
-	import { getWindowServerContext, setMenubarContext } from '$lib/context.svelte';
+	import { getWindowServerContext } from '$lib/context.svelte';
 
 	const windowServer = getWindowServerContext();
 	const focusedApp = $derived(windowServer.focusedApp?.app);
@@ -23,29 +23,6 @@
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 
 	let menubar = $state<HTMLElement>();
-
-	function dismissMenu() {
-		const openMenu = menubar!.querySelector('details[open]');
-		if (!openMenu) return false;
-		openMenu.removeAttribute('open');
-		return true;
-	}
-	setMenubarContext({ dismissMenu });
-
-	function dismissOnOutsideClick(e: MouseEvent) {
-		const path = e.composedPath();
-		if (path.some((el) => (el as Element).classList?.contains('menuItem'))) {
-			// MenuItem will dismiss the menu after its animation plays
-			return;
-		}
-
-		const dismissed = dismissMenu();
-
-		if (dismissed && path.some((el) => (el as Element).classList?.contains('menuName'))) {
-			// prevent the click from reaching the menu name and immediately reopening the menu
-			e.preventDefault();
-		}
-	}
 
 	function getWindowMenuTitle(app: AppEntry) {
 		const defaultTitle = app.windowTitle ?? app.title;
@@ -119,8 +96,6 @@
 	<GooglyEyes />
 	<MenuClock />
 </header>
-
-<svelte:body onclick={dismissOnOutsideClick} />
 
 <style>
 	.menubar,
