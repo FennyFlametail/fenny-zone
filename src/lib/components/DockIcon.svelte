@@ -79,7 +79,7 @@
 			box-shadow: none;
 		}
 
-		@media not (prefers-reduced-motion: reduce) {
+		@media not ((prefers-reduced-motion: reduce) or (hover: none)) {
 			:global(body:not(.loading)) & {
 				/* zoom in and expand Dock */
 				@starting-style {
