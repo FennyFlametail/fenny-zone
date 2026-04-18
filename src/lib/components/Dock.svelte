@@ -46,10 +46,8 @@
 <style>
 	.dock {
 		z-index: 10000;
-		position: fixed;
-		bottom: 0;
-		left: 50%;
-		translate: -50%;
+		grid-area: dock;
+		justify-self: center;
 		display: flex;
 		gap: 1px;
 		height: var(--dock-height);

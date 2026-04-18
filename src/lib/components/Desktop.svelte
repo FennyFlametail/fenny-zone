@@ -69,7 +69,7 @@
 
 <style>
 	.desktop {
-		grid-area: desktop;
+		grid-area: desktop / desktop / dock;
 		position: relative;
 		display: flex;
 		justify-content: space-between;
