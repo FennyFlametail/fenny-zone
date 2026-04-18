@@ -30,6 +30,7 @@
 	--glow-drop-shadow: drop-shadow(0 0 5px #3793e7);
 	--text-medium: #2d2f31;
 	--text-light: #81878b;
+	outline: none;
 	box-shadow: var(--panel-box-shadow);
 	border: 1px solid rgb(0 0 0 / 75%);
 	background-image: none;
