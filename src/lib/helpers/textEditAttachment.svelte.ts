@@ -8,7 +8,6 @@ messes up the spacing */
 export default function textEdit(app: RunningApp): Attachment {
 	return (element) => {
 		const inputHandler = () => {
-			window.addEventListener('beforeunload', beforeunloadHandler);
 			const wrappedHTML = `<pre>
 ${element.innerHTML}
 </pre>`;
@@ -22,6 +21,7 @@ ${element.innerHTML}
 
 		element.role = 'textbox';
 		element.addEventListener('input', inputHandler);
+		window.addEventListener('beforeunload', beforeunloadHandler);
 
 		return () => {
 			element.role = null;
