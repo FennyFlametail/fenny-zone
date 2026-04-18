@@ -7,7 +7,7 @@ const STATE_KEY = 'windowState';
 const PREFERENCES_KEY = 'preferences';
 
 const defaultPreferences = {
-	desktopPicture: 'beach' as keyof typeof desktopPictures
+	desktopPicture: null as keyof typeof desktopPictures | null
 };
 export type Preferences = typeof defaultPreferences;
 

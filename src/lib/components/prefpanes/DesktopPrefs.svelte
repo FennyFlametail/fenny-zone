@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { desktopPictures } from '$lib/data/desktopPictures';
-	import { getDesktopPicture } from '$lib/helpers/desktopPicture.svelte';
+	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
 	import { FastAverageColor } from 'fast-average-color';
 	import { Ban } from 'lucide-svelte';
 
@@ -9,8 +9,12 @@
 	let currentPic = $state(await getDesktopPicture(windowServer));
 
 	let well = $state<HTMLLabelElement>();
-	let imageInput = $state<HTMLInputElement>();
+	let fileInput = $state<HTMLInputElement>();
 	let dragType = $state<null | 'valid' | 'invalid'>(null);
+
+	function isValidFile(item: { type: string }) {
+		return item.type.startsWith('image/') || item.type.startsWith('video/');
+	}
 
 	function onWindowDragOver(e: DragEvent) {
 		const fileItems = [...e.dataTransfer!.items].filter((item) => item.kind === 'file');
@@ -32,7 +36,7 @@
 		const fileItems = [...e.dataTransfer!.items].filter((item) => item.kind === 'file');
 		if (fileItems.length > 0) {
 			e.preventDefault();
-			if (fileItems.some((item) => item.type.startsWith('image/'))) {
+			if (fileItems.some(isValidFile)) {
 				e.dataTransfer!.dropEffect = 'copy';
 				dragType = 'valid';
 			} else {
@@ -43,22 +47,22 @@
 	}
 
 	function ondragleave(e: DragEvent) {
-		if (e.target === well || e.target === imageInput) {
+		if (e.target === well || e.target === fileInput) {
 			dragType = null;
 		}
 	}
 
 	function ondrop(e: DragEvent) {
 		e.preventDefault();
-		processImageFile(e.dataTransfer?.files[0]);
+		processFile(e.dataTransfer?.files[0]);
 	}
 
 	function onFileSelect(e: Event) {
-		processImageFile((e.currentTarget as HTMLInputElement).files?.[0]);
+		processFile((e.currentTarget as HTMLInputElement).files?.[0]);
 	}
 
-	async function processImageFile(file?: File) {
-		if (!file || !file.type.startsWith('image/')) return;
+	async function processFile(file?: File) {
+		if (!file || !isValidFile(file)) return;
 
 		const root = await navigator.storage.getDirectory();
 		try {
@@ -74,30 +78,26 @@
 		dragType = null;
 	}
 
-	let fac = new FastAverageColor();
-	$effect(() => () => fac.destroy());
-
 	async function setDesktopPicture(name: keyof typeof desktopPictures, e?: MouseEvent) {
 		if ((windowServer.preferences.desktopPicture = '_custom')) {
 			URL.revokeObjectURL(currentPic.src);
 		}
-		// needs to be placed before the await
-		const button = e?.currentTarget as HTMLButtonElement | undefined;
 
-		// hacky way to trigger Desktop to update
-		windowServer.preferences.desktopPicture = '' as any;
+		// force the desktop to refresh
+		windowServer.preferences.desktopPicture = null;
 		windowServer.preferences.desktopPicture = name;
 		currentPic = await getDesktopPicture(windowServer);
+	}
 
-		let desktopColor = '';
-		try {
-			if (button) {
-				desktopColor = fac.getColor(button.querySelector('img')).hex;
-			} else {
-				desktopColor = (await fac.getColorAsync(currentPic.src)).hex;
-			}
-		} catch {}
+	let fac = new FastAverageColor();
+	$effect(() => () => fac.destroy());
 
+	function onPreviewLoad(e: Event) {
+		const preview = e.currentTarget as HTMLImageElement | HTMLVideoElement;
+		const desktopColor = fac.getColor(preview, {
+			width: preview instanceof HTMLVideoElement ? preview.videoWidth : preview.naturalWidth,
+			height: preview instanceof HTMLVideoElement ? preview.videoHeight : preview.naturalHeight
+		}).hex;
 		localStorage.setItem('desktopColor', desktopColor);
 		document.documentElement.style.setProperty('--desktop-color', desktopColor);
 	}
@@ -113,25 +113,37 @@
 		{ondragleave}
 		{ondrop}
 	>
-		<img
-			class="desktopPrefsImagePreview"
-			src={currentPic.src}
-			alt={currentPic.alt}
-			draggable="false"
-		/>
+		{#if currentPic.isVideo}
+			<video
+				class="desktopPrefsImagePreview"
+				src={currentPic.src}
+				autoplay
+				loop
+				muted
+				oncanplay={onPreviewLoad}
+			></video>
+		{:else}
+			<img
+				class="desktopPrefsImagePreview"
+				src={currentPic.src}
+				alt={currentPic.alt}
+				draggable="false"
+				onload={onPreviewLoad}
+			/>
+		{/if}
 		<input
-			bind:this={imageInput}
+			bind:this={fileInput}
 			class="desktopPrefsImageInput"
 			type="file"
-			accept="image/*"
+			accept="image/*,video/*"
 			onchange={onFileSelect}
 			tabindex="0"
 		/>
 		<Ban class="desktopPrefsBanIcon" size={64} strokeWidth={3} aria-hidden="true" />
 	</label>
 	<div class="desktopPrefsHintText">
-		<div>Drag an image file into the well, or choose an image below.</div>
-		<small>(Images will not leave your computer.)</small>
+		<div>Drag an image or video file into the well, or choose one below.</div>
+		<small>(Files will not leave your device.)</small>
 	</div>
 	<div class="desktopPrefsDetails">
 		<div class="desktopPrefsTitle">{currentPic.title}</div>

@@ -2,19 +2,17 @@ import { desktopPictures, type DesktopPicture } from '$lib/data/desktopPictures'
 import type WindowServer from '$lib/windowServer.svelte';
 
 export async function getDesktopPicture(windowServer: WindowServer): Promise<DesktopPicture> {
-	const pic = desktopPictures[windowServer.preferences.desktopPicture];
+	let pic: DesktopPicture | null = null;
 
-	if (pic === desktopPictures._custom) {
-		const customPic = await loadCustomPic();
-		if (customPic) return customPic;
-	} else if (pic) {
-		return pic;
+	if (windowServer.preferences.desktopPicture === '_custom') {
+		pic = await loadCustomPic();
+	} else if (windowServer.preferences.desktopPicture) {
+		pic = desktopPictures[windowServer.preferences.desktopPicture];
 	}
 
-	window.queueMicrotask(() => {
-		windowServer.preferences.desktopPicture = 'beach';
-	});
-	return desktopPictures.beach;
+	if (!pic) pic = desktopPictures.beach;
+
+	return pic;
 }
 
 async function loadCustomPic() {
@@ -29,8 +27,9 @@ async function loadCustomPic() {
 
 		return {
 			title: name,
-			src: URL.createObjectURL(file)
-		} as DesktopPicture;
+			src: URL.createObjectURL(file),
+			isVideo: file.type.startsWith('video/')
+		} satisfies DesktopPicture;
 	} catch {
 		return null;
 	}

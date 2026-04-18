@@ -1,18 +1,17 @@
 <script lang="ts">
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import { getDesktopPicture } from '$lib/helpers/desktopPicture.svelte';
+	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
 	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
 	import { onMount } from 'svelte';
 
 	const windowServer = getWindowServerContext();
-
-	const desktopPicture = $derived(await getDesktopPicture(windowServer));
+	const promise = $derived(getDesktopPicture(windowServer));
 
 	let loading = $state(true);
-	onMount(async () => (loading = false));
+	onMount(() => (loading = false));
 
 	let element = $state<HTMLElement>();
 
@@ -33,12 +32,21 @@
 </svelte:head>
 <svelte:window {onfocusin} />
 
-<nav
-	bind:this={element}
-	class={['desktop', { loading }]}
-	style:--desktop-image="url('{desktopPicture.src}')"
-	aria-label="Desktop"
->
+<nav bind:this={element} class={['desktop', { loading }]} aria-label="Desktop">
+	{#await promise then desktopPicture}
+		{#if desktopPicture.isVideo}
+			<video
+				class="desktopBackground"
+				src={desktopPicture.src}
+				autoplay
+				loop
+				muted
+				aria-hidden="true"
+			></video>
+		{:else}
+			<img class="desktopBackground" src={desktopPicture.src} alt="" aria-hidden="true" />
+		{/if}
+	{/await}
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />
@@ -62,21 +70,33 @@
 <style>
 	.desktop {
 		grid-area: desktop;
+		position: relative;
 		display: flex;
 		justify-content: space-between;
 		background-color: var(--desktop-color);
 		background-size: cover;
 		background-position: 50% 25%;
 
-		&:not(.loading) {
-			background-image: var(--desktop-image);
-		}
 		@media (scripting: none) {
-			background-image: var(--desktop-image);
+			background-image: var(--default-desktop-image);
 		}
 
 		@media (forced-colors: active) {
 			background-image: none;
+		}
+	}
+
+	.desktopBackground {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 50% 25%;
+
+		.desktop.loading & {
+			display: none;
 		}
 	}
 

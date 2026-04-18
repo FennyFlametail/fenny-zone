@@ -26,6 +26,7 @@ export interface DesktopPicture {
 	alt?: string;
 	artist?: string;
 	link?: string;
+	isVideo?: boolean;
 }
 export const desktopPictures = {
 	aquaBlue: {

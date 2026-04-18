@@ -8,6 +8,10 @@
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
 	<h3>2026-04-16</h3>
 	<ul>
+		<li>Added video wallpaper support</li>
+	</ul>
+	<h3>2026-04-16</h3>
+	<ul>
 		<li>Improved sheet animation</li>
 		<li>Updated credits in README</li>
 	</ul>
