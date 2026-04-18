@@ -46,7 +46,11 @@
 	this={app.route ? 'a' : 'button'}
 	role="link"
 	tabindex="0"
-	class={['dockIcon', 'noJS-pointer', { open: isOpen, finder: app === windowServer.apps.Finder }]}
+	class={[
+		'dockIcon',
+		'noJS-pointer',
+		{ open: isOpen, 'noJS-hide': !(browser || appName === 'Finder' || app.route) }
+	]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
 	aria-labelledby={labelId}
@@ -100,10 +104,13 @@
 
 			/* icons next to hovered */
 			:global(
-				.dockSection:has(+ .dockSection &:nth-child(1):hover) &:nth-last-child(1),
+				.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
+					&:nth-last-child(1 of :not(.noJS-hide)),
 				&:has(+ &:hover),
 				&:hover + &,
-				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(1)
+				.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
+					+ .dockSection
+					&:nth-child(1 of :not(.noJS-hide))
 			) {
 				margin-bottom: 10px;
 				width: calc(var(--dock-icon-size) * 1.8);
@@ -112,22 +119,22 @@
 
 			/* icons two away from hovered */
 			:global(
-				.dockSection:has(+ .dockSection &:nth-child(1):hover) &:nth-last-child(2),
-				.dockSection:has(+ .dockSection &:nth-child(2):hover) &:nth-last-child(1),
+				.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
+					&:nth-last-child(2 of :not(.noJS-hide)),
+				.dockSection:has(+ .dockSection &:nth-child(2 of :not(.noJS-hide)):hover)
+					&:nth-last-child(1 of :not(.noJS-hide)),
 				&:has(+ & + &:hover),
 				&:hover + & + &,
-				.dockSection:has(&:nth-last-child(2):hover) + .dockSection &:nth-child(1),
-				.dockSection:has(&:nth-last-child(1):hover) + .dockSection &:nth-child(2)
+				.dockSection:has(&:nth-last-child(2 of :not(.noJS-hide)):hover)
+					+ .dockSection
+					&:nth-child(1 of :not(.noJS-hide)),
+				.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
+					+ .dockSection
+					&:nth-child(2 of :not(.noJS-hide))
 			) {
 				margin-bottom: 5px;
 				width: calc(var(--dock-icon-size) * 1.4);
 				height: calc(var(--dock-icon-size) * 1.4);
-			}
-		}
-
-		@media (scripting: none) {
-			&:not([href], .finder) {
-				display: none;
 			}
 		}
 
