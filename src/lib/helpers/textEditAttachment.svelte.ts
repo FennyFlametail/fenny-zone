@@ -16,7 +16,7 @@ ${element.innerHTML}
 			});
 		};
 		const beforeunloadHandler = (e: BeforeUnloadEvent) => {
-			e.preventDefault();
+			if (app.instance.saveData) e.preventDefault();
 		};
 
 		element.role = 'textbox';
