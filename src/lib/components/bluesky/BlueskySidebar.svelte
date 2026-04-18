@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import type { BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
 	import {
 		AtSign,
@@ -75,8 +76,8 @@
 			<button
 				class={['blueskyTab', ...classes]}
 				onclick={() => onTabClick(Icon)}
-				disabled={Icon !== User || userSheetIsOpen}
-				aria-hidden={Icon !== User || userSheetIsOpen}
+				disabled={Icon !== User || userSheetIsOpen || !browser}
+				aria-hidden={Icon !== User || userSheetIsOpen || !browser}
 				aria-label={customUserCount === 0 ? 'Go to user' : `Back to ${profile?.handle}`}
 				title={customUserCount === 0 ? 'Go to user' : `Back to ${profile?.displayName}`}
 			>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import type { BlueskyProfile } from '$lib/helpers/fetchBlueskyData.server';
 	import { User } from 'lucide-svelte';
@@ -72,7 +73,7 @@
 		data-allow-window-drag
 		title="Scroll to top"
 		aria-label="Scroll to top"
-		disabled={!activeProfile || userSheetIsOpen}
+		disabled={!activeProfile || userSheetIsOpen || !browser}
 	>
 		<h2 data-allow-window-drag>{activeProfile?.displayName ?? ''}</h2>
 	</button>
