@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-17</h3>
+	<ul>
+		<li>Allow closing sheets with Esc</li>
+	</ul>
 	<h3>2026-04-16</h3>
 	<ul>
 		<li>Added video wallpaper support</li>

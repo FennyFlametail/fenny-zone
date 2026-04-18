@@ -15,10 +15,12 @@
 
 	const {
 		isOpen,
+		close,
 		class: className,
 		children
 	}: {
 		isOpen: boolean;
+		close: () => void;
 		class?: ClassValue;
 		children: Snippet;
 	} = $props();
@@ -33,6 +35,10 @@
 					: `opacity: ${t}`
 		};
 	}
+
+	function onkeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape' && app.instance.focused) close();
+	}
 </script>
 
 {#if isOpen}
@@ -42,6 +48,7 @@
 		</div>
 	</div>
 {/if}
+<svelte:body {onkeydown} />
 
 <style>
 	.sheet {

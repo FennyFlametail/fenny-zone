@@ -29,13 +29,9 @@
 			showWarning = true;
 		}
 	}
-
-	function userSheetKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') close();
-	}
 </script>
 
-<Sheet {isOpen}>
+<Sheet {isOpen} {close}>
 	<form class="blueskyUserSheet" onsubmit={submitUserSheet}>
 		<label class="blueskyUserSheetInputRow">
 			<span>Enter handle:</span>
@@ -44,7 +40,6 @@
 				class="aqua-textinput"
 				type="text"
 				bind:value={handle}
-				onkeydown={userSheetKeydown}
 				autofocus
 				autocapitalize="off"
 				autocorrect="off"
@@ -58,15 +53,8 @@
 			{showWarning ? 'Invalid handle.' : ''}
 		</p>
 		<div class="blueskyUserSheetButtons">
-			<button type="button" class="aqua-button" onclick={close} onkeydown={userSheetKeydown}
-				>Cancel</button
-			>
-			<button
-				type="submit"
-				class="aqua-button primary"
-				disabled={!handle}
-				onkeydown={userSheetKeydown}>Go to User</button
-			>
+			<button type="button" class="aqua-button" onclick={close}>Cancel</button>
+			<button type="submit" class="aqua-button primary" disabled={!handle}>Go to User</button>
 		</div>
 	</form>
 </Sheet>

@@ -145,7 +145,7 @@
 <div class="blueskyFooter" data-allow-window-drag></div>
 
 <BlueskyUserSheet isOpen={userSheetIsOpen} close={closeUserSheet} submit={loadCustomUser} />
-<Sheet isOpen={errorSheetIsOpen}>
+<Sheet isOpen={errorSheetIsOpen} close={closeErrorSheet}>
 	<div class="blueskyErrorSheet">
 		<Prompt
 			title="Unable to Access Account"

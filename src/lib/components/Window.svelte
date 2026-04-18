@@ -134,6 +134,10 @@
 		}
 	}
 
+	function saveSheetCancel() {
+		app.instance.showSaveSheet = false;
+	}
+
 	function dontSave() {
 		windowServer.closeApp(appName, { closeSaveSheet: true });
 	}
@@ -205,7 +209,7 @@
 		<div class="windowResizeHandle noJS-hide" onpointerdown={startResize}></div>
 	{/if}
 	{#if app.instance.showSaveSheet && app.instance.saveData}
-		<Sheet isOpen={true}>
+		<Sheet isOpen={true} close={saveSheetCancel}>
 			<div class="saveSheet">
 				<Prompt
 					title="Do you want to save changes to this document before closing?"
@@ -216,9 +220,7 @@
 						<button class="aqua-button" onclick={dontSave}>Don't Save</button>
 					{/snippet}
 					{#snippet buttonsRight()}
-						<button class="aqua-button" onclick={() => (app.instance.showSaveSheet = false)}
-							>Cancel</button
-						>
+						<button class="aqua-button" onclick={saveSheetCancel}>Cancel</button>
 						<button class="aqua-button primary" onclick={save}>Save</button>
 					{/snippet}
 				</Prompt>
