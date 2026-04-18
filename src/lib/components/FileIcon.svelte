@@ -47,6 +47,10 @@
 		e.preventDefault();
 	}
 
+	function onkeydown(e: KeyboardEvent) {
+		if (e.key === 'Enter') ondblclick();
+	}
+
 	function ondblclick() {
 		opening = true;
 		window.setTimeout(() => {
@@ -67,6 +71,7 @@
 	]}
 	{onclick}
 	{ondblclick}
+	{onkeydown}
 	href={href ?? app?.url ?? app?.route}
 	target={href || app?.url ? '_blank' : '_self'}
 >
