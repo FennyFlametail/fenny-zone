@@ -9,6 +9,9 @@
 	<h3>2026-04-16</h3>
 	<ul>
 		<li>Added video wallpaper support</li>
+		<li>Fixed opening file icons with Enter</li>
+		<li>Enabled Dock magnification without JavaScript</li>
+		<li>Disabled Dock magnification on mobile to prevent stuck icons</li>
 	</ul>
 	<h3>2026-04-16</h3>
 	<ul>
