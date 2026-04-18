@@ -83,7 +83,7 @@
 		<MenuItem
 			onclick={() => windowServer.closeAppAndChildren(windowServer.focusedApp?.name)}
 			disabled={browser && windowServer.desktopFocused}
-			noScript={false}>{isFinder ? 'Close Finder Windows' : `Quit ${appMenuTitle}`}</MenuItem
+			noScript={false}>{isFinder ? 'Close All' : `Quit ${appMenuTitle}`}</MenuItem
 		>
 	</MenuCategory>
 	<MenuCategory {menubar} title="Window">
