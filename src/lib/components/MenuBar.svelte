@@ -67,7 +67,7 @@
 		<MenuItem href="https://github.com/FennyFlametail/fenny-zone" newTab={true} noScript={true}
 			>View Source...</MenuItem
 		>
-		<hr />
+		<hr class="noJS-hide" />
 		<MenuItem onclick={() => windowServer.openApp('system-preferences')}
 			>System Preferences...</MenuItem
 		>
