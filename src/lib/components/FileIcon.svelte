@@ -45,6 +45,7 @@
 
 	function onclick(e: MouseEvent) {
 		e.preventDefault();
+		(e.currentTarget as HTMLAnchorElement).focus();
 	}
 
 	function onkeydown(e: KeyboardEvent) {
