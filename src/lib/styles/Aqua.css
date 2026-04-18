@@ -14,6 +14,7 @@
 	position-try: flip-start;
 	position-visibility: anchors-visible;
 	box-shadow: var(--panel-box-shadow);
+	border: none;
 	border-image: linear-gradient(to bottom, rgb(0 0 0 / 33%), transparent) 1 / 1px;
 	border-image-outset: 1px;
 	padding: 4px 0;
