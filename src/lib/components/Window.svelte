@@ -249,11 +249,12 @@
 		background-clip: padding-box;
 		border-top-right-radius: var(--window-radius);
 		border-top-left-radius: var(--window-radius);
-		box-shadow: var(--panel-box-shadow), var(--panel-border-box-shadow);
+		outline: 1px solid var(--panel-border-color);
+		box-shadow: var(--panel-box-shadow);
 		touch-action: manipulation; /* needed for touch dragging to work */
 
 		&.inactive {
-			box-shadow: var(--panel-box-shadow-inactive), var(--panel-border-box-shadow);
+			box-shadow: var(--panel-box-shadow-inactive);
 		}
 
 		&.dragging {
@@ -345,8 +346,7 @@
 
 	.window.brushed {
 		--top-highlight-shadow: inset 0 2px 0px 0px rgb(217 217 217);
-		box-shadow:
-			var(--panel-box-shadow), var(--panel-border-box-shadow), var(--top-highlight-shadow);
+		box-shadow: var(--panel-box-shadow), var(--top-highlight-shadow);
 		border-bottom-right-radius: var(--window-radius);
 		border-bottom-left-radius: var(--window-radius);
 		background: linear-gradient(
@@ -378,9 +378,7 @@
 		}
 
 		&.inactive {
-			box-shadow:
-				var(--panel-box-shadow-inactive), var(--panel-border-box-shadow),
-				var(--top-highlight-shadow);
+			box-shadow: var(--panel-box-shadow-inactive), var(--top-highlight-shadow);
 		}
 
 		.windowTitlebar {

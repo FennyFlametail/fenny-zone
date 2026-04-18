@@ -51,7 +51,7 @@
 		display: flex;
 		gap: 1px;
 		height: var(--dock-height);
-		box-shadow: 0 0 0 1px #00000026;
+		outline: 1px solid rgb(0 0 0 / 10%);
 		/* fix incorrect sizing in Safari */
 		max-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 

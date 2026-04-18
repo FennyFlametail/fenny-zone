@@ -200,7 +200,8 @@
 		padding-inline: var(--spacing);
 		border: 1px solid black;
 		border-radius: 5px;
-		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 15%);
+		outline: 1px solid rgb(255 255 255 / 15%);
+		outline-offset: -2px;
 		background: linear-gradient(to var(--gradient-dir), #449df5, #1462aa);
 		font-size: 14px;
 		font-weight: bold;

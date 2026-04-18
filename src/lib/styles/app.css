@@ -39,7 +39,7 @@
 		#bbbbbb calc(100% - 1px)
 	);
 	--menubar-height: 29px;
-	--panel-border-box-shadow: 0 0 0 1px rgb(0 0 0 / 33%);
+	--panel-border-color: rgb(0 0 0 / 33%);
 	--panel-box-shadow-inactive: 0 3px 5px 0 rgb(0 0 0 / 70%);
 	--panel-box-shadow: 0 10px 15px 0 rgb(0 0 0 / 70%);
 	--pinstripe-bg-image: repeating-linear-gradient(
