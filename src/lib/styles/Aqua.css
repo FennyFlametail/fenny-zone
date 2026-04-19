@@ -52,7 +52,8 @@
 .aqua-button,
 .aqua-tab {
 	--button-height: 28px;
-	--box-shadow: var(--widget-box-shadow);
+	--button-padding: 24px;
+	--box-shadow: var(--widget-box-shadow), var(--widget-inner-box-shadow);
 	display: flex;
 	position: relative;
 	justify-content: center;
@@ -63,7 +64,7 @@
 	background:
 		linear-gradient(to bottom, var(--button-gradient)) padding-box,
 		linear-gradient(to bottom, var(--button-border-gradient)) border-box;
-	padding-inline: 24px;
+	padding-inline: var(--button-padding);
 	min-width: 105px;
 	height: var(--button-height);
 	color: black;
@@ -81,13 +82,13 @@
 
 	&.square {
 		--button-gradient: var(--button-square-gradient);
+--button-padding: 14px;
 		border-radius: 5px;
-		padding-inline: 14px;
-		min-width: auto;
+				min-width: auto;
 	}
 
 	&:is(.back, .forward) {
-		padding-inline: 10px;
+--button-padding: 10px;
 		&::before {
 			content: '▶';
 			font-size: 14px;
@@ -127,6 +128,7 @@
 	&.primary:not(.window.inactive .primary, :disabled, .disabled) {
 		--button-gradient: var(--button-active-gradient);
 		--button-border-gradient: var(--button-border-active-gradient);
+--widget-inner-box-shadow: var(--widget-inner-active-box-shadow);
 
 		@media (forced-colors: active) {
 			border-color: Highlight;

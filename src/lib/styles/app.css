@@ -67,6 +67,9 @@
 	--titlebar-height: 28px;
 	--titlebar-padding: 11px;
 	--widget-box-shadow: 0 2px 2px -1px #8b8b8b;
+	--widget-inner-box-shadow: inset 14px 0 14px -14px #dadada, inset -14px 0 14px -14px #dadada;
+	--widget-inner-active-box-shadow:
+		inset 14px 0 14px -14px #519eea, inset -14px 0 14px -14px #519eea;
 	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
 	--widget-unified-box-shadow: 0 -1px #949394, 0 1px #c9c9c9;
 	--window-radius: 12px;
