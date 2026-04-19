@@ -37,6 +37,7 @@
 	let item = $state<HTMLLIElement>();
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
+		if (opening) return;
 		opening = true;
 		window.setTimeout(() => {
 			opening = false;
@@ -71,14 +72,19 @@
 					class="menuItemLink"
 					{href}
 					target={newTab ? '_blank' : '_self'}
-					onclick={setSelected}>{@render children?.()}</a
+					onclick={setSelected}
+					onpointerup={setSelected}>{@render children?.()}</a
 				>
 			{:else}
 				<span id={itemId} class="menuItemLink">{@render children?.()}</span>
 			{/if}
 		{:else}
-			<button id={itemId} class="menuItemButton" onclick={setSelected} {disabled}
-				>{@render children?.()}</button
+			<button
+				id={itemId}
+				class="menuItemButton"
+				onclick={setSelected}
+				onpointerup={setSelected}
+				{disabled}>{@render children?.()}</button
 			>
 		{/if}
 	</li>

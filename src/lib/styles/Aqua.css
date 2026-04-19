@@ -21,7 +21,8 @@
 	list-style-type: none;
 	text-align: start;
 
-	&:not(:popover-open) {
+	/* popovers shift on transition in Safari 🙃 */
+	&:not(:popover-open, body.safari &) {
 		opacity: 0;
 		/* known bug: allow-discrete doesn't apply to display in Firefox */
 		transition-behavior: allow-discrete;
@@ -178,6 +179,7 @@
 		border-bottom-left-radius: 0;
 
 		&::after {
+			content: '';
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -185,7 +187,6 @@
 			background-color: rgb(0 0 0 / 10%);
 			width: 1px;
 			height: 100%;
-			content: '';
 		}
 	}
 

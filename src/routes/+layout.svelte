@@ -47,6 +47,10 @@
 			}, 500);
 		}
 
+		const isSafari =
+			navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
+		document.body.classList.toggle('safari', isSafari);
+
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
