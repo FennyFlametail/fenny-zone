@@ -23,16 +23,14 @@
 	});
 
 	function onclick(e: MouseEvent) {
-		if (e.metaKey && e.altKey) {
-			if (e.shiftKey) {
-				windowServer.openApp('adblockWarning');
-			} else {
-				windowServer.openApp('crashDialog', {
-					props: {
-						crashedAppName: windowServer.focusedApp?.name ?? windowServer.apps.Finder.title
-					}
-				});
-			}
+		if (e.metaKey && e.shiftKey) {
+			windowServer.openApp('crashDialog', {
+				props: {
+					crashedAppName: windowServer.focusedApp?.name ?? windowServer.apps.Finder.title
+				}
+			});
+		} else if (e.altKey && e.shiftKey) {
+			windowServer.openApp('adblockWarning');
 		}
 	}
 </script>
