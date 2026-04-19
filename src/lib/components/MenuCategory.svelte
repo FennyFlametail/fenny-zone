@@ -106,9 +106,9 @@
 	}
 
 	.aqua-menu {
-		/* NOTE: position-area is buggy in MobileSafari as of iOS 26.4 */
-		top: anchor(bottom);
-		left: anchor(left);
+		/* NOTE: position-area is buggy in MobileSafari as of iOS 26.4, but fallbacks don't seem to work with inset properties */
+		position-area: bottom center;
+		justify-self: start;
 
 		/* don't transition when moving mouse between menus */
 		:global(.menuCategory:has(> .aqua-menu:popover-open)) ~ .menuCategory > &,
