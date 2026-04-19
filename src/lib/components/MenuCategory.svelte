@@ -26,14 +26,28 @@
 	let button = $state<HTMLButtonElement>();
 	let menu = $state<HTMLMenuElement>();
 	function menuHover() {
+		if (navigator.userAgent.includes('iPhone')) return;
 		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
 		// @ts-expect-error
 		if (anyMenuOpen) menu!.showPopover({ source: button });
 	}
+	function showPopoverTouch(e: TouchEvent) {
+		// this fixes unreliable button taps in MobileSafari (thanks Apple),
+		// at the cost of not being able to close the menu by tapping the category
+		e.preventDefault();
+		// @ts-expect-error
+		menu!.togglePopover({ source: button });
+	}
 </script>
 
 {#if browser || noScript}
-	<button bind:this={button} class="menuCategory" popovertarget={menuId} onpointerenter={menuHover}>
+	<button
+		bind:this={button}
+		class="menuCategory"
+		popovertarget={menuId}
+		onpointerenter={menuHover}
+		ontouchend={showPopoverTouch}
+	>
 		<svelte:element
 			this={nameTag}
 			class={['menuName', { menuLogo: isLogo, menuApp: isAppMenu }]}
@@ -92,8 +106,9 @@
 	}
 
 	.aqua-menu {
-		position-area: bottom center;
-		justify-self: start;
+		/* NOTE: position-area is buggy in MobileSafari as of iOS 26.4 */
+		top: anchor(bottom);
+		left: anchor(left);
 
 		/* don't transition when moving mouse between menus */
 		:global(.menuCategory:has(> .aqua-menu:popover-open)) ~ .menuCategory > &,
