@@ -78,6 +78,12 @@
 	}
 }
 
+*,
+*::before,
+*::after {
+	-webkit-tap-highlight-color: transparent;
+}
+
 html {
 	overflow: hidden;
 	overscroll-behavior: none;
