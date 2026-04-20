@@ -123,6 +123,7 @@
 		position: absolute;
 		left: 0;
 		width: var(--menu-item-padding);
+		color: #59595a;
 		text-align: center;
 	}
 
