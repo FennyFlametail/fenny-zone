@@ -8,13 +8,6 @@ const cache = new Map<
 		data: FetchDataResult;
 	}
 >();
-cache.set(DEFAULT_HANDLE, {
-	timestamp: 0,
-	data: {
-		profile: null,
-		posts: null
-	}
-});
 
 export default async function fetchBlueskyData(
 	fetchFn: typeof globalThis.fetch,
