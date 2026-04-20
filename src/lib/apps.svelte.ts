@@ -295,7 +295,10 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'System Preferences',
 		icon: SystemPreferencesIcon,
 		windowStyle: 'unified',
-		noResize: true
+		noResize: true,
+		defaultSize: {
+			height: 200
+		}
 	},
 	trash: {
 		parent: 'Finder',

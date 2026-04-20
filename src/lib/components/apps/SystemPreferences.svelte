@@ -2,6 +2,7 @@
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
+	import NavigationStack from '$lib/helpers/navigationStack.svelte';
 	import DesktopIcon from '$lib/images/icons/desktop.webp';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { onMount } from 'svelte';
@@ -10,12 +11,10 @@
 	const windowServer = getWindowServerContext();
 	const { app } = getAppContext();
 
-	const DEFAULT_HEIGHT = 200;
-
 	onMount(() => {
 		// restore default height in case page was reloaded with a pane open
 		// this also helps initially position the app better
-		app.instance.position.height = DEFAULT_HEIGHT;
+		app.instance.position.height = app.defaultSize!.height!;
 	});
 
 	const prefPanes = {
@@ -25,40 +24,19 @@
 			height: 525
 		}
 	};
-	type paneName = keyof typeof prefPanes;
+	type PaneName = keyof typeof prefPanes;
 
-	let navStack: (paneName | null)[] = $state([null]);
-	let navIndex = $state(0);
-	let activePane = $derived(navStack[navIndex]);
+	const navStack = new NavigationStack(null as PaneName | null, onPaneChange);
 	let transition = $state(false);
 
 	function onPaneChange() {
-		app.instance.title = activePane || app.title;
+		app.instance.title = navStack.current || app.title;
 		windowServer.setAnimating(app);
 		transition = true;
 		app.instance.position.height = Math.min(
-			activePane ? prefPanes[activePane].height : DEFAULT_HEIGHT,
+			navStack.current ? prefPanes[navStack.current].height : app.defaultSize!.height!,
 			WindowServer.safeHeight
 		);
-	}
-
-	function openPane(pane: paneName | null) {
-		navStack = navStack.slice(0, navIndex + 1);
-		navStack.push(pane);
-		navIndex++;
-		onPaneChange();
-	}
-
-	function back() {
-		if (navIndex === 0) return;
-		navIndex--;
-		onPaneChange();
-	}
-
-	function forward() {
-		if (navIndex === navStack.length - 1) return;
-		navIndex++;
-		onPaneChange();
 	}
 </script>
 
@@ -68,21 +46,23 @@
 			<button
 				class="aqua-button square back"
 				aria-label="Back"
-				disabled={navIndex === 0}
-				onclick={back}
+				disabled={navStack.index === 0}
+				onclick={navStack.back}
 			></button>
 			<button
 				class="aqua-button square forward"
 				aria-label="Forward"
-				disabled={navIndex === navStack.length - 1}
-				onclick={forward}
+				disabled={navStack.index === navStack.length - 1}
+				onclick={navStack.forward}
 			></button>
 		</div>
-		<button class="aqua-button square" disabled={activePane === null} onclick={() => openPane(null)}
-			>Show All</button
+		<button
+			class="aqua-button square"
+			disabled={navStack.current === null}
+			onclick={() => navStack.push(null)}>Show All</button
 		>
 	</WindowToolbar>
-	{#if !activePane}
+	{#if !navStack.current}
 		<div
 			class="systemPreferencesHome"
 			transition:fade={{ duration: 200 }}
@@ -90,14 +70,14 @@
 			onoutroend={() => (transition = false)}
 		>
 			{#each Object.entries(prefPanes) as [name, info]}
-				<button class="systemPreferencesIcon" onclick={() => openPane(name as paneName)}>
+				<button class="systemPreferencesIcon" onclick={() => navStack.push(name as PaneName)}>
 					<img src={info.icon} alt="" aria-hidden="true" draggable="false" />
 					<span>{name}</span>
 				</button>
 			{/each}
 		</div>
 	{:else}
-		{@const Component = prefPanes[activePane].component}
+		{@const Component = prefPanes[navStack.current].component}
 		<div class="systemPreferencesPane" transition:fade={{ duration: 200 }}>
 			<Component />
 		</div>
