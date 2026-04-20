@@ -1,16 +1,25 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
 	const { children }: { children: Snippet } = $props();
 
 	let icons = $state<HTMLElement>();
+	let remainingSpace = $state('∞');
+
+	onMount(async () => {
+		try {
+			const estimate = await navigator.storage.estimate();
+			if (estimate.quota === undefined || estimate.usage === undefined) return;
+			remainingSpace = ((estimate.quota - estimate.usage) / 1_000_000_000).toFixed(1);
+		} catch {}
+	});
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="finder">
 	<div class="finderStatusBar" aria-hidden="true">
-		{icons?.childElementCount ?? ''} items, ∞ GB available
+		{icons?.childElementCount ?? ''} items, {remainingSpace} GB available
 	</div>
 	<nav class="finderIcons" aria-label="Icons" bind:this={icons}>
 		{@render children()}
