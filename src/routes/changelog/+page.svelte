@@ -6,6 +6,11 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-20</h3>
+	<ul>
+		<li>Add titlebar icons</li>
+		<li>Fix Bluesky profile caching</li>
+	</ul>
 	<h3>2026-04-17</h3>
 	<ul>
 		<li>Allow closing sheets with Esc</li>
