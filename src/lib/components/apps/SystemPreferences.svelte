@@ -39,7 +39,7 @@
 		windowServer.setAnimating(app);
 		transition = true;
 		app.instance.position.height = Math.min(
-			pane ? prefPanes[pane].height : app.defaultSize!.height!,
+			pane ? prefPanes[pane].height : app.defaultPosition!.height!,
 			WindowServer.safeHeight
 		);
 	}

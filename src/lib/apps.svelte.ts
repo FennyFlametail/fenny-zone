@@ -1,5 +1,7 @@
+import { browser } from '$app/environment';
 import type { Pathname } from '$app/types';
 import type { Position } from '$lib/windowServer.svelte';
+import WindowServer from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
@@ -90,12 +92,7 @@ export interface AppEntry {
 	readonly backTo?: string;
 	/** Used by Browser apps */
 	readonly url?: string;
-	readonly defaultSize?: {
-		/** @default 500 */
-		width?: number;
-		/** @default 500 */
-		height?: number;
-	};
+	readonly defaultPosition?: Partial<Omit<Position, 'zIndex'>>;
 	readonly minSize?: number;
 	readonly lockAspectRatio?: boolean;
 	readonly noResize?: boolean;
@@ -140,7 +137,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		hideWindowControls: true,
 		hideInDock: true,
 		noResize: true,
-		defaultSize: {
+		defaultPosition: {
 			width: 580,
 			height: 210
 		}
@@ -152,7 +149,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		hideWindowControls: true,
 		hideInDock: true,
 		noResize: true,
-		defaultSize: {
+		defaultPosition: {
 			width: 580,
 			height: 250
 		}
@@ -187,7 +184,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		windowStyle: 'custom',
 		icon: TweetbotIcon,
 		route: '/bluesky',
-		defaultSize: {
+		defaultPosition: {
 			width: 515,
 			height: 1000
 		}
@@ -200,7 +197,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: AddressBookIcon,
 		titleIcon: VCardIcon,
 		route: '/characters',
-		defaultSize: {
+		defaultPosition: {
 			width: 1200,
 			height: 1000
 		}
@@ -215,7 +212,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		titleIcon: FennyProfileIcon,
 		route: '/characters/fenny',
 		backTo: '/characters',
-		defaultSize: defaultProfileSize
+		defaultPosition: defaultProfileSize
 	},
 	aren: {
 		parent: 'characters',
@@ -227,7 +224,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		titleIcon: ArenProfileIcon,
 		route: '/characters/aren',
 		backTo: '/characters',
-		defaultSize: defaultProfileSize
+		defaultPosition: defaultProfileSize
 	},
 	ceph: {
 		parent: 'characters',
@@ -239,7 +236,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		titleIcon: CephProfileIcon,
 		route: '/characters/ceph',
 		backTo: '/characters',
-		defaultSize: defaultProfileSize
+		defaultPosition: defaultProfileSize
 	},
 	rigel: {
 		parent: 'characters',
@@ -250,7 +247,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: RigelIcon,
 		route: '/characters/rigel',
 		backTo: '/characters',
-		defaultSize: defaultProfileSize
+		defaultPosition: defaultProfileSize
 	},
 	nocturne: {
 		parent: 'characters',
@@ -262,7 +259,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		titleIcon: NocturneProfileIcon,
 		route: '/characters/nocturne',
 		backTo: '/characters',
-		defaultSize: defaultProfileSize
+		defaultPosition: defaultProfileSize
 	},
 	projects: {
 		parent: 'Finder',
@@ -277,7 +274,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: ToddspinIcon,
 		route: '/toddspin',
 		url: 'https://toddspin.fenny.zone',
-		defaultSize: {
+		defaultPosition: {
 			height: 800
 		}
 	},
@@ -287,7 +284,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: SauceIcon,
 		route: '/sauce',
 		url: 'https://sauce.fenny.zone',
-		defaultSize: {
+		defaultPosition: {
 			width: 600
 		}
 	},
@@ -297,7 +294,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		icon: GoatIcon,
 		route: '/goat',
 		url: 'https://monty-hall.fenny.zone',
-		defaultSize: {
+		defaultPosition: {
 			width: 600,
 			height: 800
 		}
@@ -309,8 +306,12 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		hideTitleIcon: true,
 		windowStyle: 'unified',
 		noResize: true,
-		defaultSize: {
+		get defaultPosition() {
+			return {
+				// size to fit the Desktop prefpane (height 525)
+				y: browser ? (WindowServer.safeHeight / 2 - 525 / 2) * (2 / 3) : undefined,
 			height: 200
+};
 		}
 	},
 	trash: {

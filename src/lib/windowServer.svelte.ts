@@ -144,7 +144,7 @@ export default class WindowServer {
 			app.instance = {
 				position: WindowServer.getInitialPosition(
 					{
-						...app.defaultSize,
+						...app.defaultPosition,
 						zIndex: Object.keys(this.runningApps).length,
 						...options.position
 					},
@@ -236,7 +236,7 @@ export default class WindowServer {
 		}
 
 		/* zoom windows to their ideal (default) size - more Mac-like, but possibly confusing */
-		// const initialPosition = WindowServer.getInitialPosition(app.defaultSize);
+		// const initialPosition = WindowServer.getInitialPosition(app.defaultPosition);
 		// if (
 		// 	app.instance.position.width === initialPosition.width &&
 		// 	app.instance.position.height === initialPosition.height
@@ -332,7 +332,7 @@ export default class WindowServer {
 			.forEach((app, index) => {
 				this.setAnimating(app);
 				app.instance.position = WindowServer.getInitialPosition({
-					...app.defaultSize,
+					...app.defaultPosition,
 					x: WINDOW_PADDING * (index + 1),
 					y: WINDOW_PADDING * (index + 1),
 					zIndex: app.instance.position.zIndex
