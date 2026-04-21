@@ -78,6 +78,7 @@
 		position: relative;
 		display: flex;
 		justify-content: space-between;
+		align-items: start;
 		background-color: var(--desktop-color);
 		background-size: cover;
 		background-position: 50% 25%;
@@ -120,6 +121,7 @@
 	}
 
 	.desktopColumn {
+		max-height: 100%;
 		position: relative;
 		display: flex;
 		flex-direction: column;
