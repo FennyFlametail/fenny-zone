@@ -8,14 +8,14 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
+	const {
+		pane
+	}: {
+		pane: PaneName | null;
+	} = $props();
+
 	const windowServer = getWindowServerContext();
 	const { app } = getAppContext();
-
-	onMount(() => {
-		// restore default height in case page was reloaded with a pane open
-		// this also helps initially position the app better
-		app.instance.position.height = app.defaultSize!.height!;
-	});
 
 	const prefPanes = {
 		Desktop: {
@@ -29,12 +29,17 @@
 	const navStack = new NavigationStack(null as PaneName | null, onPaneChange);
 	let transition = $state(false);
 
+	onMount(() => {
+		if (pane) navStack.push(pane);
+	});
+
 	function onPaneChange() {
-		app.instance.title = navStack.current || app.title;
+		app.instance.props.pane = navStack.current;
+		app.instance.title = pane || app.title;
 		windowServer.setAnimating(app);
 		transition = true;
 		app.instance.position.height = Math.min(
-			navStack.current ? prefPanes[navStack.current].height : app.defaultSize!.height!,
+			pane ? prefPanes[pane].height : app.defaultSize!.height!,
 			WindowServer.safeHeight
 		);
 	}
@@ -56,13 +61,11 @@
 				onclick={navStack.forward}
 			></button>
 		</div>
-		<button
-			class="aqua-button square"
-			disabled={navStack.current === null}
-			onclick={() => navStack.push(null)}>Show All</button
+		<button class="aqua-button square" disabled={pane === null} onclick={() => navStack.push(null)}
+			>Show All</button
 		>
 	</WindowToolbar>
-	{#if !navStack.current}
+	{#if !pane}
 		<div
 			class="systemPreferencesHome"
 			transition:fade={{ duration: 200 }}
@@ -77,7 +80,7 @@
 			{/each}
 		</div>
 	{:else}
-		{@const Component = prefPanes[navStack.current].component}
+		{@const Component = prefPanes[pane].component}
 		<div class="systemPreferencesPane" transition:fade={{ duration: 200 }}>
 			<Component />
 		</div>

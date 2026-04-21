@@ -154,7 +154,7 @@ export default class WindowServer {
 				get focused() {
 					return self.focusedApp?.app === app;
 				},
-				props: options.props
+				props: options.props ?? {}
 			};
 			this.desktopFocused = false;
 		};
@@ -346,7 +346,7 @@ export default class WindowServer {
 		if (stateString) {
 			try {
 				const state: AppState = JSON.parse(stateString);
-				Object.entries(state).forEach(([appName, { position, props }]) => {
+				Object.entries(state).forEach(([appName, { position, props = {} }]) => {
 					const app = this.apps[appName as AppName];
 					if (!app) {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
@@ -370,13 +370,15 @@ export default class WindowServer {
 
 	saveState = () => {
 		const state: AppState = Object.fromEntries(
-			Object.entries(this.runningApps).map(([appName, app]) => [
-				appName,
-				{
-					position: app.instance.position,
-					props: app.instance.props
+			Object.entries(this.runningApps).map(([appName, app]) => {
+				const entry: AppState[AppName] = {
+					position: app.instance.position
+				};
+				if (Object.keys(app.instance.props).length) {
+					entry.props = app.instance.props;
 				}
-			])
+				return [appName, entry];
+			})
 		);
 		localStorage.setItem(STATE_KEY, JSON.stringify(state));
 	};

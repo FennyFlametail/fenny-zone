@@ -101,7 +101,7 @@ export interface AppEntry {
 	readonly noResize?: boolean;
 	instance?: {
 		/** Props must be serializable */
-		props?: Record<string, any>;
+		props: Record<string, any>;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
