@@ -49,8 +49,9 @@
 	{/await}
 	<button
 		class="desktopFocusButton"
-		aria-label="Focus Desktop"
 		onclick={() => (windowServer.desktopFocused = true)}
+		aria-hidden="true"
+		tabindex="-1"
 	></button>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
