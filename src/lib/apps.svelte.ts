@@ -147,7 +147,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		noResize: true,
 		defaultSize: {
 			width: 580,
-			height: 260
+			height: 250
 		}
 	},
 	blueskyMedia: {
