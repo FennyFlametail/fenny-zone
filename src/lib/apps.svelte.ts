@@ -5,8 +5,8 @@ import type { Component } from 'svelte';
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import Browser from '$lib/components/apps/Browser.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
-import Bluesky from '../routes/bluesky/+page.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
+import Bluesky from '../routes/bluesky/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
 import Aren from '../routes/characters/aren/+page.svelte';
@@ -16,16 +16,20 @@ import Nocturne from '../routes/characters/nocturne/+page.svelte';
 import Rigel from '../routes/characters/rigel/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
-import SystemPreferences from './components/apps/SystemPreferences.svelte';
 import Trash from '../routes/trash/+page.svelte';
+import SystemPreferences from './components/apps/SystemPreferences.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
+import ArenProfileIcon from '$lib/images/icons/aren-profile.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
+import CephProfileIcon from '$lib/images/icons/ceph-profile.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
+import FennyProfileIcon from '$lib/images/icons/fenny-profile.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
+import NocturneProfileIcon from '$lib/images/icons/nocturne-profile.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
@@ -36,6 +40,7 @@ import ToddspinIcon from '$lib/images/icons/toddspin.webp';
 import TrashIcon from '$lib/images/icons/trash.webp';
 import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
+import VCardIcon from '$lib/images/icons/vcard.webp';
 
 export type AppName =
 	| 'Finder'
@@ -76,6 +81,8 @@ export interface AppEntry {
 	readonly windowStyle?: 'normal' | 'brushed' | 'unified' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon?: string;
+	readonly titleIcon?: string;
+	readonly hideTitleIcon?: boolean;
 	dockIconOverride?: string;
 	readonly hideInDock?: boolean;
 	readonly route?: Pathname;
@@ -191,6 +198,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		dockTitle: 'Characters',
 		windowStyle: 'brushed',
 		icon: AddressBookIcon,
+		titleIcon: VCardIcon,
 		route: '/characters',
 		defaultSize: {
 			width: 1200,
@@ -204,6 +212,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: FennyIcon,
+		titleIcon: FennyProfileIcon,
 		route: '/characters/fenny',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -215,6 +224,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: ArenIcon,
+		titleIcon: ArenProfileIcon,
 		route: '/characters/aren',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -226,6 +236,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: CephIcon,
+		titleIcon: CephProfileIcon,
 		route: '/characters/ceph',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -248,6 +259,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: NocturneIcon,
+		titleIcon: NocturneProfileIcon,
 		route: '/characters/nocturne',
 		backTo: '/characters',
 		defaultSize: defaultProfileSize
@@ -294,6 +306,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		Page: SystemPreferences,
 		title: 'System Preferences',
 		icon: SystemPreferencesIcon,
+		hideTitleIcon: true,
 		windowStyle: 'unified',
 		noResize: true,
 		defaultSize: {

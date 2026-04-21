@@ -24,7 +24,6 @@
 	const parent = app.parent ? windowServer.apps[app.parent] : null;
 
 	const title = $derived(app.instance.title ?? app.windowTitle ?? app.title);
-	const displayTitle = $derived(app.hideWindowTitle ? '' : title);
 
 	let minSize = app.minSize ?? 500;
 	if (browser) {
@@ -188,9 +187,18 @@
 			{#if !app.hideWindowControls}
 				<WindowControls />
 			{/if}
-			{#if displayTitle}
+			{#if title && !app.hideWindowTitle}
 				<h2 class="windowTitle" data-allow-window-drag>
-					{displayTitle}
+					{#if !app.hideTitleIcon}
+						<img
+							class="windowTitleIcon"
+							src={app.titleIcon ?? app.icon}
+							alt=""
+							aria-hidden="true"
+							draggable="false"
+						/>
+					{/if}
+					{title}
 				</h2>
 			{/if}
 		</header>
@@ -237,6 +245,7 @@
 		--window-titlebar-border-color: #8c8c8c;
 		grid-area: 1 / 1;
 		position: absolute;
+		/* FIXME translate while dragging and then change position when letting go */
 		left: var(--window-x);
 		top: var(--window-y);
 		width: var(--window-width);
@@ -311,15 +320,23 @@
 		}
 	}
 
+	.windowTitleIcon {
+		width: 18px;
+		height: 18px;
+		object-fit: contain;
+		pointer-events: none;
+	}
+
 	.windowTitle {
 		grid-area: title;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		gap: 5px;
 		text-align: center;
 		font-weight: normal;
 		font-size: 17px;
-		line-height: 1;
+		line-height: var(--titlebar-height);
 		white-space: nowrap;
 	}
 
