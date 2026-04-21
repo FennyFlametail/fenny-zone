@@ -6,7 +6,6 @@
 	import WindowControls from '$lib/components/WindowControls.svelte';
 	import { getWindowServerContext, setAppContext } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
-	import { onMount } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { scale } from 'svelte/transition';
 
@@ -32,14 +31,6 @@
 
 	let element = $state<HTMLElement>();
 	let contentWrapper = $state<HTMLDivElement>();
-
-	onMount(() => {
-		// focus the first focusable element in the window
-		const focusableElement = contentWrapper?.querySelector(
-			'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, [tabindex], [contentEditable=true]'
-		);
-		if (focusableElement) (focusableElement as HTMLElement).focus();
-	});
 
 	let dragging = $state(false);
 	let resizing = $state(false);
