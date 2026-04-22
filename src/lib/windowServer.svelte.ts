@@ -105,7 +105,7 @@ export default class WindowServer {
 		) as Readonly<Record<AppName, RunningApp>>
 	);
 
-	appsByParent = $derived(
+	runningAppsByParent = $derived(
 		Map.groupBy(Object.entries(this.runningApps), ([, app]) => app.parent || null) as ReadonlyMap<
 			AppName | null,
 			[AppName, RunningApp][]
@@ -307,7 +307,7 @@ export default class WindowServer {
 		if (!appName) return;
 		const parentName = this.apps[appName].parent ?? appName;
 
-		const childApps = this.appsByParent.get(parentName);
+		const childApps = this.runningAppsByParent.get(parentName);
 		if (childApps) {
 			childApps.forEach(([childName]) => this.closeApp(childName));
 		}

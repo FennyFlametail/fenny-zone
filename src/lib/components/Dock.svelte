@@ -26,9 +26,9 @@
 <nav class="dock" aria-label="Dock">
 	<div class="dockSection">
 		{#each pinned as name}
-			<DockIcon appName={name} open={name === 'Finder' || undefined} />
+			<DockIcon appName={name} />
 		{/each}
-		{#each windowServer.appsByParent as [parent, apps] (parent)}
+		{#each windowServer.runningAppsByParent as [parent, apps] (parent)}
 			{@render runningApps(parent, apps)}
 		{/each}
 		{#if !browser && windowServer.initialAppName}

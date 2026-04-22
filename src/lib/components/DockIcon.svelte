@@ -24,6 +24,7 @@
 	};
 
 	const isOpen = $derived.by(() => {
+		if (appName === 'Finder') return true;
 		if (typeof open === 'boolean') return open;
 		if (!browser) {
 			const childApps = Object.entries(windowServer.apps)
@@ -31,7 +32,7 @@
 				.map(([name]) => name);
 			return [appName, ...childApps].includes(windowServer.initialAppName as AppName);
 		}
-		return windowServer.appsByParent.has(appName) || appName in windowServer.runningApps;
+		return windowServer.runningAppsByParent.has(appName) || appName in windowServer.runningApps;
 	});
 
 	const bounceAnimDuration = 375;
