@@ -111,7 +111,7 @@
 			background: var(--sidebar-item-active-bg-image);
 			color: white;
 
-			:global(.window.inactive) & {
+			:global(.window:is(.inactive, .sheetOpen)) & {
 				background: var(--sidebar-item-inactive-bg-image);
 			}
 

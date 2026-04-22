@@ -82,13 +82,13 @@
 
 	&.square {
 		--button-gradient: var(--button-square-gradient);
---button-padding: 14px;
+		--button-padding: 14px;
 		border-radius: 5px;
-				min-width: auto;
+		min-width: auto;
 	}
 
 	&:is(.back, .forward) {
---button-padding: 10px;
+		--button-padding: 10px;
 		&::before {
 			content: '▶';
 			font-size: 14px;
@@ -125,17 +125,28 @@
 			:disabled,
 			.disabled
 		),
-	&.primary:not(.window.inactive .primary, :disabled, .disabled) {
+	&.primary:not(
+			.window.inactive .primary,
+			.window.sheetOpen .primary:not(.sheet &),
+			:disabled,
+			.disabled
+		) {
 		--button-gradient: var(--button-active-gradient);
 		--button-border-gradient: var(--button-border-active-gradient);
---widget-inner-box-shadow: var(--widget-inner-active-box-shadow);
+		--widget-inner-box-shadow: var(--widget-inner-active-box-shadow);
 
 		@media (forced-colors: active) {
 			border-color: Highlight;
 		}
 	}
 
-	&.primary:not(.window.inactive .primary, :active, :disabled, .disabled) {
+	&.primary:not(
+			.window.inactive .primary,
+			.window.sheetOpen .primary:not(.sheet &),
+			:active,
+			:disabled,
+			.disabled
+		) {
 		animation: 0.5s linear infinite alternate pulsate;
 	}
 
@@ -250,7 +261,7 @@
 	background-blend-mode: multiply, normal, normal;
 }
 
-.window.inactive :not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
+.window:is(.inactive, .sheetOpen) :not(.aqua-no-scrollbar)::-webkit-scrollbar-thumb {
 	--border-color: #8b8b8b;
 	--cap-gradient:
 		rgb(0 0 0 / 25%), transparent 7.5px, transparent calc(100% - 7.5px), rgb(0 0 0 / 25%);

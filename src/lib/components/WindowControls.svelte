@@ -3,6 +3,12 @@
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
+	const {
+		sheetOpen
+	}: {
+		sheetOpen?: boolean;
+	} = $props();
+
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
 </script>
@@ -15,6 +21,7 @@
 		aria-label="Close"
 		onclick={() => windowServer.closeApp(appName)}
 		href={app.backTo ?? '/'}
+		disabled={sheetOpen}
 	>
 		<X class="windowButtonGlyph" size={14} />
 	</svelte:element>
@@ -110,7 +117,7 @@
 		&.close {
 			--background-color: #c44a44;
 
-			&.modified::after {
+			&.modified:not(:disabled)::after {
 				position: absolute;
 				border-radius: 50%;
 				background-color: hsl(from var(--background-color) h s calc(l * 0.75));

@@ -10,9 +10,6 @@
 
 	const { app } = getAppContext();
 
-	/* sheet should make all controls in window appear disabled without
-	disabling the window itself, but doesn't matter for Bluesky */
-
 	const {
 		isOpen,
 		close,

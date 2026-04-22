@@ -124,6 +124,20 @@
 		}
 	}
 
+	const saveSheetOpen = $derived(Boolean(app.instance.showSaveSheet && app.instance.saveData));
+	let anySheetOpen = $state(false);
+
+	$effect(() => {
+		const observer = new MutationObserver(() => {
+			anySheetOpen = Boolean(element?.querySelector('.sheet'));
+		});
+		observer.observe(element!, {
+			childList: true,
+			subtree: true
+		});
+		return () => observer.disconnect();
+	});
+
 	function saveSheetCancel() {
 		app.instance.showSaveSheet = false;
 	}
@@ -159,6 +173,7 @@
 		unified: app.windowStyle === 'unified',
 		custom: app.windowStyle === 'custom',
 		inactive: browser && !app.instance.focused,
+sheetOpen: anySheetOpen,
 		dragging,
 		resizing,
 		animating: app.instance.animating
@@ -170,13 +185,13 @@
 	style:z-index={app.instance.position.zIndex}
 	aria-label={app.instance.ariaLabel ?? title}
 	data-appname={appName}
-	data-allow-window-drag
+	data-allow-window-drag={saveSheetOpen ? undefined : true}
 	out:scale={{ duration: 150, start: !prefersReducedMotion.current ? 0.97 : 1, opacity: 0 }}
 >
 	{#if app.windowStyle !== 'custom'}
 		<header class="windowTitlebar" aria-label={title} data-allow-window-drag>
 			{#if !app.hideWindowControls}
-				<WindowControls />
+				<WindowControls sheetOpen={anySheetOpen} />
 			{/if}
 			{#if title && !app.hideWindowTitle}
 				<h2 class="windowTitle" data-allow-window-drag>
@@ -194,7 +209,7 @@
 			{/if}
 		</header>
 	{/if}
-	<div bind:this={contentWrapper} class="windowContent">
+	<div bind:this={contentWrapper} class="windowContent" inert={saveSheetOpen}>
 		{#if browser}
 			<svelte:boundary onerror={(e) => windowServer.closeAppWithError(appName, e)}>
 				<app.Page {...props} />
@@ -207,7 +222,7 @@
 	{#if !app.noResize}
 		<div class="windowResizeHandle noJS-hide" onpointerdown={startResize}></div>
 	{/if}
-	{#if app.instance.showSaveSheet && app.instance.saveData}
+	{#if saveSheetOpen}
 		<Sheet isOpen={true} close={saveSheetCancel}>
 			<div class="saveSheet">
 				<Prompt

@@ -9,7 +9,7 @@
 		lastProfile,
 		showBackButton,
 		showChangeUserButton,
-		userSheetIsOpen,
+		sheetOpen,
 		openUserSheet,
 		closeCustomUser,
 		closeAllCustomUsers,
@@ -19,7 +19,7 @@
 		lastProfile: BlueskyProfile | null;
 		showBackButton: boolean;
 		showChangeUserButton: boolean;
-		userSheetIsOpen: boolean;
+		sheetOpen: boolean;
 		openUserSheet: () => void;
 		closeCustomUser: () => void;
 		closeAllCustomUsers: () => void;
@@ -53,7 +53,7 @@
 </script>
 
 <div class="blueskyTitlebar" data-allow-window-drag>
-	<WindowControls />
+	<WindowControls {sheetOpen} />
 	{#if showBackButton}
 		<button
 			class="blueskyUserBackButton"
@@ -61,7 +61,7 @@
 			onpointerdown={onBackButtonDown}
 			onpointerup={onBackButtonUp}
 			onpointerleave={onBackButtonUp}
-			disabled={userSheetIsOpen}
+			disabled={sheetOpen}
 		>
 			{lastProfile?.displayName ?? ''}
 		</button>
@@ -73,7 +73,7 @@
 		data-allow-window-drag
 		title="Scroll to top"
 		aria-label="Scroll to top"
-		disabled={!activeProfile || userSheetIsOpen || !browser}
+		disabled={!activeProfile || sheetOpen || !browser}
 	>
 		<h2 data-allow-window-drag>{activeProfile?.displayName ?? ''}</h2>
 	</button>
@@ -82,7 +82,7 @@
 			class="blueskyChangeUserButton noJS-hide"
 			onclick={openUserSheet}
 			title="Go to user"
-			disabled={!activeProfile || userSheetIsOpen}
+			disabled={!activeProfile || sheetOpen}
 		>
 			<User class="blueskyTabIcon fill" strokeWidth={0} />
 		</button>

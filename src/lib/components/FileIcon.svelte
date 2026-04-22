@@ -224,7 +224,7 @@
 				}
 			}
 
-			:global(.window.inactive) & {
+			:global(.window:is(.inactive, .sheetOpen)) & {
 				background-color: rgb(0 0 0 / 20%);
 				color: black;
 			}

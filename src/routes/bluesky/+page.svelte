@@ -96,7 +96,7 @@
 	lastProfile={customUsers.at(-2)?.profile ?? profile}
 	showBackButton={customUsers.length > 0}
 	showChangeUserButton={!customUsers.length}
-	{userSheetIsOpen}
+	sheetOpen={userSheetIsOpen || errorSheetIsOpen}
 	{openUserSheet}
 	{closeCustomUser}
 	{closeAllCustomUsers}
