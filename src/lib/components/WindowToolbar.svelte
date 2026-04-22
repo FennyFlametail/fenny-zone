@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLMenuAttributes } from 'svelte/elements';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface WindowToolbarProps extends HTMLMenuAttributes {
+	interface WindowToolbarProps extends HTMLAttributes<HTMLElement> {
 		children: Snippet;
 	}
 
@@ -10,14 +10,14 @@
 	const { children, class: className, ...rest }: WindowToolbarProps = $props();
 </script>
 
-<menu
+<header
 	class={['windowToolbar', 'brushedNoInset', className]}
 	role="toolbar"
 	data-allow-window-drag
 	{...rest}
 >
 	{@render children()}
-</menu>
+</header>
 
 <style>
 	.windowToolbar {
