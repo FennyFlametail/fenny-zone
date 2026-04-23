@@ -32,7 +32,15 @@
 </svelte:head>
 <svelte:window {onfocusin} />
 
-<nav bind:this={desktop} class={['desktop', { loading }]} aria-label="Desktop">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- don't need keyboard support because focusing a desktop icon focuses the desktop -->
+<nav
+	bind:this={desktop}
+	class={['desktop', { loading }]}
+	aria-label="Desktop"
+	onclick={() => (windowServer.desktopFocused = true)}
+>
 	{#await promise then desktopPicture}
 		{#if desktopPicture.isVideo}
 			<video
@@ -47,12 +55,6 @@
 			<img class="desktopBackground" src={desktopPicture.src} alt="" aria-hidden="true" />
 		{/if}
 	{/await}
-	<button
-		class="desktopFocusButton"
-		onclick={() => (windowServer.desktopFocused = true)}
-		aria-hidden="true"
-		tabindex="-1"
-	></button>
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />
@@ -104,20 +106,6 @@
 
 		.desktop.loading & {
 			display: none;
-		}
-	}
-
-	.desktopFocusButton {
-		all: unset;
-		box-sizing: border-box;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-
-		&:focus-visible {
-			border: 7.5px solid var(--accent-color);
 		}
 	}
 
