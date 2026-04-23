@@ -11,16 +11,13 @@
 	import { onMount } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { slide } from 'svelte/transition';
-	import type { PageProps } from './$types';
 	import { getBlueskyData } from './bluesky.remote';
-
-	const { data }: PageProps = $props();
 
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
 
 	let { profile, posts } = $state(
-		(data?.bluesky ?? browser) ? { profile: null, posts: null } : await getBlueskyData(undefined)
+		browser ? { profile: null, posts: null } : await getBlueskyData(undefined)
 	);
 	let customUsers: {
 		profile: BlueskyProfile;

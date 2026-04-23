@@ -25,13 +25,11 @@ export default async function fetchBlueskyData(
 	const fetchResult = await fetchData(fetchFn, handle.toLowerCase());
 
 	if (fetchResult.profile && fetchResult.posts) {
-		if (!cacheEntry) {
-			cacheEntry = {
-				timestamp: Date.now(),
-				data: fetchResult
-			};
-			cache.set(handle, cacheEntry);
-		}
+		cacheEntry = {
+			timestamp: Date.now(),
+			data: fetchResult
+		};
+		cache.set(handle, cacheEntry);
 		return fetchResult;
 	} else if (cacheEntry) {
 		console.warn(`Failed to fetch ${handle}, returning stale cache data`);
