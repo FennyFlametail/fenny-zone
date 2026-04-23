@@ -50,14 +50,16 @@
 		<div class="aqua-button-group" role="group">
 			<button
 				class="aqua-button square back"
+				title="Back"
 				aria-label="Back"
-				disabled={navStack.index === 0}
+				disabled={!navStack.hasBack}
 				onclick={navStack.back}
 			></button>
 			<button
 				class="aqua-button square forward"
+				title="Forward"
 				aria-label="Forward"
-				disabled={navStack.index === navStack.length - 1}
+				disabled={!navStack.hasForward}
 				onclick={navStack.forward}
 			></button>
 		</div>

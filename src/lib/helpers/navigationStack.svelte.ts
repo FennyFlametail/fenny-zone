@@ -13,6 +13,7 @@ export default class NavigationStack<ItemType> {
 	}
 
 	push = (value: ItemType) => {
+		if (value === this.current) return;
 		this.stack = this.stack.slice(0, this.index + 1);
 		this.stack.push(value);
 		this.index++;
@@ -20,7 +21,6 @@ export default class NavigationStack<ItemType> {
 	};
 
 	back = () => {
-		console.debug(this.index);
 		if (this.index === 0) return;
 		this.index--;
 		this.callback?.();
@@ -32,8 +32,10 @@ export default class NavigationStack<ItemType> {
 		this.callback?.();
 	};
 
-	clear = () => {
-		this.stack = [];
-		this.index = 0;
-	};
+	get hasBack() {
+		return this.index !== 0;
+	}
+	get hasForward() {
+		return this.index !== this.length - 1;
+	}
 }
