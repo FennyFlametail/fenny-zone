@@ -166,42 +166,6 @@
 		}
 
 		:where(.window[data-appname='bluesky']) {
-			.blueskyTabIcon {
-				--gradient: url('#tabIconGradient');
-				--outline-shadow: drop-shadow(0 0 0.5px black) drop-shadow(0 0 0.5px black)
-					drop-shadow(0 0 0.5px black);
-				width: 20px;
-				height: 20px;
-				stroke: var(--gradient);
-				filter: var(--outline-shadow);
-
-				&.fill {
-					fill: var(--gradient);
-				}
-
-				&.lucide-mail path,
-				&.lucide-message-circle-x path:not(:first-child) {
-					stroke: var(--background);
-				}
-
-				&.lucide-search path {
-					stroke: #909295;
-
-					.blueskyTab.highlighted & {
-						stroke: #218ef0;
-					}
-				}
-
-				&.lucide-user {
-					width: 24px;
-					height: 24px;
-				}
-
-				&.lucide-list {
-					stroke: #a4a6a9;
-				}
-			}
-
 			.blueskyAvatar {
 				position: relative;
 				flex-shrink: 0;
