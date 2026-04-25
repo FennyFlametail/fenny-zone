@@ -138,7 +138,8 @@ export default class WindowServer {
 			props?: Record<string, any>;
 			fromState?: boolean;
 		} = {}
-	) => {
+	): RunningApp => {
+		options.props = $state.snapshot(options.props);
 		const openNewInstance = () => {
 			const self = this;
 			app.instance = {
@@ -160,9 +161,7 @@ export default class WindowServer {
 		};
 
 		const app = this.apps[appName];
-		const childApps = Object.entries(this.runningApps).filter(
-			([, runningApp]) => runningApp.parent === appName
-		);
+		const childApps = this.runningAppsByParent.get(appName) ?? [];
 		if (childApps.length) {
 			// focus all this app's children, plus the app itself if it's running
 			const appSpread = app.instance ? ([[appName, app]] as [string, RunningApp][]) : [];
@@ -174,18 +173,28 @@ export default class WindowServer {
 			// open the parent app (main window) if it isn't open
 			if (app.Page && !app.instance) {
 				openNewInstance();
+			} else if (app.instance && options.props) {
+				app.instance.props = options.props;
 			}
-		} else if (appName === 'Finder' && !childApps.length) {
-			// special case for Finder: if there aren't any windows open, open the Projects folder
-			this.openApp('projects');
 		} else if (app.instance) {
 			this.focusApp(appName);
 			if (options.props) {
-				this.runningApps[appName].instance.props = options.props;
+				app.instance.props = options.props;
 			}
+		} else if (app.parent && app.launchParentWithProps) {
+			const parentApp = this.openApp(app.parent, { props: app.launchParentWithProps });
+			if (!browser) {
+				/* hacky way to show the right title and icon in SSR */
+				// @ts-expect-error
+				parentApp.windowTitle = app.windowTitle ?? app.title;
+				// @ts-expect-error
+				parentApp.titleIcon = app.titleIcon ?? app.icon;
+			}
+			return parentApp;
 		} else {
 			openNewInstance();
 		}
+
 		return app as RunningApp;
 	};
 

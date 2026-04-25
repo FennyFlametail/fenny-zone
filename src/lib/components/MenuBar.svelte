@@ -10,7 +10,7 @@
 	const windowServer = getWindowServerContext();
 	const focusedApp = $derived(windowServer.focusedApp?.app);
 	const appMenuTitle = $derived.by(() => {
-		if (!focusedApp) return windowServer.apps.Finder.title;
+		if (!focusedApp) return windowServer.apps.finder.title;
 		if (focusedApp.parent) {
 			const parent = windowServer.apps[focusedApp.parent];
 			return parent.menuTitle ?? parent.title;
@@ -18,7 +18,7 @@
 		return focusedApp.menuTitle ?? focusedApp.title;
 	});
 	const isFinder = $derived(
-		!focusedApp || focusedApp === windowServer.apps.Finder || focusedApp?.parent === 'Finder'
+		!focusedApp || focusedApp === windowServer.apps.finder || focusedApp?.parent === 'finder'
 	);
 	const runningAppsCount = $derived(Object.keys(windowServer.runningApps).length);
 

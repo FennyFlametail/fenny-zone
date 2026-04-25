@@ -26,7 +26,7 @@
 		if (e.metaKey && e.shiftKey) {
 			windowServer.openApp('crashDialog', {
 				props: {
-					crashedAppName: windowServer.focusedApp?.name ?? windowServer.apps.Finder.title
+					crashedAppName: windowServer.focusedApp?.name ?? windowServer.apps.finder.title
 				}
 			});
 		} else if (e.altKey && e.shiftKey) {

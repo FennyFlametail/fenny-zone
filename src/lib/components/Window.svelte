@@ -10,11 +10,9 @@
 	import { scale } from 'svelte/transition';
 
 	let {
-		appName,
-		props
+		appName
 	}: {
 		appName: AppName;
-		props?: Record<string, any>;
 	} = $props();
 
 	const windowServer = getWindowServerContext();
@@ -173,7 +171,7 @@
 		unified: app.windowStyle === 'unified',
 		custom: app.windowStyle === 'custom',
 		inactive: browser && !app.instance.focused,
-sheetOpen: anySheetOpen,
+		sheetOpen: anySheetOpen,
 		dragging,
 		resizing,
 		animating: app.instance.animating
@@ -198,7 +196,7 @@ sheetOpen: anySheetOpen,
 					{#if !app.hideTitleIcon}
 						<img
 							class="windowTitleIcon"
-							src={app.titleIcon ?? app.icon}
+							src={app.instance.titleIcon ?? app.titleIcon ?? app.icon}
 							alt=""
 							aria-hidden="true"
 							draggable="false"
@@ -212,11 +210,11 @@ sheetOpen: anySheetOpen,
 	<div bind:this={contentWrapper} class="windowContent" inert={saveSheetOpen}>
 		{#if browser}
 			<svelte:boundary onerror={(e) => windowServer.closeAppWithError(appName, e)}>
-				<app.Page {...props} />
+				<app.Page {...app.instance.props} />
 				{#snippet pending()}{/snippet}
 			</svelte:boundary>
 		{:else}
-			<app.Page {...props} />
+			<app.Page {...app.instance.props} />
 		{/if}
 	</div>
 	{#if !app.noResize}
@@ -379,7 +377,7 @@ sheetOpen: anySheetOpen,
 			rgb(220 220 220) 60%,
 			rgb(175 175 175)
 		);
-		padding-bottom: 32px;
+		padding-bottom: var(--window-brushed-bottom-padding);
 		padding-inline: var(--titlebar-padding);
 
 		@media (forced-colors: active) {
@@ -411,7 +409,7 @@ sheetOpen: anySheetOpen,
 		}
 
 		.windowTitle {
-			text-shadow: 0 1px 1px white;
+			text-shadow: var(--window-brushed-text-shadow);
 		}
 
 		.windowContent {
@@ -425,7 +423,7 @@ sheetOpen: anySheetOpen,
 			right: 0;
 			bottom: 0;
 			background: url('$lib/images/resize.webp');
-			background-position: center;
+			background-position: 4px center;
 			background-size: 20px 20px;
 			background-repeat: no-repeat;
 			width: 36px;

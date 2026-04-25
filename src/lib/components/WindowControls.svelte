@@ -11,6 +11,12 @@
 
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
+
+	const backTo = $derived.by(() => {
+		// focusedApp always returns the initial app in SSR, so this works even
+		// if the initial app uses launchParentWithProps
+		return windowServer.focusedApp?.app.backTo ?? '/';
+	});
 </script>
 
 <div class="windowControls" data-allow-window-drag>
@@ -20,7 +26,7 @@
 		class={['windowButton', 'close', app.instance?.saveData && 'modified']}
 		aria-label="Close"
 		onclick={() => windowServer.closeApp(appName)}
-		href={app.backTo ?? '/'}
+		href={backTo}
 		disabled={sheetOpen}
 	>
 		<X class="windowButtonGlyph" size={14} />

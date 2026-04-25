@@ -6,14 +6,19 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-25</h3>
+	<ul>
+		<li>Added navigation to Finder and changed to brushed metal</li>
+		<li>Added home folder</li>
+	</ul>
 	<h3>2026-04-21</h3>
 	<ul>
 		<li>Remember selected System Preferences pane on reload</li>
 	</ul>
 	<h3>2026-04-20</h3>
 	<ul>
-		<li>Add titlebar icons</li>
-		<li>Fix Bluesky profile caching</li>
+		<li>Added titlebar icons</li>
+		<li>Fixed Bluesky profile caching</li>
 	</ul>
 	<h3>2026-04-17</h3>
 	<ul>

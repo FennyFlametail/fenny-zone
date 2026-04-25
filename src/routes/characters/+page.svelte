@@ -137,7 +137,6 @@
 		grid-area: profile;
 		container: window / size;
 		background-color: white;
-		overflow: hidden;
 		display: grid;
 		grid-template: 100% / 100%;
 	}

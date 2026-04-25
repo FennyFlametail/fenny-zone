@@ -12,7 +12,7 @@
 	aria-label="Windows"
 >
 	{#each Object.entries(windowServer.runningApps) as [AppName, RunningApp][] as [appName, app], i (appName)}
-		<Window {appName} props={app.instance?.props} />
+		<Window {appName} />
 	{/each}
 	<noscript>
 		{#if !browser && windowServer.initialAppName}

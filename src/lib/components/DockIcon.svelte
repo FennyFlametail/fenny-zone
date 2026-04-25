@@ -24,7 +24,7 @@
 	};
 
 	const isOpen = $derived.by(() => {
-		if (appName === 'Finder') return true;
+		if (appName === 'finder') return true;
 		if (typeof open === 'boolean') return open;
 		if (!browser) {
 			const childApps = Object.entries(windowServer.apps)
@@ -50,7 +50,7 @@
 	class={[
 		'dockIcon',
 		'noJS-pointer',
-		{ open: isOpen, 'noJS-hide': !(browser || appName === 'Finder' || app.route) }
+		{ open: isOpen, 'noJS-hide': !(browser || appName === 'finder' || app.route) }
 	]}
 	style:--bounceAnimDuration="{bounceAnimDuration}ms"
 	style:--bounceAnimSteps={bounceAnimSteps}
@@ -213,10 +213,7 @@
 			}
 		}
 
-		&:active {
-			filter: brightness(0.5);
-		}
-
+		&:active,
 		.dockIcon:focus-visible & {
 			filter: brightness(0.5);
 		}

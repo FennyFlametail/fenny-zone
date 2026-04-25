@@ -53,11 +53,16 @@
 	}
 
 	function ondblclick() {
-		opening = true;
-		window.setTimeout(() => {
-			opening = false;
-			href ? open(href, '_blank') : windowServer.openApp(appName!);
-		}, openAnimDuration);
+		if (app?.parent === 'finder') {
+			// skip open animation for folders
+			windowServer.openApp(appName!);
+		} else {
+			opening = true;
+			window.setTimeout(() => {
+				opening = false;
+				href ? open(href, '_blank') : windowServer.openApp(appName!);
+			}, openAnimDuration);
+		}
 	}
 </script>
 

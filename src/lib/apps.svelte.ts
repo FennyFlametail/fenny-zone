@@ -7,6 +7,8 @@ import type { Component } from 'svelte';
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import Browser from '$lib/components/apps/Browser.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
+import Finder from '$lib/components/apps/Finder.svelte';
+import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
@@ -16,10 +18,10 @@ import Ceph from '../routes/characters/ceph/+page.svelte';
 import Fenny from '../routes/characters/fenny/+page.svelte';
 import Nocturne from '../routes/characters/nocturne/+page.svelte';
 import Rigel from '../routes/characters/rigel/+page.svelte';
+import Home from '../routes/home/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
-import SystemPreferences from './components/apps/SystemPreferences.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
 import ArenProfileIcon from '$lib/images/icons/aren-profile.webp';
@@ -31,6 +33,7 @@ import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
+import HomeIcon from '$lib/images/icons/home.webp';
 import NocturneProfileIcon from '$lib/images/icons/nocturne-profile.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
@@ -45,30 +48,32 @@ import TextIcon from '$lib/images/icons/txt.webp';
 import VCardIcon from '$lib/images/icons/vcard.webp';
 
 export type AppName =
-	| 'Finder'
-	| 'TextEdit'
-	| 'adblockWarning'
-	| 'crashDialog'
 	| 'readme'
 	| 'changelog'
 	| 'bluesky'
-	| 'blueskyMedia'
+	| 'system-preferences'
+	| 'trash'
+	| 'finder'
+	| 'home'
+	| 'projects'
 	| 'characters'
 	| 'fenny'
 	| 'aren'
 	| 'ceph'
 	| 'rigel'
 	| 'nocturne'
-	| 'projects'
 	| 'toddspin'
 	| 'sauce'
 	| 'goat'
-	| 'system-preferences'
-	| 'trash';
+	| 'TextEdit'
+	| 'adblockWarning'
+	| 'crashDialog'
+	| 'blueskyMedia';
 
 export interface AppEntry {
 	/** Apps will be grouped by their parent icon in the Dock */
 	readonly parent?: AppName;
+	/** Ignored if `launchParentWithProps` is set */
 	readonly Page?: Component<any>;
 	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
 	readonly title: string;
@@ -87,6 +92,8 @@ export interface AppEntry {
 	readonly hideTitleIcon?: boolean;
 	dockIconOverride?: string;
 	readonly hideInDock?: boolean;
+	/** Instead of launching the app's Page, launch its parent with the provided props */
+	readonly launchParentWithProps?: Record<string, any>;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
@@ -108,6 +115,7 @@ export interface AppEntry {
 		animating?: boolean;
 		/** overrides `windowTitle` and `title` */
 		title?: string;
+		titleIcon?: string;
 		ariaLabel?: string;
 	};
 }
@@ -120,50 +128,6 @@ const defaultProfileSize = {
 };
 
 const getApps = (): Record<AppName, AppEntry> => ({
-	/* #region Parent stubs */
-	Finder: {
-		title: 'Finder',
-		icon: FinderIcon
-	},
-	TextEdit: {
-		title: 'TextEdit',
-		icon: TextEditIcon
-	},
-	// #region Utility apps
-	adblockWarning: {
-		Page: AdblockWarning,
-		title: 'Adblock Warning',
-		hideWindowTitle: true,
-		hideWindowControls: true,
-		hideInDock: true,
-		noResize: true,
-		defaultPosition: {
-			width: 580,
-			height: 210
-		}
-	},
-	crashDialog: {
-		Page: CrashDialog,
-		title: 'Crash Reporter',
-		hideWindowTitle: true,
-		hideWindowControls: true,
-		hideInDock: true,
-		noResize: true,
-		defaultPosition: {
-			width: 580,
-			height: 250
-		}
-	},
-	blueskyMedia: {
-		parent: 'bluesky',
-		Page: BlueskyMedia,
-		title: 'Bluesky Media',
-		windowTitle: 'Media',
-		windowStyle: 'custom',
-		minSize: 200,
-		lockAspectRatio: true
-	},
-	// #region Primary apps
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,
@@ -189,6 +153,54 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			height: 1000
 		}
 	},
+	'system-preferences': {
+		Page: SystemPreferences,
+		title: 'System Preferences',
+		icon: SystemPreferencesIcon,
+		hideTitleIcon: true,
+		windowStyle: 'unified',
+		noResize: true,
+		get defaultPosition() {
+			return {
+				// size to fit the Desktop prefpane (height 525)
+				y: browser ? (WindowServer.safeHeight / 2 - 525 / 2) * (2 / 3) : undefined,
+				height: 200
+			};
+		}
+	},
+	trash: {
+		parent: 'finder',
+		Page: Trash,
+		title: 'Trash',
+		icon: TrashIcon,
+		route: '/trash'
+	},
+	// #region Finder
+	finder: {
+		Page: Finder,
+		title: 'Finder',
+		windowStyle: 'brushed',
+		icon: FinderIcon
+	},
+	home: {
+		parent: 'finder',
+		Page: Home,
+		title: 'Fenny',
+		icon: HomeIcon,
+		launchParentWithProps: { folder: 'home' },
+		route: '/home'
+	},
+	projects: {
+		parent: 'finder',
+		Page: Projects,
+		title: 'Projects',
+		icon: ProjectsIcon,
+		// FIXME port this approach to System Preferences, Characters, maybe Browser
+		launchParentWithProps: { folder: 'projects' },
+		route: '/projects',
+		backTo: '/home'
+	},
+	// #region Characters
 	characters: {
 		Page: Characters,
 		title: 'Address Book',
@@ -261,13 +273,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		backTo: '/characters',
 		defaultPosition: defaultProfileSize
 	},
-	projects: {
-		parent: 'Finder',
-		Page: Projects,
-		title: 'Projects',
-		icon: ProjectsIcon,
-		route: '/projects'
-	},
+	// #region Browser
 	toddspin: {
 		Page: Browser,
 		title: 'Toddspin',
@@ -299,27 +305,43 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			height: 800
 		}
 	},
-	'system-preferences': {
-		Page: SystemPreferences,
-		title: 'System Preferences',
-		icon: SystemPreferencesIcon,
-		hideTitleIcon: true,
-		windowStyle: 'unified',
+	// #region Utility
+	TextEdit: {
+		title: 'TextEdit',
+		icon: TextEditIcon
+	},
+	adblockWarning: {
+		Page: AdblockWarning,
+		title: 'Adblock Warning',
+		hideWindowTitle: true,
+		hideWindowControls: true,
+		hideInDock: true,
 		noResize: true,
-		get defaultPosition() {
-			return {
-				// size to fit the Desktop prefpane (height 525)
-				y: browser ? (WindowServer.safeHeight / 2 - 525 / 2) * (2 / 3) : undefined,
-			height: 200
-};
+		defaultPosition: {
+			width: 580,
+			height: 210
 		}
 	},
-	trash: {
-		parent: 'Finder',
-		Page: Trash,
-		title: 'Trash',
-		icon: TrashIcon,
-		route: '/trash'
+	crashDialog: {
+		Page: CrashDialog,
+		title: 'Crash Reporter',
+		hideWindowTitle: true,
+		hideWindowControls: true,
+		hideInDock: true,
+		noResize: true,
+		defaultPosition: {
+			width: 580,
+			height: 250
+		}
+	},
+	blueskyMedia: {
+		parent: 'bluesky',
+		Page: BlueskyMedia,
+		title: 'Bluesky Media',
+		windowTitle: 'Media',
+		windowStyle: 'custom',
+		minSize: 200,
+		lockAspectRatio: true
 	}
 });
 export default getApps;

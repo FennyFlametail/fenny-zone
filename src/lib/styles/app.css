@@ -72,6 +72,8 @@
 		inset 14px 0 14px -14px #519eea, inset -14px 0 14px -14px #519eea;
 	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
 	--widget-unified-box-shadow: 0 -1px #949394, 0 1px #c9c9c9;
+	--window-brushed-bottom-padding: 32px;
+	--window-brushed-text-shadow: 0 1px 0 rgb(255 255 255 / 85%);
 	--window-radius: 12px;
 
 	accent-color: var(--accent-color);

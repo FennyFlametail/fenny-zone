@@ -5,6 +5,9 @@ export default class NavigationStack<ItemType> {
 	readonly length: number;
 	callback: (() => void) | undefined;
 
+	/**
+	 * @param onChange Does not run on initialization
+	 */
 	constructor(initialValue: ItemType, onChange?: () => void) {
 		this.stack = $state([initialValue]);
 		this.current = $derived(this.stack[this.index]);

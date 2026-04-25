@@ -4,9 +4,9 @@
 		/* special case for nested containers (ex. AddressBook) */
 		.brushedInset > .brushedInset
 	) {
-	border-top: 1px solid #737373;
-	border-bottom: 1px solid #dfdfdf;
+	box-shadow: 0 1px #dddddd;
 	border-inline: 1px solid #999999;
+	border-block: 1px solid #737373;
 }
 
 .aqua-menu {
