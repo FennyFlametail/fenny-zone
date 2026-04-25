@@ -26,8 +26,6 @@ type AppState = {
 	};
 };
 
-export const WINDOW_PADDING = 0;
-
 export default class WindowServer {
 	// #region Static
 	static menubarHeight = browser
@@ -36,6 +34,9 @@ export default class WindowServer {
 	static dockHeight = browser
 		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-height'))
 		: 79;
+	static titlebarHeight = browser
+		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--titlebar-height'))
+		: 28;
 	static get safeHeight() {
 		return browser
 			? parseInt(
@@ -70,17 +71,11 @@ export default class WindowServer {
 		const x = initialPosition?.x ?? clientWidth / 2 - width / 2;
 		const y = initialPosition?.y ?? (this.safeHeight / 2 - height / 2) * (2 / 3);
 
-		/* if a window was maximized when state was saved, leave it maximized */
-		const windowPadding = ignorePadding ? 0 : WINDOW_PADDING;
-
 		return {
-			x: Math.max(windowPadding, Math.min(x, clientWidth - width - windowPadding)),
-			y: Math.max(windowPadding, Math.min(y, clientHeight - height - windowPadding)),
-			width: Math.min(width, clientWidth - windowPadding * 2),
-			height: Math.min(
-				height,
-				clientHeight - this.menubarHeight - this.dockHeight - windowPadding * 2
-			),
+			x: Math.max(Math.min(x, clientWidth - width), 0),
+			y: Math.max(Math.min(y, clientHeight - height), 0),
+			width: Math.min(width, clientWidth),
+			height: Math.min(height, clientHeight - this.menubarHeight - this.dockHeight),
 			zIndex: initialPosition?.zIndex ?? 0
 		};
 	};
@@ -340,8 +335,8 @@ export default class WindowServer {
 				this.setAnimating(app);
 				app.instance.position = WindowServer.getInitialPosition({
 					...app.defaultPosition,
-					x: WINDOW_PADDING * (index + 1),
-					y: WINDOW_PADDING * (index + 1),
+					x: WindowServer.titlebarHeight * (index + 1),
+					y: WindowServer.titlebarHeight * (index + 1),
 					zIndex: app.instance.position.zIndex
 				});
 			});
