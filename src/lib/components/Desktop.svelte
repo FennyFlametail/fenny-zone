@@ -52,7 +52,13 @@
 				aria-hidden="true"
 			></video>
 		{:else}
-			<img class="desktopBackground" src={desktopPicture.src} alt="" aria-hidden="true" />
+			<img
+				class="desktopBackground"
+				src={desktopPicture.src}
+				alt=""
+				aria-hidden="true"
+				draggable="false"
+			/>
 		{/if}
 	{/await}
 	<div class="desktopColumn">
