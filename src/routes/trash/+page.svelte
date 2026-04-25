@@ -10,7 +10,7 @@
 
 	function onended() {
 		setTimeout(() => {
-			app.dockIconOverride = TrashFullIcon;
+			app.dockIcon = TrashFullIcon;
 			windowServer.closeApp(appName);
 		}, 100);
 	}

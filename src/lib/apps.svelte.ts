@@ -81,16 +81,18 @@ export interface AppEntry {
 	readonly menuTitle?: string;
 	/** Defaults to `title` */
 	readonly dockTitle?: string;
-	/** Defaults to `title`, used for titlebar & Window menu */
+	/** Defaults to `title`, used for titlebar & Window menu, will override parent if using `launchParentWithProps` */
 	readonly windowTitle?: string;
 	/** Hides title from titlebar, but will still show in Window menu */
 	readonly hideWindowTitle?: boolean;
 	readonly windowStyle?: 'normal' | 'brushed' | 'unified' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon?: string;
+/** Will override parent if using `launchParentWithProps` */
 	readonly titleIcon?: string;
 	readonly hideTitleIcon?: boolean;
-	dockIconOverride?: string;
+/** Writable for the Trash easter egg */
+	dockIcon?: string;
 	readonly hideInDock?: boolean;
 	/** Instead of launching the app's Page, launch its parent with the provided props */
 	readonly launchParentWithProps?: Record<string, any>;
@@ -113,8 +115,7 @@ export interface AppEntry {
 		saveData?: Blob;
 		showSaveSheet?: boolean;
 		animating?: boolean;
-		/** overrides `windowTitle` and `title` */
-		title?: string;
+		windowTitle?: string;
 		titleIcon?: string;
 		ariaLabel?: string;
 	};
@@ -179,14 +180,20 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	finder: {
 		Page: Finder,
 		title: 'Finder',
+/* this is kind of hacky to get the Finder dock icon to show the right info in the titlebar, but eh */
+		windowTitle: 'Fenny',
 		windowStyle: 'brushed',
-		icon: FinderIcon
+		icon: FinderIcon,
+		titleIcon: HomeIcon,
+		route: '/home'
 	},
 	home: {
 		parent: 'finder',
 		Page: Home,
 		title: 'Fenny',
+windowTitle: 'Fenny',
 		icon: HomeIcon,
+titleIcon: HomeIcon,
 		launchParentWithProps: { folder: 'home' },
 		route: '/home'
 	},
@@ -194,7 +201,9 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'finder',
 		Page: Projects,
 		title: 'Projects',
+windowTitle: 'Projects',
 		icon: ProjectsIcon,
+titleIcon: ProjectsIcon,
 		// FIXME port this approach to System Preferences, Characters, maybe Browser
 		launchParentWithProps: { folder: 'projects' },
 		route: '/projects',

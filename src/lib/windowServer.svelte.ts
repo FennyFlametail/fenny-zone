@@ -183,13 +183,8 @@ export default class WindowServer {
 			}
 		} else if (app.parent && app.launchParentWithProps) {
 			const parentApp = this.openApp(app.parent, { props: app.launchParentWithProps });
-			if (!browser) {
-				/* hacky way to show the right title and icon in SSR */
-				// @ts-expect-error
-				parentApp.windowTitle = app.windowTitle ?? app.title;
-				// @ts-expect-error
-				parentApp.titleIcon = app.titleIcon ?? app.icon;
-			}
+			if (app.windowTitle) parentApp.instance.windowTitle = app.windowTitle;
+			if (app.titleIcon) parentApp.instance.titleIcon = app.titleIcon;
 			return parentApp;
 		} else {
 			openNewInstance();

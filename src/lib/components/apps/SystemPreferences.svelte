@@ -35,7 +35,7 @@
 
 	function onPaneChange() {
 		app.instance.props.pane = navStack.current;
-		app.instance.title = pane || app.title;
+		app.instance.windowTitle = pane || app.title;
 		windowServer.setAnimating(app);
 		transition = true;
 		app.instance.position.height = Math.min(

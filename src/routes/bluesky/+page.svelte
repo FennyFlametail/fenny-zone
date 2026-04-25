@@ -25,7 +25,7 @@
 	}[] = $state([]);
 	$effect(() => {
 		const currentUserName = customUsers.at(-1)?.profile.displayName ?? profile?.displayName;
-		app.instance.title = currentUserName;
+		app.instance.windowTitle = currentUserName;
 		app.instance.ariaLabel = `Bluesky - ${currentUserName}`;
 	});
 

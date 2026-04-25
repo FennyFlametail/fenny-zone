@@ -20,7 +20,7 @@
 	setAppContext({ appName, app });
 	const parent = app.parent ? windowServer.apps[app.parent] : null;
 
-	const title = $derived(app.instance.title ?? app.windowTitle ?? app.title);
+	const title = $derived(app.instance.windowTitle ?? app.windowTitle ?? app.title);
 
 	let minSize = app.minSize ?? 500;
 	if (browser) {

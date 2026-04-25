@@ -13,7 +13,8 @@
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext();
 
-	const navStack = new NavigationStack<AppName>(folder ?? 'home', onFolderChange);
+	// FIXME need to store navStack (or at least current folder) in props so it gets persisted
+	const navStack = new NavigationStack<AppName>(folder ?? 'home');
 	$effect(() => {
 		if (folder) {
 			navStack.push(folder);
@@ -22,11 +23,6 @@
 	});
 
 	const selectedApp = $derived(windowServer.apps[navStack.current]);
-	async function onFolderChange() {
-		app.instance.title = selectedApp.title;
-		app.instance.titleIcon = selectedApp.icon;
-	}
-	onFolderChange();
 
 	let remainingSpace = $state('∞');
 	onMount(async () => {

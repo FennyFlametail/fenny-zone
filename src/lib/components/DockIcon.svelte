@@ -16,7 +16,7 @@
 	const windowServer = getWindowServerContext();
 	const app = windowServer.apps[appName];
 
-	const icon = $derived(app.dockIconOverride ?? app.icon);
+	const icon = $derived(app.dockIcon ?? app.icon);
 
 	const onclick: MouseEventHandler<HTMLAnchorElement> = (e) => {
 		e.preventDefault();
