@@ -26,6 +26,7 @@
 		grid-auto-flow: column;
 		justify-content: start;
 		justify-items: start;
+		align-items: center;
 		padding-top: 5px;
 		padding-bottom: 11px;
 		padding-inline: var(--titlebar-padding);
