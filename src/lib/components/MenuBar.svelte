@@ -26,7 +26,7 @@
 
 	function getWindowMenuTitle(app: AppEntry) {
 		const defaultTitle = app.windowTitle ?? app.title;
-		const instanceTitle = app.instance?.title;
+		const instanceTitle = app.instance?.windowTitle;
 		const parent = app.parent ? windowServer.apps[app.parent] : undefined;
 		if (instanceTitle) {
 			return `${instanceTitle} - ${parent?.title ?? defaultTitle}`;
@@ -52,7 +52,7 @@
 	<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
 		<MenuItem
 			onclick={() => windowServer.closeApp(windowServer.focusedApp?.name)}
-			href={!browser ? (focusedApp?.backTo ?? '/') : undefined}
+			href={!browser ? '/' : undefined}
 			disabled={browser && windowServer.desktopFocused}
 			noScript={true}>Close Window</MenuItem
 		>
