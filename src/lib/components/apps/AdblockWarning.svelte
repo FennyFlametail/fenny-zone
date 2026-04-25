@@ -20,6 +20,7 @@
 	{#snippet buttonsRight()}
 		<a
 			class="aqua-button primary"
+			role="button"
 			href="https://stefanbohacek.com/project/detect-missing-adblocker-wordpress-plugin/#resources"
 			target="_blank"
 			onclick={() => windowServer.closeApp(appName)}>Learn More</a

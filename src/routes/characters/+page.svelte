@@ -35,11 +35,12 @@
 	<WindowToolbar class="noJS-hide">
 		<a
 			class={['aqua-button', 'square', { disabled: !selectedAppName }]}
+			role="button"
 			title="Open in New Window"
-			href={selectedApp?.route}
-			onclick={openInNewWindow}
 			aria-label="Open in New Window"
 			aria-disabled={!selectedAppName}
+			href={selectedApp?.route}
+			onclick={openInNewWindow}
 		>
 			<ExternalLink size={18} aria-hidden="true" />
 		</a>
