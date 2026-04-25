@@ -179,9 +179,9 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		windowStyle: 'unified',
 		noResize: true,
 		get defaultPosition() {
+			// size to fit the Desktop prefpane (height 525)
 			return {
-				// size to fit the Desktop prefpane (height 525)
-				y: browser ? (WindowServer.safeHeight / 2 - 525 / 2) * (2 / 3) : undefined,
+				y: WindowServer.getInitialPosition({ height: 525 }).y,
 				height: 200
 			};
 		}
@@ -321,6 +321,11 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		title: 'Bluesky Media',
 		windowTitle: 'Media',
 		windowStyle: 'custom',
+		get defaultPosition() {
+			return {
+				x: Math.max(WindowServer.getInitialPosition().x - 100, 0)
+			};
+		},
 		minSize: 200,
 		lockAspectRatio: true
 	}
