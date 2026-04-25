@@ -10,6 +10,7 @@
 	<ul>
 		<li>Added navigation to Finder and changed to brushed metal</li>
 		<li>Added home folder</li>
+		<li>Show character pages in Address Book window when JavaScript is disabled</li>
 	</ul>
 	<h3>2026-04-21</h3>
 	<ul>
@@ -125,3 +126,9 @@
 		<li>Updated character relationships</li>
 	</ul>
 </div>
+
+<style>
+	h3:not(:first-child) {
+		margin-top: 1em;
+	}
+</style>
