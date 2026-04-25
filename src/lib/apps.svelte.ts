@@ -62,6 +62,7 @@ export type AppName =
 	| 'ceph'
 	| 'rigel'
 	| 'nocturne'
+	| 'browser'
 	| 'toddspin'
 	| 'sauce'
 	| 'goat'
@@ -88,10 +89,10 @@ export interface AppEntry {
 	readonly windowStyle?: 'normal' | 'brushed' | 'unified' | 'custom';
 	readonly hideWindowControls?: boolean;
 	readonly icon?: string;
-/** Will override parent if using `launchParentWithProps` */
+	/** Will override parent if using `launchParentWithProps` */
 	readonly titleIcon?: string;
 	readonly hideTitleIcon?: boolean;
-/** Writable for the Trash easter egg */
+	/** Writable for the Trash easter egg */
 	dockIcon?: string;
 	readonly hideInDock?: boolean;
 	/** Instead of launching the app's Page, launch its parent with the provided props */
@@ -99,8 +100,6 @@ export interface AppEntry {
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
-	/** Used by Browser apps */
-	readonly url?: string;
 	readonly defaultPosition?: Partial<Omit<Position, 'zIndex'>>;
 	readonly minSize?: number;
 	readonly lockAspectRatio?: boolean;
@@ -178,9 +177,11 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	},
 	// #region Finder
 	finder: {
+		/* needed to show the correct title in the Window menu */
+		parent: 'finder',
 		Page: Finder,
 		title: 'Finder',
-/* this is kind of hacky to get the Finder dock icon to show the right info in the titlebar, but eh */
+		/* this is kind of hacky to get the Finder dock icon to show the right info in the titlebar, but eh */
 		windowTitle: 'Fenny',
 		windowStyle: 'brushed',
 		icon: FinderIcon,
@@ -191,9 +192,9 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		parent: 'finder',
 		Page: Home,
 		title: 'Fenny',
-windowTitle: 'Fenny',
+		windowTitle: 'Fenny',
 		icon: HomeIcon,
-titleIcon: HomeIcon,
+		titleIcon: HomeIcon,
 		launchParentWithProps: { folder: 'home' },
 		route: '/home'
 	},
@@ -201,9 +202,9 @@ titleIcon: HomeIcon,
 		parent: 'finder',
 		Page: Projects,
 		title: 'Projects',
-windowTitle: 'Projects',
+		windowTitle: 'Projects',
 		icon: ProjectsIcon,
-titleIcon: ProjectsIcon,
+		titleIcon: ProjectsIcon,
 		// FIXME port this approach to System Preferences, Characters, maybe Browser
 		launchParentWithProps: { folder: 'projects' },
 		route: '/projects',
@@ -283,32 +284,39 @@ titleIcon: ProjectsIcon,
 		defaultPosition: defaultProfileSize
 	},
 	// #region Browser
-	toddspin: {
+	browser: {
 		Page: Browser,
+		title: 'Browser'
+	},
+	toddspin: {
+		parent: 'browser',
 		title: 'Toddspin',
+		windowTitle: 'Toddspin',
 		icon: ToddspinIcon,
-		route: '/toddspin',
-		url: 'https://toddspin.fenny.zone',
+		titleIcon: ToddspinIcon,
+		launchParentWithProps: { url: 'https://toddspin.fenny.zone' },
 		defaultPosition: {
 			height: 800
 		}
 	},
 	sauce: {
-		Page: Browser,
+		parent: 'browser',
 		title: 'CLICK FOR SAUCE',
+		windowTitle: 'CLICK FOR SAUCE',
 		icon: SauceIcon,
-		route: '/sauce',
-		url: 'https://sauce.fenny.zone',
+		titleIcon: SauceIcon,
+		launchParentWithProps: { url: 'https://sauce.fenny.zone' },
 		defaultPosition: {
 			width: 600
 		}
 	},
 	goat: {
-		Page: Browser,
+		parent: 'browser',
 		title: 'Goat Game',
+		windowTitle: 'Goat Game',
 		icon: GoatIcon,
-		route: '/goat',
-		url: 'https://monty-hall.fenny.zone',
+		titleIcon: GoatIcon,
+		launchParentWithProps: { url: 'https://monty-hall.fenny.zone' },
 		defaultPosition: {
 			width: 600,
 			height: 800

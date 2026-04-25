@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 
+	const { url }: { url?: string } = $props();
+
 	const windowServer = getWindowServerContext();
 	const { appName, app } = getAppContext();
 </script>
 
 <div class="browser">
-	<iframe src={app.url} title={app.title}></iframe>
+	<iframe src={url} title={app.title}></iframe>
 	<div
 		class={[
 			'browserCover',
