@@ -5,11 +5,13 @@
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { ExternalLink } from 'lucide-svelte';
 
+	const { character }: { character?: AppName } = $props();
+
 	const windowServer = getWindowServerContext();
 
 	const characters: AppName[] = ['fenny', 'aren', 'ceph', 'rigel', 'nocturne'];
 
-	let selectedAppName = $state<AppName>();
+	let selectedAppName = $state<AppName | undefined>(character);
 	let selectedApp = $derived(selectedAppName ? windowServer.apps[selectedAppName] : undefined);
 
 	function openHandler(appName: AppName) {

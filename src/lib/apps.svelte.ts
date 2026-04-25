@@ -127,6 +127,24 @@ const defaultProfileSize = {
 	height: 800
 };
 
+function profile(character: AppName, Page: Component<any>, icon: string) {
+	const title = character[0].toUpperCase() + character.slice(1);
+	return {
+		parent: 'characters',
+		Page,
+		title,
+		windowTitle: title,
+		menuTitle: 'Address Book',
+		windowStyle: 'brushed',
+		icon,
+		titleIcon: icon,
+		launchParentWithProps: browser ? undefined : { character },
+		route: `/characters/${character}` as any,
+		backTo: '/characters',
+		defaultPosition: browser ? defaultProfileSize : undefined
+	} satisfies Partial<AppEntry>;
+}
+
 const getApps = (): Record<AppName, AppEntry> => ({
 	readme: {
 		parent: 'TextEdit',
@@ -205,7 +223,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		windowTitle: 'Projects',
 		icon: ProjectsIcon,
 		titleIcon: ProjectsIcon,
-		// FIXME port this approach to System Preferences, Characters, maybe Browser
+		// FIXME port this approach to System Preferences
 		launchParentWithProps: { folder: 'projects' },
 		route: '/projects',
 		backTo: '/home'
@@ -224,65 +242,11 @@ const getApps = (): Record<AppName, AppEntry> => ({
 			height: 1000
 		}
 	},
-	fenny: {
-		parent: 'characters',
-		Page: Fenny,
-		title: 'Fenny',
-		menuTitle: 'Address Book',
-		windowStyle: 'brushed',
-		icon: FennyIcon,
-		titleIcon: FennyProfileIcon,
-		route: '/characters/fenny',
-		backTo: '/characters',
-		defaultPosition: defaultProfileSize
-	},
-	aren: {
-		parent: 'characters',
-		Page: Aren,
-		title: 'Aren',
-		menuTitle: 'Address Book',
-		windowStyle: 'brushed',
-		icon: ArenIcon,
-		titleIcon: ArenProfileIcon,
-		route: '/characters/aren',
-		backTo: '/characters',
-		defaultPosition: defaultProfileSize
-	},
-	ceph: {
-		parent: 'characters',
-		Page: Ceph,
-		title: 'Ceph',
-		menuTitle: 'Address Book',
-		windowStyle: 'brushed',
-		icon: CephIcon,
-		titleIcon: CephProfileIcon,
-		route: '/characters/ceph',
-		backTo: '/characters',
-		defaultPosition: defaultProfileSize
-	},
-	rigel: {
-		parent: 'characters',
-		Page: Rigel,
-		title: 'Rigel',
-		menuTitle: 'Address Book',
-		windowStyle: 'brushed',
-		icon: RigelIcon,
-		route: '/characters/rigel',
-		backTo: '/characters',
-		defaultPosition: defaultProfileSize
-	},
-	nocturne: {
-		parent: 'characters',
-		Page: Nocturne,
-		title: 'Nocturne',
-		menuTitle: 'Address Book',
-		windowStyle: 'brushed',
-		icon: NocturneIcon,
-		titleIcon: NocturneProfileIcon,
-		route: '/characters/nocturne',
-		backTo: '/characters',
-		defaultPosition: defaultProfileSize
-	},
+	fenny: profile('fenny', Fenny, FennyIcon),
+	aren: profile('aren', Aren, ArenIcon),
+	ceph: profile('ceph', Ceph, CephIcon),
+	rigel: profile('rigel', Rigel, RigelIcon),
+	nocturne: profile('nocturne', Nocturne, NocturneIcon),
 	// #region Browser
 	browser: {
 		Page: Browser,
