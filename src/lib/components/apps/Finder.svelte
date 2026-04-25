@@ -11,16 +11,17 @@
 	const { folder }: { folder?: AppName } = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext();
+	const { app } = getAppContext();
 
-	// FIXME need to store navStack (or at least current folder) in props so it gets persisted
-	const navStack = new NavigationStack<AppName>(folder ?? 'home');
+	const navStack = new NavigationStack<AppName>(folder ?? 'home', onFolderChange);
 	$effect(() => {
-		if (folder) {
-			navStack.push(folder);
-			delete app.instance.props.folder;
-		}
+		if (folder) navStack.push(folder);
 	});
+	async function onFolderChange() {
+		app.instance.props.folder = navStack.current;
+		app.instance.windowTitle = selectedApp.title;
+		app.instance.titleIcon = selectedApp.icon;
+	}
 
 	const selectedApp = $derived(windowServer.apps[navStack.current]);
 
