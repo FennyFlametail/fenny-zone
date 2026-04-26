@@ -63,7 +63,7 @@
 				onclick={navStack.forward}
 			></button>
 		</div>
-		<AppLink class="noJS-pointer" appName="home">
+		<AppLink class="noJS-pointer" appName="home" title="Home" aria-label="Home">
 			<img
 				class="finderToolbarHome"
 				src={HomeIcon}

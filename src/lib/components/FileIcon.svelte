@@ -102,6 +102,7 @@
 	>
 		{name ?? app?.title}
 	</div>
+	<span class="safariCounterFix" aria-hidden="true"></span>
 </a>
 
 <style>
@@ -238,5 +239,13 @@
 				background-color: SelectedItem;
 			}
 		}
+	}
+
+	.safariCounterFix::after {
+		/* needed for the Finder counters to work in Safari */
+		content: counter(iconCount) counter(itemsLabel);
+		position: fixed;
+		top: 100vh;
+		left: 100vw;
 	}
 </style>
