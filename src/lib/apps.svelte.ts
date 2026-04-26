@@ -24,17 +24,13 @@ import Readme from '../routes/readme/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
-import ArenProfileIcon from '$lib/images/icons/aren-profile.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
-import CephProfileIcon from '$lib/images/icons/ceph-profile.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
-import FennyProfileIcon from '$lib/images/icons/fenny-profile.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
 import HomeIcon from '$lib/images/icons/home.webp';
-import NocturneProfileIcon from '$lib/images/icons/nocturne-profile.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
@@ -140,7 +136,6 @@ function profile(character: AppName, Page: Component<any>, icon: string) {
 		titleIcon: icon,
 		launchParentWithProps: browser ? undefined : { character },
 		route: `/characters/${character}` as any,
-		backTo: '/characters',
 		defaultPosition: browser ? defaultProfileSize : undefined
 	} satisfies Partial<AppEntry>;
 }
@@ -225,8 +220,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		titleIcon: ProjectsIcon,
 		// FIXME port this approach to System Preferences
 		launchParentWithProps: { folder: 'projects' },
-		route: '/projects',
-		backTo: '/home'
+		route: '/projects'
 	},
 	// #region Characters
 	characters: {
