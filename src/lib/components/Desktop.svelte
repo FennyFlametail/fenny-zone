@@ -109,6 +109,8 @@
 		height: 100%;
 		object-fit: cover;
 		object-position: 50% 25%;
+		-webkit-user-select: none;
+		user-select: none;
 
 		.desktop.loading & {
 			display: none;
