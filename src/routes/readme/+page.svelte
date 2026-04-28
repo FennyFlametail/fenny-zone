@@ -3,7 +3,7 @@
 	import { getAppContext } from '$lib/context.svelte';
 	import textEdit from '$lib/helpers/textEditAttachment.svelte';
 
-	const { app } = getAppContext();
+	const { app } = getAppContext('readme');
 
 	const baseUrl = browser ? location.origin : '';
 </script>

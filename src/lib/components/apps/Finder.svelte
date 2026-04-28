@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { AppName } from '$lib/apps.svelte';
+	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
@@ -8,10 +8,10 @@
 	import HomeIcon from '$lib/images/icons/home.webp';
 	import { onMount } from 'svelte';
 
-	const { folder }: { folder?: AppName } = $props();
+	const { folder }: AppProps<'finder'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app } = getAppContext();
+	const { app } = getAppContext('finder');
 
 	const navStack = new NavigationStack<AppName>(folder ?? 'home', onFolderChange);
 	$effect(() => {

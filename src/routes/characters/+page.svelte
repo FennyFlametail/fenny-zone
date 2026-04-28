@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { AppName } from '$lib/apps.svelte';
+	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { ExternalLink } from 'lucide-svelte';
 
-	const { character }: { character?: AppName } = $props();
+	const { character }: AppProps<'characters'> = $props();
 
 	const windowServer = getWindowServerContext();
 
 	const characters: AppName[] = ['fenny', 'aren', 'ceph', 'rigel', 'nocturne'];
 
-	let selectedAppName = $state<AppName | undefined>(character);
+	let selectedAppName = $state(character);
 	let selectedApp = $derived(selectedAppName ? windowServer.apps[selectedAppName] : undefined);
 
 	function openHandler(appName: AppName) {

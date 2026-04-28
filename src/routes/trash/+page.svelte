@@ -5,7 +5,7 @@
 	import TrashVideo from '$lib/images/trash.mp4';
 	import { prefersReducedMotion } from 'svelte/motion';
 
-	const { app, appName } = getAppContext();
+	const { app, appName } = getAppContext('trash');
 	const windowServer = getWindowServerContext();
 
 	function onended() {

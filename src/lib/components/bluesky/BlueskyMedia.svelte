@@ -1,21 +1,14 @@
 <script lang="ts">
+	import type { AppProps } from '$lib/apps.svelte';
 	import BlueskyPlayIcon from '$lib/components/bluesky/BlueskyPlayIcon.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 	import { CircleX, ExternalLink } from 'lucide-svelte';
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext();
+	const { app, appName } = getAppContext('blueskyMedia');
 
-	const {
-		image,
-		postLink,
-		handle
-	}: {
-		image: BlueskyImage;
-		postLink: string;
-		handle: string;
-	} = $props();
+	const { image, postLink, handle }: AppProps<'blueskyMedia'> = $props();
 
 	$effect(() => {
 		const { width, height } = image;

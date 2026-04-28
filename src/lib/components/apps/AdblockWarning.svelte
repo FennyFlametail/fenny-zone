@@ -4,7 +4,7 @@
 	import WarningTriangle from '$lib/images/icons/warning.webp';
 
 	const windowServer = getWindowServerContext();
-	const { appName } = getAppContext();
+	const { appName } = getAppContext('adblockWarning');
 </script>
 
 <Prompt

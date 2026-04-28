@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
+	import { getAppContextUntyped, getWindowServerContext } from '$lib/context.svelte';
 	import { Minus, Plus, X } from 'lucide-svelte';
 
 	const {
@@ -10,7 +10,7 @@
 	} = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext();
+	const { app, appName } = getAppContextUntyped();
 
 	const backTo = $derived.by(() => {
 		// focusedApp always returns the initial app in SSR, so this works even

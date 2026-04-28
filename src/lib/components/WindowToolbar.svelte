@@ -6,7 +6,6 @@
 		children: Snippet;
 	}
 
-	// eslint-disable-next-line svelte/valid-compile
 	const { children, class: className, ...rest }: WindowToolbarProps = $props();
 </script>
 

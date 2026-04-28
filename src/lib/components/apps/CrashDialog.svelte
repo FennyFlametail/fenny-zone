@@ -1,17 +1,13 @@
 <script lang="ts">
-	import type { AppName } from '$lib/apps.svelte';
+	import type { AppProps } from '$lib/apps.svelte';
 	import Prompt from '$lib/components/Prompt.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import WarningTriangle from '$lib/images/icons/warning.webp';
 
-	const {
-		crashedAppName
-	}: {
-		crashedAppName: AppName;
-	} = $props();
+	const { crashedAppName }: AppProps<'crashDialog'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { appName } = getAppContext();
+	const { appName } = getAppContext('crashDialog');
 
 	const crashedAppTitle = $derived(windowServer.apps[crashedAppName]?.title);
 

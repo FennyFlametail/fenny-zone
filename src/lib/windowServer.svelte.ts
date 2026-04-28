@@ -1,5 +1,11 @@
 import { browser } from '$app/environment';
-import getApps, { type AppName, type RunningApp } from '$lib/apps.svelte';
+import getApps, {
+    type AppEntry,
+    type AppName,
+    type AppParent,
+    type AppProps,
+    type RunningApp
+} from '$lib/apps.svelte';
 import { type desktopPictures } from '$lib/data/desktopPictures';
 import { prefersReducedMotion } from 'svelte/motion';
 
@@ -20,11 +26,18 @@ export interface Position {
 }
 
 type AppState = {
-	[name in AppName]?: {
+	[Name in AppName]?: {
 		position: Position;
-		props?: Record<string, any>;
+		props?: AppProps<Name>;
 	};
 };
+
+/** Returns the parent if the app uses `launchParentWithProps`, and the app otherwise */
+type OpenAppResult<Name extends AppName, Parent = AppParent<Name>> = Parent extends AppName
+	? AppEntry<Name>['launchParentWithProps'] extends never
+		? RunningApp<Name>
+		: RunningApp<Parent>
+	: RunningApp<Name>;
 
 export default class WindowServer {
 	// #region Static
@@ -46,10 +59,7 @@ export default class WindowServer {
 	}
 	static sheetDuration = 300;
 
-	static getInitialPosition = (
-		initialPosition?: Partial<Position>,
-		ignorePadding?: boolean
-	): Position => {
+	static getInitialPosition = (initialPosition?: Partial<Position>): Position => {
 		// apps are only SSRed if JavaScript is disabled
 		// in this case, position and max width/height are set through CSS
 		// (because the server can't access browser height/width)
@@ -97,7 +107,9 @@ export default class WindowServer {
 			Object.entries(this.apps)
 				.filter(([, app]) => app.instance)
 				.sort(([, appA], [, appB]) => appA.instance!.launchOrder - appB.instance!.launchOrder)
-		) as Readonly<Record<AppName, RunningApp>>
+		) as {
+			readonly [Name in AppName]?: RunningApp<AppName>;
+		}
 	);
 
 	runningAppsByParent = $derived(
@@ -107,11 +119,17 @@ export default class WindowServer {
 		>
 	);
 
-	focusedApp = $derived.by(() => {
+	focusedApp = $derived.by<{
+		name: AppName;
+		app: RunningApp;
+	} | null>(() => {
 		if (!browser && this.initialAppName)
 			return {
 				name: this.initialAppName,
 				app: this.apps[this.initialAppName]
+			} as {
+				name: AppName;
+				app: RunningApp;
 			};
 		if (this.desktopFocused) return null;
 
@@ -121,31 +139,30 @@ export default class WindowServer {
 			) ?? [];
 		if (!app) return null;
 		return {
-			name: name as AppName,
+			name,
 			app
+		} as {
+			name: AppName;
+			app: RunningApp;
 		};
 	});
 
-	openApp = (
-		appName: AppName,
+	openApp = <Name extends AppName>(
+		appName: Name,
 		options: {
 			position?: Partial<Position>;
-			props?: Record<string, any>;
-			fromState?: boolean;
+			props?: AppProps<Name>;
 		} = {}
-	): RunningApp => {
+	): OpenAppResult<Name> => {
 		options.props = $state.snapshot(options.props);
 		const openNewInstance = () => {
 			const self = this;
 			app.instance = {
-				position: WindowServer.getInitialPosition(
-					{
-						...app.defaultPosition,
-						zIndex: Object.keys(this.runningApps).length,
-						...options.position
-					},
-					options.fromState
-				),
+				position: WindowServer.getInitialPosition({
+					...app.defaultPosition,
+					zIndex: Object.keys(this.runningApps).length,
+					...options.position
+				}),
 				launchOrder: this.#launchCount++,
 				get focused() {
 					return self.focusedApp?.app === app;
@@ -155,7 +172,7 @@ export default class WindowServer {
 			this.desktopFocused = false;
 		};
 
-		const app = this.apps[appName];
+		const app = this.apps[appName] as AppEntry<Name>;
 		const childApps = this.runningAppsByParent.get(appName) ?? [];
 		if (childApps.length) {
 			// focus all this app's children, plus the app itself if it's running
@@ -183,12 +200,12 @@ export default class WindowServer {
 			});
 			if (app.windowTitle) parentApp.instance.windowTitle = app.windowTitle;
 			if (app.titleIcon) parentApp.instance.titleIcon = app.titleIcon;
-			return parentApp;
+			return parentApp as OpenAppResult<Name>;
 		} else {
 			openNewInstance();
 		}
 
-		return app as RunningApp;
+		return app as OpenAppResult<Name>;
 	};
 
 	focusApp = (appName?: AppName) => {
@@ -219,7 +236,7 @@ export default class WindowServer {
 		}
 		if (app.noResize) return;
 
-		this.setAnimating(app);
+		this.setAnimating(appName);
 		if (app.instance.preZoomPosition) {
 			app.instance.position = app.instance.preZoomPosition;
 			delete app.instance.preZoomPosition;
@@ -299,7 +316,14 @@ export default class WindowServer {
 		});
 	};
 
-	setAnimating = (app: RunningApp) => {
+	setAnimating = (appName?: AppName) => {
+		if (!appName) return;
+		const app = this.apps[appName];
+		if (!app.instance) {
+			console.warn(`(setAnimating) ${appName} isn't running!`);
+			return;
+		}
+
 		if (!prefersReducedMotion.current) {
 			app.instance.animating = true;
 		}
@@ -329,10 +353,10 @@ export default class WindowServer {
 	};
 
 	arrangeWindows = () => {
-		Object.values(this.runningApps)
-			.sort((a, b) => a.instance.position.zIndex - b.instance.position.zIndex)
-			.forEach((app, index) => {
-				this.setAnimating(app);
+		Object.entries(this.runningApps)
+			.sort(([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex)
+			.forEach(([appName, app], index) => {
+				this.setAnimating(appName as AppName);
 				app.instance.position = WindowServer.getInitialPosition({
 					...app.defaultPosition,
 					x: WindowServer.titlebarHeight * (index + 1),
@@ -348,16 +372,16 @@ export default class WindowServer {
 		if (stateString) {
 			try {
 				const state: AppState = JSON.parse(stateString);
-				Object.entries(state).forEach(([appName, { position, props = {} }]) => {
-					const app = this.apps[appName as AppName];
+				Object.entries(state).forEach(([_appName, { position, props = {} }]) => {
+					const appName = _appName as AppName;
+					const app = this.apps[appName];
 					if (!app) {
 						console.warn(`(loadAppsFromQueryString) couldn't find app ${appName}`);
 						return;
 					}
-					this.openApp(appName as AppName, {
+					this.openApp(appName, {
 						position,
-						props,
-						fromState: true
+						props
 					});
 				});
 			} catch (err) {

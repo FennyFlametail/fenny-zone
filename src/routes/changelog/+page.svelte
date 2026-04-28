@@ -2,7 +2,7 @@
 	import { getAppContext } from '$lib/context.svelte';
 	import textEdit from '$lib/helpers/textEditAttachment.svelte';
 
-	const { app } = getAppContext();
+	const { app } = getAppContext('changelog');
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>

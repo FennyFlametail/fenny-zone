@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAppContext } from '$lib/context.svelte';
+	import { getAppContextUntyped } from '$lib/context.svelte';
 	import WindowServer from '$lib/windowServer.svelte';
 	import type { Snippet } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
@@ -8,7 +8,7 @@
 	import { type TransitionConfig } from 'svelte/transition';
 	import { trapFocus } from 'trap-focus-svelte';
 
-	const { app } = getAppContext();
+	const { app } = getAppContextUntyped();
 
 	const {
 		isOpen,

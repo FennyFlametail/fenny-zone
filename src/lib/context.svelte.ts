@@ -4,7 +4,14 @@ import { createContext } from 'svelte';
 
 export const [getWindowServerContext, setWindowServerContext] = createContext<WindowServer>();
 
-export const [getAppContext, setAppContext] = createContext<{
+const [getAppContextUntyped, setAppContext] = createContext<{
 	appName: AppName;
 	app: RunningApp;
 }>();
+
+const getAppContext = <Name extends AppName>(appName: Name) =>
+	getAppContextUntyped() as {
+		appName: Name;
+		app: RunningApp<Name>;
+	};
+export { getAppContext, getAppContextUntyped, setAppContext };

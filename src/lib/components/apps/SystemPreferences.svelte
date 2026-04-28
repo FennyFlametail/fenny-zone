@@ -5,17 +5,17 @@
 	import NavigationStack from '$lib/helpers/navigationStack.svelte';
 	import DesktopIcon from '$lib/images/icons/desktop.webp';
 	import WindowServer from '$lib/windowServer.svelte';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	const {
 		pane
 	}: {
-		pane: PaneName | null;
+		// FIXME change to use AppProps
+		pane?: PaneName;
 	} = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app } = getAppContext();
+	const { app, appName } = getAppContext('system-preferences');
 
 	const prefPanes = {
 		Desktop: {
@@ -26,17 +26,15 @@
 	};
 	type PaneName = keyof typeof prefPanes;
 
-	const navStack = new NavigationStack(null as PaneName | null, onPaneChange);
+	const navStack = new NavigationStack<PaneName | null>(pane ?? null, onPaneChange);
 	let transition = $state(false);
-
-	onMount(() => {
-		if (pane) navStack.push(pane);
-	});
+	onPaneChange();
 
 	function onPaneChange() {
+		// @ts-expect-error
 		app.instance.props.pane = navStack.current;
 		app.instance.windowTitle = pane || app.title;
-		windowServer.setAnimating(app);
+		windowServer.setAnimating(appName);
 		transition = true;
 		app.instance.position.height = Math.min(
 			pane ? prefPanes[pane].height : app.defaultPosition!.height!,

@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import type { Pathname } from '$app/types';
+import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 import type { Position } from '$lib/windowServer.svelte';
 import WindowServer from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
@@ -43,33 +44,54 @@ import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
 import VCardIcon from '$lib/images/icons/vcard.webp';
 
-export type AppName =
-	| 'readme'
-	| 'changelog'
-	| 'bluesky'
-	| 'system-preferences'
-	| 'trash'
-	| 'finder'
-	| 'home'
-	| 'projects'
-	| 'characters'
-	| 'fenny'
-	| 'aren'
-	| 'ceph'
-	| 'rigel'
-	| 'nocturne'
-	| 'browser'
-	| 'toddspin'
-	| 'sauce'
-	| 'goat'
-	| 'TextEdit'
-	| 'adblockWarning'
-	| 'crashDialog'
-	| 'blueskyMedia';
+interface AppOptionType<Options extends { parent?: AppName; props?: Record<string, any> } = {}> {
+	parent: Options extends { parent: infer Parent } ? Parent : undefined;
+	props: Options extends { props: infer Props } ? Props : never;
+}
 
-export interface AppEntry {
+interface AppOptions {
+	readme: AppOptionType<{ parent: 'TextEdit' }>;
+	changelog: AppOptionType<{ parent: 'TextEdit' }>;
+	bluesky: AppOptionType<{}>;
+	// FIXME rename to camelCase
+	// FIXME change prefpanes to using launchParentWithProps like Finder folders
+	'system-preferences': AppOptionType<{ props: { pane?: string } }>;
+	trash: AppOptionType<{ parent: 'finder' }>;
+	finder: AppOptionType<{
+		parent: 'finder';
+		props: { folder?: AppName };
+	}>;
+	home: AppOptionType<{ parent: 'finder' }>;
+	projects: AppOptionType<{ parent: 'finder' }>;
+	characters: AppOptionType<{ props: { character?: AppName } }>;
+	fenny: AppOptionType<{ parent: 'characters' }>;
+	aren: AppOptionType<{ parent: 'characters' }>;
+	ceph: AppOptionType<{ parent: 'characters' }>;
+	rigel: AppOptionType<{ parent: 'characters' }>;
+	nocturne: AppOptionType<{ parent: 'characters' }>;
+	browser: AppOptionType<{ props: { url: string } }>;
+	toddspin: AppOptionType<{ parent: 'browser' }>;
+	sauce: AppOptionType<{ parent: 'browser' }>;
+	goat: AppOptionType<{ parent: 'browser' }>;
+	TextEdit: AppOptionType;
+	adblockWarning: AppOptionType;
+	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
+	blueskyMedia: AppOptionType<{
+		parent: 'bluesky';
+		props: {
+			image: BlueskyImage;
+			postLink: string;
+			handle: string;
+		};
+	}>;
+}
+export type AppName = keyof AppOptions;
+export type AppParent<Name extends AppName> = AppOptions[Name]['parent'];
+export type AppProps<Name extends AppName> = AppOptions[Name]['props'];
+
+export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Name>> {
 	/** Apps will be grouped by their parent icon in the Dock */
-	readonly parent?: AppName;
+	readonly parent: Parent;
 	/** Ignored if `launchParentWithProps` is set */
 	readonly Page?: Component<any>;
 	/** Used for icons, and menubar/titlebar if `menuTitle` or `windowTitle` aren't set */
@@ -92,7 +114,7 @@ export interface AppEntry {
 	dockIcon?: string;
 	readonly hideInDock?: boolean;
 	/** Instead of launching the app's Page, launch its parent with the provided props */
-	readonly launchParentWithProps?: Record<string, any>;
+	readonly launchParentWithProps?: Parent extends AppName ? AppProps<Parent> : never;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
@@ -102,7 +124,7 @@ export interface AppEntry {
 	readonly noResize?: boolean;
 	instance?: {
 		/** Props must be serializable */
-		props: Record<string, any>;
+		props: AppProps<Name>;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
@@ -116,14 +138,15 @@ export interface AppEntry {
 	};
 }
 
-export type RunningApp = AppEntry & { instance: Required<AppEntry>['instance'] };
-
-const defaultProfileSize = {
-	width: 600,
-	height: 800
+export type RunningApp<Name extends AppName = AppName> = AppEntry<Name> & {
+	instance: Required<AppEntry<Name>>['instance'];
 };
 
-function profile(character: AppName, Page: Component<any>, icon: string) {
+function profile<Character extends AppName>(
+	character: Character,
+	Page: Component<any>,
+	icon: string
+) {
 	const title = character[0].toUpperCase() + character.slice(1);
 	return {
 		parent: 'characters',
@@ -136,11 +159,18 @@ function profile(character: AppName, Page: Component<any>, icon: string) {
 		titleIcon: icon,
 		launchParentWithProps: browser ? undefined : { character },
 		route: `/characters/${character}` as any,
-		defaultPosition: browser ? defaultProfileSize : undefined
-	} satisfies Partial<AppEntry>;
+		defaultPosition: browser
+			? {
+					width: 600,
+					height: 800
+				}
+			: undefined
+	} as AppEntry<Character>;
 }
 
-const getApps = (): Record<AppName, AppEntry> => ({
+const getApps = (): {
+	[Name in AppName]: AppEntry<Name>;
+} => ({
 	readme: {
 		parent: 'TextEdit',
 		Page: Readme,
@@ -156,6 +186,8 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		route: '/changelog'
 	},
 	bluesky: {
+		// TODO avoid having to pass undefined for apps without parent
+		parent: undefined,
 		Page: Bluesky,
 		title: 'Bluesky',
 		windowStyle: 'custom',
@@ -167,6 +199,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		}
 	},
 	'system-preferences': {
+		parent: undefined,
 		Page: SystemPreferences,
 		title: 'System Preferences',
 		icon: SystemPreferencesIcon,
@@ -218,12 +251,12 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		windowTitle: 'Projects',
 		icon: ProjectsIcon,
 		titleIcon: ProjectsIcon,
-		// FIXME port this approach to System Preferences
 		launchParentWithProps: { folder: 'projects' },
 		route: '/projects'
 	},
 	// #region Characters
 	characters: {
+		parent: undefined,
 		Page: Characters,
 		title: 'Address Book',
 		dockTitle: 'Characters',
@@ -243,6 +276,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	nocturne: profile('nocturne', Nocturne, NocturneIcon),
 	// #region Browser
 	browser: {
+		parent: undefined,
 		Page: Browser,
 		title: 'Browser'
 	},
@@ -282,10 +316,12 @@ const getApps = (): Record<AppName, AppEntry> => ({
 	},
 	// #region Utility
 	TextEdit: {
+		parent: undefined,
 		title: 'TextEdit',
 		icon: TextEditIcon
 	},
 	adblockWarning: {
+		parent: undefined,
 		Page: AdblockWarning,
 		title: 'Adblock Warning',
 		hideWindowTitle: true,
@@ -298,6 +334,7 @@ const getApps = (): Record<AppName, AppEntry> => ({
 		}
 	},
 	crashDialog: {
+		parent: undefined,
 		Page: CrashDialog,
 		title: 'Crash Reporter',
 		hideWindowTitle: true,
