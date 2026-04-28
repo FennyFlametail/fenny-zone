@@ -1,43 +1,33 @@
 <script lang="ts">
+	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
-	import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import NavigationStack from '$lib/helpers/navigationStack.svelte';
-	import DesktopIcon from '$lib/images/icons/desktop.webp';
 	import WindowServer from '$lib/windowServer.svelte';
 	import { fade } from 'svelte/transition';
 
-	const {
-		pane
-	}: {
-		// FIXME change to use AppProps
-		pane?: PaneName;
-	} = $props();
+	const { pane: paneProp }: AppProps<'systemPreferences'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext('system-preferences');
+	const { app, appName } = getAppContext('systemPreferences');
 
-	const prefPanes = {
-		Desktop: {
-			component: DesktopPrefs,
-			icon: DesktopIcon,
-			height: 525
-		}
-	};
-	type PaneName = keyof typeof prefPanes;
+	const prefPanes: AppName[] = ['prefsDesktop'];
 
-	const navStack = new NavigationStack<PaneName | null>(pane ?? null, onPaneChange);
+	const navStack = new NavigationStack<AppName | undefined>(paneProp, onPaneChange);
+	$effect(() => {
+		if (paneProp) navStack.push(paneProp);
+	});
+	let pane = $derived(navStack.current ? windowServer.apps[navStack.current] : undefined);
+
 	let transition = $state(false);
-	onPaneChange();
 
 	function onPaneChange() {
-		// @ts-expect-error
 		app.instance.props.pane = navStack.current;
-		app.instance.windowTitle = pane || app.title;
+		app.instance.windowTitle = pane?.title || app.title;
 		windowServer.setAnimating(appName);
 		transition = true;
 		app.instance.position.height = Math.min(
-			pane ? prefPanes[pane].height : app.defaultPosition!.height!,
+			pane?.defaultPosition?.height ?? app.defaultPosition!.height!,
 			WindowServer.safeHeight
 		);
 	}
@@ -61,7 +51,7 @@
 				onclick={navStack.forward}
 			></button>
 		</div>
-		<button class="aqua-button square" disabled={pane === null} onclick={() => navStack.push(null)}
+		<button class="aqua-button square" disabled={!pane} onclick={() => navStack.push(undefined)}
 			>Show All</button
 		>
 	</WindowToolbar>
@@ -72,17 +62,17 @@
 			onintroend={() => (transition = false)}
 			onoutroend={() => (transition = false)}
 		>
-			{#each Object.entries(prefPanes) as [name, info]}
-				<button class="systemPreferencesIcon" onclick={() => navStack.push(name as PaneName)}>
-					<img src={info.icon} alt="" aria-hidden="true" draggable="false" />
-					<span>{name}</span>
+			{#each prefPanes as name}
+				{@const pane = windowServer.apps[name]}
+				<button class="systemPreferencesIcon" onclick={() => navStack.push(name)}>
+					<img src={pane.icon} alt="" aria-hidden="true" draggable="false" />
+					<span>{pane.title}</span>
 				</button>
 			{/each}
 		</div>
 	{:else}
-		{@const Component = prefPanes[pane].component}
 		<div class="systemPreferencesPane" transition:fade={{ duration: 200 }}>
-			<Component />
+			<pane.Page />
 		</div>
 	{/if}
 </div>

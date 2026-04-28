@@ -11,6 +11,7 @@ import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Finder from '$lib/components/apps/Finder.svelte';
 import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
+import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
@@ -27,6 +28,7 @@ import Trash from '../routes/trash/+page.svelte';
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
+import DesktopPrefsIcon from '$lib/images/icons/desktop.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
@@ -53,9 +55,6 @@ interface AppOptions {
 	readme: AppOptionType<{ parent: 'TextEdit' }>;
 	changelog: AppOptionType<{ parent: 'TextEdit' }>;
 	bluesky: AppOptionType<{}>;
-	// FIXME rename to camelCase
-	// FIXME change prefpanes to using launchParentWithProps like Finder folders
-	'system-preferences': AppOptionType<{ props: { pane?: string } }>;
 	trash: AppOptionType<{ parent: 'finder' }>;
 	finder: AppOptionType<{
 		parent: 'finder';
@@ -73,6 +72,8 @@ interface AppOptions {
 	toddspin: AppOptionType<{ parent: 'browser' }>;
 	sauce: AppOptionType<{ parent: 'browser' }>;
 	goat: AppOptionType<{ parent: 'browser' }>;
+	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
+	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
 	TextEdit: AppOptionType;
 	adblockWarning: AppOptionType;
 	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
@@ -113,7 +114,9 @@ export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Nam
 	/** Writable for the Trash easter egg */
 	dockIcon?: string;
 	readonly hideInDock?: boolean;
-	/** Instead of launching the app's Page, launch its parent with the provided props */
+	/** Instead of launching the app's Page, launch its parent with the provided props\
+	 * Use `windowTitle` and `titleIcon` to override the parent's title and icon
+	 */
 	readonly launchParentWithProps?: Parent extends AppName ? AppProps<Parent> : never;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
@@ -196,22 +199,6 @@ const getApps = (): {
 		defaultPosition: {
 			width: 515,
 			height: 1000
-		}
-	},
-	'system-preferences': {
-		parent: undefined,
-		Page: SystemPreferences,
-		title: 'System Preferences',
-		icon: SystemPreferencesIcon,
-		hideTitleIcon: true,
-		windowStyle: 'unified',
-		noResize: true,
-		get defaultPosition() {
-			// size to fit the Desktop prefpane (height 525)
-			return {
-				y: WindowServer.getInitialPosition({ height: 525 }).y,
-				height: 200
-			};
 		}
 	},
 	trash: {
@@ -312,6 +299,34 @@ const getApps = (): {
 		defaultPosition: {
 			width: 600,
 			height: 800
+		}
+	},
+	// #region System Preferences
+	systemPreferences: {
+		parent: undefined,
+		Page: SystemPreferences,
+		title: 'System Preferences',
+		icon: SystemPreferencesIcon,
+		hideTitleIcon: true,
+		windowStyle: 'unified',
+		noResize: true,
+		get defaultPosition() {
+			// size to fit the Desktop prefpane (height 525)
+			return {
+				y: WindowServer.getInitialPosition({ height: 525 }).y,
+				height: 200
+			};
+		}
+	},
+	prefsDesktop: {
+		parent: 'systemPreferences',
+		Page: DesktopPrefs,
+		title: 'Desktop',
+		windowTitle: 'Desktop',
+		icon: DesktopPrefsIcon,
+		launchParentWithProps: { pane: 'prefsDesktop' },
+		defaultPosition: {
+			height: 525
 		}
 	},
 	// #region Utility

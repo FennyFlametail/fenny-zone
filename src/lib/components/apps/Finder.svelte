@@ -8,22 +8,22 @@
 	import HomeIcon from '$lib/images/icons/home.webp';
 	import { onMount } from 'svelte';
 
-	const { folder }: AppProps<'finder'> = $props();
+	const { folder: folderProp }: AppProps<'finder'> = $props();
 
 	const windowServer = getWindowServerContext();
 	const { app } = getAppContext('finder');
 
-	const navStack = new NavigationStack<AppName>(folder ?? 'home', onFolderChange);
+	const navStack = new NavigationStack<AppName>(folderProp ?? 'home', onFolderChange);
 	$effect(() => {
-		if (folder) navStack.push(folder);
+		if (folderProp) navStack.push(folderProp);
 	});
+	let folder = $derived(windowServer.apps[navStack.current]);
+
 	async function onFolderChange() {
 		app.instance.props.folder = navStack.current;
-		app.instance.windowTitle = selectedApp.title;
-		app.instance.titleIcon = selectedApp.icon;
+		app.instance.windowTitle = folder.title;
+		app.instance.titleIcon = folder.icon;
 	}
-
-	const selectedApp = $derived(windowServer.apps[navStack.current]);
 
 	let remainingSpace = $state('∞');
 	onMount(async () => {
@@ -76,7 +76,7 @@
 		</AppLink>
 	</WindowToolbar>
 	<nav class="finderIcons brushedInset" aria-label="Icons">
-		<selectedApp.Page />
+		<folder.Page />
 	</nav>
 	<footer class="finderStatusBar" data-allow-window-drag>
 		<span class="finderItemCount"></span>, {remainingSpace} GB available

@@ -6,7 +6,7 @@
 
 	const windowServer = getWindowServerContext();
 
-	const pinned: AppName[] = ['finder', 'characters', 'bluesky', 'system-preferences'];
+	const pinned: AppName[] = ['finder', 'characters', 'bluesky', 'systemPreferences'];
 </script>
 
 {#snippet runningApps(parent: AppName | null, apps: [AppName, RunningApp][])}

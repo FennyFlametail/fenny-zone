@@ -45,7 +45,7 @@
 			>View Source...</MenuItem
 		>
 		<hr class="noJS-hide" />
-		<MenuItem onclick={() => windowServer.openApp('system-preferences')}
+		<MenuItem onclick={() => windowServer.openApp('systemPreferences')}
 			>System Preferences...</MenuItem
 		>
 	</MenuCategory>
