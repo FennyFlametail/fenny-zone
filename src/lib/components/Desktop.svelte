@@ -2,8 +2,9 @@
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
-	import FuraffinityIcon from '$lib/images/icons/furaffinity.webp';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
+	import iPhotoIcon from '$lib/images/icons/iphoto.webp';
+	import SteamIcon from '$lib/images/icons/steam.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
 	import { onMount } from 'svelte';
 
@@ -69,10 +70,11 @@
 		<FileIcon appName="bluesky" />
 		<FileIcon
 			name="FurAffinity"
-			icon={FuraffinityIcon}
+			icon={iPhotoIcon}
 			href="https://www.furaffinity.net/user/fuzzyfennekin"
 		/>
 		<FileIcon name="Telegram" icon={TelegramIcon} href="https://t.me/FennyFlametail" />
+		<FileIcon name="Steam" icon={SteamIcon} href="https://steamcommunity.com/id/fennyflametail/" />
 		<FileIcon
 			name="HowLongToBeat"
 			icon={HltbIcon}

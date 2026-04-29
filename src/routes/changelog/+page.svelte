@@ -6,6 +6,10 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-04-28</h3>
+	<ul>
+		<li>Added more links and changed some icons</li>
+	</ul>
 	<h3>2026-04-25</h3>
 	<ul>
 		<li>Added navigation to Finder and changed to brushed metal</li>
@@ -14,7 +18,7 @@
 	</ul>
 	<h3>2026-04-21</h3>
 	<ul>
-		<li>Remember selected System Preferences pane on reload</li>
+		<li>Restore selected System Preferences pane on reload</li>
 	</ul>
 	<h3>2026-04-20</h3>
 	<ul>
