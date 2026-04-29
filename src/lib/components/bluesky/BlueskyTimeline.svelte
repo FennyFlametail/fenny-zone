@@ -71,7 +71,7 @@
 						<h3 class="blueskyDisplayName">{profile.displayName}</h3>
 						<p class="blueskyHandle">@{profile.handle}</p>
 					</hgroup>
-					<a class="blueskyFollowButton" href={profile.link} target="_blank">View Profile</a>
+					<a class="blueskyFollowButton" href={profile.link} target="_blank">View on Bluesky</a>
 				</div>
 				<p class="blueskyBio">{@html profile.description}</p>
 				<div class="blueskyStatsContainer">
