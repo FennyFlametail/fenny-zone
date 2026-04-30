@@ -24,6 +24,7 @@
 		app.instance.windowTitle = folder.title;
 		app.instance.titleIcon = folder.icon;
 	}
+	onFolderChange();
 
 	let remainingSpace = $state('∞');
 	onMount(async () => {

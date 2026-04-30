@@ -31,6 +31,7 @@
 			WindowServer.safeHeight
 		);
 	}
+	onPaneChange();
 </script>
 
 <div class={['systemPreferences', { transition }]}>

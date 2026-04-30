@@ -214,12 +214,9 @@ const getApps = (): {
 		parent: 'finder',
 		Page: Finder,
 		title: 'Finder',
-		/* this is kind of hacky to get the Finder dock icon to show the right info in the titlebar, but eh */
-		windowTitle: 'Fenny',
-		windowStyle: 'brushed',
+				windowStyle: 'brushed',
 		icon: FinderIcon,
-		titleIcon: HomeIcon,
-		route: '/home'
+				route: '/home'
 	},
 	home: {
 		parent: 'finder',
