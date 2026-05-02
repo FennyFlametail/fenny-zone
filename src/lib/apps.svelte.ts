@@ -250,7 +250,7 @@ const getApps = (): {
 		route: '/characters',
 		defaultPosition: {
 			width: 1200,
-			height: 1000
+			height: 800
 		}
 	},
 	fenny: profile('fenny', Fenny, FennyIcon),

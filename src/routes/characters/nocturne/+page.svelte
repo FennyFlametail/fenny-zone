@@ -109,8 +109,8 @@
 			former thief, current outlaw
 			<ul>
 				<li>
-					stole something important from the megacorp controlling local space, on the run for the
-					last two years
+					stole something important two years ago from the megacorp controlling their region
+					of space, on the run ever since
 				</li>
 			</ul>
 		</dd>
