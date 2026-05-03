@@ -356,6 +356,7 @@
 	}
 
 	.windowResizeHandle {
+		z-index: 9999;
 		position: absolute;
 		bottom: -5px;
 		right: -5px;
