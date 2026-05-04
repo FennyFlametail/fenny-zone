@@ -83,15 +83,7 @@ export default class WindowServer {
 			};
 		}
 
-		let maxWidth = this.windowMaxWidth;
-		let maxHeight = this.windowMaxHeight;
-
-		if (app?.windowStyle === 'brushed') {
-			maxWidth = this.windowMaxWidthBrushed;
-			maxHeight = this.windowMaxHeightBrushed;
-		} else if (app?.windowStyle === 'custom') {
-			maxHeight = this.windowMaxHeightCustom;
-		}
+		const { maxWidth, maxHeight } = this.getMaxDimensions(app?.windowStyle);
 
 		let width = Math.min(defaultWidth, maxWidth);
 		let height = Math.min(defaultHeight, maxHeight);
@@ -105,6 +97,20 @@ export default class WindowServer {
 
 		return { x, y, width, height, zIndex: initialPosition?.zIndex ?? 0 };
 	};
+
+	static getMaxDimensions(windowStyle?: AppEntry['windowStyle']) {
+		let maxWidth = this.windowMaxWidth;
+		let maxHeight = this.windowMaxHeight;
+
+		if (windowStyle === 'brushed') {
+			maxWidth = this.windowMaxWidthBrushed;
+			maxHeight = this.windowMaxHeightBrushed;
+		} else if (windowStyle === 'custom') {
+			maxHeight = this.windowMaxHeightCustom;
+		}
+
+		return { maxWidth, maxHeight };
+	}
 
 	static scaleToAspectRatio = (
 		inputWidth: number,
@@ -272,6 +278,17 @@ export default class WindowServer {
 		}
 		if (app.noResize) return;
 
+		let { maxWidth: width, maxHeight: height } = WindowServer.getMaxDimensions(app.windowStyle);
+
+		if (app?.lockAspectRatio) {
+			({ width, height } = WindowServer.scaleToAspectRatio(
+				width,
+				height,
+				app.instance.position.width,
+				app.instance.position.height
+			));
+		}
+
 		this.setAnimating(appName);
 		if (app.instance.preZoomPosition) {
 			app.instance.position = app.instance.preZoomPosition;
@@ -282,11 +299,8 @@ export default class WindowServer {
 				...app.instance.position,
 				x: 0,
 				y: 0,
-				width: document.documentElement.clientWidth,
-				height:
-					document.documentElement.clientHeight -
-					WindowServer.menubarHeight -
-					WindowServer.dockHeight
+				width,
+				height
 			};
 		}
 

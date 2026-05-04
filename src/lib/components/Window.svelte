@@ -76,12 +76,7 @@
 			lastX = e.screenX;
 			lastY = e.screenY;
 
-			let maxHeight = WindowServer.windowMaxHeight;
-			if (app.windowStyle === 'brushed') {
-				maxHeight = WindowServer.windowMaxHeightBrushed;
-			} else if (app.windowStyle === 'custom') {
-				maxHeight = WindowServer.windowMaxHeightCustom;
-			}
+			const { maxHeight } = WindowServer.getMaxDimensions(app.windowStyle);
 
 			let newWidth = app.instance.position.width + deltaX;
 			let newHeight = app.instance.position.height + deltaY;
@@ -286,17 +281,18 @@
 		}
 
 		&.animating {
-			will-change: width, height, left, top;
+			will-change: left, top;
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
-				transition-property: width, height, left, top;
+				transition-property: left, top;
 			}
 		}
 
 		@media (scripting: none) {
 			position: absolute;
-			left: max(0px, 50vw - var(--window-width) / 2);
-			top: max(0px, (var(--desktop-safe-height) / 2 - var(--window-height) / 2) * (2/3));
+			left: 50%;
+			top: 33.33%;
+			translate: -50% -33.33%;
 		}
 
 		@media (forced-colors: active) {
@@ -361,6 +357,15 @@
 		min-height: 0;
 		position: relative;
 		overscroll-behavior: none;
+
+		.window.animating & {
+			will-change: width, height;
+
+			@media not (prefers-reduced-motion: reduce) {
+				transition: inherit;
+				transition-property: width, height;
+			}
+		}
 
 		@media (scripting: none) {
 			max-width: var(--window-content-max-width);

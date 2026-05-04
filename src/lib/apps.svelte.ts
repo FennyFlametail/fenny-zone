@@ -56,10 +56,7 @@ interface AppOptions {
 	changelog: AppOptionType<{ parent: 'TextEdit' }>;
 	bluesky: AppOptionType<{}>;
 	trash: AppOptionType<{ parent: 'finder' }>;
-	finder: AppOptionType<{
-		parent: 'finder';
-		props: { folder?: AppName };
-	}>;
+	finder: AppOptionType<{ props: { folder?: AppName } }>;
 	home: AppOptionType<{ parent: 'finder' }>;
 	projects: AppOptionType<{ parent: 'finder' }>;
 	characters: AppOptionType<{ props: { character?: AppName } }>;
