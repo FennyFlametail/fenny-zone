@@ -78,7 +78,7 @@
 	{onclick}
 	{ondblclick}
 	{onkeydown}
-	href={href || app?.launchParentWithProps?.url || app?.route}
+	href={href || (app?.launchParentWithProps as any)?.url || app?.route || ''}
 	target={href || app?.parent === 'browser' ? '_blank' : '_self'}
 >
 	<div class="fileIconImageWrapper">
@@ -192,8 +192,7 @@
 			text-shadow: var(--label-text-shadow);
 		}
 
-		.hasColor &,
-		.fileIcon:focus & {
+		:global(.desktop) :is(.hasColor, .fileIcon:focus) & {
 			box-shadow: 0 1px 0 0 rgb(0 0 0 / 50%);
 		}
 
