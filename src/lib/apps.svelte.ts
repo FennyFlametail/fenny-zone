@@ -213,12 +213,13 @@ const getApps = (): {
 	},
 	// #region Finder
 	finder: {
-		/* needed to show the correct title in the Window menu */
-		parent: 'finder',
+				parent: undefined,
 		Page: Finder,
+windowStyle: 'brushed',
 		title: 'Finder',
-				windowStyle: 'brushed',
+				windowTitle: 'Fenny',
 		icon: FinderIcon,
+titleIcon: HomeIcon,
 				route: '/home'
 	},
 	home: {
