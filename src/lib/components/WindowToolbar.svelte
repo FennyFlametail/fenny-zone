@@ -37,7 +37,7 @@
 		}
 
 		:global(.window.unified) & {
-			border-bottom: 1px solid var(--window-titlebar-border-color);
+			border-bottom: 1px solid var(--titlebar-border-color);
 
 			&:not(:global(.window.inactive) .windowToolbar) {
 				background: linear-gradient(to bottom, #e5e5e5, #d5d5d5);

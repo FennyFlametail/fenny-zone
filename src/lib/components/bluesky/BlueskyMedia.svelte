@@ -2,7 +2,6 @@
 	import type { AppProps } from '$lib/apps.svelte';
 	import BlueskyPlayIcon from '$lib/components/bluesky/BlueskyPlayIcon.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
-	import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 	import { CircleX, ExternalLink } from 'lucide-svelte';
 
 	const windowServer = getWindowServerContext();
