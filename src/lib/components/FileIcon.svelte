@@ -9,7 +9,8 @@
 		href,
 		name,
 		icon,
-		label
+		label,
+		infoText
 	}: (
 		| {
 				appName: AppName;
@@ -25,6 +26,7 @@
 		  }
 	) & {
 		label?: 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'gray';
+		infoText?: string;
 	} = $props();
 
 	const windowServer = getWindowServerContext();
@@ -102,6 +104,9 @@
 	>
 		{name ?? app?.title}
 	</div>
+	{#if infoText}
+		<div class="fileIconInfoText">{infoText}</div>
+	{/if}
 	<span class="safariCounterFix" aria-hidden="true"></span>
 </a>
 
@@ -238,6 +243,13 @@
 				background-color: SelectedItem;
 			}
 		}
+	}
+
+	.fileIconInfoText {
+		color: var(--accent-color);
+		font-size: 14px;
+		line-height: 1.3;
+		white-space: nowrap;
 	}
 
 	.safariCounterFix::after {

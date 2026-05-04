@@ -181,6 +181,11 @@
 		resizing,
 		animating: app.instance.animating
 	}}
+	data-lock-aspect-ratio={app.lockAspectRatio
+		? app.instance.position.width > app.instance.position.height
+			? 'landscape'
+			: 'portrait'
+		: undefined}
 	style:--window-x="{app.instance.position.x}px"
 	style:--window-y="{app.instance.position.y}px"
 	style:--window-width="{app.instance.position.width}px"
@@ -368,8 +373,16 @@
 		}
 
 		@media (scripting: none) {
+			aspect-ratio: var(--window-width) / var(--window-height);
 			max-width: var(--window-content-max-width);
 			max-height: var(--window-content-max-height);
+
+			.window[data-lock-aspect-ratio='landscape'] & {
+				height: auto;
+			}
+			.window[data-lock-aspect-ratio='portrait'] & {
+				width: auto;
+			}
 		}
 	}
 

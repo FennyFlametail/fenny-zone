@@ -21,6 +21,11 @@ import Fenny from '../routes/characters/fenny/+page.svelte';
 import Nocturne from '../routes/characters/nocturne/+page.svelte';
 import Rigel from '../routes/characters/rigel/+page.svelte';
 import Home from '../routes/home/+page.svelte';
+import Keyboards from '../routes/keyboards/+page.svelte';
+import KeyboardsInfo from '../routes/keyboards/info/+page.svelte';
+import MK47 from '../routes/keyboards/mk47/+page.svelte';
+import Neon75 from '../routes/keyboards/neon75/+page.svelte';
+import OK35 from '../routes/keyboards/ok35/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
@@ -31,10 +36,12 @@ import CephIcon from '$lib/images/icons/ceph.webp';
 import DesktopPrefsIcon from '$lib/images/icons/desktop.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
+import KeyboardsIcon from '$lib/images/icons/folder-keyboards.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
 import HomeIcon from '$lib/images/icons/home.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
+import PreviewIcon from '$lib/images/icons/preview.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
 import RichTextIcon from '$lib/images/icons/rtf.webp';
 import SauceIcon from '$lib/images/icons/sauce.webp';
@@ -45,6 +52,9 @@ import TrashIcon from '$lib/images/icons/trash.webp';
 import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
 import VCardIcon from '$lib/images/icons/vcard.webp';
+import MK47Icon from '$lib/images/keyboards/mk47-icon.webp';
+import Neon75Icon from '$lib/images/keyboards/neon75-icon.webp';
+import OK35Icon from '$lib/images/keyboards/ok35-icon.webp';
 
 interface AppOptionType<Options extends { parent?: AppName; props?: Record<string, any> } = {}> {
 	parent: Options extends { parent: infer Parent } ? Parent : undefined;
@@ -59,6 +69,7 @@ interface AppOptions {
 	finder: AppOptionType<{ props: { folder?: AppName } }>;
 	home: AppOptionType<{ parent: 'finder' }>;
 	projects: AppOptionType<{ parent: 'finder' }>;
+	keyboards: AppOptionType<{ parent: 'finder' }>;
 	characters: AppOptionType<{ props: { character?: AppName } }>;
 	fenny: AppOptionType<{ parent: 'characters' }>;
 	aren: AppOptionType<{ parent: 'characters' }>;
@@ -72,6 +83,11 @@ interface AppOptions {
 	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
 	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
 	TextEdit: AppOptionType;
+	Preview: AppOptionType<{ props: { src: string } }>;
+	keyboardsInfo: AppOptionType<{ parent: 'TextEdit' }>;
+	mk47: AppOptionType<{ parent: 'Preview' }>;
+	neon75: AppOptionType<{ parent: 'Preview' }>;
+	ok35: AppOptionType<{ parent: 'Preview' }>;
 	adblockWarning: AppOptionType;
 	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
 	blueskyMedia: AppOptionType<{
@@ -214,14 +230,14 @@ const getApps = (): {
 	},
 	// #region Finder
 	finder: {
-				parent: undefined,
+		parent: undefined,
 		Page: Finder,
-windowStyle: 'brushed',
+		windowStyle: 'brushed',
 		title: 'Finder',
-				windowTitle: 'Fenny',
+		windowTitle: 'Fenny',
 		icon: FinderIcon,
-titleIcon: HomeIcon,
-				route: '/home'
+		titleIcon: HomeIcon,
+		route: '/home'
 	},
 	home: {
 		parent: 'finder',
@@ -242,6 +258,66 @@ titleIcon: HomeIcon,
 		titleIcon: ProjectsIcon,
 		launchParentWithProps: { folder: 'projects' },
 		route: '/projects'
+	},
+	keyboards: {
+		parent: 'finder',
+		Page: Keyboards,
+		title: 'Keyboards',
+		windowTitle: 'Keyboards',
+		icon: KeyboardsIcon,
+		titleIcon: KeyboardsIcon,
+		launchParentWithProps: { folder: 'keyboards' },
+		route: '/keyboards'
+	},
+	keyboardsInfo: {
+		parent: 'TextEdit',
+		Page: KeyboardsInfo,
+		title: 'Info.rtf',
+		icon: RichTextIcon,
+		route: '/keyboards/info',
+		backTo: '/keyboards'
+	},
+	mk47: {
+		parent: 'Preview',
+		Page: MK47,
+		title: 'MK47.webp',
+		icon: MK47Icon,
+		defaultPosition: {
+			width: 2338,
+			height: 763
+		},
+		minSize: 300,
+		lockAspectRatio: true,
+		route: '/keyboards/mk47',
+		backTo: '/keyboards'
+	},
+	neon75: {
+		parent: 'Preview',
+		Page: Neon75,
+		title: 'Neon75.webp',
+		icon: Neon75Icon,
+		defaultPosition: {
+			width: 2725,
+			height: 1090
+		},
+		minSize: 300,
+		lockAspectRatio: true,
+		route: '/keyboards/neon75',
+		backTo: '/keyboards'
+	},
+	ok35: {
+		parent: 'Preview',
+		Page: OK35,
+		title: 'OK35.webp',
+		icon: OK35Icon,
+		defaultPosition: {
+			width: 1951,
+			height: 801
+		},
+		minSize: 300,
+		lockAspectRatio: true,
+		route: '/keyboards/ok35',
+		backTo: '/keyboards'
 	},
 	// #region Characters
 	characters: {
@@ -336,6 +412,11 @@ titleIcon: HomeIcon,
 		parent: undefined,
 		title: 'TextEdit',
 		icon: TextEditIcon
+	},
+	Preview: {
+		parent: undefined,
+		title: 'Preview',
+		icon: PreviewIcon
 	},
 	adblockWarning: {
 		parent: undefined,

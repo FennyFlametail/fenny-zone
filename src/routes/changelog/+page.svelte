@@ -6,6 +6,11 @@
 </script>
 
 <div class="textEdit" contenteditable="true" {@attach textEdit(app)}>
+	<h3>2026-05-03</h3>
+	<ul>
+		<li>Added Keyboards folder</li>
+		<li>Improved window sizing logic</li>
+	</ul>
 	<h3>2026-04-28</h3>
 	<ul>
 		<li>Added more links and changed some icons</li>

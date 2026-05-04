@@ -3,3 +3,4 @@
 </script>
 
 <FileIcon appName="projects" />
+<FileIcon appName="keyboards" />

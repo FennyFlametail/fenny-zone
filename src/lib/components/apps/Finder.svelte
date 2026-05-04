@@ -107,6 +107,7 @@
 		grid-template-columns: repeat(auto-fill, 128px);
 		justify-content: space-evenly;
 		align-content: start;
+		align-items: start;
 		padding: 10px;
 		row-gap: 42px;
 		background-color: white;
