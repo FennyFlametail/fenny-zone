@@ -64,7 +64,8 @@
 	--sidebar-item-active-bg-image: linear-gradient(to bottom, #397ad0 1px, #5a98dd 1px, #265cc5);
 	--sidebar-item-inactive-bg-image: linear-gradient(to bottom, #7f7e7e 1px, #979797 1px, #666666);
 	--text-secondary: rgb(0 0 0 / 50%);
-	--titlebar-height: 28px;
+	--titlebar-border-color: #8c8c8c;
+	--titlebar-height: 29px;
 	--titlebar-padding: 11px;
 	--widget-box-shadow: 0 2px 2px -1px #8b8b8b;
 	--widget-inner-box-shadow: inset 14px 0 14px -14px #dadada, inset -14px 0 14px -14px #dadada;
@@ -75,6 +76,14 @@
 	--window-brushed-bottom-padding: 32px;
 	--window-brushed-text-shadow: 0 1px 0 rgb(255 255 255 / 85%);
 	--window-radius: 12px;
+
+	--window-content-max-width: 100vw;
+	--window-content-max-height: calc(var(--desktop-safe-height) - var(--titlebar-height) - 1px);
+	--window-content-max-width-brushed: calc(100vw - var(--titlebar-padding) * 2);
+	--window-content-max-height-brushed: calc(
+		var(--desktop-safe-height) - var(--titlebar-height) - var(--window-brushed-bottom-padding) - 1px
+	);
+	--window-content-max-height-custom: calc(var(--desktop-safe-height) - 1px);
 
 	accent-color: var(--accent-color);
 
@@ -145,20 +154,41 @@ button {
 	}
 }
 
-@property --menubar-height {
-	syntax: '<length>';
-	inherits: true;
-	initial-value: 30px;
-}
+/* anything read by windowServer that uses calc needs to be declared here */
 @property --dock-height {
 	syntax: '<length>';
 	inherits: true;
-	initial-value: 79px;
+	initial-value: 0px;
 }
 @property --desktop-safe-height {
 	syntax: '<length>';
 	inherits: true;
-	initial-value: calc(100vh - 30px - 79px);
+	initial-value: 0px;
+}
+@property --window-content-max-width {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
+}
+@property --window-content-max-height {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
+}
+@property --window-content-max-width-brushed {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
+}
+@property --window-content-max-height-brushed {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
+}
+@property --window-content-max-height-custom {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
 }
 
 @font-face {

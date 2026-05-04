@@ -22,13 +22,14 @@
 
 	const title = $derived(app.instance.windowTitle ?? app.windowTitle ?? app.title);
 
-	let minSize = app.minSize ?? 500;
+	let minWidth = app.minSize ?? WindowServer.defaultWindowWidth;
+	let minHeight = app.minSize ?? WindowServer.defaultWindowHeight;
 	if (browser) {
-		minSize = Math.min(minSize, document.documentElement.clientWidth);
+		minWidth = Math.min(minWidth, document.documentElement.clientWidth);
+		minHeight = Math.min(minHeight, WindowServer.safeHeight);
 	}
 
 	let element = $state<HTMLElement>();
-	let contentWrapper = $state<HTMLDivElement>();
 
 	let dragging = $state(false);
 	let resizing = $state(false);
@@ -70,44 +71,53 @@
 			const resizeFromCenter = e.altKey;
 
 			const deltaX = e.screenX - lastX;
-			let deltaY = e.screenY - lastY;
-			if (app.lockAspectRatio) {
-				deltaY = (deltaX * app.instance.position.height) / app.instance.position.width;
-			}
+			const deltaY = e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
+
+			let maxHeight = WindowServer.windowMaxHeight;
+			if (app.windowStyle === 'brushed') {
+				maxHeight = WindowServer.windowMaxHeightBrushed;
+			} else if (app.windowStyle === 'custom') {
+				maxHeight = WindowServer.windowMaxHeightCustom;
+			}
 
 			let newWidth = app.instance.position.width + deltaX;
 			let newHeight = app.instance.position.height + deltaY;
 
 			if (app.lockAspectRatio) {
-				if (
-					Math.min(newWidth, newHeight) <= minSize ||
-					newHeight >= WindowServer.safeHeight - app.instance.position.y
-				) {
+				if (newWidth <= minWidth || newHeight <= minHeight || newHeight >= maxHeight) {
 					return;
 				}
 			}
 
 			if (resizeFromCenter) {
-				// FIXME can break lockAspectRatio by resizing against menubar
-				if (app.instance.position.width > minSize) {
+				if (app.instance.position.width > minWidth) {
 					newWidth += deltaX;
 					app.instance.position.x -= deltaX;
 				}
 				const newY = Math.max(app.instance.position.y - deltaY, 0);
-				if (app.instance.position.height > minSize && newY > 0) {
+				if (app.instance.position.height > minHeight && newY > 0) {
 					newHeight += deltaY;
 					app.instance.position.y = newY;
 				}
 			}
 
-			app.instance.position.width = Math.max(newWidth, minSize);
-			app.instance.position.height = Math.min(
-				Math.max(newHeight, minSize),
-				WindowServer.safeHeight - app.instance.position.y
-			);
+			let clampedWidth = Math.max(newWidth, minWidth);
+			let clampedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);
+
+			if (app.lockAspectRatio) {
+				({ width: clampedWidth, height: clampedHeight } = WindowServer.scaleToAspectRatio(
+					clampedWidth,
+					clampedHeight,
+					app.instance.position.width,
+					app.instance.position.height
+				));
+			}
+
+			app.instance.position.width = clampedWidth;
+			app.instance.position.height = clampedHeight;
 		}
 	}
 
@@ -207,7 +217,7 @@
 			{/if}
 		</header>
 	{/if}
-	<div bind:this={contentWrapper} class="windowContent" inert={saveSheetOpen}>
+	<div class="windowContent" inert={saveSheetOpen}>
 		{#if browser}
 			<svelte:boundary onerror={(e) => windowServer.closeAppWithError(appName, e)}>
 				<app.Page {...app.instance.props} />
@@ -246,14 +256,11 @@
 
 <style>
 	.window {
-		--window-titlebar-border-color: #8c8c8c;
 		grid-area: 1 / 1;
 		position: absolute;
 		/* FIXME translate while dragging and then change position when letting go */
 		left: var(--window-x);
 		top: var(--window-y);
-		width: var(--window-width);
-		height: var(--window-height);
 		display: grid;
 		grid-template:
 			'titlebar' auto
@@ -290,8 +297,6 @@
 			position: absolute;
 			left: max(0px, 50vw - var(--window-width) / 2);
 			top: max(0px, (var(--desktop-safe-height) / 2 - var(--window-height) / 2) * (2/3));
-			max-width: 100vw;
-			max-height: var(--desktop-safe-height);
 		}
 
 		@media (forced-colors: active) {
@@ -302,11 +307,12 @@
 	.windowTitlebar {
 		grid-area: titlebar;
 		position: relative;
+		height: var(--titlebar-height);
 		display: grid;
-		grid-template: 'title' var(--titlebar-height) / 100%;
+		grid-template: 'title' auto / 100%;
 		padding-inline: var(--titlebar-padding);
 		border-radius: inherit;
-		border-bottom: 1px solid var(--window-titlebar-border-color);
+		border-bottom: 1px solid var(--titlebar-border-color);
 		background: linear-gradient(to bottom, #efefef, #cacaca);
 		-webkit-user-select: none;
 		user-select: none;
@@ -347,12 +353,19 @@
 	.windowContent {
 		container: window / inline-size;
 		grid-area: content;
+		width: var(--window-width);
+		height: var(--window-height);
 		display: grid;
 		justify-items: stretch;
 		align-items: stretch;
 		min-height: 0;
 		position: relative;
 		overscroll-behavior: none;
+
+		@media (scripting: none) {
+			max-width: var(--window-content-max-width);
+			max-height: var(--window-content-max-height);
+		}
 	}
 
 	.windowResizeHandle {
@@ -418,6 +431,11 @@
 				content: '⚠️ Use the .brushedInset class to render the inset border, or .brushedNoInset to hide this message ⚠️';
 				font-size: 1rem;
 			}
+
+			@media (scripting: none) {
+				max-width: var(--window-content-max-width-brushed);
+				max-height: var(--window-content-max-height-brushed);
+			}
 		}
 
 		.windowResizeHandle {
@@ -438,6 +456,14 @@
 		&:not(.window.inactive .windowTitlebar) {
 			box-shadow: inset 0 1px 0 0px #fbfbfb;
 			background: linear-gradient(to bottom, #ebebeb, #e5e5e5);
+		}
+	}
+
+	.window.custom {
+		.windowContent {
+			@media (scripting: none) {
+				max-height: var(--window-content-max-height-custom);
+			}
 		}
 	}
 

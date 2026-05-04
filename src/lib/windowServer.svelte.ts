@@ -1,10 +1,10 @@
 import { browser } from '$app/environment';
 import getApps, {
-    type AppEntry,
-    type AppName,
-    type AppParent,
-    type AppProps,
-    type RunningApp
+	type AppEntry,
+	type AppName,
+	type AppParent,
+	type AppProps,
+	type RunningApp
 } from '$lib/apps.svelte';
 import { type desktopPictures } from '$lib/data/desktopPictures';
 import { prefersReducedMotion } from 'svelte/motion';
@@ -39,27 +39,37 @@ type OpenAppResult<Name extends AppName, Parent = AppParent<Name>> = Parent exte
 		: RunningApp<Parent>
 	: RunningApp<Name>;
 
+function getProperty(name: string, defaultValue: number) {
+	return browser
+		? parseInt(getComputedStyle(document.documentElement).getPropertyValue(name))
+		: defaultValue;
+}
+
 export default class WindowServer {
 	// #region Static
-	static menubarHeight = browser
-		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--menubar-height'))
-		: 29;
-	static dockHeight = browser
-		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-height'))
-		: 79;
-	static titlebarHeight = browser
-		? parseInt(getComputedStyle(document.documentElement).getPropertyValue('--titlebar-height'))
-		: 28;
-	static get safeHeight() {
-		return browser
-			? parseInt(
-					getComputedStyle(document.documentElement).getPropertyValue('--desktop-safe-height')
-				)
-			: Infinity;
-	}
+	static menubarHeight = getProperty('--menubar-height', 29);
+	static dockHeight = getProperty('--dock-height', 79);
+	static titlebarHeight = getProperty('--titlebar-height', 29);
+	/** Space between the menubar and Dock */
+	static safeHeight = getProperty('--desktop-safe-height', Infinity);
+
+	static windowMaxWidth = getProperty('--window-content-max-width', Infinity);
+	static windowMaxHeight = getProperty('--window-content-max-height', Infinity);
+	static windowMaxWidthBrushed = getProperty('--window-content-max-width-brushed', Infinity);
+	static windowMaxHeightBrushed = getProperty('--window-content-max-height-brushed', Infinity);
+	static windowMaxHeightCustom = getProperty('--window-content-max-height-custom', Infinity);
+
+	static defaultWindowWidth = 500;
+	static defaultWindowHeight = 500 - this.titlebarHeight;
 	static sheetDuration = 300;
 
-	static getInitialPosition = (initialPosition?: Partial<Position>): Position => {
+	static getInitialPosition = (
+		initialPosition?: Partial<Position>,
+		app?: Pick<AppEntry, 'windowStyle' | 'lockAspectRatio'>
+	): Position => {
+		const defaultWidth = initialPosition?.width ?? this.defaultWindowWidth;
+		const defaultHeight = initialPosition?.height ?? this.defaultWindowHeight;
+
 		// apps are only SSRed if JavaScript is disabled
 		// in this case, position and max width/height are set through CSS
 		// (because the server can't access browser height/width)
@@ -67,27 +77,50 @@ export default class WindowServer {
 			return {
 				x: 0,
 				y: 0,
-				width: initialPosition?.width ?? 500,
-				height: initialPosition?.height ?? 500,
+				width: defaultWidth,
+				height: defaultHeight,
 				zIndex: 0
 			};
 		}
 
-		const { clientWidth, clientHeight } = document.documentElement;
+		let maxWidth = this.windowMaxWidth;
+		let maxHeight = this.windowMaxHeight;
 
-		/** Space between the menubar and Dock */
-		const width = initialPosition?.width ?? 500;
-		const height = initialPosition?.height ?? 500;
-		const x = initialPosition?.x ?? clientWidth / 2 - width / 2;
-		const y = initialPosition?.y ?? (this.safeHeight / 2 - height / 2) * (2 / 3);
+		if (app?.windowStyle === 'brushed') {
+			maxWidth = this.windowMaxWidthBrushed;
+			maxHeight = this.windowMaxHeightBrushed;
+		} else if (app?.windowStyle === 'custom') {
+			maxHeight = this.windowMaxHeightCustom;
+		}
 
-		return {
-			x: Math.max(Math.min(x, clientWidth - width), 0),
-			y: Math.max(Math.min(y, clientHeight - height), 0),
-			width: Math.min(width, clientWidth),
-			height: Math.min(height, clientHeight - this.menubarHeight - this.dockHeight),
-			zIndex: initialPosition?.zIndex ?? 0
-		};
+		let width = Math.min(defaultWidth, maxWidth);
+		let height = Math.min(defaultHeight, maxHeight);
+
+		if (app?.lockAspectRatio) {
+			({ width, height } = this.scaleToAspectRatio(width, height, defaultWidth, defaultHeight));
+		}
+
+		const x = Math.max(initialPosition?.x ?? maxWidth / 2 - width / 2, 0);
+		const y = Math.max(initialPosition?.y ?? (maxHeight / 2 - height / 2) * (2 / 3), 0);
+
+		return { x, y, width, height, zIndex: initialPosition?.zIndex ?? 0 };
+	};
+
+	static scaleToAspectRatio = (
+		inputWidth: number,
+		inputHeight: number,
+		ratioWidth: number,
+		ratioHeight: number
+	) => {
+		let width = inputWidth,
+			height = inputHeight;
+
+		if (inputWidth >= inputHeight) {
+			height = (inputWidth * ratioHeight) / ratioWidth;
+		} else {
+			width = (inputHeight * ratioWidth) / ratioHeight;
+		}
+		return { width, height };
 	};
 	// #endregion
 
@@ -158,11 +191,14 @@ export default class WindowServer {
 		const openNewInstance = () => {
 			const self = this;
 			app.instance = {
-				position: WindowServer.getInitialPosition({
-					...app.defaultPosition,
-					zIndex: Object.keys(this.runningApps).length,
-					...options.position
-				}),
+				position: WindowServer.getInitialPosition(
+					{
+						...app.defaultPosition,
+						zIndex: Object.keys(this.runningApps).length,
+						...options.position
+					},
+					app
+				),
 				launchOrder: this.#launchCount++,
 				get focused() {
 					return self.focusedApp?.app === app;
@@ -357,12 +393,15 @@ export default class WindowServer {
 			.sort(([, appA], [, appB]) => appA.instance.position.zIndex - appB.instance.position.zIndex)
 			.forEach(([appName, app], index) => {
 				this.setAnimating(appName as AppName);
-				app.instance.position = WindowServer.getInitialPosition({
-					...app.defaultPosition,
-					x: WindowServer.titlebarHeight * (index + 1),
-					y: WindowServer.titlebarHeight * (index + 1),
-					zIndex: app.instance.position.zIndex
-				});
+				app.instance.position = WindowServer.getInitialPosition(
+					{
+						...app.defaultPosition,
+						x: WindowServer.titlebarHeight * (index + 1),
+						y: WindowServer.titlebarHeight * (index + 1),
+						zIndex: app.instance.position.zIndex
+					},
+					app
+				);
 			});
 	};
 

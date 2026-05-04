@@ -179,6 +179,9 @@ const getApps = (): {
 		Page: Readme,
 		title: 'Readme',
 		icon: RichTextIcon,
+		defaultPosition: {
+			height: 450
+		},
 		route: '/readme'
 	},
 	changelog: {
@@ -308,7 +311,7 @@ const getApps = (): {
 		windowStyle: 'unified',
 		noResize: true,
 		get defaultPosition() {
-			// size to fit the Desktop prefpane (height 525)
+			// position to fit the Desktop prefpane (height 525)
 			return {
 				y: WindowServer.getInitialPosition({ height: 525 }).y,
 				height: 200
@@ -366,7 +369,12 @@ const getApps = (): {
 		windowStyle: 'custom',
 		get defaultPosition() {
 			return {
-				x: Math.max(WindowServer.getInitialPosition().x - 100, 0)
+				x: Math.max(
+					WindowServer.getInitialPosition(undefined, {
+						lockAspectRatio: true
+					}).x - 100,
+					0
+				)
 			};
 		},
 		minSize: 200,
