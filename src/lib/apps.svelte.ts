@@ -206,6 +206,10 @@ const getApps = (): {
 		Page: Trash,
 		title: 'Trash',
 		icon: TrashIcon,
+		defaultPosition: {
+			width: 480,
+			height: 480
+		},
 		route: '/trash'
 	},
 	// #region Finder
@@ -312,7 +316,7 @@ titleIcon: HomeIcon,
 			// position to fit the Desktop prefpane (height 525)
 			return {
 				y: WindowServer.getInitialPosition({ height: 525 }).y,
-				height: 200
+				height: 175
 			};
 		}
 	},
@@ -343,7 +347,7 @@ titleIcon: HomeIcon,
 		noResize: true,
 		defaultPosition: {
 			width: 580,
-			height: 210
+			height: 180
 		}
 	},
 	crashDialog: {
@@ -356,7 +360,7 @@ titleIcon: HomeIcon,
 		noResize: true,
 		defaultPosition: {
 			width: 580,
-			height: 250
+			height: 225
 		}
 	},
 	blueskyMedia: {
