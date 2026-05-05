@@ -51,13 +51,25 @@ export default class WindowServer {
 	static dockHeight = getProperty('--dock-height', 79);
 	static titlebarHeight = getProperty('--titlebar-height', 29);
 	/** Space between the menubar and Dock */
-	static safeHeight = getProperty('--desktop-safe-height', Infinity);
+	static get safeHeight() {
+		return getProperty('--desktop-safe-height', Infinity);
+	}
 
-	static windowMaxWidth = getProperty('--window-content-max-width', Infinity);
-	static windowMaxHeight = getProperty('--window-content-max-height', Infinity);
-	static windowMaxWidthBrushed = getProperty('--window-content-max-width-brushed', Infinity);
-	static windowMaxHeightBrushed = getProperty('--window-content-max-height-brushed', Infinity);
-	static windowMaxHeightCustom = getProperty('--window-content-max-height-custom', Infinity);
+	static get windowMaxWidth() {
+		return getProperty('--window-content-max-width', Infinity);
+	}
+	static get windowMaxHeight() {
+		return getProperty('--window-content-max-height', Infinity);
+	}
+	static get windowMaxWidthBrushed() {
+		return getProperty('--window-content-max-width-brushed', Infinity);
+	}
+	static get windowMaxHeightBrushed() {
+		return getProperty('--window-content-max-height-brushed', Infinity);
+	}
+	static get windowMaxHeightCustom() {
+		return getProperty('--window-content-max-height-custom', Infinity);
+	}
 
 	static defaultWindowWidth = 500;
 	static defaultWindowHeight = 500 - this.titlebarHeight;
