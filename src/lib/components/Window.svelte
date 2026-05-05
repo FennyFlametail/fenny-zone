@@ -42,7 +42,6 @@
 	let lastY = $state(app.instance.position.y);
 
 	function startDrag(e: PointerEvent) {
-		delete app.instance.preZoomPosition;
 		windowServer.focusApp(appName);
 		if ((e.target as Element).hasAttribute('data-allow-window-drag')) {
 			windowServer.draggingEl = element;
@@ -53,25 +52,28 @@
 
 	function startResize(e: PointerEvent) {
 		if (app.noResize) return;
-		delete app.instance.preZoomPosition;
 		windowServer.resizingEl = element;
 		lastX = e.screenX;
 		lastY = e.screenY;
 	}
 
 	function pointerMove(e: PointerEvent) {
+		const deltaX = e.screenX - lastX;
+		const deltaY = e.screenY - lastY;
+
+		if (windowServer.draggingEl === element || windowServer.resizingEl === element) {
+			delete app.instance.preZoomPosition;
+		}
+
 		if (windowServer.draggingEl === element) {
-			app.instance.position.x += e.screenX - lastX;
-			app.instance.position.y += e.screenY - lastY;
+			app.instance.position.x += deltaX;
+			app.instance.position.y += deltaY;
 			app.instance.position.y = Math.max(app.instance.position.y, 0);
 
 			lastX = e.screenX;
 			lastY = e.screenY;
 		} else if (windowServer.resizingEl === element) {
 			const resizeFromCenter = e.altKey;
-
-			const deltaX = e.screenX - lastX;
-			const deltaY = e.screenY - lastY;
 
 			lastX = e.screenX;
 			lastY = e.screenY;
