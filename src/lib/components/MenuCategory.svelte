@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { Snippet } from 'svelte';
+	import { MediaQuery } from 'svelte/reactivity';
 
 	const {
 		menubar,
@@ -26,7 +27,7 @@
 	let button = $state<HTMLButtonElement>();
 	let menu = $state<HTMLMenuElement>();
 	function menuHover() {
-		if (navigator.userAgent.includes('iPhone')) return;
+		if (document.body.classList.contains('safari') && matchMedia('(hover: none)').matches) return;
 		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
 		// @ts-expect-error
 		if (anyMenuOpen) menu!.showPopover({ source: button });
