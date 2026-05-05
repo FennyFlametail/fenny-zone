@@ -56,7 +56,7 @@
 {#if browser || noScript}
 	<li
 		bind:this={item}
-		class={['menuItem', { opening, disabled }]}
+		class={['menuItem', { opening, disabled, checked }]}
 		style:--openAnimDuration="{openAnimDuration}ms"
 		role="menuitem"
 		aria-labelledby={itemId}
@@ -96,6 +96,8 @@
 		display: flex;
 		flex-flow: column;
 		align-items: stretch;
+		font-size: 16px;
+		line-height: 1.5;
 		white-space: nowrap;
 
 		&.disabled {
@@ -106,6 +108,10 @@
 			outline: none;
 			background-color: var(--menu-option-active-bg-color);
 			color: white;
+
+			.menuItemCheckmark {
+				color: white;
+			}
 
 			@media (forced-colors: active) {
 				background-color: CanvasText;
