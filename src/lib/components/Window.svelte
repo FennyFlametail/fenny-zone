@@ -100,7 +100,10 @@
 			}
 
 			let clampedWidth = Math.max(newWidth, minWidth);
-			let clampedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);
+			let clampedHeight = Math.min(
+				Math.max(newHeight, minHeight),
+				maxHeight - app.instance.position.y
+			);
 
 			if (app.lockAspectRatio) {
 				({ width: clampedWidth, height: clampedHeight } = WindowServer.scaleToAspectRatio(
