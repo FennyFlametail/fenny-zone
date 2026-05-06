@@ -35,7 +35,7 @@
 	const openAnimDuration = $derived(prefersReducedMotion.current ? 0 : 200);
 
 	let item = $state<HTMLLIElement>();
-	function setSelected(e: MouseEvent) {
+	function triggerOpen(e: MouseEvent) {
 		e.preventDefault();
 		if (opening || disabled) return;
 		opening = true;
@@ -72,8 +72,8 @@
 					class="menuItemLink"
 					{href}
 					target={newTab ? '_blank' : '_self'}
-					onclick={setSelected}
-					onpointerup={setSelected}>{@render children?.()}</a
+					onclick={triggerOpen}
+					onpointerup={triggerOpen}>{@render children?.()}</a
 				>
 			{:else}
 				<span id={itemId} class="menuItemLink">{@render children?.()}</span>
@@ -82,8 +82,8 @@
 			<button
 				id={itemId}
 				class="menuItemButton"
-				onclick={setSelected}
-				onpointerup={setSelected}
+				onclick={triggerOpen}
+				onpointerup={triggerOpen}
 				{disabled}>{@render children?.()}</button
 			>
 		{/if}

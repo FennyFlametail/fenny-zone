@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { Snippet } from 'svelte';
-	import { MediaQuery } from 'svelte/reactivity';
+	import { onMount, type Snippet } from 'svelte';
 
 	const {
 		menubar,
@@ -26,15 +25,47 @@
 
 	let button = $state<HTMLButtonElement>();
 	let menu = $state<HTMLMenuElement>();
-	function menuHover() {
-		if (document.body.classList.contains('safari') && matchMedia('(hover: none)').matches) return;
+
+	let isiPhone = $state(false);
+	onMount(() => {
+		setTimeout(() => {
+			isiPhone = document.body.classList.contains('safari') && matchMedia('(hover: none)').matches;
+		}, 100);
+	});
+
+	function onclick(e: MouseEvent) {
+		if (isiPhone) return;
+		e.preventDefault();
+	}
+
+	function onpointerenter() {
+		if (isiPhone) return;
 		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
 		// @ts-expect-error
 		if (anyMenuOpen) menu!.showPopover({ source: button });
 	}
-	function showPopoverTouch(e: TouchEvent) {
-		// this fixes unreliable button taps in MobileSafari (thanks Apple),
-		// at the cost of not being able to close the menu by tapping the category
+
+	let pointerDownTime = $state(0);
+
+	function onpointerdown(e: PointerEvent) {
+		if (isiPhone) return;
+		if (menu?.contains(e.target as Node)) return;
+		pointerDownTime = Date.now();
+		// @ts-expect-error
+		menu!.togglePopover({ source: button });
+	}
+
+	function onpointerup() {
+		if (isiPhone) return;
+		if (Date.now() - pointerDownTime > 500) {
+			// @ts-expect-error
+			menu!.hidePopover({ source: button });
+		}
+	}
+
+	function ontouchend(e: TouchEvent) {
+		if (!isiPhone) return;
+		// fixes unreliable button taps in MobileSafari
 		e.preventDefault();
 		// @ts-expect-error
 		menu!.togglePopover({ source: button });
@@ -46,8 +77,11 @@
 		bind:this={button}
 		class="menuCategory"
 		popovertarget={menuId}
-		onpointerenter={menuHover}
-		ontouchend={showPopoverTouch}
+		{onclick}
+		{onpointerenter}
+		{onpointerdown}
+		{onpointerup}
+		{ontouchend}
 	>
 		<svelte:element
 			this={nameTag}
@@ -69,13 +103,18 @@
 		transition: 0s 0.05s step-start allow-discrete;
 		transition-property: background, color;
 
-		&:active,
+		&:active:hover,
 		&:focus-visible,
 		&:has(.aqua-menu:popover-open) {
 			outline: none;
 			background: var(--menu-category-active-bg-image);
 			color: white;
 			transition-delay: 0s;
+
+			.menuLogo {
+				background-image: none;
+				background-color: white;
+			}
 		}
 	}
 
@@ -92,13 +131,6 @@
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
-
-		.menuCategory:active &,
-		.menuCategory:focus-visible &,
-		.menuCategory:has(.aqua-menu:popover-open) & {
-			background-image: none;
-			background-color: white;
-		}
 	}
 
 	.menuApp {

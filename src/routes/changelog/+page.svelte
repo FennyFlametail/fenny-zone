@@ -4,6 +4,10 @@
 
 <TextEdit>
 	<div>
+		<h3>2026-05-05</h3>
+		<ul>
+			<li>Click and drag to activate menus</li>
+		</ul>
 		<h3>2026-05-03</h3>
 		<ul>
 			<li>Added Keyboards folder</li>
