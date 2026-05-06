@@ -27,6 +27,8 @@
 		position: relative;
 		display: grid;
 		pointer-events: none; /* allow clicks to fall through to the desktop */
+		-webkit-user-select: none;
+		user-select: none;
 
 		> :global(*) {
 			pointer-events: auto;
