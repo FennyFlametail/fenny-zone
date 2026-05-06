@@ -37,7 +37,7 @@
 	let item = $state<HTMLLIElement>();
 	function setSelected(e: MouseEvent) {
 		e.preventDefault();
-		if (opening) return;
+		if (opening || disabled) return;
 		opening = true;
 		window.setTimeout(() => {
 			opening = false;
