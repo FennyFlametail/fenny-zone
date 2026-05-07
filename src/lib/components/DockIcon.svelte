@@ -59,7 +59,7 @@
 	{onclick}
 	href={app.route ?? undefined}
 >
-	<span id={labelId} class="dockIconLabel">{app.dockTitle ?? app.title}</span>
+	<div id={labelId} class="dockIconLabel">{app.dockTitle ?? app.title}</div>
 	<img src={icon} alt="" class="dockIconImage" draggable="false" />
 </svelte:element>
 
@@ -68,6 +68,8 @@
 		flex-shrink: 0;
 		width: var(--dock-icon-size);
 		height: var(--dock-icon-size);
+		display: flex;
+		justify-content: center;
 		text-align: center;
 		position: relative;
 		box-sizing: content-box;
@@ -140,51 +142,61 @@
 		}
 
 		/* open indicator */
-		&.open:not(:global([inert]))::after {
+		&::after {
+			display: block;
 			position: fixed;
 			bottom: 1px;
-			translate: -50%;
 			content: '';
 			border-left: 4px solid transparent;
 			border-right: 4px solid transparent;
 			border-bottom: 5px solid black;
+		}
 
-			:global(body:not(.loading)) & {
-				@media not (prefers-reduced-motion: reduce) {
-					/* delay appearance until bounce finishes */
-					transition: 0ms visibility;
-					transition-delay: calc(var(--bounceAnimDuration) * var(--bounceAnimSteps));
-					@starting-style {
-						visibility: hidden;
-					}
+		&:is(:global(body:not(.loading)) .dockIcon.open:not(:global([inert])))::after {
+			@media not (prefers-reduced-motion: reduce) {
+				/* delay appearance until partway through bounce */
+				transition: 0ms visibility;
+				transition-delay: calc(var(--bounceAnimDuration) * var(--bounceAnimSteps) / 2);
+				@starting-style {
+					visibility: hidden;
 				}
 			}
 		}
 	}
 
 	.dockIconLabel {
-		display: none;
+		position: absolute;
+		bottom: calc(100% + 5px);
+		left: 50%;
+		translate: -50%;
+		white-space: nowrap;
+		color: white;
+		text-shadow: var(--label-text-shadow);
 
-		.dockIcon:is(:hover, :focus-visible) & {
-			display: inline;
-			position: absolute;
-			bottom: calc(100% + 5px);
-			translate: -50%;
-			white-space: nowrap;
-			color: white;
-			text-shadow: var(--label-text-shadow);
+		@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
+			padding-inline: 5px;
+			border-radius: 5px;
+			background-color: rgb(255 255 255 / 75%);
+			color: black;
+			text-shadow: none;
 
-			@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
-				padding-inline: 5px;
-				border-radius: 5px;
-				background-color: rgb(255 255 255 / 75%);
-				color: black;
-				text-shadow: none;
-
-				@media (prefers-reduced-transparency: reduce) {
-					background-color: white;
-				}
+			@media (prefers-reduced-transparency: reduce) {
+				background-color: white;
 			}
+		}
+	}
+
+	/* fade out label & open indicator */
+	.dockIcon:not(.open:not(:global([inert])))::after,
+	.dockIcon:not(:hover, :focus-visible) .dockIconLabel {
+		display: none;
+		opacity: 0;
+		transition: 250ms linear allow-discrete;
+		transition-property: display, opacity;
+
+		/* don't fade labels when moving between icons */
+		&:is(:global(.dock:is(:hover, :focus-within)) .dockIconLabel) {
+			transition-duration: 0ms;
 		}
 	}
 
