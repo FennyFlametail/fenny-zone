@@ -6,12 +6,13 @@ import WindowServer from '$lib/windowServer.svelte';
 import type { Component } from 'svelte';
 
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
-import Browser from '$lib/components/apps/Browser.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Finder from '$lib/components/apps/Finder.svelte';
 import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
+import TextEdit from '$lib/components/apps/TextEdit.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
 import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
+import Applications from '../routes/applications/+page.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
 import Changelog from '../routes/changelog/+page.svelte';
 import Characters from '../routes/characters/+page.svelte';
@@ -20,6 +21,7 @@ import Ceph from '../routes/characters/ceph/+page.svelte';
 import Fenny from '../routes/characters/fenny/+page.svelte';
 import Nocturne from '../routes/characters/nocturne/+page.svelte';
 import Rigel from '../routes/characters/rigel/+page.svelte';
+import Goat from '../routes/goat/+page.svelte';
 import Home from '../routes/home/+page.svelte';
 import Keyboards from '../routes/keyboards/+page.svelte';
 import KeyboardsInfo from '../routes/keyboards/info/+page.svelte';
@@ -28,6 +30,8 @@ import Neon75 from '../routes/keyboards/neon75/+page.svelte';
 import OK35 from '../routes/keyboards/ok35/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
+import Sauce from '../routes/sauce/+page.svelte';
+import Toddspin from '../routes/toddspin/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
@@ -36,6 +40,7 @@ import CephIcon from '$lib/images/icons/ceph.webp';
 import DesktopPrefsIcon from '$lib/images/icons/desktop.webp';
 import FennyIcon from '$lib/images/icons/fenny.webp';
 import FinderIcon from '$lib/images/icons/finder.webp';
+import ApplicationsIcon from '$lib/images/icons/folder-applications.webp';
 import KeyboardsIcon from '$lib/images/icons/folder-keyboards.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
@@ -69,6 +74,7 @@ interface AppOptions {
 	trash: AppOptionType<{ parent: 'finder' }>;
 	finder: AppOptionType<{ props: { folder?: AppName } }>;
 	home: AppOptionType<{ parent: 'finder' }>;
+	applications: AppOptionType<{ parent: 'finder' }>;
 	projects: AppOptionType<{ parent: 'finder' }>;
 	keyboards: AppOptionType<{ parent: 'finder' }>;
 	characters: AppOptionType<{ props: { character?: AppName } }>;
@@ -77,10 +83,9 @@ interface AppOptions {
 	ceph: AppOptionType<{ parent: 'characters' }>;
 	rigel: AppOptionType<{ parent: 'characters' }>;
 	nocturne: AppOptionType<{ parent: 'characters' }>;
-	browser: AppOptionType<{ props: { url: string } }>;
-	toddspin: AppOptionType<{ parent: 'browser' }>;
-	sauce: AppOptionType<{ parent: 'browser' }>;
-	goat: AppOptionType<{ parent: 'browser' }>;
+	toddspin: AppOptionType<{ props: { url: string } }>;
+	sauce: AppOptionType<{ props: { url: string } }>;
+	goat: AppOptionType<{ props: { url: string } }>;
 	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
 	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
 	TextEdit: AppOptionType;
@@ -249,6 +254,15 @@ const getApps = (): {
 		replaceParentTitle: true,
 		route: '/home'
 	},
+	applications: {
+		parent: 'finder',
+		Page: Applications,
+		title: 'Applications',
+		icon: ApplicationsIcon,
+		launchParentWithProps: { folder: 'applications' },
+		replaceParentTitle: true,
+		route: '/applications'
+	},
 	projects: {
 		parent: 'finder',
 		Page: Projects,
@@ -341,41 +355,38 @@ const getApps = (): {
 	rigel: profile('rigel', Rigel, RigelIcon),
 	nocturne: profile('nocturne', Nocturne, NocturneIcon),
 	// #region Browser
-	browser: {
-		parent: undefined,
-		Page: Browser,
-		title: 'Browser'
-	},
 	toddspin: {
-		parent: 'browser',
+		parent: undefined,
+		Page: Toddspin,
 		title: 'Toddspin',
 		icon: ToddspinIcon,
-		launchParentWithProps: { url: 'https://toddspin.fenny.zone' },
-		replaceParentTitle: true,
 		defaultPosition: {
 			height: 800
-		}
+		},
+		route: '/toddspin'
 	},
 	sauce: {
-		parent: 'browser',
+		parent: undefined,
+		Page: Sauce,
 		title: 'CLICK FOR SAUCE',
 		icon: SauceIcon,
-		launchParentWithProps: { url: 'https://sauce.fenny.zone' },
 		replaceParentTitle: true,
 		defaultPosition: {
 			width: 600
-		}
+		},
+		route: '/sauce'
 	},
 	goat: {
-		parent: 'browser',
+		parent: undefined,
+		Page: Goat,
 		title: 'Goat Game',
 		icon: GoatIcon,
-		launchParentWithProps: { url: 'https://monty-hall.fenny.zone' },
 		replaceParentTitle: true,
 		defaultPosition: {
 			width: 600,
 			height: 800
-		}
+		},
+		route: '/goat'
 	},
 	// #region System Preferences
 	systemPreferences: {
@@ -408,8 +419,10 @@ const getApps = (): {
 	// #region Utility
 	TextEdit: {
 		parent: undefined,
+		Page: TextEdit,
 		title: 'TextEdit',
-		icon: TextEditIcon
+		icon: TextEditIcon,
+		titleIcon: TextIcon
 	},
 	Preview: {
 		parent: undefined,

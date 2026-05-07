@@ -9,7 +9,7 @@
 	const { pane: paneProp }: AppProps<'systemPreferences'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext('systemPreferences');
+	const { app, appName } = getAppContext<'systemPreferences'>();
 
 	const prefPanes: AppName[] = ['prefsDesktop'];
 

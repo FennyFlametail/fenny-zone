@@ -14,7 +14,7 @@
 	import { getBlueskyData } from './bluesky.remote';
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext('bluesky');
+	const { app, appName } = getAppContext<'bluesky'>();
 
 	let { profile, posts } = $state(
 		browser ? { profile: null, posts: null } : await getBlueskyData(undefined)

@@ -2,13 +2,13 @@
 	import { getAppContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
 
-	const { app } = getAppContext('TextEdit');
+	const { app } = getAppContext<'TextEdit'>();
 
 	const {
 		children,
 		monospace
 	}: {
-		children: Snippet;
+		children?: Snippet;
 		monospace?: boolean;
 	} = $props();
 
@@ -31,7 +31,11 @@
 	role="textbox"
 	{oninput}
 >
-	{@render children()}
+	{#if children}
+		{@render children()}
+	{:else}
+		<pre></pre>
+	{/if}
 </div>
 <svelte:window {onbeforeunload} />
 

@@ -6,17 +6,18 @@
 
 	const windowServer = getWindowServerContext();
 
-	const pinned: AppName[] = ['finder', 'characters', 'bluesky', 'systemPreferences'];
+	const pinnedLeft: AppName[] = ['finder', 'characters'];
+	const pinnedRight: AppName[] = ['applications', 'trash'];
 </script>
 
 {#snippet runningApps(parent: AppName | null, apps: [AppName, RunningApp][])}
 	{#if parent}
-		{#if !pinned.includes(parent)}
+		{#if !pinnedLeft.includes(parent)}
 			<DockIcon appName={parent} />
 		{/if}
 	{:else}
 		{#each apps as [name, app]}
-			{#if !pinned.includes(name) && !app.hideInDock}
+			{#if !pinnedLeft.includes(name) && !app.hideInDock}
 				<DockIcon appName={name} />
 			{/if}
 		{/each}
@@ -25,7 +26,7 @@
 
 <nav class="dock" aria-label="Dock">
 	<div class="dockSection">
-		{#each pinned as name}
+		{#each pinnedLeft as name}
 			<DockIcon appName={name} />
 		{/each}
 		{#each windowServer.runningAppsByParent as [parent, apps] (parent)}
@@ -38,8 +39,9 @@
 		{/if}
 	</div>
 	<div class="dockSection">
-		<DockIcon appName="projects" open={false} />
-		<DockIcon appName="trash" open={false} />
+		{#each pinnedRight as name}
+			<DockIcon appName={name} />
+		{/each}
 	</div>
 </nav>
 

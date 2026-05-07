@@ -9,7 +9,7 @@ const [getAppContextUntyped, setAppContext] = createContext<{
 	app: RunningApp;
 }>();
 
-const getAppContext = <Name extends AppName>(appName: Name) =>
+const getAppContext = <Name extends AppName>() =>
 	getAppContextUntyped() as {
 		appName: Name;
 		app: RunningApp<Name>;

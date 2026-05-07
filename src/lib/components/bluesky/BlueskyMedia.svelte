@@ -5,7 +5,7 @@
 	import { CircleX, ExternalLink } from 'lucide-svelte';
 
 	const windowServer = getWindowServerContext();
-	const { app, appName } = getAppContext('blueskyMedia');
+	const { app, appName } = getAppContext<'blueskyMedia'>();
 
 	const { image, postLink, handle }: AppProps<'blueskyMedia'> = $props();
 

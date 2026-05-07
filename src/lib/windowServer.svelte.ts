@@ -221,7 +221,10 @@ export default class WindowServer {
 				get focused() {
 					return self.focusedApp?.app === app;
 				},
-				props: options.props ?? {}
+				props: {
+					...app.launchWithProps,
+					...options.props
+				}
 			};
 			this.desktopFocused = false;
 		};
@@ -253,8 +256,8 @@ export default class WindowServer {
 				props: app.launchParentWithProps
 			});
 			if (app.replaceParentTitle) {
-parentApp.instance.windowTitle = app.windowTitle ?? app.title;
-parentApp.instance.titleIcon = app.titleIcon ?? app.icon;
+				parentApp.instance.windowTitle = app.windowTitle ?? app.title;
+				parentApp.instance.titleIcon = app.titleIcon ?? app.icon;
 			}
 			return parentApp as OpenAppResult<Name>;
 		} else {

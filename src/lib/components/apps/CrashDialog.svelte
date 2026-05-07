@@ -7,7 +7,7 @@
 	const { crashedAppName }: AppProps<'crashDialog'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { appName } = getAppContext('crashDialog');
+	const { appName } = getAppContext<'crashDialog'>();
 
 	const crashedAppTitle = $derived(windowServer.apps[crashedAppName]?.title);
 

@@ -11,7 +11,7 @@
 	const { folder: folderProp }: AppProps<'finder'> = $props();
 
 	const windowServer = getWindowServerContext();
-	const { app } = getAppContext('finder');
+	const { app } = getAppContext<'finder'>();
 
 	const navStack = new NavigationStack<AppName>(folderProp ?? 'home', onFolderChange);
 	$effect(() => {

@@ -81,7 +81,7 @@
 	{ondblclick}
 	{onkeydown}
 	href={href || (app?.launchParentWithProps as any)?.url || app?.route || ''}
-	target={href || app?.parent === 'browser' ? '_blank' : '_self'}
+	target={href ? '_blank' : '_self'}
 >
 	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon ?? app?.icon} alt={''} draggable="false" />
@@ -92,7 +92,7 @@
 			draggable="false"
 			style:--openAnimDuration="{openAnimDuration}ms"
 		/>
-		{#if href || (!browser && app?.parent === 'browser')}
+		{#if href}
 			<img class="aliasIcon" src={AliasIcon} alt="" draggable="false" />
 		{/if}
 	</div>

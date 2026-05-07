@@ -1,11 +1,15 @@
 <script lang="ts">
-	import type { AppProps } from '$lib/apps.svelte';
+	import type { AppName } from '$lib/apps.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 
-	const { url }: AppProps<'browser'> = $props();
+	const {
+		url
+	}: {
+		url: string;
+	} = $props();
 
 	const windowServer = getWindowServerContext();
-	const { appName, app } = getAppContext('browser');
+	const { appName, app } = getAppContext<AppName>();
 </script>
 
 <div class="browser">
