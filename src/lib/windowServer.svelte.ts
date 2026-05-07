@@ -252,8 +252,10 @@ export default class WindowServer {
 				position: app.defaultPosition,
 				props: app.launchParentWithProps
 			});
-			if (app.windowTitle) parentApp.instance.windowTitle = app.windowTitle;
-			if (app.titleIcon) parentApp.instance.titleIcon = app.titleIcon;
+			if (app.replaceParentTitle) {
+parentApp.instance.windowTitle = app.windowTitle ?? app.title;
+parentApp.instance.titleIcon = app.titleIcon ?? app.icon;
+			}
 			return parentApp as OpenAppResult<Name>;
 		} else {
 			openNewInstance();

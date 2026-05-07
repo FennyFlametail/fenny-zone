@@ -40,6 +40,7 @@ import KeyboardsIcon from '$lib/images/icons/folder-keyboards.webp';
 import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
 import HomeIcon from '$lib/images/icons/home.webp';
+import ImageIcon from '$lib/images/icons/image.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import PreviewIcon from '$lib/images/icons/preview.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
@@ -131,6 +132,8 @@ export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Nam
 	 * Use `windowTitle` and `titleIcon` to override the parent's title and icon
 	 */
 	readonly launchParentWithProps?: Parent extends AppName ? AppProps<Parent> : never;
+	/** if true, the child app's title & icon will replace the parents' in the titlebar */
+	readonly replaceParentTitle?: boolean;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: string;
@@ -168,11 +171,9 @@ function profile<Character extends AppName>(
 		parent: 'characters',
 		Page,
 		title,
-		windowTitle: title,
 		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon,
-		titleIcon: icon,
 		launchParentWithProps: browser ? undefined : { character },
 		route: `/characters/${character}` as any,
 		defaultPosition: browser
@@ -243,30 +244,27 @@ const getApps = (): {
 		parent: 'finder',
 		Page: Home,
 		title: 'Fenny',
-		windowTitle: 'Fenny',
 		icon: HomeIcon,
-		titleIcon: HomeIcon,
 		launchParentWithProps: { folder: 'home' },
+		replaceParentTitle: true,
 		route: '/home'
 	},
 	projects: {
 		parent: 'finder',
 		Page: Projects,
 		title: 'Projects',
-		windowTitle: 'Projects',
 		icon: ProjectsIcon,
-		titleIcon: ProjectsIcon,
 		launchParentWithProps: { folder: 'projects' },
+		replaceParentTitle: true,
 		route: '/projects'
 	},
 	keyboards: {
 		parent: 'finder',
 		Page: Keyboards,
 		title: 'Keyboards',
-		windowTitle: 'Keyboards',
 		icon: KeyboardsIcon,
-		titleIcon: KeyboardsIcon,
 		launchParentWithProps: { folder: 'keyboards' },
+		replaceParentTitle: true,
 		route: '/keyboards'
 	},
 	keyboardsInfo: {
@@ -282,6 +280,7 @@ const getApps = (): {
 		Page: MK47,
 		title: 'MK47.webp',
 		icon: MK47Icon,
+		titleIcon: ImageIcon,
 		defaultPosition: {
 			width: 2338,
 			height: 763
@@ -296,6 +295,7 @@ const getApps = (): {
 		Page: Neon75,
 		title: 'Neon75.webp',
 		icon: Neon75Icon,
+		titleIcon: ImageIcon,
 		defaultPosition: {
 			width: 2725,
 			height: 1090
@@ -310,6 +310,7 @@ const getApps = (): {
 		Page: OK35,
 		title: 'OK35.webp',
 		icon: OK35Icon,
+		titleIcon: ImageIcon,
 		defaultPosition: {
 			width: 1951,
 			height: 801
@@ -348,10 +349,9 @@ const getApps = (): {
 	toddspin: {
 		parent: 'browser',
 		title: 'Toddspin',
-		windowTitle: 'Toddspin',
 		icon: ToddspinIcon,
-		titleIcon: ToddspinIcon,
 		launchParentWithProps: { url: 'https://toddspin.fenny.zone' },
+		replaceParentTitle: true,
 		defaultPosition: {
 			height: 800
 		}
@@ -359,10 +359,9 @@ const getApps = (): {
 	sauce: {
 		parent: 'browser',
 		title: 'CLICK FOR SAUCE',
-		windowTitle: 'CLICK FOR SAUCE',
 		icon: SauceIcon,
-		titleIcon: SauceIcon,
 		launchParentWithProps: { url: 'https://sauce.fenny.zone' },
+		replaceParentTitle: true,
 		defaultPosition: {
 			width: 600
 		}
@@ -370,10 +369,9 @@ const getApps = (): {
 	goat: {
 		parent: 'browser',
 		title: 'Goat Game',
-		windowTitle: 'Goat Game',
 		icon: GoatIcon,
-		titleIcon: GoatIcon,
 		launchParentWithProps: { url: 'https://monty-hall.fenny.zone' },
+		replaceParentTitle: true,
 		defaultPosition: {
 			width: 600,
 			height: 800
