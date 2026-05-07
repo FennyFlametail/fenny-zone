@@ -41,7 +41,6 @@
 	function onpointerenter() {
 		if (isiPhone) return;
 		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
-		// @ts-expect-error
 		if (anyMenuOpen) menu!.showPopover({ source: button });
 	}
 
@@ -51,14 +50,12 @@
 		if (isiPhone) return;
 		if (menu?.contains(e.target as Node)) return;
 		pointerDownTime = Date.now();
-		// @ts-expect-error
 		menu!.togglePopover({ source: button });
 	}
 
 	function onpointerup() {
 		if (isiPhone) return;
 		if (Date.now() - pointerDownTime > 500) {
-			// @ts-expect-error
 			menu!.hidePopover({ source: button });
 		}
 	}
@@ -67,7 +64,6 @@
 		if (!isiPhone) return;
 		// fixes unreliable button taps in MobileSafari
 		e.preventDefault();
-		// @ts-expect-error
 		menu!.togglePopover({ source: button });
 	}
 </script>
@@ -122,8 +118,9 @@
 		display: flex;
 		align-items: center;
 		height: 100%;
-		line-height: 1;
 		padding-inline: var(--menu-category-padding);
+		line-height: 1;
+		white-space: nowrap;
 	}
 
 	.menuLogo {

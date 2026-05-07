@@ -45,5 +45,6 @@
 	.menuClock {
 		display: flex;
 		align-items: center;
+		white-space: nowrap;
 	}
 </style>
