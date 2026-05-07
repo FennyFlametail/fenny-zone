@@ -19,7 +19,6 @@ async function loadCustomPic() {
 	try {
 		const root = await navigator.storage.getDirectory();
 		const folder = await root.getDirectoryHandle('wallpaper');
-		// @ts-ignore
 		const fileEntry = (await folder.entries().next()).value;
 		if (!(fileEntry?.[1] instanceof FileSystemFileHandle)) return null;
 

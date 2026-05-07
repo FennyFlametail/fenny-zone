@@ -56,7 +56,7 @@
 	function onpointerup() {
 		if (isiPhone) return;
 		if (Date.now() - pointerDownTime > 500) {
-			menu!.hidePopover({ source: button });
+			menu!.hidePopover();
 		}
 	}
 
