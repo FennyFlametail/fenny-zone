@@ -71,7 +71,7 @@
 			<div class="image-placeholder"></div>
 		{/if}
 	</button>
-	<div class="blueskyTabContainer">
+	<div class="blueskyTabContainer aqua-no-scrollbar">
 		{#each tabs as [Icon, { classes = [], iconClass = [], strokeWidth }], index (index)}
 			<button
 				class={['blueskyTab', ...classes]}
@@ -155,7 +155,7 @@
 		border-radius: 5px;
 		background-color: black;
 		box-shadow: 0 1px 1px 0 #6d6f71;
-		overflow: hidden;
+		overflow-y: auto;
 
 		&::after {
 			content: '';
