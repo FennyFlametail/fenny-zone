@@ -9,7 +9,6 @@ import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Finder from '$lib/components/apps/Finder.svelte';
 import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
-import TextEdit from '$lib/components/apps/TextEdit.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
 import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 import Applications from '../routes/applications/+page.svelte';
@@ -26,6 +25,7 @@ import Home from '../routes/home/+page.svelte';
 import Keyboards from '../routes/keyboards/+page.svelte';
 import KeyboardsInfo from '../routes/keyboards/info/+page.svelte';
 import MK47 from '../routes/keyboards/mk47/+page.svelte';
+import TextEdit from '../routes/textedit/+page.svelte';
 import Neon75 from '../routes/keyboards/neon75/+page.svelte';
 import OK35 from '../routes/keyboards/ok35/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
@@ -81,7 +81,7 @@ interface AppOptions {
 		};
 	}>;
 	ceph: AppOptionType<{ parent: 'characters' }>;
-	changelog: AppOptionType<{ parent: 'TextEdit' }>;
+	changelog: AppOptionType<{ parent: 'textEdit' }>;
 	characters: AppOptionType<{ props: { character?: AppName } }>;
 	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
 	fenny: AppOptionType<{ parent: 'characters' }>;
@@ -89,19 +89,19 @@ interface AppOptions {
 	goat: AppOptionType<{ props: { url: string } }>;
 	home: AppOptionType<{ parent: 'finder' }>;
 	keyboards: AppOptionType<{ parent: 'finder' }>;
-	keyboardsInfo: AppOptionType<{ parent: 'TextEdit' }>;
-	mk47: AppOptionType<{ parent: 'Preview' }>;
-	neon75: AppOptionType<{ parent: 'Preview' }>;
+	keyboardsInfo: AppOptionType<{ parent: 'textEdit' }>;
+	mk47: AppOptionType<{ parent: 'preview' }>;
+	neon75: AppOptionType<{ parent: 'preview' }>;
 	nocturne: AppOptionType<{ parent: 'characters' }>;
-	ok35: AppOptionType<{ parent: 'Preview' }>;
+	ok35: AppOptionType<{ parent: 'preview' }>;
 	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
-	Preview: AppOptionType<{ props: { src: string } }>;
+	preview: AppOptionType<{ props: { src: string } }>;
 	projects: AppOptionType<{ parent: 'finder' }>;
-	readme: AppOptionType<{ parent: 'TextEdit' }>;
+	readme: AppOptionType<{ parent: 'textEdit' }>;
 	rigel: AppOptionType<{ parent: 'characters' }>;
 	sauce: AppOptionType<{ props: { url: string } }>;
 	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
-	TextEdit: AppOptionType;
+	textEdit: AppOptionType;
 	toddspin: AppOptionType<{ props: { url: string } }>;
 	trash: AppOptionType<{ parent: 'finder' }>;
 }
@@ -231,7 +231,7 @@ const getApps = (): {
 		minSize: 200,
 		lockAspectRatio: true
 	},
-	Preview: {
+	preview: {
 		parent: undefined,
 		title: 'Preview',
 		icon: PreviewIcon
@@ -284,15 +284,17 @@ const getApps = (): {
 		route: '/keyboards'
 	},
 	// #region TextEdit
-	TextEdit: {
+	textEdit: {
 		parent: undefined,
 		Page: TextEdit,
 		title: 'TextEdit',
 		icon: TextEditIcon,
-		titleIcon: TextIcon
+		titleIcon: TextIcon,
+		route: '/textedit',
+		backTo: '/applications'
 	},
 	readme: {
-		parent: 'TextEdit',
+		parent: 'textEdit',
 		Page: Readme,
 		title: 'Readme',
 		icon: RichTextIcon,
@@ -302,14 +304,14 @@ const getApps = (): {
 		route: '/readme'
 	},
 	changelog: {
-		parent: 'TextEdit',
+		parent: 'textEdit',
 		Page: Changelog,
 		title: 'Changelog',
 		icon: TextIcon,
 		route: '/changelog'
 	},
 	keyboardsInfo: {
-		parent: 'TextEdit',
+		parent: 'textEdit',
 		Page: KeyboardsInfo,
 		title: 'Info.rtf',
 		icon: RichTextIcon,
@@ -339,7 +341,7 @@ const getApps = (): {
 	nocturne: profile('nocturne', Nocturne, NocturneIcon),
 	// #region Keyboards
 	mk47: {
-		parent: 'Preview',
+		parent: 'preview',
 		Page: MK47,
 		title: 'MK47.webp',
 		icon: MK47Icon,
@@ -354,7 +356,7 @@ const getApps = (): {
 		backTo: '/keyboards'
 	},
 	neon75: {
-		parent: 'Preview',
+		parent: 'preview',
 		Page: Neon75,
 		title: 'Neon75.webp',
 		icon: Neon75Icon,
@@ -369,7 +371,7 @@ const getApps = (): {
 		backTo: '/keyboards'
 	},
 	ok35: {
-		parent: 'Preview',
+		parent: 'preview',
 		Page: OK35,
 		title: 'OK35.webp',
 		icon: OK35Icon,

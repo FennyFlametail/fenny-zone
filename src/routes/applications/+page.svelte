@@ -5,4 +5,4 @@
 <FileIcon appName="characters" />
 <FileIcon appName="bluesky" />
 <FileIcon appName="systemPreferences" class="noJS-hide" />
-<FileIcon appName="TextEdit" class="noJS-hide" />
+<FileIcon appName="textEdit" class="noJS-hide" />

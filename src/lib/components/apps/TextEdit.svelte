@@ -2,7 +2,7 @@
 	import { getAppContext } from '$lib/context.svelte';
 	import type { Snippet } from 'svelte';
 
-	const { app } = getAppContext<'TextEdit'>();
+	const { app } = getAppContext<'textEdit'>();
 
 	const {
 		children,
