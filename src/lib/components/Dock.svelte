@@ -40,7 +40,7 @@
 	</div>
 	<div class="dockSection">
 		{#each pinnedRight as name}
-			<DockIcon appName={name} />
+			<DockIcon appName={name} open={false} />
 		{/each}
 	</div>
 </nav>

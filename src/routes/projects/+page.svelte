@@ -4,10 +4,9 @@
 	import XcodeIcon from '$lib/images/icons/xcode.webp';
 </script>
 
-<FileIcon appName="toddspin" />
-<FileIcon appName="sauce" />
-<FileIcon appName="goat" />
-<!-- FIXME link Better Bluesky -->
+<FileIcon appName="toddspin" class="noJS-hide" />
+<FileIcon appName="sauce" class="noJS-hide" />
+<FileIcon appName="goat" class="noJS-hide" />
 <FileIcon name="GitHub" icon={XcodeIcon} href="https://github.com/FennyFlametail/" />
 <FileIcon
 	name="Userstyles"

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { type AppName } from '$lib/apps.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import AliasIcon from '$lib/images/alias.png';
+	import type { HTMLAttributes } from 'svelte/elements';
 
 	let {
 		appName,
@@ -10,7 +10,9 @@
 		name,
 		icon,
 		label,
-		infoText
+		infoText,
+		class: className,
+		...rest
 	}: (
 		| {
 				appName: AppName;
@@ -27,7 +29,7 @@
 	) & {
 		label?: 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'gray';
 		infoText?: string;
-	} = $props();
+	} & HTMLAttributes<HTMLAnchorElement> = $props();
 
 	const windowServer = getWindowServerContext();
 	const app = appName && windowServer.apps[appName];
@@ -75,13 +77,15 @@
 		{
 			opening,
 			hasColor: label
-		}
+		},
+		className
 	]}
 	{onclick}
 	{ondblclick}
 	{onkeydown}
 	href={href || (app?.launchParentWithProps as any)?.url || app?.route || ''}
 	target={href ? '_blank' : '_self'}
+	{...rest}
 >
 	<div class="fileIconImageWrapper">
 		<img class="fileIconImage" src={icon ?? app?.icon} alt={''} draggable="false" />

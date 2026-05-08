@@ -63,6 +63,13 @@
 			noScript={false}>{isFinder ? 'Close All' : `Quit ${appMenuTitle}`}</MenuItem
 		>
 	</MenuCategory>
+	{#if focusedApp?.instance?.menuItems}
+		{#each Object.entries(focusedApp.instance.menuItems) as [title, items]}
+			<MenuCategory {menubar} {title} noScript={true}>
+				{@render items()}
+			</MenuCategory>
+		{/each}
+	{/if}
 	<MenuCategory {menubar} title="Window">
 		<MenuItem
 			onclick={() => windowServer.zoomApp(windowServer.focusedApp?.name)}

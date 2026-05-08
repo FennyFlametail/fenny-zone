@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { AppName } from '$lib/apps.svelte';
+	import MenuItem from '$lib/components/MenuItem.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 
 	const {
@@ -10,7 +11,12 @@
 
 	const windowServer = getWindowServerContext();
 	const { appName, app } = getAppContext<AppName>();
+	app.instance.menuItems = { File: menuItems };
 </script>
+
+{#snippet menuItems()}
+	<MenuItem href={url} newTab>Open in New Tab</MenuItem>
+{/snippet}
 
 <div class="browser">
 	<iframe src={url} title={app.title}></iframe>

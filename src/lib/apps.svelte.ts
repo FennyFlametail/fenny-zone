@@ -3,7 +3,7 @@ import type { Pathname } from '$app/types';
 import type { BlueskyImage } from '$lib/helpers/fetchBlueskyData.server';
 import type { Position } from '$lib/windowServer.svelte';
 import WindowServer from '$lib/windowServer.svelte';
-import type { Component } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
@@ -68,34 +68,10 @@ interface AppOptionType<Options extends { parent?: AppName; props?: Record<strin
 }
 
 interface AppOptions {
-	readme: AppOptionType<{ parent: 'TextEdit' }>;
-	changelog: AppOptionType<{ parent: 'TextEdit' }>;
-	bluesky: AppOptionType<{}>;
-	trash: AppOptionType<{ parent: 'finder' }>;
-	finder: AppOptionType<{ props: { folder?: AppName } }>;
-	home: AppOptionType<{ parent: 'finder' }>;
-	applications: AppOptionType<{ parent: 'finder' }>;
-	projects: AppOptionType<{ parent: 'finder' }>;
-	keyboards: AppOptionType<{ parent: 'finder' }>;
-	characters: AppOptionType<{ props: { character?: AppName } }>;
-	fenny: AppOptionType<{ parent: 'characters' }>;
-	aren: AppOptionType<{ parent: 'characters' }>;
-	ceph: AppOptionType<{ parent: 'characters' }>;
-	rigel: AppOptionType<{ parent: 'characters' }>;
-	nocturne: AppOptionType<{ parent: 'characters' }>;
-	toddspin: AppOptionType<{ props: { url: string } }>;
-	sauce: AppOptionType<{ props: { url: string } }>;
-	goat: AppOptionType<{ props: { url: string } }>;
-	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
-	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
-	TextEdit: AppOptionType;
-	Preview: AppOptionType<{ props: { src: string } }>;
-	keyboardsInfo: AppOptionType<{ parent: 'TextEdit' }>;
-	mk47: AppOptionType<{ parent: 'Preview' }>;
-	neon75: AppOptionType<{ parent: 'Preview' }>;
-	ok35: AppOptionType<{ parent: 'Preview' }>;
 	adblockWarning: AppOptionType;
-	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
+	applications: AppOptionType<{ parent: 'finder' }>;
+	aren: AppOptionType<{ parent: 'characters' }>;
+	bluesky: AppOptionType<{}>;
 	blueskyMedia: AppOptionType<{
 		parent: 'bluesky';
 		props: {
@@ -104,6 +80,30 @@ interface AppOptions {
 			handle: string;
 		};
 	}>;
+	ceph: AppOptionType<{ parent: 'characters' }>;
+	changelog: AppOptionType<{ parent: 'TextEdit' }>;
+	characters: AppOptionType<{ props: { character?: AppName } }>;
+	crashDialog: AppOptionType<{ props: { crashedAppName: AppName } }>;
+	fenny: AppOptionType<{ parent: 'characters' }>;
+	finder: AppOptionType<{ props: { folder?: AppName } }>;
+	goat: AppOptionType<{ props: { url: string } }>;
+	home: AppOptionType<{ parent: 'finder' }>;
+	keyboards: AppOptionType<{ parent: 'finder' }>;
+	keyboardsInfo: AppOptionType<{ parent: 'TextEdit' }>;
+	mk47: AppOptionType<{ parent: 'Preview' }>;
+	neon75: AppOptionType<{ parent: 'Preview' }>;
+	nocturne: AppOptionType<{ parent: 'characters' }>;
+	ok35: AppOptionType<{ parent: 'Preview' }>;
+	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
+	Preview: AppOptionType<{ props: { src: string } }>;
+	projects: AppOptionType<{ parent: 'finder' }>;
+	readme: AppOptionType<{ parent: 'TextEdit' }>;
+	rigel: AppOptionType<{ parent: 'characters' }>;
+	sauce: AppOptionType<{ props: { url: string } }>;
+	systemPreferences: AppOptionType<{ props: { pane?: AppName } }>;
+	TextEdit: AppOptionType;
+	toddspin: AppOptionType<{ props: { url: string } }>;
+	trash: AppOptionType<{ parent: 'finder' }>;
 }
 export type AppName = keyof AppOptions;
 export type AppParent<Name extends AppName> = AppOptions[Name]['parent'];
@@ -141,7 +141,7 @@ export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Nam
 	readonly replaceParentTitle?: boolean;
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
-	readonly backTo?: string;
+	readonly backTo?: Pathname;
 	readonly defaultPosition?: Partial<Omit<Position, 'zIndex'>>;
 	readonly minSize?: number;
 	readonly lockAspectRatio?: boolean;
@@ -149,6 +149,7 @@ export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Nam
 	instance?: {
 		/** Props must be serializable */
 		props: AppProps<Name>;
+		menuItems?: Record<string, Snippet>;
 		position: Position;
 		preZoomPosition?: Position;
 		launchOrder: number;
@@ -181,6 +182,7 @@ function profile<Character extends AppName>(
 		icon,
 		launchParentWithProps: browser ? undefined : { character },
 		route: `/characters/${character}` as any,
+		backTo: '/applications',
 		defaultPosition: browser
 			? {
 					width: 600,
@@ -193,23 +195,7 @@ function profile<Character extends AppName>(
 const getApps = (): {
 	[Name in AppName]: AppEntry<Name>;
 } => ({
-	readme: {
-		parent: 'TextEdit',
-		Page: Readme,
-		title: 'Readme',
-		icon: RichTextIcon,
-		defaultPosition: {
-			height: 450
-		},
-		route: '/readme'
-	},
-	changelog: {
-		parent: 'TextEdit',
-		Page: Changelog,
-		title: 'Changelog',
-		icon: TextIcon,
-		route: '/changelog'
-	},
+	// #region Apps
 	bluesky: {
 		// TODO avoid having to pass undefined for apps without parent
 		parent: undefined,
@@ -218,21 +204,35 @@ const getApps = (): {
 		windowStyle: 'custom',
 		icon: TweetbotIcon,
 		route: '/bluesky',
+		backTo: '/applications',
 		defaultPosition: {
 			width: 515,
 			height: 1000
 		}
 	},
-	trash: {
-		parent: 'finder',
-		Page: Trash,
-		title: 'Trash',
-		icon: TrashIcon,
-		defaultPosition: {
-			width: 480,
-			height: 480
+	blueskyMedia: {
+		parent: 'bluesky',
+		Page: BlueskyMedia,
+		title: 'Bluesky Media',
+		windowTitle: 'Media',
+		windowStyle: 'custom',
+		get defaultPosition() {
+			return {
+				x: Math.max(
+					WindowServer.getInitialPosition(undefined, {
+						lockAspectRatio: true
+					}).x - 100,
+					0
+				)
+			};
 		},
-		route: '/trash'
+		minSize: 200,
+		lockAspectRatio: true
+	},
+	Preview: {
+		parent: undefined,
+		title: 'Preview',
+		icon: PreviewIcon
 	},
 	// #region Finder
 	finder: {
@@ -281,6 +281,31 @@ const getApps = (): {
 		replaceParentTitle: true,
 		route: '/keyboards'
 	},
+	// #region TextEdit
+	TextEdit: {
+		parent: undefined,
+		Page: TextEdit,
+		title: 'TextEdit',
+		icon: TextEditIcon,
+		titleIcon: TextIcon
+	},
+	readme: {
+		parent: 'TextEdit',
+		Page: Readme,
+		title: 'Readme',
+		icon: RichTextIcon,
+		defaultPosition: {
+			height: 450
+		},
+		route: '/readme'
+	},
+	changelog: {
+		parent: 'TextEdit',
+		Page: Changelog,
+		title: 'Changelog',
+		icon: TextIcon,
+		route: '/changelog'
+	},
 	keyboardsInfo: {
 		parent: 'TextEdit',
 		Page: KeyboardsInfo,
@@ -289,6 +314,28 @@ const getApps = (): {
 		route: '/keyboards/info',
 		backTo: '/keyboards'
 	},
+	// #region Characters
+	characters: {
+		parent: undefined,
+		Page: Characters,
+		title: 'Address Book',
+		dockTitle: 'Characters',
+		windowStyle: 'brushed',
+		icon: AddressBookIcon,
+		titleIcon: VCardIcon,
+		route: '/characters',
+		backTo: '/applications',
+		defaultPosition: {
+			width: 1200,
+			height: 800
+		}
+	},
+	fenny: profile('fenny', Fenny, FennyIcon),
+	aren: profile('aren', Aren, ArenIcon),
+	ceph: profile('ceph', Ceph, CephIcon),
+	rigel: profile('rigel', Rigel, RigelIcon),
+	nocturne: profile('nocturne', Nocturne, NocturneIcon),
+	// #region Keyboards
 	mk47: {
 		parent: 'Preview',
 		Page: MK47,
@@ -334,26 +381,6 @@ const getApps = (): {
 		route: '/keyboards/ok35',
 		backTo: '/keyboards'
 	},
-	// #region Characters
-	characters: {
-		parent: undefined,
-		Page: Characters,
-		title: 'Address Book',
-		dockTitle: 'Characters',
-		windowStyle: 'brushed',
-		icon: AddressBookIcon,
-		titleIcon: VCardIcon,
-		route: '/characters',
-		defaultPosition: {
-			width: 1200,
-			height: 800
-		}
-	},
-	fenny: profile('fenny', Fenny, FennyIcon),
-	aren: profile('aren', Aren, ArenIcon),
-	ceph: profile('ceph', Ceph, CephIcon),
-	rigel: profile('rigel', Rigel, RigelIcon),
-	nocturne: profile('nocturne', Nocturne, NocturneIcon),
 	// #region Browser
 	toddspin: {
 		parent: undefined,
@@ -363,7 +390,8 @@ const getApps = (): {
 		defaultPosition: {
 			height: 800
 		},
-		route: '/toddspin'
+		route: '/toddspin',
+		backTo: '/projects'
 	},
 	sauce: {
 		parent: undefined,
@@ -374,7 +402,8 @@ const getApps = (): {
 		defaultPosition: {
 			width: 600
 		},
-		route: '/sauce'
+		route: '/sauce',
+		backTo: '/projects'
 	},
 	goat: {
 		parent: undefined,
@@ -386,9 +415,10 @@ const getApps = (): {
 			width: 600,
 			height: 800
 		},
-		route: '/goat'
+		route: '/goat',
+		backTo: '/projects'
 	},
-	// #region System Preferences
+	// #region Preferences
 	systemPreferences: {
 		parent: undefined,
 		Page: SystemPreferences,
@@ -397,6 +427,7 @@ const getApps = (): {
 		hideTitleIcon: true,
 		windowStyle: 'unified',
 		noResize: true,
+		backTo: '/applications',
 		get defaultPosition() {
 			// position to fit the Desktop prefpane (height 525)
 			return {
@@ -416,19 +447,7 @@ const getApps = (): {
 			height: 525
 		}
 	},
-	// #region Utility
-	TextEdit: {
-		parent: undefined,
-		Page: TextEdit,
-		title: 'TextEdit',
-		icon: TextEditIcon,
-		titleIcon: TextIcon
-	},
-	Preview: {
-		parent: undefined,
-		title: 'Preview',
-		icon: PreviewIcon
-	},
+	// #region System
 	adblockWarning: {
 		parent: undefined,
 		Page: AdblockWarning,
@@ -455,24 +474,17 @@ const getApps = (): {
 			height: 225
 		}
 	},
-	blueskyMedia: {
-		parent: 'bluesky',
-		Page: BlueskyMedia,
-		title: 'Bluesky Media',
-		windowTitle: 'Media',
-		windowStyle: 'custom',
-		get defaultPosition() {
-			return {
-				x: Math.max(
-					WindowServer.getInitialPosition(undefined, {
-						lockAspectRatio: true
-					}).x - 100,
-					0
-				)
-			};
+
+	trash: {
+		parent: 'finder',
+		Page: Trash,
+		title: 'Trash',
+		icon: TrashIcon,
+		defaultPosition: {
+			width: 480,
+			height: 480
 		},
-		minSize: 200,
-		lockAspectRatio: true
+		route: '/trash'
 	}
 });
 export default getApps;
