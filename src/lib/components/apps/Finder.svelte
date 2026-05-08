@@ -80,7 +80,7 @@
 		<folder.Page />
 	</nav>
 	<footer class="finderStatusBar" data-allow-window-drag>
-		<span class="finderItemCount"></span>, {remainingSpace} GB available
+		<span class="finderItemCount" data-allow-window-drag></span>, {remainingSpace} GB available
 	</footer>
 </div>
 
