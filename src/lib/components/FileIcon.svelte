@@ -83,8 +83,8 @@
 	{onclick}
 	{ondblclick}
 	{onkeydown}
-	href={href || (app?.launchParentWithProps as any)?.url || app?.route || ''}
-	target={href ? '_blank' : '_self'}
+	href={href || app?.url || app?.route || ''}
+	target={href || app?.url ? '_blank' : '_self'}
 	{...rest}
 >
 	<div class="fileIconImageWrapper">

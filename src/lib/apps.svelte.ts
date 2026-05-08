@@ -142,6 +142,8 @@ export interface AppEntry<Name extends AppName = AppName, Parent = AppParent<Nam
 	readonly route?: Pathname;
 	/** If JavaScript is disabled, the close button will go to this route instead of home */
 	readonly backTo?: Pathname;
+	/** For browser apps */
+	readonly url?: string;
 	readonly defaultPosition?: Partial<Omit<Position, 'zIndex'>>;
 	readonly minSize?: number;
 	readonly lockAspectRatio?: boolean;
@@ -391,7 +393,8 @@ const getApps = (): {
 			height: 800
 		},
 		route: '/toddspin',
-		backTo: '/projects'
+		backTo: '/projects',
+		url: 'https://toddspin.fenny.zone'
 	},
 	sauce: {
 		parent: undefined,
@@ -403,7 +406,8 @@ const getApps = (): {
 			width: 600
 		},
 		route: '/sauce',
-		backTo: '/projects'
+		backTo: '/projects',
+		url: 'https://sauce.fenny.zone'
 	},
 	goat: {
 		parent: undefined,
@@ -416,7 +420,8 @@ const getApps = (): {
 			height: 800
 		},
 		route: '/goat',
-		backTo: '/projects'
+		backTo: '/projects',
+		url: 'https://monty-hall.fenny.zone'
 	},
 	// #region Preferences
 	systemPreferences: {
