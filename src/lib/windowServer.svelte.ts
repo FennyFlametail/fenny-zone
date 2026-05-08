@@ -222,7 +222,6 @@ export default class WindowServer {
 					return self.focusedApp?.app === app;
 				},
 				props: {
-					...app.launchWithProps,
 					...options.props
 				}
 			};
