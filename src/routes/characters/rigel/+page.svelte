@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
-	import RigelIcon from '$lib/images/icons/rigel.webp';
+	import RigelIcon from '$lib/images/icons/rigel-profile.webp';
 	import RigelPhoto from '$lib/images/characters/rigel.webp';
 </script>
 
@@ -9,9 +9,9 @@
 	fullName="Rigel Azulux"
 	species="Luxray"
 	icon={RigelIcon}
-	iconAlt="Icon of a Luxray looking at you sideways and sticking his tongue out seductively. He has a single earring and a tongue stud."
+	iconAlt="Icon of a Luxray grinning at you devilishly. He has a single earring on his right ear."
 	photo={RigelPhoto}
-	photoAlt="A Luxray wearing a fishnet top and latex sleeves, taking a selfie with his tongue out. He has top surgery scars, and pierced nipples with a chain between them."
+	photoAlt="A Luxray wearing a fishnet top and latex sleeves, taking a selfie with his pierced tongue sticking out. He has top surgery scars, and nipple rings with a chain between them."
 	relationships={['ceph', 'nocturne', 'aren', 'fenny']}
 >
 	{#snippet bio()}
@@ -113,9 +113,9 @@
 				>
 			</dd>
 			<dt>Icon</dt>
-			<dd><a target="_blank" href="https://www.furaffinity.net/user/redlynx369">RojoLynx</a></dd>
+			<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
 			<dt>Artwork</dt>
-			<dd><a target="_blank" href="https://www.furaffinity.net/user/candymint/">candymint</a></dd>
+			<dd><a target="_blank" href="https://www.furaffinity.net/user/grimsvault">Grims Vault</a></dd>
 		</dl>
 	{/snippet}
 </Profile>

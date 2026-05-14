@@ -142,7 +142,7 @@
 			<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
 			<dt>Artwork</dt>
 			<dd>
-				<a target="_blank" href="https://www.furaffinity.net/user/WickedForster/">WickedForster</a>
+				<a target="_blank" href="https://www.furaffinity.net/user/vallhund">Vallhound</a>
 			</dd>
 		</dl>
 	{/snippet}

@@ -60,12 +60,15 @@
 			</dd>
 			<dt>Icon</dt>
 			<dd><a target="_blank" href="https://bsky.app/profile/buyo.bsky.social">Buyo</a></dd>
-			<dt>Artwork (space)</dt>
-			<dd><a target="_blank" href="https://www.furaffinity.net/user/candymint/">candymint</a></dd>
-			<dt>Artwork (main)</dt>
-			<dd>
-				<a target="_blank" href="https://bsky.app/profile/corginamedbruno.bsky.social">Bruno</a>
-			</dd>
+			{#if selectedIndex === 0}
+				<dt>Artwork</dt>
+				<dd><a target="_blank" href="https://www.furaffinity.net/user/elcydog">eLCyDog</a></dd>
+			{:else}
+				<dt>Artwork</dt>
+				<dd>
+					<a target="_blank" href="https://bsky.app/profile/corginamedbruno.bsky.social">Bruno</a>
+				</dd>
+			{/if}
 		</dl>
 	{/snippet}
 </Profile>
@@ -109,8 +112,8 @@
 			former thief, current outlaw
 			<ul>
 				<li>
-					stole something important two years ago from the megacorp controlling their region
-					of space, on the run ever since
+					stole something important two years ago from the megacorp controlling their region of
+					space, on the run ever since
 				</li>
 			</ul>
 		</dd>
