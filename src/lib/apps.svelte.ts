@@ -322,8 +322,8 @@ const getApps = (): {
 	characters: {
 		parent: undefined,
 		Page: Characters,
-		title: 'Address Book',
-		dockTitle: 'Characters',
+		title: 'Characters',
+		menuTitle: 'Address Book',
 		windowStyle: 'brushed',
 		icon: AddressBookIcon,
 		titleIcon: VCardIcon,
