@@ -2,6 +2,7 @@
 	import FileIcon from '$lib/components/FileIcon.svelte';
 </script>
 
+<FileIcon appName="projects" alias />
 <FileIcon appName="bluesky" />
 <FileIcon appName="characters" />
 <FileIcon appName="systemPreferences" class="noJS-hide" />

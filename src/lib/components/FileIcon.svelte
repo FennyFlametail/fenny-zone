@@ -9,6 +9,7 @@
 		href,
 		name,
 		icon,
+		alias,
 		label,
 		infoText,
 		class: className,
@@ -27,6 +28,7 @@
 				icon: string;
 		  }
 	) & {
+		alias?: boolean;
 		label?: 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'gray';
 		infoText?: string;
 	} & HTMLAttributes<HTMLAnchorElement> = $props();
@@ -96,7 +98,7 @@
 			draggable="false"
 			style:--openAnimDuration="{openAnimDuration}ms"
 		/>
-		{#if href}
+		{#if href || alias}
 			<img class="aliasIcon" src={AliasIcon} alt="" draggable="false" />
 		{/if}
 	</div>
