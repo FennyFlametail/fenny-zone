@@ -242,7 +242,6 @@ const getApps = (): {
 		Page: Finder,
 		windowStyle: 'brushed',
 		title: 'Finder',
-		windowTitle: 'Fenny',
 		icon: FinderIcon,
 		titleIcon: HomeIcon,
 		route: '/home'
