@@ -30,7 +30,7 @@ Chozo font by <a
 			href="https://old.reddit.com/r/Metroid/comments/qm2v3c/i_have_made_a_fully_functional_automated/"
 			target="_blank"
 			contenteditable="false">Wolfeur</a
-		> (currently unavailable)
+		>
 Googly eyes inspired by <a
 			href="https://sindresorhus.com/googly-eyes"
 			target="_blank"
@@ -41,14 +41,19 @@ Adblock warning based on code by <a
 			target="_blank"
 			contenteditable="false">Stefan Bohacek</a
 		>
+No AI badge by <a href="https://samvieten.itch.io/no-ai" target="_blank" contenteditable="false"
+			>Sam Vieten</a
+		>
+Reference images from <a
+			href="https://512pixels.net/projects/aqua-screenshot-library/"
+			target="_blank"
+			contenteditable="false">macOS Screenshot Library</a
+		> by Stephen Hackett
 Bluesky app design based on <a
 			href="https://tapbots.com/tweetbot/"
 			target="_blank"
 			contenteditable="false">Tweetbot</a
 		> (RIP)
-No AI badge by <a href="https://samvieten.itch.io/no-ai" target="_blank" contenteditable="false"
-			>Sam Vieten</a
-		>
 
 <div class="badges">
 	<img src="{baseUrl}/no_ai.png" alt="NO AI - Handmade" />
