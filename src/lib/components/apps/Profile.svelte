@@ -93,7 +93,6 @@
 		padding-inline-start: 10px;
 		gap: var(--profile-spacing);
 		overflow-y: auto;
-		overscroll-behavior: none;
 
 		> :global(*) {
 			grid-column: 1;

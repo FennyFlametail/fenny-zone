@@ -291,7 +291,6 @@
 		border: 1px solid #bebebe;
 		border-top-color: #8e8e8e;
 		overflow-y: auto;
-		overscroll-behavior: none;
 
 		:global(.systemPreferences.transition) & {
 			overflow-y: hidden;

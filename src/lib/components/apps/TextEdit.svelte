@@ -46,7 +46,6 @@
 		padding: 0 0.5em;
 		font-size: 10pt;
 		overflow-y: auto;
-		overscroll-behavior: none;
 
 		> :global(pre) {
 			text-wrap: stable;
