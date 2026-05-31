@@ -112,6 +112,7 @@
 		row-gap: 42px;
 		background-color: white;
 		overflow: hidden auto;
+		overscroll-behavior: none;
 
 		> :global(*) {
 			counter-increment: iconCount;
