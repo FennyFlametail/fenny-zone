@@ -10,7 +10,7 @@ export async function getDesktopPicture(windowServer: WindowServer): Promise<Des
 		pic = desktopPictures[windowServer.preferences.desktopPicture];
 	}
 
-	if (!pic) pic = desktopPictures.breakfast;
+	if (!pic) pic = desktopPictures.beach;
 
 	return pic;
 }
