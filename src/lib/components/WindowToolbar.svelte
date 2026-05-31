@@ -1,12 +1,7 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface WindowToolbarProps extends HTMLAttributes<HTMLElement> {
-		children: Snippet;
-	}
-
-	const { children, class: className, ...rest }: WindowToolbarProps = $props();
+	const { children, class: className, ...rest }: HTMLAttributes<HTMLElement> = $props();
 </script>
 
 <header
@@ -15,7 +10,7 @@
 	data-allow-window-drag
 	{...rest}
 >
-	{@render children()}
+	{@render children?.()}
 </header>
 
 <style>

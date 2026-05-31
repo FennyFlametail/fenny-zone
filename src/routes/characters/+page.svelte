@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
+	import WindowSidebar from '$lib/components/WindowSidebar.svelte';
+	import WindowSidebarItem from '$lib/components/WindowSidebarItem.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { ExternalLink } from 'lucide-svelte';
@@ -47,13 +49,15 @@
 			<ExternalLink size={18} aria-hidden="true" />
 		</a>
 	</WindowToolbar>
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<ul class="addressBookList brushedInset" aria-label="Character List" onclick={deselect}>
-		<h3 class="addressBookListHeader">Name</h3>
+	<WindowSidebar
+		header="Name"
+		class="addressBookList brushedInset"
+		aria-label="Character List"
+		onclick={deselect}
+	>
 		{#each characters as appName}
 			{@const app = windowServer.apps[appName]}
-			<li class={['addressBookListItem', { selected: selectedAppName === appName }]}>
+			<WindowSidebarItem class="addressBookListItem" selected={selectedAppName === appName}>
 				<AppLink
 					{appName}
 					class="addressBookLink noJS-pointer"
@@ -63,10 +67,9 @@
 					<img class="addressBookListIcon" src={app.icon} alt="" draggable="false" />
 					<span>{windowServer.apps[appName].title}</span>
 				</AppLink>
-			</li>
+			</WindowSidebarItem>
 		{/each}
-	</ul>
-	<div class="addressBookSeparator" data-allow-window-drag></div>
+	</WindowSidebar>
 	<div class="addressBookProfile">
 		{#if selectedApp}
 			<selectedApp.Page />
@@ -80,49 +83,16 @@
 	.addressBook {
 		display: grid;
 		grid-template:
-			'toolbar toolbar toolbar' auto
-			'list separator profile' 1fr / 150px var(--titlebar-padding) auto;
-	}
-
-	.addressBookList {
-		grid-area: list;
-		overflow-y: auto;
-		background-color: white;
-		padding: 0;
-		-webkit-user-select: none;
-		user-select: none;
-	}
-
-	.addressBookListHeader {
-		border-bottom: 1px solid #b3b3b3;
-		background: linear-gradient(to bottom, var(--button-gradient));
-		text-align: center;
-		font-size: 13px;
-		font-weight: normal;
-	}
-
-	.addressBookListItem {
-		list-style: none;
-
-		&.selected {
-			background: var(--sidebar-item-active-bg-image);
-			color: white;
-
-			:global(.window:is(.inactive, .sheetOpen)) & {
-				background: var(--sidebar-item-inactive-bg-image);
-			}
-
-			@media (forced-colors: active) {
-				background-color: SelectedItem;
-			}
-		}
+			'toolbar toolbar' auto
+			'sidebar content' 1fr / auto 1fr;
+		column-gap: var(--titlebar-padding);
 	}
 
 	:global(.addressBookLink) {
 		display: flex;
 		align-items: center;
-		gap: 4px;
-		padding: 4px;
+		gap: var(--sidebar-item-padding);
+		padding: var(--sidebar-item-padding);
 		color: inherit;
 		text-decoration: none;
 	}
@@ -132,12 +102,8 @@
 		height: 32px;
 	}
 
-	.addressBookSeparator {
-		grid-area: separator;
-	}
-
 	.addressBookProfile {
-		grid-area: profile;
+		grid-area: content;
 		container: window / size;
 		background-color: white;
 		display: grid;

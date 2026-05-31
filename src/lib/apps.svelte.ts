@@ -28,6 +28,7 @@ import MK47 from '../routes/keyboards/mk47/+page.svelte';
 import TextEdit from '../routes/textedit/+page.svelte';
 import Neon75 from '../routes/keyboards/neon75/+page.svelte';
 import OK35 from '../routes/keyboards/ok35/+page.svelte';
+import Music from '../routes/music/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
 import Sauce from '../routes/sauce/+page.svelte';
@@ -46,6 +47,7 @@ import ProjectsIcon from '$lib/images/icons/folder-projects.webp';
 import GoatIcon from '$lib/images/icons/goat.png';
 import HomeIcon from '$lib/images/icons/home.webp';
 import ImageIcon from '$lib/images/icons/image.webp';
+import iTunesIcon from '$lib/images/icons/itunes.webp';
 import NocturneIcon from '$lib/images/icons/nocturne.webp';
 import PreviewIcon from '$lib/images/icons/preview.webp';
 import RigelIcon from '$lib/images/icons/rigel.webp';
@@ -91,6 +93,7 @@ interface AppOptions {
 	keyboards: AppOptionType<{ parent: 'finder' }>;
 	keyboardsInfo: AppOptionType<{ parent: 'textEdit' }>;
 	mk47: AppOptionType<{ parent: 'preview' }>;
+	music: AppOptionType;
 	neon75: AppOptionType<{ parent: 'preview' }>;
 	nocturne: AppOptionType<{ parent: 'characters' }>;
 	ok35: AppOptionType<{ parent: 'preview' }>;
@@ -230,6 +233,20 @@ const getApps = (): {
 		},
 		minSize: 200,
 		lockAspectRatio: true
+	},
+	music: {
+		parent: undefined,
+		Page: Music,
+		title: 'Music',
+		menuTitle: 'iTunes',
+		icon: iTunesIcon,
+		hideTitleIcon: true,
+		windowStyle: 'brushed',
+		defaultPosition: {
+			width: 1000,
+			height: 800
+		},
+		route: '/music'
 	},
 	preview: {
 		parent: undefined,

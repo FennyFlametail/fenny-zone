@@ -1,11 +1,20 @@
 :root {
 	--accent-color-inactive: #d4d4d4;
 	--accent-color: #3471cf;
-	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
-	--button-border-active-gradient: #272798, #616161;
 	--button-border-gradient: #666666, #666666;
+	--button-border-active-gradient: #272798, #616161;
+	--button-bottom-glow-bg-image: radial-gradient(
+			ellipse 60% 70% at center bottom,
+			#ffffff7f,
+			#ffffff7f,
+			transparent
+		)
+		padding-box;
+	--button-bottom-glow-active-bg-image: none;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
+	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
 	--button-square-gradient: #f9f9f9, #ededed 50%, #dadada 50%, #ffffff;
+	--button-square-active-gradient: #c8cceb, #7cb1e8 50%, #4895e3 50%, #82dcff;
 	--default-desktop-image: url('$lib/images/wallpapers/breakfast.webp');
 	--desktop-color: #a3a0a0;
 	/** space between the menubar and Dock */
@@ -61,8 +70,12 @@
 	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--selection-color: #b5d5ff;
-	--sidebar-item-active-bg-image: linear-gradient(to bottom, #397ad0 1px, #5a98dd 1px, #265cc5);
-	--sidebar-item-inactive-bg-image: linear-gradient(to bottom, #7f7e7e 1px, #979797 1px, #666666);
+	--sidebar-item-bg-image: linear-gradient(to bottom, #3d7bda 1px, #5999e5 1px, #1f5ccf);
+	--sidebar-item-bg-image-inactive: linear-gradient(to bottom, #7f7e7e 1px, #979797 1px, #666666);
+	--sidebar-item-padding: 4px;
+	--table-alternate-row-color: #edf3fe;
+	--table-selected-row-color: #3d80df;
+	--table-selected-row-color-inactive: #c0c0c0;
 	--text-secondary: rgb(0 0 0 / 50%);
 	--titlebar-border-color: #8c8c8c;
 	--titlebar-height: 29px;
@@ -71,7 +84,7 @@
 	--widget-inner-box-shadow: inset 14px 0 14px -14px #dadada, inset -14px 0 14px -14px #dadada;
 	--widget-inner-active-box-shadow:
 		inset 14px 0 14px -14px #519eea, inset -14px 0 14px -14px #519eea;
-	--widget-sunken-box-shadow: 0 1px 1px #d4d4d4;
+	--widget-sunken-box-shadow: 0 2px 1px #d4d4d4;
 	--widget-unified-box-shadow: 0 -1px #949394, 0 1px #c9c9c9;
 	--window-brushed-bottom-padding: 32px;
 	--window-brushed-text-shadow: 0 1px 0 rgb(255 255 255 / 85%);

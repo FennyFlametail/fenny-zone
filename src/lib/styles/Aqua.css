@@ -4,9 +4,12 @@
 		/* special case for nested containers (ex. AddressBook) */
 		.brushedInset > .brushedInset
 	) {
-	box-shadow: 0 1px #dddddd;
-	border-inline: 1px solid #999999;
-	border-block: 1px solid #737373;
+	box-shadow:
+		0 -1px #939393,
+		-1px 0 #e0e0e0,
+		1px 0 #e0e0e0,
+		0 1px #f0f0f0;
+	border: 1px solid #666666;
 }
 
 .aqua-menu {
@@ -53,6 +56,7 @@
 .aqua-tab {
 	--button-height: 28px;
 	--button-padding: 24px;
+	--button-gradient-direction: to bottom;
 	--box-shadow: var(--widget-box-shadow), var(--widget-inner-box-shadow);
 	display: flex;
 	position: relative;
@@ -62,7 +66,8 @@
 	border: 1px solid transparent;
 	border-radius: 9999px;
 	background:
-		linear-gradient(to bottom, var(--button-gradient)) padding-box,
+		var(--button-bottom-glow-bg-image),
+		linear-gradient(var(--button-gradient-direction), var(--button-gradient)) padding-box,
 		linear-gradient(to bottom, var(--button-border-gradient)) border-box;
 	padding-inline: var(--button-padding);
 	min-width: 105px;
@@ -82,9 +87,25 @@
 
 	&.square {
 		--button-gradient: var(--button-square-gradient);
+		--button-active-gradient: var(--button-square-active-gradient);
 		--button-padding: 14px;
 		border-radius: 5px;
 		min-width: auto;
+	}
+
+	&.circle {
+		--button-gradient: var(--button-square-gradient);
+		--button-active-gradient: var(--button-square-active-gradient);
+		--button-gradient-direction: 150deg;
+		aspect-ratio: 1 / 1;
+		min-width: 0;
+		width: 39px;
+		height: auto;
+		padding: 0;
+
+		&.large {
+			width: 49px;
+		}
 	}
 
 	&:is(.back, .forward) {
@@ -133,6 +154,7 @@
 		) {
 		--button-gradient: var(--button-active-gradient);
 		--button-border-gradient: var(--button-border-active-gradient);
+		--button-bottom-glow-bg-image: var(--button-bottom-glow-active-bg-image);
 		--widget-inner-box-shadow: var(--widget-inner-active-box-shadow);
 
 		@media (forced-colors: active) {
@@ -158,6 +180,28 @@
 
 	.windowToolbar &:is(:disabled, .disabled) {
 		color: rgb(0 0 0 / 40%);
+	}
+}
+
+.aqua-button-with-label {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 15px;
+	color: black;
+	text-decoration: none;
+
+	.window.brushed & {
+		text-shadow: var(--window-brushed-text-shadow);
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: none;
+
+		> .aqua-button {
+			box-shadow: var(--focus-box-shadow);
+		}
 	}
 }
 
