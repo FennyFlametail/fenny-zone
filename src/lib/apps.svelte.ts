@@ -59,7 +59,7 @@ import ToddspinIcon from '$lib/images/icons/toddspin.webp';
 import TrashIcon from '$lib/images/icons/trash.webp';
 import TweetbotIcon from '$lib/images/icons/tweetbot.webp';
 import TextIcon from '$lib/images/icons/txt.webp';
-import VCardIcon from '$lib/images/icons/vcard.webp';
+import VCardIcon from '$lib/images/icons/vcard.png';
 import MK47Icon from '$lib/images/keyboards/mk47-icon.webp';
 import Neon75Icon from '$lib/images/keyboards/neon75-icon.webp';
 import OK35Icon from '$lib/images/keyboards/ok35-icon.webp';
