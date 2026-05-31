@@ -98,7 +98,7 @@
 			<div class={['aqua-button', 'circle', 'large', { disabled: !profile?.url }]}>
 				<img class="itunesBrowseIcon" src={itunesBrowseIcon} alt="" draggable="false" />
 			</div>
-			<span id="itunesProfileButtonLabel">Profile</span>
+			<span id="itunesProfileButtonLabel">Last.fm</span>
 		</a>
 	</WindowToolbar>
 
