@@ -10,7 +10,7 @@
 	import itunesLibraryIcon from '$lib/images/icons/itunes-library.png';
 	import { fromUnixTime, intlFormat } from 'date-fns';
 	import { decode } from 'html-entities';
-	import { ArrowBigRight, FastForward, Play, Rewind } from 'lucide-svelte';
+	import { ArrowBigRight, FastForward, Play, Rewind, Volume1, Volume2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { getLastFmFeed, type LastFmProfile, type MusicTrack } from './lastfm.remote';
 
@@ -76,17 +76,23 @@
 
 <div class="itunes brushedNoInset">
 	<WindowToolbar>
-		<div class="itunesTrackControls" data-allow-window-drag aria-hidden="true">
-			<div class="aqua-button circle disabled">
-				<Rewind size={28} />
+		<div class="itunesControls" data-allow-window-drag aria-hidden="true">
+			<div class="itunesTrackControls">
+				<div class="aqua-button circle disabled">
+					<Rewind size={28} />
+				</div>
+				<div class="aqua-button circle large disabled">
+					<Play size={44} />
+				</div>
+				<div class="aqua-button circle disabled">
+					<FastForward size={28} />
+				</div>
 			</div>
-			<div class="aqua-button circle large disabled">
-				<Play size={44} />
+			<div class="itunesVolumeSlider">
+				<Volume1 size={20} />
+				<input type="range" tabindex="-1" />
+				<Volume2 class="itunesVolumeSliderIconRight" size={20} />
 			</div>
-			<div class="aqua-button circle disabled">
-				<FastForward size={28} />
-			</div>
-			<input type="range" class="itunesVolumeSlider" tabindex="-1" />
 		</div>
 		<div class="itunesStatusWindow" data-allow-window-drag></div>
 		<a
@@ -181,13 +187,18 @@
 		align-items: start;
 	}
 
-	.itunesTrackControls {
-		display: grid;
-		grid-template:
-			'prev play next'
-			'slider slider slider';
-		place-items: center;
+	.itunesControls {
+		width: var(--sidebar-width);
+		display: flex;
+		flex-direction: column;
 		gap: 5px;
+	}
+
+	.itunesTrackControls {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: inherit;
 	}
 
 	.aqua-button :global(.lucide-icon) {
@@ -207,42 +218,59 @@
 	}
 
 	.itunesVolumeSlider {
-		--thumb-inner-color: #616161;
-		grid-area: slider;
-		width: 104px;
-		width: 137px;
-		appearance: none;
-		margin-block: 4px;
-		height: 8px;
-		border-radius: 9999px;
-		background: linear-gradient(to bottom, #606060, #e5e5e5);
+		display: flex;
+		align-items: center;
 
-		&::-webkit-slider-thumb {
-			appearance: none;
-			width: 16px;
-			height: 16px;
-			border-radius: 9999px;
-			border: 1px solid #606060;
-			background:
-				radial-gradient(var(--thumb-inner-color) 3px, transparent 3px),
-				linear-gradient(to bottom, white, #8a8a8a);
-		}
-		&::-moz-range-thumb {
-			appearance: none;
-			width: 16px;
-			height: 16px;
-			border-radius: 9999px;
-			border: 1px solid #606060;
-			background:
-				radial-gradient(var(--thumb-inner-color) 3px, transparent 3px),
-				linear-gradient(to bottom, white, #8a8a8a);
+		> :global(svg) {
+			flex-shrink: 0;
+			color: #484848;
+			filter: drop-shadow(0 1px 0 #e3e3e3);
+
+			> :global(path:first-child) {
+				fill: currentColor;
+			}
+
+			&:last-child {
+				margin-left: 3px;
+			}
 		}
 
-		&:active::-webkit-slider-thumb {
-			--thumb-inner-color: #0e73d7;
-		}
-		&:active::-moz-range-thumb {
-			--thumb-inner-color: #0e73d7;
+		> input {
+			--thumb-inner-color: #616161;
+			appearance: none;
+			margin-block: 4px;
+			width: calc(var(--sidebar-width) - 40px - 3px);
+			height: 8px;
+			border-radius: 9999px;
+			background: linear-gradient(to bottom, #606060, #e5e5e5);
+
+			&::-webkit-slider-thumb {
+				appearance: none;
+				width: 16px;
+				height: 16px;
+				border-radius: 9999px;
+				border: 1px solid #606060;
+				background:
+					radial-gradient(var(--thumb-inner-color) 3px, transparent 3px),
+					linear-gradient(to bottom, white, #8a8a8a);
+			}
+			&::-moz-range-thumb {
+				appearance: none;
+				width: 16px;
+				height: 16px;
+				border-radius: 9999px;
+				border: 1px solid #606060;
+				background:
+					radial-gradient(var(--thumb-inner-color) 3px, transparent 3px),
+					linear-gradient(to bottom, white, #8a8a8a);
+			}
+
+			&:active::-webkit-slider-thumb {
+				--thumb-inner-color: #0e73d7;
+			}
+			&:active::-moz-range-thumb {
+				--thumb-inner-color: #0e73d7;
+			}
 		}
 	}
 

@@ -34,7 +34,7 @@
 <style>
 	.windowSidebar {
 		grid-area: sidebar;
-		width: 160px;
+		width: var(--sidebar-width);
 		display: flex;
 		flex-direction: column;
 		overflow-y: auto;
