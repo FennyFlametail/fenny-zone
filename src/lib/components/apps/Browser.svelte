@@ -15,7 +15,7 @@
 </script>
 
 {#snippet menuItems()}
-	<MenuItem href={url} newTab>Open in New Tab</MenuItem>
+	<MenuItem href={url} newTab>Open in New Tab...</MenuItem>
 {/snippet}
 
 <div class="browser">

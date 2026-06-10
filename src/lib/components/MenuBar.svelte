@@ -46,7 +46,7 @@
 		>
 		<hr class="noJS-hide" />
 		<MenuItem onclick={() => windowServer.openApp('systemPreferences')}
-			>System Preferences...</MenuItem
+			>System Preferences</MenuItem
 		>
 	</MenuCategory>
 	<MenuCategory {menubar} title={appMenuTitle} isAppMenu={true} noScript={true}>
