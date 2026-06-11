@@ -91,7 +91,7 @@
 			<div class="itunesVolumeSlider">
 				<Volume1 size={20} />
 				<input type="range" tabindex="-1" />
-				<Volume2 class="itunesVolumeSliderIconRight" size={20} />
+				<Volume2 size={20} />
 			</div>
 		</div>
 		<div class="itunesStatusWindow" data-allow-window-drag></div>
@@ -211,6 +211,7 @@
 		}
 		&:global(.lucide-play) {
 			scale: 0.8 0.65;
+			translate: 1px;
 		}
 		&:global(.lucide-fast-forward) {
 			margin-left: 2px;
