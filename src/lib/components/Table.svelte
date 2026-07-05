@@ -20,18 +20,18 @@
 	data-row-count={controller.data.length % 2 === 0 ? 'even' : 'odd'}
 	{...rest}
 >
-	<table class="table">
-		<thead class="tableHeader">
+	<table class="aqua-table">
+		<thead>
 			<tr>
 				{#each Object.keys(controller.columns) as (keyof Item)[] as key}
 					{@const options = controller.columns[key]!}
 					<th
-						class={['tableHeaderCell', { sorted: controller.sortKey === key }]}
+						class={{ sorted: controller.sortKey === key }}
 						onclick={() => controller.sort(key)}
 					>
-						<div class="tableHeaderContent">
+						<div class="aqua-table-header-content">
 							<span>{options.header}</span>
-							<span class="tableHeaderSortArrow">{controller.sortDir === 'asc' ? '▲' : '▼'}</span>
+							<span class="aqua-table-header-sort-arrow">{controller.sortDir === 'asc' ? '▲' : '▼'}</span>
 						</div>
 					</th>
 				{/each}
@@ -40,7 +40,7 @@
 		<tbody>
 			{#each controller.data as item}
 				<tr
-					class={['tableRow', { selected: controller.selected === item }]}
+					class={{ selected: controller.selected === item }}
 					onclick={() => (controller.selected = item)}
 				>
 					{#each Object.keys(controller.columns) as (keyof Item)[] as key}
@@ -82,94 +82,6 @@
 			&[data-row-count='odd']::after {
 				margin-top: var(--row-height);
 			}
-		}
-	}
-
-	.table {
-		border-collapse: collapse;
-
-		tr {
-			content-visibility: auto;
-			contain-intrinsic-height: auto var(--row-height);
-		}
-	}
-
-	.tableHeader {
-		position: sticky;
-		top: 0;
-		left: 0;
-		outline: 1px solid #666666;
-
-		:global(.window.inactive) & {
-			color: rgb(0 0 0 / 50%);
-		}
-	}
-
-	.tableHeaderCell {
-		font-weight: normal;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-
-		background-image: linear-gradient(to bottom, var(--button-square-gradient));
-
-		&.sorted:not(:global(.window.inactive) &) {
-			background-image: linear-gradient(to bottom, var(--button-square-active-gradient));
-		}
-		@media (scripting: enabled) {
-			&:active {
-				background-image: linear-gradient(to bottom, var(--button-square-active-gradient));
-			}
-		}
-
-		&.tableHeaderCell:not(:last-child) {
-			border-right-color: #bababa;
-		}
-	}
-
-	.tableHeaderContent {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 0.5em;
-	}
-
-	.tableHeaderSortArrow {
-		font-size: 11px;
-		visibility: hidden;
-
-		.tableHeaderCell.sorted & {
-			visibility: visible;
-		}
-	}
-
-	.tableRow {
-		&:nth-child(odd) {
-			background-color: var(--table-alternate-row-color);
-		}
-		&.selected {
-			background-color: var(--table-selected-row-color);
-			color: white;
-
-			:global(td):not(:last-child) {
-				border-right-color: #346dbe;
-			}
-
-			:global(.window.inactive) & {
-				background-color: var(--table-selected-row-color-inactive);
-			}
-		}
-	}
-
-	th,
-	.tableRow :global(td) {
-		max-width: 250px;
-		padding: 0 7.5px;
-		-webkit-user-select: none;
-		user-select: none;
-
-		&:not(:last-child) {
-			border-right: 1px solid #d9d9d9;
 		}
 	}
 </style>
