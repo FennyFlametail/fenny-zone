@@ -297,7 +297,7 @@
 		
 		background-image: linear-gradient(to bottom, var(--button-square-gradient));
 		
-		&.sorted:not(.window.inactive) & {
+		&.sorted:not(.window.inactive &) {
 			background-image: linear-gradient(to bottom, var(--button-square-active-gradient));
 		}
 		@media (scripting: enabled) {
