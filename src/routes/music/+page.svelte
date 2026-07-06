@@ -77,7 +77,7 @@
 <div class="itunes brushedNoInset">
 	<WindowToolbar>
 		<div class="itunesControls" data-allow-window-drag aria-hidden="true">
-			<div class="itunesTrackControls">
+			<div class="itunesPlayButtons">
 				<div class="aqua-button circle disabled">
 					<Rewind size={28} />
 				</div>
@@ -96,7 +96,7 @@
 		</div>
 		<div class="itunesStatusWindow" data-allow-window-drag></div>
 		<a
-			class="aqua-button-with-label noJS-pointer"
+			class="itunesProfileButton aqua-button-with-label noJS-pointer"
 			href={profile?.url}
 			target="_blank"
 			aria-labelledby="itunesProfileButtonLabel"
@@ -183,23 +183,23 @@
 	}
 
 	.itunes :global(.windowToolbar) {
-		justify-content: space-between;
+		display: grid;
+		grid-template: 'controls status browse' 1fr / var(--sidebar-width) 1fr var(--sidebar-width);
+		gap: 21px;
 		align-items: start;
 	}
 
 	.itunesControls {
-		width: var(--sidebar-width);
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
 	}
 
-	.itunesTrackControls {
+	.itunesPlayButtons {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: inherit;
-	}
 
 	.aqua-button :global(.lucide-icon) {
 		scale: 1 0.7;
@@ -215,6 +215,7 @@
 		}
 		&:global(.lucide-fast-forward) {
 			margin-left: 2px;
+			}
 		}
 	}
 
@@ -276,20 +277,17 @@
 	}
 
 	.itunesStatusWindow {
-		position: absolute;
-		left: 50%;
-		translate: -50%;
-		width: 40cqw;
-		height: 60px;
+				height: 60px;
+justify-self: stretch;
+		display: grid;
+		place-items: center;
 		border-radius: 9999px;
 		border: 1px solid transparent;
 		background:
 			linear-gradient(to bottom, #d6dbbf, #d6dbbf) content-box,
 			linear-gradient(to bottom, #737667, #f7f8f2) border-box;
 		box-shadow: inset 0 3px 5px -3px black;
-		display: grid;
-		place-items: center;
-		font-size: 42px;
+				font-size: 42px;
 
 		&::before,
 		&::after {
@@ -309,11 +307,14 @@
 		}
 	}
 
+	.itunesProfileButton {
+		justify-self: end;
+	}
+
 	.itunesBrowseIcon {
 		width: 31px;
 		height: 20px;
-		image-rendering: pixelated;
-	}
+			}
 
 	.itunesSidebarItem {
 		display: flex;
