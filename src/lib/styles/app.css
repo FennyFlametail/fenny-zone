@@ -132,18 +132,22 @@ body {
 	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
 }
 
-:where(a, a:visited) {
-	color: rgb(0 0 238);
+@layer reset, base, aqua;
 
-	&:focus-visible {
-		outline: none;
-		box-shadow: var(--focus-box-shadow);
-		border-radius: 2px;
+@layer base {
+	a, a:visited {
+		color: rgb(0 0 238);
+
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-box-shadow);
+			border-radius: 2px;
+		}
 	}
-}
 
-button {
-	color: black;
+	button {
+		color: black;
+	}
 }
 
 [data-allow-window-drag] {
