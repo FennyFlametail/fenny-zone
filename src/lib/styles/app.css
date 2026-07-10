@@ -100,10 +100,10 @@
 	--window-content-max-height-custom: calc(var(--desktop-safe-height) - 1px);
 
 	accent-color: var(--accent-color);
+}
 
-	::selection {
-		background-color: var(--selection-color);
-	}
+::selection {
+	background-color: var(--selection-color);
 }
 
 *,
