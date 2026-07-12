@@ -338,8 +338,8 @@
 	}
 
 	.windowTitleIcon {
-		width: 18px;
-		height: 18px;
+		width: 22px;
+		height: 22px;
 		object-fit: contain;
 		pointer-events: none;
 	}
