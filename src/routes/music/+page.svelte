@@ -141,11 +141,18 @@
 							{#if trackIndex === 0}
 								<th class="itunesAlbumDetailsCell" scope="rowgroup" rowspan={album.length}>
 									<div class="itunesAlbumDetails">
-										<img class="itunesAlbumArt" src={album[0].image} alt="" draggable="false" />
+										<img
+											class="itunesAlbumArt"
+											src={album[0].image}
+											alt=""
+											loading="lazy"
+											draggable="false"
+										/>
 										<img
 											class="itunesAlbumArtReflection"
 											src={album[0].image}
 											alt=""
+											loading="lazy"
 											draggable="false"
 										/>
 										<a

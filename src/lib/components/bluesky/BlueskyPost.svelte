@@ -79,11 +79,11 @@
 			onclick={openProfile}
 			tabindex="-1"
 		>
-			<img src={post.avatar} alt="Avatar for {post.handle}" draggable="false" />
+			<img src={post.avatar} alt="Avatar for {post.handle}" loading="lazy" draggable="false" />
 		</a>
 	{:else}
 		<div class="blueskyAvatar">
-			<img src={post.avatar} alt="Avatar for {post.handle}" draggable="false" />
+			<img src={post.avatar} alt="Avatar for {post.handle}" loading="lazy" draggable="false" />
 		</div>
 	{/if}
 	<div class="blueskyPostContent">
@@ -148,6 +148,7 @@
 							src={img.thumb}
 							alt={img.alt}
 							title={img.alt}
+							loading="lazy"
 							draggable="false"
 							width={img.width}
 							height={img.height}
@@ -161,7 +162,13 @@
 		{/if}
 		{#if post.linkPreview}
 			<a class="blueskyLinkPreview" href={post.linkPreview.link} target="_blank">
-				<img class="blueskyLinkPreviewThumb" src={post.linkPreview.thumb} alt="" />
+				<img
+					class="blueskyLinkPreviewThumb"
+					src={post.linkPreview.thumb}
+					alt=""
+					loading="lazy"
+					draggable="false"
+				/>
 				<div class="blueskyLinkPreviewText">
 					<div class="blueskyLinkPreviewTitle">{post.linkPreview.title}</div>
 					<div class="blueskyLinkPreviewDescription">{post.linkPreview.description}</div>
