@@ -75,6 +75,7 @@
 	--sidebar-item-padding: 4px;
 	--sidebar-width: 160px;
 	--table-alternate-row-color: #edf3fe;
+	--table-font-size: 14px;
 	--table-selected-row-color: #3d80df;
 	--table-selected-row-color-inactive: #c0c0c0;
 	--text-secondary: rgb(0 0 0 / 50%);
@@ -135,7 +136,8 @@ body {
 @layer reset, base, aqua;
 
 @layer base {
-	a, a:visited {
+	a,
+	a:visited {
 		color: rgb(0 0 238);
 
 		&:focus-visible {

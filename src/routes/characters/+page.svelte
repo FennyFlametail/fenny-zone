@@ -35,7 +35,7 @@
 	}
 </script>
 
-<div class="addressBook brushedNoInset">
+<div class="addressBook brushedNoInset" data-allow-window-drag>
 	<WindowToolbar class="noJS-hide">
 		<a
 			class={['aqua-button', 'square', { disabled: !selectedAppName }]}
@@ -49,12 +49,7 @@
 			<ExternalLink size={18} aria-hidden="true" />
 		</a>
 	</WindowToolbar>
-	<WindowSidebar
-		header="Name"
-		class="addressBookList brushedInset"
-		aria-label="Character List"
-		onclick={deselect}
-	>
+	<WindowSidebar header="Name" class="brushedInset" aria-label="Character List" onclick={deselect}>
 		{#each characters as appName}
 			{@const app = windowServer.apps[appName]}
 			<WindowSidebarItem class="addressBookListItem" selected={selectedAppName === appName}>

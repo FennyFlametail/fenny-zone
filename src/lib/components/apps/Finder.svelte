@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
+	import WindowStatusBar from '$lib/components/WindowStatusBar.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
 	import NavigationStack from '$lib/helpers/navigationStack.svelte';
@@ -76,12 +77,14 @@
 			/>
 		</AppLink>
 	</WindowToolbar>
+
 	<nav class="finderIcons brushedInset" aria-label="Icons">
 		<folder.Page />
 	</nav>
-	<footer class="finderStatusBar" data-allow-window-drag>
+
+	<WindowStatusBar>
 		<span class="finderItemCount" data-allow-window-drag></span>, {remainingSpace} GB available
-	</footer>
+	</WindowStatusBar>
 </div>
 
 <style>
@@ -122,19 +125,10 @@
 		}
 	}
 
-	.finderStatusBar {
-		position: absolute;
-		top: 100%;
-		width: 100%;
-		height: var(--window-brushed-bottom-padding);
+	.finder :global(.windowStatusBar) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 14px;
-		line-height: var(--window-brushed-bottom-padding);
-		text-shadow: var(--window-brushed-text-shadow);
-		-webkit-user-select: none;
-		user-select: none;
 	}
 
 	.finderItemCount::before {

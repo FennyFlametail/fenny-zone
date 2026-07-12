@@ -3,13 +3,15 @@
 
 	const {
 		selected,
-		children
+		class: className,
+		children,
+		...rest
 	}: {
 		selected: boolean;
 	} & HTMLAttributes<HTMLLIElement> = $props();
 </script>
 
-<li class={['windowSidebarItem', { selected }]}>
+<li class={['windowSidebarItem', { selected }, className]} {...rest}>
 	{@render children?.()}
 </li>
 

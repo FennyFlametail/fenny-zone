@@ -1,16 +1,24 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import Table from '$lib/components/Table.svelte';
 	import WindowSidebar from '$lib/components/WindowSidebar.svelte';
 	import WindowSidebarItem from '$lib/components/WindowSidebarItem.svelte';
+	import WindowStatusBar from '$lib/components/WindowStatusBar.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
-	import TableController, { type ColumnOptions } from '$lib/helpers/TableController.svelte';
 	import itunesBrowseIcon from '$lib/images/icons/itunes-browse.png';
 	import itunesLibraryIcon from '$lib/images/icons/itunes-library.png';
 	import { fromUnixTime, intlFormat } from 'date-fns';
 	import { decode } from 'html-entities';
-	import { ArrowBigRight, FastForward, Play, Rewind, Volume1, Volume2 } from 'lucide-svelte';
+	import {
+		ArrowBigRight,
+		FastForward,
+		PanelLeftClose,
+		PanelLeftOpen,
+		Play,
+		Rewind,
+		Volume1,
+		Volume2
+	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { getLastFmFeed, type LastFmProfile, type MusicTrack } from './lastfm.remote';
 
@@ -29,52 +37,47 @@
 		}
 	});
 
-	const columns: ColumnOptions<MusicTrack> = {
-		name: {
-			header: 'Name',
-			cell: linkCell
-		},
-		artist: {
-			header: 'Artist',
-			cell: linkCell
-		},
-		album: {
-			header: 'Album',
-			cell: linkCell
-		},
-		loved: {
-			header: 'My Rating',
-			defaultSort: 'desc',
-			cell: lovedCell
-		},
-		lastPlayed: {
-			header: 'Last Played',
-			defaultSort: 'desc',
-			cell: dateCell
-		}
-	};
+	const recentsGrouped = $derived.by(() => {
+		if (!profile?.recents) return [];
 
-	const controller = $derived.by(() => {
-		if (!profile?.recents) {
-			return new TableController({
-				data: [],
-				columns
-			});
-		}
+		const grouped: MusicTrack[][] = [];
+		let lastAlbum = '';
 
-		return new TableController({
-			data: profile.recents,
-			columns,
-			initialSortKey: 'lastPlayed'
+		profile.recents.forEach((track) => {
+			if (lastAlbum === track.album) {
+				grouped.at(-1)?.unshift(track);
+			} else {
+				grouped.push([track]);
+			}
+			lastAlbum = track.album;
 		});
+		return grouped;
 	});
 
-	function openHandler(track: MusicTrack) {
-		return () => open(track.link, '_blank');
-	}
+	let loading = $state(true);
+	setTimeout(() => (loading = false), 500);
+
+	let sidebarInput = $state<HTMLInputElement>();
+	let currentWidth = $state(NaN);
+	let lastWidth = $state(NaN);
+	const sidebarBreakpoint = 600;
+
+	$effect(() => {
+		if (currentWidth >= sidebarBreakpoint && lastWidth < sidebarBreakpoint) {
+			sidebarInput && (sidebarInput.checked = true);
+		} else if (currentWidth < sidebarBreakpoint && lastWidth >= sidebarBreakpoint) {
+			sidebarInput && (sidebarInput.checked = false);
+		}
+		lastWidth = currentWidth;
+	});
 </script>
 
-<div class="itunes brushedNoInset">
+<!-- #region Template -->
+<div
+	class={['itunes', 'brushedNoInset', { loading }]}
+	bind:clientWidth={currentWidth}
+	data-allow-window-drag
+>
 	<WindowToolbar>
 		<div class="itunesControls" data-allow-window-drag aria-hidden="true">
 			<div class="itunesPlayButtons">
@@ -108,78 +111,125 @@
 		</a>
 	</WindowToolbar>
 
-	<WindowSidebar
-		type="iTunes"
-		header="Source"
-		lowerViewHeader={browser ? 'Selected Song' : undefined}
-	>
+	<WindowSidebar type="iTunes" class="brushedInset" header="Source">
 		<WindowSidebarItem selected>
 			<button class="itunesSidebarItem">
 				<img src={itunesLibraryIcon} alt="" draggable="false" />
-				<span>Recent Tracks</span>
+				<span>Recently Played</span>
 			</button>
 		</WindowSidebarItem>
-		{#snippet lowerView()}
-			{#if browser}
-				{#if controller.selected}
-					<img
-						class="itunesAlbumArt"
-						src={controller.selected?.image}
-						alt="Album art for {controller.selected.name} by {controller.selected.artist}"
-						draggable={false}
-					/>
-				{:else}
-					<div class="itunesAlbumArt placeholder">Nothing<br />Selected</div>
-				{/if}
-			{/if}
-		{/snippet}
 	</WindowSidebar>
 
-	<div class="itunesSongList">
-		<Table {controller} rowHeight={24} />
+	<!-- #region Table -->
+	<div class="itunesContent brushedInset">
+		<table class="aqua-table rows-reversed">
+			<thead>
+				<tr>
+					<th class="itunesHeaderAlbumDetails" scope="col"></th>
+					<th class="itunesHeaderName" scope="col">Name</th>
+					<th class="itunesHeaderLoved" scope="col">My Rating</th>
+					<th class="itunesHeaderLastPlayed" scope="col">Last Played</th>
+				</tr>
+			</thead>
+			{#each recentsGrouped as album, albumIndex}
+				<tbody>
+					<tr class="itunesAlbumDividerRow" aria-hidden="true">
+						<td colspan="4"></td>
+					</tr>
+					{#each album as track, trackIndex}
+						<tr class="itunesTrackRow">
+							{#if trackIndex === 0}
+								<th class="itunesAlbumDetailsCell" scope="rowgroup" rowspan={album.length}>
+									<div class="itunesAlbumDetails">
+										<img class="itunesAlbumArt" src={album[0].image} alt="" draggable="false" />
+										<img
+											class="itunesAlbumArtReflection"
+											src={album[0].image}
+											alt=""
+											draggable="false"
+										/>
+										<a
+											class="itunesAlbumName"
+											href={album[0].albumLink}
+											target="_blank"
+											title={decode(album[0].album)}>{decode(album[0].album)}</a
+										>
+										<a
+											class="itunesAlbumArtist"
+											href={album[0].artistLink}
+											target="_blank"
+											title={decode(album[0].artist)}>{decode(album[0].artist)}</a
+										>
+									</div>
+								</th>
+							{/if}
+							<td class="itunesTrackNameCell">
+								<span class="itunesTrackName" title={decode(track.name)}>{decode(track.name)}</span>
+								<a
+									class="itunesSongLink noJS-pointer"
+									href={track.link}
+									title="View on Last.fm"
+									aria-label="View on Last.fm"
+									target="_blank"
+								>
+									<ArrowBigRight size={12} fill="currentColor" />
+								</a>
+							</td>
+							<td class="itunesTrackLoved">{track.loved ? '★★★★★' : ''}</td>
+							<td class="itunesTrackLastPlayed">
+								{intlFormat(fromUnixTime(track.lastPlayed), {
+									dateStyle: 'short'
+								})}
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			{/each}
+		</table>
 	</div>
+
+	<WindowStatusBar>
+		<label class="aqua-button metal" aria-label="Show Sidebar">
+			<input
+				type="checkbox"
+				id="itunesSidebarInput"
+				bind:this={sidebarInput}
+				checked={!browser || currentWidth >= sidebarBreakpoint}
+			/>
+			<PanelLeftClose size={22} />
+			<PanelLeftOpen size={22} />
+		</label>
+	</WindowStatusBar>
 </div>
 
-{#snippet linkCell(item: MusicTrack, key: keyof MusicTrack)}
-	{@const link = key === 'name' ? item.link : key === 'artist' ? item.artistLink : item.albumLink}
-	<td ondblclick={openHandler(item)}>
-		<div class="itunesSongCell">
-			<span title={decode(item[key] as string)}>{decode(item[key] as string)}</span>
-			<a
-				class="itunesSongLink noJS-pointer"
-				href={link}
-				title="View on Last.fm"
-				aria-label="View on Last.fm"
-				target="_blank"
-			>
-				<ArrowBigRight size={12} fill="currentColor" />
-			</a>
-		</div>
-	</td>
-{/snippet}
-
-{#snippet lovedCell(item: MusicTrack)}
-	<td class="itunesSongLoved" ondblclick={openHandler(item)} aria-label={item.loved ? 'Loved' : ''}
-		>{item.loved ? '★★★★★' : ''}</td
-	>
-{/snippet}
-
-{#snippet dateCell(item: MusicTrack)}
-	<td ondblclick={openHandler(item)}
-		>{intlFormat(fromUnixTime(item.lastPlayed), {
-			dateStyle: 'short',
-			timeStyle: 'short'
-		}).replace(',', '')}</td
-	>
-{/snippet}
-
 <style>
+	/* #region Styles */
 	.itunes {
+		--status-bar-height: 45px;
 		display: grid;
 		grid-template:
 			'toolbar toolbar' auto
-			'sidebar content' 1fr / auto 1fr;
-		column-gap: var(--titlebar-padding);
+			'sidebar content' 1fr / calc(var(--sidebar-width) + var(--titlebar-padding)) 1fr;
+		transition: grid-template-columns 0.25s linear;
+		/* necessary to hide the sidebar while still showing brushed inset borders */
+		padding: 1px;
+		padding-bottom: calc(var(--status-bar-height) - var(--window-brushed-bottom-padding));
+		overflow: hidden;
+
+		&.loading {
+			@media not (scripting: none) {
+				transition-duration: 0s;
+			}
+		}
+
+		&:not(:has(#itunesSidebarInput:checked)) {
+			grid-template-columns: 0 1fr;
+		}
+		@media (scripting: none) {
+			@container window (width < 600) {
+				grid-template-columns: 0 1fr;
+			}
+		}
 	}
 
 	.itunes :global(.windowToolbar) {
@@ -201,20 +251,20 @@
 		align-items: center;
 		gap: inherit;
 
-	.aqua-button :global(.lucide-icon) {
-		scale: 1 0.7;
-		fill: currentColor;
-		stroke: none;
+		.aqua-button :global(.lucide-icon) {
+			scale: 1 0.7;
+			fill: currentColor;
+			stroke: none;
 
-		&:global(.lucide-rewind) {
-			margin-right: 2px;
-		}
-		&:global(.lucide-play) {
-			scale: 0.8 0.65;
-			translate: 1px;
-		}
-		&:global(.lucide-fast-forward) {
-			margin-left: 2px;
+			&:global(.lucide-rewind) {
+				margin-right: 2px;
+			}
+			&:global(.lucide-play) {
+				scale: 0.8 0.65;
+				translate: 1px;
+			}
+			&:global(.lucide-fast-forward) {
+				margin-left: 2px;
 			}
 		}
 	}
@@ -277,8 +327,8 @@
 	}
 
 	.itunesStatusWindow {
-				height: 60px;
-justify-self: stretch;
+		height: 60px;
+		justify-self: stretch;
 		display: grid;
 		place-items: center;
 		border-radius: 9999px;
@@ -287,7 +337,7 @@ justify-self: stretch;
 			linear-gradient(to bottom, #d6dbbf, #d6dbbf) content-box,
 			linear-gradient(to bottom, #737667, #f7f8f2) border-box;
 		box-shadow: inset 0 3px 5px -3px black;
-				font-size: 42px;
+		font-size: 42px;
 
 		&::before,
 		&::after {
@@ -299,11 +349,14 @@ justify-self: stretch;
 		}
 
 		&::before {
-			z-index: -1;
 			background-color: #737667;
 			scale: 0.9;
 			translate: 0 3px;
 			filter: blur(3px);
+		}
+
+		&::after {
+			z-index: 1;
 		}
 	}
 
@@ -314,7 +367,14 @@ justify-self: stretch;
 	.itunesBrowseIcon {
 		width: 31px;
 		height: 20px;
-			}
+	}
+
+	/* #region Sidebar */
+
+	.itunes :global(.windowSidebar) {
+		justify-self: end;
+		margin-right: var(--titlebar-padding);
+	}
 
 	.itunesSidebarItem {
 		display: flex;
@@ -323,49 +383,165 @@ justify-self: stretch;
 		padding: 1px 5px;
 		background: none;
 		border: none;
+		font-size: var(--table-font-size);
 		color: inherit;
 
 		img {
-			width: 16px;
-			height: 16px;
+			width: 21px;
+			height: 21px;
 			image-rendering: pixelated;
 		}
 	}
 
-	.itunesAlbumArt {
-		aspect-ratio: 1 / 1;
-		object-fit: cover;
+	/* #region Table */
 
-		&.placeholder {
-			color: #c8c8c8;
-			font-size: 14px;
-			line-height: 1.7;
-			font-weight: bold;
-			align-content: center;
-			text-align: center;
+	.itunesContent {
+		--itunes-content-spacing: 15px;
+		grid-area: content;
+		display: flex;
+		flex-flow: column;
+		background-color: white;
+		overflow-y: scroll;
+	}
+
+	.aqua-table {
+		--album-art-width: 142px;
+		--row-height: 24px;
+		width: 100%;
+		table-layout: fixed;
+
+		thead {
+			z-index: 1;
 		}
 	}
 
-	.itunesSongList {
-		grid-area: content;
-		container: window / size;
-		display: grid;
-		grid-template: 100% / 100%;
+	.itunesHeaderAlbumDetails {
+		width: calc(var(--album-art-width) + var(--itunes-content-spacing) * 2);
 	}
 
-	td,
-	.itunesSongCell span {
-		font-size: 16px;
+	.itunesHeaderLoved {
+		width: 100px;
+	}
+
+	.itunesHeaderLastPlayed {
+		width: 105px;
+	}
+
+	.itunesHeaderLoved,
+	.itunesTrackLoved {
+		@container window (width < 700px) {
+			/* can't do display: none because of colspan */
+			width: 0;
+			padding: 0;
+		}
+	}
+
+	.itunesHeaderLastPlayed,
+	.itunesTrackLastPlayed {
+		@container window (width < 800px) {
+			width: 0;
+			padding: 0;
+		}
+	}
+
+	.itunesAlbumDividerRow {
+		background-color: transparent;
+		height: var(--itunes-content-spacing);
+
+		tbody:not(:first-of-type) & {
+			height: calc(var(--itunes-content-spacing) * 2 + 1px);
+			background: linear-gradient(
+				to bottom,
+				transparent var(--itunes-content-spacing),
+				#7f7f7f var(--itunes-content-spacing),
+				#7f7f7f calc(var(--itunes-content-spacing) + 1px),
+				transparent calc(var(--itunes-content-spacing) + 1px)
+			);
+			padding-inline: 5px;
+			background-clip: content-box;
+		}
+	}
+
+	/* #region Albums */
+	.itunesAlbumDetailsCell {
+		padding: 0;
+		vertical-align: top;
+		border-right: none;
+		&,
+		&:active {
+			background: white;
+		}
+	}
+
+	.itunesAlbumDetails {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: var(--itunes-content-spacing);
+	}
+
+	.itunesAlbumArt,
+	.itunesAlbumArtReflection {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		border: 1px solid #545454;
+	}
+
+	.itunesAlbumArtReflection {
+		--height: 50px;
+		rotate: x 180deg;
+		aspect-ratio: auto;
+		height: var(--height);
+		margin-bottom: calc(var(--height) * -1 + 10px);
+		border-block-width: 0;
+		object-fit: cover;
+		object-position: center bottom;
+		mask-image: linear-gradient(to bottom, transparent, rgb(255 255 255 / 50%));
+		pointer-events: none;
+	}
+
+	.itunesAlbumName,
+	.itunesAlbumArtist {
+		line-height: 1.4;
+		font-weight: bold;
+		color: black;
+		white-space: pre-line;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.itunesAlbumName {
+		margin-bottom: 2.5px;
+	}
+
+	/* #region Tracks */
+	.itunesTrackNameCell,
+	.itunesTrackLoved,
+	.itunesTrackLastPlayed {
+		padding: 0 calc(var(--itunes-content-spacing) / 2);
+	}
+
+	.itunesTrackNameCell {
+		padding-inline-start: var(--itunes-content-spacing);
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+
+		> span {
+			flex-grow: 1;
+		}
+	}
+
+	.itunesTrackName,
+	.itunesTrackLoved,
+	.itunesTrackLastPlayed {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-	}
-
-	.itunesSongCell {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.5em;
 	}
 
 	.itunesSongLink {
@@ -393,12 +569,67 @@ justify-self: stretch;
 		}
 	}
 
-	.itunesSongLoved {
+	.itunesTrackLoved {
 		text-align: center;
-		color: hsl(0 0 50%);
+		color: #808080;
+	}
 
-		:global(.tableRow.selected) & {
-			color: inherit;
+	.itunesTrackLastPlayed {
+		padding-inline-end: 0;
+	}
+
+	/* #region Status Bar */
+
+	.itunes :global(.windowStatusBar) {
+		top: calc(100% - (var(--status-bar-height) - var(--window-brushed-bottom-padding)));
+		height: var(--status-bar-height);
+		display: flex;
+		align-items: center;
+		padding-inline-start: 7px;
+	}
+
+	.aqua-button.metal {
+		/* TODO make non-iTunes version */
+		--button-gradient: #e3e3e3, #b1b1b1;
+		--button-height: 30px;
+		--button-padding: 8px;
+		--drop-shadow-color: white;
+		box-shadow:
+			var(--widget-unified-box-shadow),
+			inset 0 3px 1px 0 white,
+			inset 0 -1px 1px #858585;
+		border-radius: 4px;
+		min-width: auto;
+
+		:global(svg) {
+			opacity: 1;
+			filter: drop-shadow(0 1px 0 var(--drop-shadow-color));
+			color: #3d3d3d;
+
+			:global(.window.inactive) & {
+				color: #858585;
+			}
+		}
+
+		&:active {
+			--button-gradient: #858585, #b4b4b4;
+			--button-border-gradient: #2b2b2b, #505050;
+			--drop-shadow-color: #cdcdcd;
+			box-shadow:
+				var(--widget-unified-box-shadow),
+				inset 0 1px 2px #2b2b2b,
+				inset 0 -1px 0 0 #a6a6a6;
+		}
+	}
+
+	#itunesSidebarInput {
+		width: 0;
+		height: 0;
+		opacity: 0;
+
+		&:checked ~ :global(.lucide-panel-left-open),
+		&:not(:checked) ~ :global(.lucide-panel-left-close) {
+			display: none;
 		}
 	}
 </style>

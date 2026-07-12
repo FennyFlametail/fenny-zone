@@ -299,10 +299,11 @@
 		}
 
 		@media (scripting: none) {
+			--top-offset: 2px;
 			position: absolute;
 			left: 50%;
-			top: 33.33%;
-			translate: -50% -33.33%;
+			top: calc(33.33% + var(--top-offset));
+			translate: -50% calc(-1 * 33.33% - var(--top-offset));
 		}
 
 		@media (forced-colors: active) {

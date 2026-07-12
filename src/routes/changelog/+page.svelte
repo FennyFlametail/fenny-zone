@@ -4,6 +4,11 @@
 
 <TextEdit>
 	<div>
+		<h3>2026-07-12</h3>
+		<ul>
+			<li>Redesigned Music app list</li>
+			<li>Lots of small style improvements</li>
+		</ul>
 		<h3>2026-05-31</h3>
 		<ul>
 			<li>Added Music app</li>

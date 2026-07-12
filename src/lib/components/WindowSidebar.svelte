@@ -7,16 +7,19 @@
 		header,
 		lowerViewHeader,
 		lowerView,
-		children
+		class: className,
+		children,
+		...rest
 	}: {
 		type?: 'normal' | 'iTunes';
 		header?: string;
 		lowerViewHeader?: string;
 		lowerView?: Snippet;
-	} & HTMLAttributes<HTMLUListElement> = $props();
+		children?: Snippet;
+	} & HTMLAttributes<HTMLElement> = $props();
 </script>
 
-<nav class={['windowSidebar', 'brushedInset', { itunes: type === 'iTunes' }]}>
+<nav class={['windowSidebar', { itunes: type === 'iTunes' }, className]} {...rest}>
 	{#if header}
 		<h3 class="windowSidebarHeader">{header}</h3>
 	{/if}
@@ -47,7 +50,7 @@
 		border-bottom: 1px solid #b3b3b3;
 		background: linear-gradient(to bottom, var(--button-gradient));
 		text-align: center;
-		font-size: 13px;
+		font-size: var(--table-font-size);
 		font-weight: normal;
 
 		.windowSidebar.itunes & {
