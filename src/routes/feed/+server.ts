@@ -14,7 +14,7 @@ export const GET: RequestHandler = async () => {
 		return `<item>
 			<title>${date}</title>
 			<link>https://fenny.zone/changelog</link>
-			<description>${encode(`<ul>${lines.map((line) => `<li>${line}</li>`)}</ul>`)}</description>
+			<description>${encode(`<ul>${lines.map((line) => `<li>${line}</li>`).join('')}</ul>`)}</description>
 			<pubDate>${postDate}</pubDate>
 			<guid isPermaLink="false">${date}</guid>
 		</item>`;
