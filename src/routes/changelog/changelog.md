@@ -1,6 +1,7 @@
 2026-07-12
 - Redesigned Music app list
 - Added RSS feed
+- Reorganized credits
 - Lots of small style improvements
 
 2026-05-31

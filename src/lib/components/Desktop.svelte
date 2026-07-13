@@ -4,6 +4,7 @@
 	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
 	import HltbIcon from '$lib/images/icons/hltb.webp';
 	import iPhotoIcon from '$lib/images/icons/iphoto.webp';
+	import NetNewsWireIcon from '$lib/images/icons/netnewswire.webp'
 	import SteamIcon from '$lib/images/icons/steam.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
 	import { onMount } from 'svelte';
@@ -65,6 +66,11 @@
 	<div class="desktopColumn">
 		<FileIcon appName="readme" label="red" />
 		<FileIcon appName="changelog" />
+		<FileIcon
+			name="RSS"
+			icon={NetNewsWireIcon}
+			href="https://www.fenny.zone/feed"
+		/>
 	</div>
 	<div class="desktopColumn">
 		<FileIcon appName="bluesky" />

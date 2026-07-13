@@ -15,7 +15,20 @@ Check out the icons at the bottom of the screen, or find me elsewhere on the rig
 
 Scroll down for credits ⬇️
 
-
+Design and most icons © Apple
+Bluesky icon and app design from <a
+			href="https://tapbots.com/tweetbot/"
+			target="_blank"
+			contenteditable="false">Tweetbot</a
+		> (RIP)
+RSS icon from <a href="https://netnewswire.com/" target="_blank" contenteditable="false"
+			>NetNewsWire</a
+		>
+HowLongToBeat icon from <a
+			href="https://en.wikipedia.org/wiki/Delicious_Library"
+			target="_blank"
+			contenteditable="false">Delicious Library</a
+		>
 Waving sticker by <a
 			href="https://www.furaffinity.net/user/ponacho"
 			target="_blank"
@@ -25,11 +38,6 @@ Default desktop picture by <a
 			href="https://www.furaffinity.net/user/WickedForster/"
 			target="_blank"
 			contenteditable="false">WickedForster</a
-		>
-Chozo font by <a
-			href="https://old.reddit.com/r/Metroid/comments/qm2v3c/i_have_made_a_fully_functional_automated/"
-			target="_blank"
-			contenteditable="false">Wolfeur</a
 		>
 Googly eyes inspired by <a
 			href="https://sindresorhus.com/googly-eyes"
@@ -41,19 +49,19 @@ Adblock warning based on code by <a
 			target="_blank"
 			contenteditable="false">Stefan Bohacek</a
 		>
+Chozo font by <a
+			href="https://old.reddit.com/r/Metroid/comments/qm2v3c/i_have_made_a_fully_functional_automated/"
+			target="_blank"
+			contenteditable="false">Wolfeur</a
+		>
 No AI badge by <a href="https://samvieten.itch.io/no-ai" target="_blank" contenteditable="false"
 			>Sam Vieten</a
 		>
-Reference images from <a
+Reference images used from <a
 			href="https://512pixels.net/projects/aqua-screenshot-library/"
 			target="_blank"
 			contenteditable="false">macOS Screenshot Library</a
 		> by Stephen Hackett
-Bluesky app design based on <a
-			href="https://tapbots.com/tweetbot/"
-			target="_blank"
-			contenteditable="false">Tweetbot</a
-		> (RIP)
 
 <div class="badges">
 	<img src="{baseUrl}/no_ai.png" alt="NO AI - Handmade" />
