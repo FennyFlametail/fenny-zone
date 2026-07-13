@@ -102,6 +102,10 @@
 		&:focus-visible {
 			filter: brightness(0.5);
 		}
+
+		:global(.window.inactive) & {
+			opacity: 0.5;
+		}
 	}
 
 	.finderIcons {

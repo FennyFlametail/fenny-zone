@@ -342,6 +342,10 @@
 		height: 22px;
 		object-fit: contain;
 		pointer-events: none;
+
+		.window.inactive & {
+			opacity: 0.5;
+		}
 	}
 
 	.windowTitle {
