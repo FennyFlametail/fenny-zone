@@ -1,6 +1,6 @@
 /* styles shared between multiple components */
 
-.window:is([data-appname='bluesky'], [data-appname='blueskyMedia']) {
+@scope (.window:is([data-appname='bluesky'], [data-appname='blueskyMedia'])) {
 	--titlebar-height: 35px;
 	--titlebar-gradient: linear-gradient(
 		to bottom,

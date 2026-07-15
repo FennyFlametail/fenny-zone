@@ -200,6 +200,7 @@
 		background-color: #fafafb;
 		border-top: 1px solid white;
 		border-bottom: 1px solid #d5d9dc;
+		content-visibility: auto;
 
 		&.blueskyQuotePost {
 			border: 1px solid var(--card-border-color);
