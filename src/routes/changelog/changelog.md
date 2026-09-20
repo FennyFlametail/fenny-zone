@@ -1,5 +1,6 @@
 2026-09-19
-- Improve Music app styling
+- Improved Music app layout
+- Improved Aqua control styling
 
 2026-07-12
 - Redesigned Music app list
