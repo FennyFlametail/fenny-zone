@@ -82,6 +82,9 @@
 <style>
 	.desktopPicture {
 		grid-area: desktop / desktop / dock / dock;
+		min-height: 0;
+		min-width: 0;
+		place-self: stretch;
 		background-color: var(--desktop-color);
 		object-fit: cover;
 		object-position: 50% 25%;
@@ -91,6 +94,8 @@
 
 	.desktop {
 		grid-area: desktop;
+		min-width: 0;
+		min-height: 0;
 		display: flex;
 		justify-content: space-between;
 		align-items: start;
