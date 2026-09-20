@@ -1,3 +1,6 @@
+2026-09-19
+- Improve Music app styling
+
 2026-07-12
 - Redesigned Music app list
 - Added RSS feed
