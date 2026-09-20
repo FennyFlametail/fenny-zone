@@ -52,6 +52,10 @@
 		setTimeout(() => document.body.classList.remove('loading'), 500);
 	});
 
+	$effect(() => {
+		document.body.classList.toggle('duoLayout', preferences.duoLayout);
+	});
+
 	$effect(windowServer.saveState);
 	$effect(savePreferences);
 </script>

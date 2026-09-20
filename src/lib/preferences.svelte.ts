@@ -4,10 +4,12 @@ const preferences = $state<{
 	adblockWarningSeen: boolean;
 	desktopPicture: keyof typeof desktopPictures | null;
 	desktopColor: string;
+	duoLayout: boolean;
 }>({
 	adblockWarningSeen: false,
 	desktopPicture: 'beach',
-	desktopColor: '#beac87'
+	desktopColor: '#beac87',
+	duoLayout: false
 });
 
 export default preferences;

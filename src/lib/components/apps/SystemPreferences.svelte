@@ -11,7 +11,7 @@
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext<'systemPreferences'>();
 
-	const prefPanes: AppName[] = ['prefsDesktop'];
+	const prefPanes: AppName[] = ['prefsAppearance', 'prefsDesktop'];
 
 	// svelte-ignore state_referenced_locally
 	const navStack = new NavigationStack<AppName | undefined>(paneProp, onPaneChange);

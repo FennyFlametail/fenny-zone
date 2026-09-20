@@ -52,10 +52,16 @@
 		justify-self: center;
 		display: flex;
 		gap: 1px;
-		height: var(--dock-height);
+		block-size: var(--dock-height);
 		outline: 1px solid rgb(0 0 0 / 10%);
 		/* fix incorrect sizing in Safari */
-		max-height: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
+		max-block-size: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
+
+		:global(body.duoLayout) & {
+			writing-mode: vertical-lr;
+			justify-self: auto;
+			align-self: center;
+		}
 
 		@media (prefers-reduced-transparency: reduce) {
 			background-color: var(--desktop-color);

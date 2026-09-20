@@ -10,6 +10,7 @@ import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Finder from '$lib/components/apps/Finder.svelte';
 import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
+import AppearancePrefs from '$lib/components/prefpanes/AppearancePrefs.svelte';
 import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
 import Applications from '../routes/applications/+page.svelte';
 import Bluesky from '../routes/bluesky/+page.svelte';
@@ -25,17 +26,18 @@ import Home from '../routes/home/+page.svelte';
 import Keyboards from '../routes/keyboards/+page.svelte';
 import KeyboardsInfo from '../routes/keyboards/info/+page.svelte';
 import MK47 from '../routes/keyboards/mk47/+page.svelte';
-import TextEdit from '../routes/textedit/+page.svelte';
 import Neon75 from '../routes/keyboards/neon75/+page.svelte';
 import OK35 from '../routes/keyboards/ok35/+page.svelte';
 import Music from '../routes/music/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
 import Sauce from '../routes/sauce/+page.svelte';
+import TextEdit from '../routes/textedit/+page.svelte';
 import Toddspin from '../routes/toddspin/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
 
 import AddressBookIcon from '$lib/images/icons/addressbook.webp';
+import AppearancePrefsIcon from '$lib/images/icons/appearance.webp';
 import ArenIcon from '$lib/images/icons/aren.webp';
 import CephIcon from '$lib/images/icons/ceph.webp';
 import DesktopPrefsIcon from '$lib/images/icons/desktop.webp';
@@ -97,6 +99,7 @@ interface AppOptions {
 	neon75: AppOptionType<{ parent: 'preview' }>;
 	nocturne: AppOptionType<{ parent: 'characters' }>;
 	ok35: AppOptionType<{ parent: 'preview' }>;
+	prefsAppearance: AppOptionType<{ parent: 'systemPreferences' }>;
 	prefsDesktop: AppOptionType<{ parent: 'systemPreferences' }>;
 	preview: AppOptionType<{ props: { src: string } }>;
 	projects: AppOptionType<{ parent: 'finder' }>;
@@ -457,6 +460,17 @@ const getApps = (): {
 				y: WindowServer.getInitialPosition({ height: 525 }).y,
 				height: 175
 			};
+		}
+	},
+	prefsAppearance: {
+		parent: 'systemPreferences',
+		Page: AppearancePrefs,
+		title: 'Appearance',
+		windowTitle: 'Appearance',
+		icon: AppearancePrefsIcon,
+		launchParentWithProps: { pane: 'prefsAppearance' },
+		defaultPosition: {
+			height: 200
 		}
 	},
 	prefsDesktop: {

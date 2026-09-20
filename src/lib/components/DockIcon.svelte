@@ -14,7 +14,7 @@
 	const labelId = $props.id();
 
 	const windowServer = getWindowServerContext();
-	const app = windowServer.apps[appName];
+	const app = $derived(windowServer.apps[appName]);
 
 	const icon = $derived(app.dockIcon ?? app.icon);
 
@@ -65,9 +65,10 @@
 
 <style>
 	.dockIcon {
+		--bounce-target: 0 -25px;
 		flex-shrink: 0;
-		width: var(--dock-icon-size);
-		height: var(--dock-icon-size);
+		inline-size: var(--dock-icon-size);
+		block-size: var(--dock-icon-size);
 		display: flex;
 		justify-content: center;
 		text-align: center;
@@ -77,7 +78,7 @@
 		background: none;
 		border: none;
 		transition: 250ms ease;
-		transition-property: width, height, margin-bottom;
+		transition-property: inline-size, block-size, margin-block-end;
 		-webkit-user-select: none;
 		user-select: none;
 
@@ -86,23 +87,27 @@
 			box-shadow: none;
 		}
 
+		:global(body.duoLayout) & {
+			--bounce-target: -25px 0;
+		}
+
 		@media not ((prefers-reduced-motion: reduce) or (hover: none)) {
 			:global(body:not(.loading)) & {
 				/* zoom in and expand Dock */
 				@starting-style {
-					width: 0;
+					inline-size: 0;
 				}
 				&:global([inert]) {
 					/* [inert] means the out transition is occurring */
-					width: 0;
+					inline-size: 0;
 					transition-timing-function: linear;
 				}
 			}
 
 			&:hover {
-				margin-bottom: 10px;
-				width: calc(var(--dock-icon-size) * 2);
-				height: calc(var(--dock-icon-size) * 2);
+				margin-block-end: 10px;
+				inline-size: calc(var(--dock-icon-size) * 2);
+				block-size: calc(var(--dock-icon-size) * 2);
 			}
 
 			/* icons next to hovered */
@@ -115,9 +120,9 @@
 					+ .dockSection
 					&:nth-child(1 of :not(.noJS-hide))
 			) {
-				margin-bottom: 10px;
-				width: calc(var(--dock-icon-size) * 1.8);
-				height: calc(var(--dock-icon-size) * 1.8);
+				margin-block-end: 10px;
+				inline-size: calc(var(--dock-icon-size) * 1.8);
+				block-size: calc(var(--dock-icon-size) * 1.8);
 			}
 
 			/* icons two away from hovered */
@@ -135,9 +140,9 @@
 					+ .dockSection
 					&:nth-child(2 of :not(.noJS-hide))
 			) {
-				margin-bottom: 5px;
-				width: calc(var(--dock-icon-size) * 1.4);
-				height: calc(var(--dock-icon-size) * 1.4);
+				margin-block-end: 5px;
+				inline-size: calc(var(--dock-icon-size) * 1.4);
+				block-size: calc(var(--dock-icon-size) * 1.4);
 			}
 		}
 
@@ -145,11 +150,10 @@
 		&::after {
 			display: block;
 			position: fixed;
-			bottom: 1px;
+			inset-block-end: 1px;
 			content: '';
-			border-left: 4px solid transparent;
-			border-right: 4px solid transparent;
-			border-bottom: 5px solid black;
+			border-inline: 4px solid transparent;
+			border-block-end: 5px solid black;
 		}
 
 		&:is(:global(body:not(.loading)) .dockIcon.open:not(:global([inert])))::after {
@@ -166,12 +170,21 @@
 
 	.dockIconLabel {
 		position: absolute;
-		bottom: calc(100% + 5px);
-		left: 50%;
+		inset-block-end: calc(100% + 5px);
+		inset-inline-start: 50%;
 		translate: -50%;
 		white-space: nowrap;
 		color: white;
 		text-shadow: var(--label-text-shadow);
+
+		:global(body.duoLayout) & {
+			writing-mode: horizontal-tb;
+			inset-block-end: auto;
+			inset-inline-end: calc(100% + 5px);
+			inset-inline-start: auto;
+			inset-block-start: 50%;
+			translate: 0 -50%;
+		}
 
 		@media (prefers-reduced-transparency: reduce) or (prefers-contrast: more) {
 			padding-inline: 5px;
@@ -201,8 +214,8 @@
 	}
 
 	.dockIconImage {
-		width: 100%;
-		height: 100%;
+		inline-size: 100%;
+		block-size: 100%;
 		object-fit: contain;
 
 		:global(body:not(.loading)) & {
@@ -236,7 +249,7 @@
 			translate: 0 0;
 		}
 		to {
-			translate: 0 -25px;
+			translate: var(--bounce-target);
 		}
 	}
 </style>

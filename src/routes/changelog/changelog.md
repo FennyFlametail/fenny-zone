@@ -1,3 +1,6 @@
+2026-09-20
+- Added iPhone Duo support
+
 2026-09-19
 - Improved Music app layout
 - Improved Aqua control styling

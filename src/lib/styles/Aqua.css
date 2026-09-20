@@ -321,10 +321,11 @@
 			/* overlap the previous tab's right border */
 			margin-left: -1px;
 		}
+	}
 
-		&:not(:has(input:checked), .active):active {
-			filter: brightness(0.9);
-		}
+	.aqua-tab:not(:has(input:checked), .active):active,
+	.aqua-checkbox:active {
+		filter: brightness(0.9);
 	}
 
 	/* MARK: checkbox */

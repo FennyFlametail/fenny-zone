@@ -6,6 +6,7 @@ import getApps, {
 	type AppProps,
 	type RunningApp
 } from '$lib/apps.svelte';
+import preferences from '$lib/preferences.svelte';
 import { prefersReducedMotion } from 'svelte/motion';
 
 const STATE_KEY = 'windowState';
@@ -112,6 +113,11 @@ export default class WindowServer {
 			maxHeight = this.windowMaxHeightBrushed;
 		} else if (windowStyle === 'custom') {
 			maxHeight = this.windowMaxHeightCustom;
+		}
+
+		if (preferences.duoLayout) {
+			maxWidth -= this.dockHeight;
+			maxHeight += this.dockHeight;
 		}
 
 		return { maxWidth, maxHeight };

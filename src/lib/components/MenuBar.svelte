@@ -107,6 +107,7 @@
 <style>
 	.menubar,
 	.menubarShadow {
+		grid-area: menubar;
 		height: var(--menubar-height);
 	}
 

@@ -132,17 +132,22 @@ html {
 
 body {
 	display: grid;
-	grid-template-columns: 100svw;
 	grid-template:
 		'menubar' var(--menubar-height)
 		'desktop' 1fr
-		'dock' var(--dock-height);
+		'dock' var(--dock-height) / 100svw;
 	background-color: black;
 	width: 100svw;
 	height: 100svh;
 	overflow: hidden;
 	touch-action: manipulation;
 	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
+
+	&.duoLayout {
+		grid-template:
+			'menubar menubar' var(--menubar-height)
+			'desktop dock' 1fr / 1fr var(--dock-height);
+	}
 }
 
 @layer reset, base, aqua;
