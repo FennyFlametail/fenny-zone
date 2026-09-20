@@ -1,8 +1,16 @@
 :root {
 	--accent-color-inactive: #d4d4d4;
 	--accent-color: #3471cf;
-	--button-border-gradient: #666666, #666666;
-	--button-border-active-gradient: #272798, #616161;
+	--aqua-button-height: 28px;
+	--button-border-image: linear-gradient(
+		to right,
+		#9f9f9f,
+		calc(var(--aqua-button-height) / 2),
+		#5f5f5f,
+		calc(100% - var(--aqua-button-height) / 2),
+		#9f9f9f
+	);
+	--button-border-active-image: linear-gradient(to bottom, #272798, #616161);
 	--button-bottom-glow-bg-image: radial-gradient(
 			ellipse 60% 70% at center bottom,
 			#ffffff7f,
@@ -13,6 +21,7 @@
 	--button-bottom-glow-active-bg-image: none;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
 	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
+	--button-square-border-image: linear-gradient(to top, #666666, #666666);
 	--button-square-gradient: #f9f9f9, #ededed 50%, #dadada 50%, #ffffff;
 	--button-square-active-gradient: #c8cceb, #7cb1e8 50%, #4895e3 50%, #82dcff;
 	--default-desktop-image: url('$lib/images/wallpapers/breakfast.webp');

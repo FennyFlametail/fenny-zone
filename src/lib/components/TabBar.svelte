@@ -36,7 +36,7 @@
 
 <fieldset class={['tabBar', className]}>
 	{#each options as option, index}
-		<label class="aqua-tab square">
+		<label class="aqua-tab">
 			<input
 				id="TabBar-{id}-{index}"
 				type="radio"

@@ -13,6 +13,8 @@
 		border: 1px solid #666666;
 	}
 
+	/* MARK: menu */
+
 	.aqua-menu {
 		position: fixed;
 		position-try: flip-start;
@@ -53,6 +55,8 @@
 		}
 	}
 
+	/* MARK: btn/tab */
+
 	.aqua-button,
 	.aqua-tab {
 		--button-height: 28px;
@@ -69,7 +73,7 @@
 		background:
 			var(--button-bottom-glow-bg-image),
 			linear-gradient(var(--button-gradient-direction), var(--button-gradient)) padding-box,
-			linear-gradient(to bottom, var(--button-border-gradient)) border-box;
+			var(--button-border-image) border-box;
 		padding-inline: var(--button-padding);
 		min-width: 105px;
 		height: var(--button-height);
@@ -86,12 +90,17 @@
 			cursor: default;
 		}
 
+		&:where(.aqua-tab),
 		&.square {
-			--button-gradient: var(--button-square-gradient);
-			--button-active-gradient: var(--button-square-active-gradient);
 			--button-padding: 14px;
 			border-radius: 5px;
 			min-width: auto;
+		}
+
+		&.square {
+			--button-border-image: var(--button-square-border-image);
+			--button-gradient: var(--button-square-gradient);
+			--button-active-gradient: var(--button-square-active-gradient);
 		}
 
 		&.circle {
@@ -129,7 +138,6 @@
 
 		&:focus-visible,
 		&.aqua-tab:focus-within {
-			--button-border-gradient: #6f89a0, #6f89a0;
 			outline: none;
 			box-shadow: var(--box-shadow), var(--focus-box-shadow);
 		}
@@ -143,10 +151,11 @@
 
 		/* active/primary */
 
-		&:where(.aqua-button:is(:active, .active), .aqua-tab:is(:has(input:checked), .active)):not(
-				:disabled,
-				.disabled
-			),
+		&:where(
+				.aqua-button:is(:active, .active),
+				.aqua-tab:is(:has(input:checked), .active),
+				.aqua-checkbox:checked
+			):not(:disabled, .disabled),
 		&.primary:not(
 				.window.inactive .primary,
 				.window.sheetOpen .primary:not(.sheet &),
@@ -154,7 +163,7 @@
 				.disabled
 			) {
 			--button-gradient: var(--button-active-gradient);
-			--button-border-gradient: var(--button-border-active-gradient);
+			--button-border-image: var(--button-border-active-image);
 			--button-bottom-glow-bg-image: var(--button-bottom-glow-active-bg-image);
 			--widget-inner-box-shadow: var(--widget-inner-active-box-shadow);
 
@@ -184,8 +193,11 @@
 		}
 	}
 
+	/* MARK: btn metal */
+
 	.aqua-button.metal {
 		--button-gradient: #e3e3e3, #b1b1b1;
+		--button-border-image: var(--button-square-border-image);
 		--button-height: 30px;
 		--button-padding: 8px;
 		--drop-shadow-color: white;
@@ -208,7 +220,7 @@
 
 		&:active {
 			--button-gradient: #858585, #b4b4b4;
-			--button-border-gradient: #2b2b2b, #505050;
+			--button-border-image: linear-gradient(to bottom, #2b2b2b, #505050);
 			--drop-shadow-color: #cdcdcd;
 			box-shadow:
 				var(--widget-unified-box-shadow),
@@ -220,6 +232,8 @@
 			box-shadow: var(--focus-box-shadow);
 		}
 	}
+
+	/* MARK: btn+label */
 
 	.aqua-button-with-label {
 		display: flex;
@@ -248,7 +262,12 @@
 		}
 	}
 
+	/* MARK: tab */
+
 	.aqua-tab {
+		--button-border-image: linear-gradient(to bottom, #777777, #c7c7c7 75%, #585858);
+		--button-border-active-image: linear-gradient(to bottom, #272798, #4e91dc 75%, #616161);
+
 		/* box-shadow handled on tab bar element */
 		&:not(:focus-visible, :focus-within) {
 			box-shadow: none;
@@ -260,15 +279,25 @@
 		}
 
 		& + & {
-			border-left-width: 0;
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
+		}
+
+		& + &:not(:has(input:checked)) {
+			border-left-width: 0;
+		}
+
+		&:has(input:checked):not(:first-child) {
+			/* overlap the previous tab's right border */
+			margin-left: -1px;
 		}
 
 		&:not(:has(input:checked), .active):active {
 			filter: brightness(0.9);
 		}
 	}
+
+	/* MARK: btn group */
 
 	.aqua-button-group {
 		display: flex;
@@ -297,6 +326,8 @@
 		}
 	}
 
+	/* MARK: textinput */
+
 	.aqua-textinput {
 		--textinput-shadow: inset 0 1px 1px 0 #7c7c7c, inset 0 0 0 1px var(--accent-color-inactive);
 		box-shadow: var(--textinput-shadow);
@@ -312,6 +343,8 @@
 			box-shadow: var(--textinput-shadow), var(--focus-box-shadow);
 		}
 	}
+
+	/* MARK: table */
 
 	.aqua-table[role='table'] {
 		--row-height: 50px;
@@ -412,6 +445,8 @@
 		}
 	}
 }
+
+/* MARK: scrollbar */
 
 :not(.aqua-no-scrollbar)::-webkit-scrollbar {
 	outline: 1px solid var(--scrollbar-outline-color);
