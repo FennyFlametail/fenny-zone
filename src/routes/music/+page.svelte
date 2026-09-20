@@ -74,12 +74,12 @@
 	});
 </script>
 
-<!-- #region Template -->
 <div
 	class={['itunes', 'brushedNoInset', { loading }]}
 	bind:clientWidth={currentWidth}
 	data-allow-window-drag
 >
+	<!-- #region Toolbar -->
 	<WindowToolbar>
 		<div class="itunesControls" data-allow-window-drag aria-hidden="true">
 			<div class="itunesPlayButtons">
@@ -210,6 +210,7 @@
 		</div>
 	</section>
 
+	<!-- #region Footer -->
 	<WindowStatusBar>
 		<label class="aqua-button metal" aria-label="Toggle sidebar">
 			<input type="checkbox" id="itunesSidebarInput" checked={showSidebar} />
@@ -249,6 +250,7 @@
 		}
 	}
 
+	/* #region Toolbar */
 	.itunes :global(.windowToolbar) {
 		display: grid;
 		grid-template: 'controls status browse' 1fr / var(--sidebar-width) 1fr var(--sidebar-width);
@@ -417,6 +419,7 @@
 		min-width: 0;
 		min-height: 0;
 		overflow: auto;
+		background-color: white;
 	}
 
 	.itunesSongTable {
@@ -582,7 +585,7 @@
 		padding-inline-end: 0;
 	}
 
-	/* #region Status Bar */
+	/* #region Footer */
 
 	.itunes :global(.windowStatusBar) {
 		top: calc(100% - (var(--status-bar-height) - var(--window-brushed-bottom-padding)));
