@@ -58,7 +58,8 @@
 	/* MARK: btn/tab */
 
 	.aqua-button,
-	.aqua-tab {
+	.aqua-tab,
+	.aqua-checkbox {
 		--button-height: 28px;
 		--button-padding: 24px;
 		--button-gradient-direction: to bottom;
@@ -262,11 +263,40 @@
 		}
 	}
 
+	/* MARK: btn group */
+
+	.aqua-button-group {
+		display: flex;
+
+		.aqua-button:not(:first-child) {
+			border-left: 0;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0;
+				translate: -0.5px;
+				background-color: rgb(0 0 0 / 10%);
+				width: 1px;
+				height: 100%;
+			}
+		}
+
+		.aqua-button:not(:last-child) {
+			border-right: 0;
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+
 	/* MARK: tab */
 
 	.aqua-tab {
-		--button-border-image: linear-gradient(to bottom, #777777, #c7c7c7 75%, #585858);
-		--button-border-active-image: linear-gradient(to bottom, #272798, #4e91dc 75%, #616161);
+		--button-border-image: var(--tab-border-image);
+		--button-border-active-image: var(--tab-border-active-image);
 
 		/* box-shadow handled on tab bar element */
 		&:not(:focus-visible, :focus-within) {
@@ -297,32 +327,26 @@
 		}
 	}
 
-	/* MARK: btn group */
+	/* MARK: checkbox */
 
-	.aqua-button-group {
-		display: flex;
+	.aqua-checkbox {
+		--button-border-image: var(--tab-border-image);
+		--button-border-active-image: var(--tab-border-active-image);
+		appearance: none;
+		border-radius: 3px;
+		padding: 0;
+		width: 19px;
+		min-width: auto;
+		height: 19px;
 
-		.aqua-button:not(:first-child) {
-			border-left: 0;
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
-
-			&::after {
-				content: '';
-				position: absolute;
-				left: 0;
-				top: 0;
-				translate: -0.5px;
-				background-color: rgb(0 0 0 / 10%);
-				width: 1px;
-				height: 100%;
-			}
-		}
-
-		.aqua-button:not(:last-child) {
-			border-right: 0;
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
+		&:checked::after {
+			content: '';
+			translate: 0 -3px;
+			scale: 1.1 1.7;
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDIwIDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGVjayBwcmV2aWV3LWljb24iPjxwYXRoIGQ9Ik0yMCA2IDkgMTdsLTUtNSIvPjwvc3ZnPg==');
+			background-size: contain;
+			width: 100%;
+			height: 100%;
 		}
 	}
 

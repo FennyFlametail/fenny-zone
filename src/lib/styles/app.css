@@ -83,6 +83,8 @@
 	--sidebar-item-bg-image-inactive: linear-gradient(to bottom, #7f7e7e 1px, #979797 1px, #666666);
 	--sidebar-item-padding: 4px;
 	--sidebar-width: 160px;
+	--tab-border-image: linear-gradient(to bottom, #777777, #c7c7c7 75%, #585858);
+	--tab-border-active-image: linear-gradient(to bottom, #272798, #4e91dc 75%, #616161);
 	--table-alternate-row-color: #edf3fe;
 	--table-font-size: 14px;
 	--table-selected-row-color: #3d80df;
