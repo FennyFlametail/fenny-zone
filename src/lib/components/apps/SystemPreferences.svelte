@@ -25,12 +25,14 @@
 	function onPaneChange() {
 		app.instance.props.pane = navStack.current;
 		app.instance.windowTitle = pane?.title;
-		windowServer.setAnimating(appName);
-		transition = true;
 		app.instance.position.height = Math.min(
 			pane?.defaultPosition?.height ?? app.defaultPosition!.height!,
 			WindowServer.safeHeight
 		);
+		if (!document.body.classList.contains('loading')) {
+			windowServer.setAnimating(appName);
+			transition = true;
+		}
 	}
 	onPaneChange();
 </script>
