@@ -13,6 +13,7 @@
 
 	const prefPanes: AppName[] = ['prefsDesktop'];
 
+	// svelte-ignore state_referenced_locally
 	const navStack = new NavigationStack<AppName | undefined>(paneProp, onPaneChange);
 	$effect(() => {
 		if (paneProp) navStack.push(paneProp);
@@ -80,6 +81,7 @@
 
 <style>
 	.systemPreferences {
+		--prefpane-padding: 20px;
 		position: relative;
 		display: grid;
 		grid-template:

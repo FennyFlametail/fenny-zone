@@ -28,7 +28,7 @@
 	<script>
 		document.documentElement.style.setProperty(
 			'--desktop-color',
-			localStorage.getItem('desktopColor')
+			JSON.parse(localStorage.getItem('desktopColor'))
 		);
 	</script>
 </svelte:head>

@@ -2,6 +2,7 @@
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { desktopPictures } from '$lib/data/desktopPictures';
 	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
+	import preferences from '$lib/preferences.svelte';
 	import { FastAverageColor } from 'fast-average-color';
 	import { Ban } from 'lucide-svelte';
 
@@ -79,13 +80,13 @@
 	}
 
 	async function setDesktopPicture(name: keyof typeof desktopPictures, e?: MouseEvent) {
-		if ((windowServer.preferences.desktopPicture = '_custom')) {
+		if (preferences.desktopPicture === '_custom') {
 			URL.revokeObjectURL(currentPic.src);
 		}
 
 		// force the desktop to refresh
-		windowServer.preferences.desktopPicture = null;
-		windowServer.preferences.desktopPicture = name;
+		preferences.desktopPicture = null;
+		preferences.desktopPicture = name;
 		currentPic = await getDesktopPicture(windowServer);
 	}
 
@@ -98,7 +99,7 @@
 			width: preview instanceof HTMLVideoElement ? preview.videoWidth : preview.naturalWidth,
 			height: preview instanceof HTMLVideoElement ? preview.videoHeight : preview.naturalHeight
 		}).hex;
-		localStorage.setItem('desktopColor', desktopColor);
+		preferences.desktopColor = desktopColor;
 		document.documentElement.style.setProperty('--desktop-color', desktopColor);
 	}
 </script>
@@ -180,9 +181,9 @@
 			'hint hint' auto
 			'thumbs thumbs' 1fr
 			/ auto 1fr;
-		padding: 20px;
+		padding: var(--prefpane-padding);
 		row-gap: var(--row-gap);
-		column-gap: 20px;
+		column-gap: var(--prefpane-padding);
 		overflow: hidden;
 		-webkit-user-select: none;
 		user-select: none;

@@ -8,6 +8,7 @@
 	import MenuBar from '$lib/components/MenuBar.svelte';
 	import WindowLayer from '$lib/components/WindowLayer.svelte';
 	import { setWindowServerContext } from '$lib/context.svelte';
+	import preferences, { loadPreferences, savePreferences } from '$lib/preferences.svelte';
 	import '$lib/styles/app.css';
 	import '$lib/styles/Aqua.css';
 	import '$lib/styles/reset.css';
@@ -28,7 +29,7 @@
 
 	onMount(() => {
 		windowServer.loadState();
-		windowServer.loadPrefs();
+		loadPreferences();
 		if (windowServer.initialAppName) {
 			windowServer.openApp(windowServer.initialAppName);
 			goto('/');
@@ -37,12 +38,9 @@
 		const adblockEl = document.getElementById('ftf-dma-note');
 		if (adblockEl) {
 			window.setTimeout(() => {
-				if (
-					getComputedStyle(adblockEl).display !== 'none' &&
-					!localStorage.getItem('adblockWarningSeen')
-				) {
+				if (getComputedStyle(adblockEl).display !== 'none' && !preferences.adblockWarningSeen) {
 					windowServer.openApp('adblockWarning');
-					localStorage.setItem('adblockWarningSeen', 'true');
+					preferences.adblockWarningSeen = true;
 				}
 			}, 500);
 		}
@@ -55,7 +53,7 @@
 	});
 
 	$effect(windowServer.saveState);
-	$effect(windowServer.savePrefs);
+	$effect(savePreferences);
 </script>
 
 <MenuBar />

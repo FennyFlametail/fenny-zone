@@ -1,13 +1,15 @@
 import { desktopPictures, type DesktopPicture } from '$lib/data/desktopPictures';
+import preferences from '$lib/preferences.svelte';
 import type WindowServer from '$lib/windowServer.svelte';
 
 export async function getDesktopPicture(windowServer: WindowServer): Promise<DesktopPicture> {
 	let pic: DesktopPicture | null = null;
+	const name = preferences.desktopPicture;
 
-	if (windowServer.preferences.desktopPicture === '_custom') {
+	if (name === '_custom') {
 		pic = await loadCustomPic();
-	} else if (windowServer.preferences.desktopPicture) {
-		pic = desktopPictures[windowServer.preferences.desktopPicture];
+	} else if (name) {
+		pic = desktopPictures[name];
 	}
 
 	if (!pic) pic = desktopPictures.beach;
