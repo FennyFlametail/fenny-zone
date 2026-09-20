@@ -10,7 +10,7 @@
 		calc(100% - var(--aqua-button-height) / 2),
 		#9f9f9f
 	);
-	--button-border-active-image: linear-gradient(to bottom, #272798, #616161);
+	--button-border-active-image: linear-gradient(to bottom, #28289a, #626262);
 	--button-bottom-glow-bg-image: radial-gradient(
 			ellipse 60% 70% at center bottom,
 			#ffffff7f,
@@ -20,10 +20,10 @@
 		padding-box;
 	--button-bottom-glow-active-bg-image: none;
 	--button-gradient: #f9f9f9, #ededed 40%, #dadada 40%, #ffffff;
-	--button-active-gradient: #c8cceb, #7cb1e8 40%, #4895e3 40%, #82dcff;
+	--button-active-gradient: #c7d4ec, #96c1ed 40%, #6cabed 40%, #adf8ff;
 	--button-square-border-image: linear-gradient(to top, #666666, #666666);
 	--button-square-gradient: #f9f9f9, #ededed 50%, #dadada 50%, #ffffff;
-	--button-square-active-gradient: #c8cceb, #7cb1e8 50%, #4895e3 50%, #82dcff;
+	--button-square-active-gradient: #c7d4ec, #96c1ed 50%, #6cabed 50%, #adf8ff;
 	--default-desktop-image: url('$lib/images/wallpapers/breakfast.webp');
 	--desktop-color: #a3a0a0;
 	/** space between the menubar and Dock */
@@ -40,9 +40,10 @@
 	--menu-category-padding: 10px;
 	--menu-category-active-bg-image: linear-gradient(
 		to bottom,
-		#237ee9,
-		#015cd8 calc(100% - 1px),
-		#003da4 calc(100% - 1px)
+		#4291ec 1px,
+		#237ee9 1px,
+		#005bd7 calc(100% - 1px),
+		#003da3 calc(100% - 1px)
 	);
 	--menu-item-padding: 22px;
 	--menu-logo-bg-image: linear-gradient(135deg, #3dadff, #1666ee);

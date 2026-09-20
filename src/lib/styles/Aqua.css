@@ -329,15 +329,23 @@
 
 	/* MARK: checkbox */
 
+	.aqua-checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
 	.aqua-checkbox {
 		--button-border-image: var(--tab-border-image);
 		--button-border-active-image: var(--tab-border-active-image);
 		appearance: none;
 		border-radius: 3px;
 		padding: 0;
-		width: 19px;
+		width: 16px;
 		min-width: auto;
-		height: 19px;
+		height: 16px;
 
 		&:checked::after {
 			content: '';
@@ -575,9 +583,9 @@
 
 @keyframes pulsate {
 	from {
-		filter: brightness(1.1) saturate(1);
+		filter: brightness(1.1);
 	}
 	to {
-		filter: brightness(1) saturate(0.9);
+		filter: brightness(1);
 	}
 }
