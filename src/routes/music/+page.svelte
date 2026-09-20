@@ -426,6 +426,7 @@
 		--itunes-width-last-played: 105px;
 		--table-columns: calc(var(--album-art-width) + var(--itunes-content-spacing) * 2) auto
 			var(--itunes-width-loved) var(--itunes-width-last-played);
+		--row-height: 21px;
 	}
 
 	@container table (width < 700px) {
