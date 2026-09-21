@@ -16,9 +16,13 @@
 	const windowServer = getWindowServerContext();
 	const { app, appName } = getAppContext<'bluesky'>();
 
-	let { profile, posts } = $state(
-		browser ? { profile: null, posts: null } : await getBlueskyData(undefined)
-	);
+	let profile = $state<BlueskyProfile | null>(null);
+	let posts = $state<BlueskyPost[] | null>(null);
+
+	const initialData = browser ? { profile: null, posts: null } : await getBlueskyData(undefined);
+	profile = initialData.profile;
+	posts = initialData.posts;
+
 	let customUsers: {
 		profile: BlueskyProfile;
 		posts: BlueskyPost[];

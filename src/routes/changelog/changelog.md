@@ -1,5 +1,6 @@
 2026-09-20
 - Added iPhone Duo support
+- Fixed Bluesky app
 
 2026-09-19
 - Improved Music app layout
