@@ -140,6 +140,7 @@ body {
 	width: 100svw;
 	height: 100svh;
 	overflow: hidden;
+	border-radius: 9px;
 	touch-action: manipulation;
 	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
 

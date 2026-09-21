@@ -124,8 +124,6 @@
 		display: flex;
 		z-index: 10000;
 		padding-inline: 20px;
-		border-top-right-radius: 9px;
-		border-top-left-radius: 9px;
 		background: var(--menubar-bg-image);
 		-webkit-user-select: none;
 		user-select: none;
