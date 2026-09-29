@@ -65,7 +65,9 @@
 	const SIDEBAR_BREAKPOINT = 600;
 
 	$effect(() => {
-		if (currentWidth >= SIDEBAR_BREAKPOINT && lastWidth < SIDEBAR_BREAKPOINT) {
+		if (isNaN(lastWidth)) {
+			showSidebar = currentWidth >= SIDEBAR_BREAKPOINT;
+		} else if (currentWidth >= SIDEBAR_BREAKPOINT && lastWidth < SIDEBAR_BREAKPOINT) {
 			showSidebar = true;
 		} else if (currentWidth < SIDEBAR_BREAKPOINT && lastWidth >= SIDEBAR_BREAKPOINT) {
 			showSidebar = false;
