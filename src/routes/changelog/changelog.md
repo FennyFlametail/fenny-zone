@@ -1,3 +1,7 @@
+2026-09-29
+- Improved scrollbar & checkbox appearance
+- Fixed duplicate Dock icons
+
 2026-09-20
 - Added iPhone Duo support
 - Fixed Bluesky app

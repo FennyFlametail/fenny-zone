@@ -469,7 +469,7 @@
 		.windowResizeHandle {
 			right: 0;
 			bottom: 0;
-			background: url('$lib/images/resize.webp');
+			background: url('$lib/images/resize-metal.webp');
 			background-position: 4px center;
 			background-size: 20px 20px;
 			background-repeat: no-repeat;

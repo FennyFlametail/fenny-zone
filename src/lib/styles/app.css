@@ -1,6 +1,7 @@
 :root {
 	--accent-color-inactive: #d4d4d4;
 	--accent-color: #3471cf;
+	/* TODO clean up and move to Aqua.css */
 	--aqua-button-height: 28px;
 	--button-border-image: linear-gradient(
 		to right,
@@ -10,7 +11,8 @@
 		calc(100% - var(--aqua-button-height) / 2),
 		#9f9f9f
 	);
-	--button-border-active-image: linear-gradient(to bottom, #28289a, #626262);
+	--button-border-active-gradient: #28289a, #626262;
+	--button-border-active-image: linear-gradient(to bottom, var(--button-border-active-gradient));
 	--button-bottom-glow-bg-image: radial-gradient(
 			ellipse 60% 70% at center bottom,
 			#ffffff7f,
@@ -76,8 +78,6 @@
 		#eff0f0f2 2px,
 		#eff0f0f2 4px
 	);
-	--pulse-overlay-bg: radial-gradient(rgb(0 0 0 / 10%), transparent);
-	--scrollbar-outline-color: #ababab;
 	--scrollbar-size: 15px;
 	--selection-color: #b5d5ff;
 	--sidebar-item-bg-image: linear-gradient(to bottom, #3d7bda 1px, #5999e5 1px, #1f5ccf);
@@ -136,11 +136,11 @@ body {
 		'menubar' var(--menubar-height)
 		'desktop' 1fr
 		'dock' var(--dock-height) / 100svw;
+	border-radius: 9px;
 	background-color: black;
 	width: 100svw;
 	height: 100svh;
 	overflow: hidden;
-	border-radius: 9px;
 	touch-action: manipulation;
 	font-family: 'Lucida Grande', 'Lunasima', sans-serif;
 
