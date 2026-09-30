@@ -292,10 +292,6 @@
 		border: 1px solid #bebebe;
 		border-top-color: #8e8e8e;
 		overflow-y: auto;
-
-		:global(.systemPreferences.transition) & {
-			overflow-y: hidden;
-		}
 	}
 
 	.desktopPrefsThumb {
