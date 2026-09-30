@@ -10,9 +10,9 @@
 	const pinnedRight: AppName[] = ['applications', 'trash'];
 </script>
 
-{#snippet runningApps(parent: AppName | null, apps: [AppName, RunningApp][])}
+{#snippet runningAppIcons(parent: AppName | null, apps: [AppName, RunningApp][])}
 	{#if parent}
-		{#if !pinnedLeft.includes(parent)}
+		{#if !pinnedLeft.includes(parent) && !Object.keys(windowServer.runningApps).includes(parent)}
 			<DockIcon appName={parent} />
 		{/if}
 	{:else}
@@ -30,12 +30,12 @@
 			<DockIcon appName={name} />
 		{/each}
 		{#each windowServer.runningAppsByParent as [parent, apps] (parent)}
-			{@render runningApps(parent, apps)}
+			{@render runningAppIcons(parent, apps)}
 		{/each}
 		{#if !browser && windowServer.initialAppName}
 			{@const appName = windowServer.initialAppName}
 			{@const app = windowServer.apps[appName]}
-			{@render runningApps(app.parent || null, [[appName, app as RunningApp]])}
+			{@render runningAppIcons(app.parent || null, [[appName, app as RunningApp]])}
 		{/if}
 	</div>
 	<div class="dockSection">
