@@ -53,7 +53,6 @@
 		});
 		return grouped;
 	});
-	$inspect(recentsGrouped);
 
 	let loading = $state(true);
 	setTimeout(() => (loading = false), 500);
