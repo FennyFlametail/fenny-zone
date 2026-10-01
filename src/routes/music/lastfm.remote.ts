@@ -29,7 +29,7 @@ export const getLastFmFeed = query(async () => {
 				url: 'https://www.last.fm/user/fennyflametail',
 				recents: feed.recenttracks.track
 					.map((track: any): MusicTrack | undefined => {
-						if (seenTracks.has(track.mbid)) return;
+						if (seenTracks.has(track.mbid) || !track.date?.uts) return;
 						seenTracks.add(track.mbid);
 						return {
 							name: track.name,
