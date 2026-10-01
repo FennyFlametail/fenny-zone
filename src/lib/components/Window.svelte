@@ -14,10 +14,11 @@
 	}: {
 		appName: AppName;
 	} = $props();
+	const getAppName = () => appName;
 
 	const windowServer = getWindowServerContext();
-	const app = windowServer.runningApps[appName] ?? windowServer.openApp(appName);
-	setAppContext({ appName, app });
+	const app = windowServer.runningApps[getAppName()] ?? windowServer.openApp(getAppName());
+	setAppContext({ appName: getAppName(), app });
 	const parent = app.parent ? windowServer.apps[app.parent] : null;
 
 	const title = $derived(app.instance.windowTitle ?? app.windowTitle ?? app.title);
@@ -233,7 +234,7 @@
 		{/if}
 	</div>
 	{#if !app.noResize}
-		<div class="windowResizeHandle noJS-hide" onpointerdown={startResize}></div>
+		<div class="windowResizeHandle noJS-hide" aria-hidden="true" onpointerdown={startResize}></div>
 	{/if}
 	{#if saveSheetOpen}
 		<Sheet isOpen={true} close={saveSheetCancel}>
@@ -263,8 +264,9 @@
 	.window {
 		grid-area: 1 / 1;
 		position: absolute;
-		left: var(--window-x);
-		top: var(--window-y);
+		left: 0;
+		top: 0;
+		translate: round(var(--window-x), 1px) round(var(--window-y), 1px);
 		display: grid;
 		grid-template:
 			'titlebar' auto
@@ -282,7 +284,9 @@
 		}
 
 		&.dragging {
-			will-change: left, top;
+			will-change: translate;
+			/* only snap to whole pixels when letting go */
+			translate: var(--window-x) var(--window-y);
 		}
 
 		&.resizing {
@@ -290,10 +294,10 @@
 		}
 
 		&.animating {
-			will-change: left, top;
+			will-change: translate;
 			@media not (prefers-reduced-motion: reduce) {
 				transition: 0.25s ease;
-				transition-property: left, top;
+				transition-property: translate;
 			}
 		}
 
