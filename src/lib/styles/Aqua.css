@@ -150,7 +150,7 @@
 			--box-shadow: var(--widget-unified-box-shadow);
 		}
 
-		/* active/primary */
+		/* MARK: primary */
 
 		&:where(
 				.aqua-button:is(:active, .active),
@@ -183,13 +183,13 @@
 			animation: 0.5s linear infinite alternate pulsate;
 		}
 
-		/* disabled */
+		/* MARK: disabled */
 
 		&:not(.windowToolbar .aqua-button):is(:disabled, .disabled) {
 			opacity: 0.5;
 		}
 
-		.windowToolbar &:is(:disabled, .disabled) {
+		.windowToolbar &:is(:disabled, .disabled, .window.inactive &) {
 			color: rgb(0 0 0 / 40%);
 		}
 	}
