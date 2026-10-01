@@ -282,7 +282,8 @@ const getApps = (): {
 		icon: ApplicationsIcon,
 		launchParentWithProps: { folder: 'applications' },
 		replaceParentTitle: true,
-		route: '/applications'
+		route: '/applications',
+		backTo: '/home'
 	},
 	projects: {
 		parent: 'finder',
@@ -291,7 +292,8 @@ const getApps = (): {
 		icon: ProjectsIcon,
 		launchParentWithProps: { folder: 'projects' },
 		replaceParentTitle: true,
-		route: '/projects'
+		route: '/projects',
+		backTo: '/home'
 	},
 	keyboards: {
 		parent: 'finder',
@@ -300,7 +302,8 @@ const getApps = (): {
 		icon: KeyboardsIcon,
 		launchParentWithProps: { folder: 'keyboards' },
 		replaceParentTitle: true,
-		route: '/keyboards'
+		route: '/keyboards',
+		backTo: '/home'
 	},
 	// #region TextEdit
 	textEdit: {
