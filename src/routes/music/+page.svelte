@@ -506,7 +506,7 @@
 
 	.itunesAlbumName,
 	.itunesAlbumArtist {
-		line-height: 1.4;
+		line-height: 1.3;
 		font-weight: bold;
 		color: black;
 		white-space: pre-line;
@@ -518,7 +518,7 @@
 	}
 
 	.itunesAlbumName {
-		margin-bottom: 2.5px;
+		margin-bottom: 5px;
 	}
 
 	/* #region Tracks */
