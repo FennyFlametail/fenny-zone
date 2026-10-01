@@ -23,23 +23,29 @@ export const getLastFmFeed = query(async () => {
 		const feed = await fetchResult.json();
 
 		try {
+			const seenTracks = new Set<string>();
+
 			const result: LastFmProfile = {
 				url: 'https://www.last.fm/user/fennyflametail',
-				recents: feed.recenttracks.track.map(
-					(track: any): MusicTrack => ({
-						name: track.name,
-						artist: track.artist.name,
-						album: track.album['#text'],
-						lastPlayed: parseInt(track.date.uts),
-						loved: track.loved === '1',
-						link: track.url,
-						artistLink: track.artist.url,
-						albumLink: `${track.artist.url}/${encodeURIComponent(track.album['#text'])}`,
-						image: (track.image.find((img: any) => img.size === 'large') ?? track.image.at(-1))[
-							'#text'
-						]
+				recents: feed.recenttracks.track
+					.map((track: any): MusicTrack | undefined => {
+						if (seenTracks.has(track.mbid)) return;
+						seenTracks.add(track.mbid);
+						return {
+							name: track.name,
+							artist: track.artist.name,
+							album: track.album['#text'],
+							lastPlayed: parseInt(track.date.uts),
+							loved: track.loved === '1',
+							link: track.url,
+							artistLink: track.artist.url,
+							albumLink: `${track.artist.url}/${encodeURIComponent(track.album['#text'])}`,
+							image: (track.image.find((img: any) => img.size === 'large') ?? track.image.at(-1))[
+								'#text'
+							]
+						};
 					})
-				)
+					.filter(Boolean)
 			};
 			cache.timestamp = Date.now();
 			cache.data = result;
