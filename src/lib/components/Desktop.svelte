@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import FileIcon from '$lib/components/FileIcon.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
 	import { getDesktopPicture } from '$lib/helpers/getDesktopPicture.svelte';
@@ -7,7 +8,7 @@
 	import NetNewsWireIcon from '$lib/images/icons/netnewswire.webp';
 	import SteamIcon from '$lib/images/icons/steam.webp';
 	import TelegramIcon from '$lib/images/icons/telegram.webp';
-	import { onMount } from 'svelte';
+	import BeachImage from '$lib/images/wallpapers/beach.webp';
 
 	const windowServer = getWindowServerContext();
 	const promise = $derived(getDesktopPicture(windowServer));
@@ -31,22 +32,26 @@
 </svelte:head>
 <svelte:window {onfocusin} />
 
-{#await promise}
-	<div class="desktopPicture"></div>
-{:then desktopPicture}
-	{#if desktopPicture.isVideo}
-		<video class="desktopPicture" src={desktopPicture.src} autoplay loop muted aria-hidden="true"
-		></video>
-	{:else}
-		<img
-			class="desktopPicture"
-			src={desktopPicture.src}
-			alt=""
-			aria-hidden="true"
-			draggable="false"
-		/>
-	{/if}
-{/await}
+{#if browser}
+	{#await promise}
+		<div class="desktopPicture"></div>
+	{:then desktopPicture}
+		{#if desktopPicture.isVideo}
+			<video class="desktopPicture" src={desktopPicture.src} autoplay loop muted aria-hidden="true"
+			></video>
+		{:else}
+			<img
+				class="desktopPicture"
+				src={desktopPicture.src}
+				alt=""
+				aria-hidden="true"
+				draggable="false"
+			/>
+		{/if}
+	{/await}
+{:else}
+	<img class="desktopPicture" src={BeachImage} alt="" aria-hidden="true" draggable="false" />
+{/if}
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -99,10 +104,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: start;
-
-		@media (scripting: none) {
-			background-image: var(--default-desktop-image);
-		}
 
 		@media (forced-colors: active) {
 			background-image: none;
