@@ -263,7 +263,6 @@
 	.window {
 		grid-area: 1 / 1;
 		position: absolute;
-		/* FIXME translate while dragging and then change position when letting go */
 		left: var(--window-x);
 		top: var(--window-y);
 		display: grid;
@@ -303,7 +302,7 @@
 			position: absolute;
 			left: 50%;
 			top: calc(33.33% + var(--top-offset));
-			translate: -50% calc(-1 * 33.33% - var(--top-offset));
+			translate: round(-50%, 1px) round(-1 * 33.33% - var(--top-offset), 1px);
 		}
 
 		@media (forced-colors: active) {
