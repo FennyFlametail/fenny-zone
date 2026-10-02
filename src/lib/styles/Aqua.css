@@ -27,12 +27,12 @@
 		list-style-type: none;
 		text-align: start;
 
-		/* popovers shift on transition in Safari 🙃 */
-		&:not(:popover-open, body.safari &) {
+		&:not(:popover-open) {
 			opacity: 0;
 			/* known bug: allow-discrete doesn't apply to display in Firefox */
 			transition-behavior: allow-discrete;
 			transition-duration: 0.1s;
+			/* overlay transition is currently only supported in Chrome */
 			transition-property: opacity, display, overlay;
 
 			@media (prefers-reduced-motion: reduce) {

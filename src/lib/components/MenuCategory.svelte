@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
+	import { MediaQuery } from 'svelte/reactivity';
 
 	const {
 		menubar,
@@ -21,25 +22,19 @@
 	const menuId = $props.id();
 
 	const nameTag = $derived(isAppMenu ? 'h1' : 'span');
-	const label = $derived(isLogo ? 'System' : title);
+	const label = $derived(isLogo ? 'Apple Menu' : title);
 
 	let button = $state<HTMLButtonElement>();
 	let menu = $state<HTMLMenuElement>();
 
-	let isiPhone = $state(false);
-	onMount(() => {
-		setTimeout(() => {
-			isiPhone = document.body.classList.contains('safari') && matchMedia('(hover: none)').matches;
-		}, 100);
-	});
+	let hover = $derived(new MediaQuery('hover: hover', false).current);
 
 	function onclick(e: MouseEvent) {
-		if (isiPhone) return;
 		e.preventDefault();
 	}
 
 	function onpointerenter() {
-		if (isiPhone) return;
+		if (!hover) return;
 		let anyMenuOpen = menubar.querySelector('.aqua-menu:popover-open');
 		if (anyMenuOpen) menu!.showPopover({ source: button });
 	}
@@ -47,24 +42,16 @@
 	let pointerDownTime = $state(0);
 
 	function onpointerdown(e: PointerEvent) {
-		if (isiPhone) return;
 		if (menu?.contains(e.target as Node)) return;
 		pointerDownTime = Date.now();
 		menu!.togglePopover({ source: button });
 	}
 
-	function onpointerup() {
-		if (isiPhone) return;
+	function onpointerup(e: PointerEvent) {
+		if (menu?.contains(e.target as Node)) return;
 		if (Date.now() - pointerDownTime > 500) {
 			menu!.hidePopover();
 		}
-	}
-
-	function ontouchend(e: TouchEvent) {
-		if (!isiPhone) return;
-		// fixes unreliable button taps in MobileSafari
-		e.preventDefault();
-		menu!.togglePopover({ source: button });
 	}
 </script>
 
@@ -76,8 +63,6 @@
 		{onclick}
 		{onpointerenter}
 		{onpointerdown}
-		{onpointerup}
-		{ontouchend}
 	>
 		<svelte:element
 			this={nameTag}
@@ -90,14 +75,13 @@
 	</button>
 {/if}
 
+<svelte:body {onpointerup} />
+
 <style>
 	.menuCategory {
 		background: none;
 		border: none;
 		padding: 0;
-		/* this covers up a flicker in Safari when opening/closing menu  */
-		transition: 0s 0.05s step-start allow-discrete;
-		transition-property: background, color;
 
 		&:active:hover,
 		&:focus-visible,
@@ -105,7 +89,6 @@
 			outline: none;
 			background: var(--menu-category-active-bg-image);
 			color: white;
-			transition-delay: 0s;
 
 			.menuLogo {
 				background-image: none;
