@@ -37,23 +37,6 @@
 		}
 	});
 
-	const recentsGrouped = $derived.by(() => {
-		if (!profile?.recents) return [];
-
-		const grouped: MusicTrack[][] = [];
-		let lastAlbum = '';
-
-		profile.recents.forEach((track) => {
-			if (lastAlbum === track.album) {
-				grouped.at(-1)?.unshift(track);
-			} else {
-				grouped.push([track]);
-			}
-			lastAlbum = track.album;
-		});
-		return grouped;
-	});
-
 	let loading = $state(true);
 	setTimeout(() => (loading = false), 500);
 
@@ -138,26 +121,18 @@
 					<div role="columnheader" class="itunesHeaderLastPlayed">Last Played</div>
 				</div>
 			</div>
-			{#each recentsGrouped as album}
-				{@const albumName = decode(album[0].album)}
-				{@const artistName = decode(album[0].artist)}
+			{#each profile?.recents ?? [] as album}
 				<div
 					role="rowgroup"
 					class="itunesAlbum aqua-table-body"
-					style:--track-count={album.length}
-					aria-label="{albumName} - {artistName}"
+					style:--track-count={album.tracks.length}
+					aria-label="{album.name} - {album.artist}"
 				>
 					<div role="row" class="itunesAlbumDetails" aria-label="Album details">
-						<img
-							class="itunesAlbumArt"
-							src={album[0].image}
-							alt=""
-							loading="lazy"
-							draggable="false"
-						/>
+						<img class="itunesAlbumArt" src={album.image} alt="" loading="lazy" draggable="false" />
 						<img
 							class="itunesAlbumArtReflection"
-							src={album[0].image}
+							src={album.image}
 							alt=""
 							loading="lazy"
 							draggable="false"
@@ -165,25 +140,24 @@
 						<a
 							role="rowheader"
 							class="itunesAlbumName"
-							href={album[0].albumLink}
+							href={album.link}
 							target="_blank"
-							title={albumName}
-							aria-label="Album - {albumName} - Open on Last.fm">{albumName}</a
+							title={album.name}
+							aria-label="Album - {album.name} - Open on Last.fm">{album.name}</a
 						>
 						<a
 							role="rowheader"
 							class="itunesAlbumArtist"
-							href={album[0].artistLink}
+							href={album.artistLink}
 							target="_blank"
-							aria-label="Artist - {artistName} - Open on Last.fm">{artistName}</a
+							aria-label="Artist - {album.artist} - Open on Last.fm">{album.artist}</a
 						>
 					</div>
-					{#each album as track}
-						{@const trackName = decode(track.name)}
+					{#each album.tracks as track}
 						{@const lastPlayed = intlFormat(fromUnixTime(track.lastPlayed), { dateStyle: 'short' })}
-						<div role="row" class="itunesTrackRow" aria-label={trackName}>
-							<div role="cell" class="itunesTrackNameCell" aria-label={trackName}>
-								<span class="itunesTrackName" title={trackName}>{trackName}</span>
+						<div role="row" class="itunesTrackRow" aria-label={track.name}>
+							<div role="cell" class="itunesTrackNameCell" aria-label={track.name}>
+								<span class="itunesTrackName" title={track.name}>{track.name}</span>
 								<a
 									class="itunesSongLink noJS-pointer"
 									href={track.link}

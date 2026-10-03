@@ -23,29 +23,74 @@ export const getLastFmFeed = query(async () => {
 		const feed = await fetchResult.json();
 
 		try {
-			const seenTracks = new Set<string>();
-
-			const result: LastFmProfile = {
-				url: 'https://www.last.fm/user/fennyflametail',
-				recents: feed.recenttracks.track
-					.map((track: any): MusicTrack | undefined => {
-						if ((track.mbid && seenTracks.has(track.mbid)) || !track.date?.uts) return;
-						seenTracks.add(track.mbid);
+			const seenTrackUrls = new Set<string>();
+			const tracks = (
+				feed.recenttracks.track
+					.map((track: any) => {
+						if (seenTrackUrls.has(track.url) || !track.date?.uts) return;
+						seenTrackUrls.add(track.url);
 						return {
 							name: track.name,
-							artist: track.artist.name,
-							album: track.album['#text'],
-							lastPlayed: parseInt(track.date.uts),
-							loved: track.loved === '1',
 							link: track.url,
-							artistLink: track.artist.url,
-							albumLink: `${track.artist.url}/${encodeURIComponent(track.album['#text'])}`,
-							image: (track.image.find((img: any) => img.size === 'large') ?? track.image.at(-1))[
+							loved: track.loved === '1',
+							lastPlayed: parseInt(track.date.uts),
+							_id: track.mbid,
+							_artist: track.artist.name,
+							_artistId: track.artist.mbid,
+							_artistLink: track.artist.url,
+							_album: track.album['#text'],
+							_albumId: track.album.mbid,
+							_albumLink: `${track.artist.url}/${encodeURIComponent(track.album['#text'])}`,
+							_image: (track.image.find((img: any) => img.size === 'large') ?? track.image.at(-1))[
 								'#text'
 							]
 						};
 					})
-					.filter(Boolean)
+					.filter(Boolean) as MusicTrackWithMetadata[]
+			)
+				// sort so most recently played albums appear first
+				.toSorted((a, b) => b.lastPlayed - a.lastPlayed);
+
+			const grouped = Object.groupBy(tracks, (track) => track._albumId || track._album);
+
+			const byAlbum = Object.entries(grouped).map(([album, tracks]): MusicAlbum => {
+				tracks = tracks?.toReversed() ?? [];
+
+				// use the most common artist & image
+				const artistCounts: Record<string, number> = {};
+				const imageCounts: Record<string, number> = {};
+				tracks.forEach((track) => {
+					artistCounts[track._artist] ??= 0;
+					artistCounts[track._artist]++;
+					imageCounts[track._image] ??= 0;
+					imageCounts[track._image]++;
+				});
+
+				const artist =
+					Object.entries(artistCounts).sort(([, countA], [, countB]) => countB - countA)[0]?.[0] ??
+					'';
+				const image =
+					Object.entries(imageCounts).sort(([, countA], [, countB]) => countB - countA)[0]?.[0] ??
+					'';
+
+				return {
+					name: tracks[0]._album,
+					link: tracks[0]._albumLink,
+					artist,
+					artistLink: tracks.find((t) => t._artist === artist)?._artistLink ?? '',
+					image,
+					tracks: tracks.map((track) => ({
+						name: track.name,
+						link: track.link,
+						loved: track.loved,
+						lastPlayed: track.lastPlayed
+					}))
+				};
+			});
+
+			const result: LastFmProfile = {
+				url: 'https://www.last.fm/user/fennyflametail',
+				recents: byAlbum
 			};
 			cache.timestamp = Date.now();
 			cache.data = result;
@@ -62,17 +107,32 @@ export const getLastFmFeed = query(async () => {
 
 export interface LastFmProfile {
 	url: string;
-	recents: MusicTrack[];
+	recents: MusicAlbum[];
+}
+
+export interface MusicAlbum {
+	name: string;
+	link: string;
+	artist: string;
+	artistLink: string;
+	image: string;
+	tracks: MusicTrack[];
 }
 
 export interface MusicTrack {
 	name: string;
-	artist: string;
-	album: string;
-	lastPlayed: number;
-	loved: boolean;
 	link: string;
-	artistLink: string;
-	albumLink: string;
-	image: string;
+	loved: boolean;
+	lastPlayed: number;
+}
+
+interface MusicTrackWithMetadata extends MusicTrack {
+	_id: string;
+	_artist: string;
+	_artistId: string;
+	_artistLink: string;
+	_album: string;
+	_albumId: string;
+	_albumLink: string;
+	_image: string;
 }
