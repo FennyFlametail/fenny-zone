@@ -134,7 +134,7 @@ body {
 	grid-template:
 		'menubar' var(--menubar-height)
 		'desktop' 1fr
-		'dock' var(--dock-height) / 100dvw;
+		'dock' auto / 100dvw;
 	border-radius: 9px;
 	background-color: black;
 	width: 100dvw;

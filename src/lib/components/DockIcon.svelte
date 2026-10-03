@@ -66,9 +66,8 @@
 <style>
 	.dockIcon {
 		--bounce-target: 0 -25px;
-		flex-shrink: 0;
 		inline-size: var(--dock-icon-size);
-		block-size: var(--dock-icon-size);
+		aspect-ratio: 1 / 1;
 		display: flex;
 		justify-content: center;
 		text-align: center;

@@ -50,9 +50,10 @@
 		z-index: 10000;
 		grid-area: dock;
 		justify-self: center;
+		max-inline-size: 100dvi;
+		max-block-size: var(--dock-height);
 		display: flex;
 		gap: 1px;
-		block-size: var(--dock-height);
 		outline: 1px solid rgb(0 0 0 / 10%);
 
 		:global(body.duoLayout) & {
@@ -67,6 +68,7 @@
 	}
 
 	.dockSection {
+		min-inline-size: 0;
 		position: relative;
 		display: flex;
 		align-items: flex-end;
