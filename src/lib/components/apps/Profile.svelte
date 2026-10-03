@@ -1,7 +1,8 @@
 <script lang="ts" generics="ThisCharacter extends CharacterName">
-	import AppLink from '$lib/components/AppLink.svelte';
+	import ProfilePhoto from '$lib/components/apps/ProfilePhoto.svelte';
+	import ProfileRelationships from '$lib/components/apps/ProfileRelationships.svelte';
 	import { getWindowServerContext } from '$lib/context.svelte';
-	import { type CharacterName, relationships } from '$lib/data/relationships';
+	import { type CharacterName } from '$lib/data/relationships';
 	import type { Snippet } from 'svelte';
 
 	const {
@@ -14,7 +15,7 @@
 		photoAlt,
 		bio,
 		tabs,
-		relationships: relationshipOrder,
+		relationships: relationshipsProp,
 		links
 	}: {
 		character: ThisCharacter;
@@ -22,14 +23,21 @@
 		species: string;
 		icon: string;
 		iconAlt: string;
-		/** Photos should be 725x1024 */
-		photo: string;
-		photoAlt: string;
 		bio: Snippet;
 		tabs?: Snippet;
-		relationships: Exclude<CharacterName, ThisCharacter>[];
+		relationships: Exclude<CharacterName, ThisCharacter>[] | Snippet;
 		links: Snippet;
-	} = $props();
+	} & (
+		| {
+				/** Photos should be 725x1024 */
+				photo: string;
+				photoAlt: string;
+		  }
+		| {
+				photo: Snippet;
+				photoAlt?: never;
+		  }
+	) = $props();
 	const nameId = $props.id();
 
 	const windowServer = getWindowServerContext();
@@ -44,14 +52,11 @@
 		</hgroup>
 	</header>
 	<div class="profilePhotoWrapper">
-		<img
-			class="profilePhoto"
-			src={photo}
-			alt={photoAlt}
-			width={725}
-			height={1024}
-			draggable="false"
-		/>
+		{#if typeof photo === 'string'}
+			<ProfilePhoto {photo} alt={photoAlt!} />
+		{:else}
+			{@render photo()}
+		{/if}
 	</div>
 	{#if tabs}
 		<div class="profileTabs">
@@ -61,20 +66,10 @@
 	<div class="profileBio profileSection">
 		{@render bio()}
 	</div>
-	{#if relationshipOrder?.length}
-		<div class="profileRelationships profileSection">
-			<h3 class="profileSectionHeading">Relationships</h3>
-			{#each relationshipOrder as other, i}
-				{@const relationship = relationships[character][other]}
-				<details class="profileRelationshipBlock">
-					<summary>{windowServer.apps[other].title}</summary>
-					<h4>How they met:</h4>
-					<p>{relationship.met}</p>
-					<h4>Their relationship:</h4>
-					<p>{relationship.views}</p>
-				</details>
-			{/each}
-		</div>
+	{#if Array.isArray(relationshipsProp)}
+		<ProfileRelationships {character} relationships={relationshipsProp} />
+	{:else}
+		{@render relationshipsProp()}
 	{/if}
 	<div class="profileLinks profileSection">
 		<h3 class="profileSectionHeading">Links</h3>
@@ -94,7 +89,7 @@
 		gap: var(--profile-spacing);
 		overflow-y: auto;
 
-		> :global(*) {
+		> :global(*, .tabBarContentSnippet > *) {
 			grid-column: 1;
 		}
 	}
@@ -128,88 +123,48 @@
 		line-height: 1.2;
 	}
 
-	.profileSectionHeading {
-		padding-inline: var(--profile-spacing);
-		margin-bottom: var(--profile-spacing);
-		-webkit-user-select: none;
-		user-select: none;
+	@scope (.profile) {
+		:global(.profileSectionHeading) {
+			padding-inline: var(--profile-spacing);
+			margin-bottom: var(--profile-spacing);
+			-webkit-user-select: none;
+			user-select: none;
+		}
 	}
 
 	@scope (.profileSection) {
-		:global(dl) {
-			display: grid;
-			grid-template-columns: 120px auto;
-			column-gap: 20px;
-			row-gap: 10px;
-			text-wrap: pretty;
-		}
+		:global {
+			dl {
+				display: grid;
+				grid-template-columns: 120px auto;
+				column-gap: 20px;
+				row-gap: 10px;
+				text-wrap: pretty;
+			}
 
-		:global(dt) {
-			text-align: end;
-			font-weight: bold;
-			text-transform: lowercase;
-			color: var(--text-secondary);
-		}
-
-		:global(dd) {
-			min-width: 0;
-		}
-
-		:global(ul) {
-			padding-inline-start: 20px;
-		}
-
-		:global(li) {
-			list-style-type: circle;
-		}
-
-		:global(.profileColor) {
-			padding: 0.2em;
-			border-radius: 0.2em;
-		}
-	}
-
-	.profileRelationshipBlock {
-		padding-inline: var(--profile-spacing);
-
-		&,
-		&::details-content {
-			display: flex;
-			flex-flow: column;
-			gap: var(--profile-spacing);
-		}
-
-		summary {
-			font-weight: bold;
-			-webkit-user-select: none;
-			user-select: none;
-			list-style-type: none;
-
-			&::before {
-				display: inline-block;
-				content: '▶';
+			dt {
+				text-align: end;
+				font-weight: bold;
+				text-transform: lowercase;
 				color: var(--text-secondary);
-				font-size: 0.9em;
-				margin-right: 10px;
-				transition: rotate 0.25s;
 			}
 
-			&:focus-visible {
-				box-shadow: var(--focus-box-shadow);
-				outline: none;
+			dd {
+				min-width: 0;
 			}
-		}
 
-		&[open] summary::before {
-			rotate: 90deg;
-		}
+			ul {
+				padding-inline-start: 20px;
+			}
 
-		&[open]::details-content {
-			padding-bottom: var(--profile-spacing);
-		}
+			li {
+				list-style-type: circle;
+			}
 
-		p {
-			white-space: pre-line;
+			.profileColor {
+				padding: 0.2em;
+				border-radius: 0.2em;
+			}
 		}
 	}
 
@@ -225,16 +180,6 @@
 		/* make sure the photo doesn't stretch the row it's in */
 		height: 0;
 		overflow: visible;
-	}
-
-	.profilePhoto {
-		width: auto;
-		height: calc(100cqh - 2px);
-		object-fit: contain;
-		object-position: bottom right;
-		-webkit-user-select: none;
-		user-select: none;
-		pointer-events: none;
 	}
 
 	@container window (width < 1000px) {
@@ -253,9 +198,6 @@
 			height: 60cqh;
 			align-self: center;
 			mask: linear-gradient(to bottom, white calc(100% - 10px), transparent);
-		}
-		.profilePhoto {
-			height: 100%;
 		}
 	}
 </style>

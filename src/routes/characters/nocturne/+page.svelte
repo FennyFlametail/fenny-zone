@@ -1,25 +1,36 @@
 <script lang="ts">
 	import Profile from '$lib/components/apps/Profile.svelte';
-	import TabBar from '$lib/components/TabBar.svelte';
-	import NocturneIcon from '$lib/images/icons/nocturne-profile.webp';
+	import ProfilePhoto from '$lib/components/apps/ProfilePhoto.svelte';
+	import ProfileRelationships from '$lib/components/apps/ProfileRelationships.svelte';
+	import TabBar, { type Option } from '$lib/components/TabBar.svelte';
 	import NocturneMainPhoto from '$lib/images/characters/nocturne-main.webp';
 	import NocturnePhoto from '$lib/images/characters/nocturne.webp';
+	import NocturneIcon from '$lib/images/icons/nocturne-profile.webp';
 	import type { Snippet } from 'svelte';
 
-	const options = [
+	type Key = 'photo' | 'bio' | 'relationships';
+
+	const options: Option<Key>[] = [
 		{
 			name: 'Space AU',
-			snippet: bioSpace
+			content: {
+				photo: photoSpace,
+				bio: bioSpace
+			}
 		},
 		{
 			name: 'Main Setting',
-			snippet: bioMain
+			content: {
+				photo: photoMain,
+				bio: bioMain,
+				relationships: relationshipsMain
+			}
 		}
 	] as const;
 
 	let tabId = $props.id();
 	let selectedIndex = $state(0);
-	let tabContent = $state<Snippet>();
+	let tabContent = $state<Snippet<[Key]>>();
 
 	const main = $derived(options[selectedIndex].name === 'Main Setting');
 </script>
@@ -30,18 +41,21 @@
 	species="Goat"
 	icon={NocturneIcon}
 	iconAlt="Icon of a goat giving you a disgruntled look. They have a mohawk, nose and ear piercings, and a constellation pattern on their horns."
-	photo={main ? NocturneMainPhoto : NocturnePhoto}
-	photoAlt={main
-		? 'A goat sitting and slurping noodles from a bowl of ramen, holding chopsticks in their robotic hand.'
-		: 'A goat standing and holding a tray of food squares. They’re holding one up with their robotic hand and inspecting it with some aversion.'}
-	relationships={main ? ['rigel', 'aren', 'fenny'] : []}
 >
+	{#snippet photo()}
+		{@render tabContent?.('photo')}
+	{/snippet}
+
 	{#snippet bio()}
-		{@render tabContent?.()}
+		{@render tabContent?.('bio')}
 	{/snippet}
 
 	{#snippet tabs()}
 		<TabBar id={tabId} {options} bind:selectedIndex bind:tabContent />
+	{/snippet}
+
+	{#snippet relationships()}
+		{@render tabContent?.('relationships')}
 	{/snippet}
 
 	{#snippet links()}
@@ -72,6 +86,20 @@
 		</dl>
 	{/snippet}
 </Profile>
+
+{#snippet photoSpace()}
+	<ProfilePhoto
+		photo={NocturnePhoto}
+		alt="A goat standing and holding a tray of food squares. They’re holding one up with their robotic hand and inspecting it with some aversion."
+	/>
+{/snippet}
+
+{#snippet photoMain()}
+	<ProfilePhoto
+		photo={NocturneMainPhoto}
+		alt="A goat sitting and slurping noodles from a bowl of ramen, holding chopsticks in their robotic hand."
+	/>
+{/snippet}
 
 {#snippet bioSpace()}
 	<dl>
@@ -205,10 +233,7 @@
 			<ul>
 				<li>gets annoyed easily, but rarely shows anger</li>
 				<li>likes niche things, but not pretentious about them</li>
-				<li>
-					a lot more rebellious when they were deeper in the punk scene, mellowed out as they got
-					older
-				</li>
+				<li>a lot more rebellious when they were younger, somewhat mellowed out</li>
 			</ul>
 		</dd>
 
@@ -280,6 +305,10 @@
 			</ul>
 		</dd>
 	</dl>
+{/snippet}
+
+{#snippet relationshipsMain()}
+	<ProfileRelationships character="nocturne" relationships={['rigel', 'aren', 'fenny']} />
 {/snippet}
 
 <style>

@@ -1,11 +1,13 @@
-<script lang="ts">
-	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-
-	interface Option {
+<script module lang="ts">
+	export interface Option<Key extends string> {
 		name: string;
-		snippet: Snippet;
+		content: Partial<Record<Key, Snippet>>;
 	}
+</script>
+
+<script lang="ts" generics="Key extends string">
+	import { type Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 
 	let {
 		id,
@@ -17,21 +19,21 @@
 		/** Must be unique - can use $props.id() */
 		// $props.id() inside this component is inconsistent when JS is disabled
 		id: string;
-		options: readonly Option[];
-		tabContent: Snippet | undefined;
+		options: readonly Option<Key>[];
+		tabContent: Snippet<[Key]> | undefined;
 		selectedIndex: number;
 		class?: ClassValue;
 	} = $props();
 
 	tabContent = content;
 
-	const optionStyles = `<style>
+	const optionStyles = $derived(`<style>
 	${options
 		.map((_option, index) => {
 			const tabId = `TabBar-${id}-${index}`;
 			return `body:has(#${tabId}:checked) #${tabId} {display:contents}`;
 		})
-		.join('\n')}</style>`;
+		.join('\n')}</style>`);
 </script>
 
 <fieldset class={['tabBar', className]}>
@@ -51,10 +53,10 @@
 	{/each}
 </fieldset>
 
-{#snippet content()}
+{#snippet content(key: Key)}
 	{#each options as option, index}
 		<div class="tabBarContentSnippet" id="TabBar-{id}-{index}">
-			{@render option.snippet()}
+			{@render option.content[key]?.()}
 		</div>
 	{/each}
 	{@html optionStyles}
