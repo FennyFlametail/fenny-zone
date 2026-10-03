@@ -240,7 +240,7 @@ const getApps = (): {
 	music: {
 		parent: undefined,
 		Page: Music,
-		title: 'Music',
+		title: 'Last.fm',
 		menuTitle: 'iTunes',
 		icon: iTunesIcon,
 		hideTitleIcon: true,
