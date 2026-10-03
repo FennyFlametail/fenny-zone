@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { page } from '$app/state';
 import getApps, {
 	type AppEntry,
 	type AppName,
@@ -145,7 +146,7 @@ export default class WindowServer {
 	#launchCount = $state(0);
 
 	initialAppName = $state<AppName>();
-	desktopFocused = $state(true);
+	desktopFocused = $state(page.route.id === '/');
 	draggingEl = $state<HTMLElement>();
 	resizingEl = $state<HTMLElement>();
 

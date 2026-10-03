@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { page } from '$app/state';
 	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import AppLink from '$lib/components/AppLink.svelte';
 	import WindowStatusBar from '$lib/components/WindowStatusBar.svelte';
@@ -10,11 +11,12 @@
 	import { onMount } from 'svelte';
 
 	const { folder: folderProp }: AppProps<'finder'> = $props();
+	const getFolderProp = () => folderProp;
 
 	const windowServer = getWindowServerContext();
 	const { app } = getAppContext<'finder'>();
 
-	const navStack = new NavigationStack<AppName>(folderProp ?? 'home', onFolderChange);
+	const navStack = new NavigationStack<AppName>(getFolderProp() ?? 'home', onFolderChange);
 	$effect(() => {
 		if (folderProp) navStack.push(folderProp);
 	});
@@ -40,13 +42,8 @@
 <div class="finder brushedNoInset">
 	<WindowToolbar>
 		<div class="aqua-button-group" role="group">
-			{#if !browser && windowServer.focusedApp?.app.backTo}
-				<a
-					class="aqua-button square back"
-					role="button"
-					title="Back"
-					aria-label="Back"
-					href={windowServer.focusedApp?.app.backTo}
+			{#if !browser && page.route.id !== '/home'}
+				<a class="aqua-button square back" role="button" title="Back" aria-label="Back" href="/home"
 				></a>
 			{:else}
 				<button

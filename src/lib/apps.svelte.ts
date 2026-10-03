@@ -211,12 +211,12 @@ const getApps = (): {
 		title: 'Bluesky',
 		windowStyle: 'custom',
 		icon: TweetbotIcon,
-		route: '/bluesky',
-		backTo: '/applications',
 		defaultPosition: {
 			width: 515,
 			height: 1000
-		}
+		},
+		route: '/bluesky',
+		backTo: '/applications'
 	},
 	blueskyMedia: {
 		parent: 'bluesky',
@@ -249,7 +249,8 @@ const getApps = (): {
 			width: 1000,
 			height: 800
 		},
-		route: '/music'
+		route: '/music',
+		backTo: '/applications'
 	},
 	preview: {
 		parent: undefined,
@@ -283,8 +284,7 @@ const getApps = (): {
 		icon: ApplicationsIcon,
 		launchParentWithProps: { folder: 'applications' },
 		replaceParentTitle: true,
-		route: '/applications',
-		backTo: '/home'
+		route: '/applications'
 	},
 	projects: {
 		parent: 'finder',
@@ -293,8 +293,7 @@ const getApps = (): {
 		icon: ProjectsIcon,
 		launchParentWithProps: { folder: 'projects' },
 		replaceParentTitle: true,
-		route: '/projects',
-		backTo: '/home'
+		route: '/projects'
 	},
 	keyboards: {
 		parent: 'finder',
@@ -303,8 +302,7 @@ const getApps = (): {
 		icon: KeyboardsIcon,
 		launchParentWithProps: { folder: 'keyboards' },
 		replaceParentTitle: true,
-		route: '/keyboards',
-		backTo: '/home'
+		route: '/keyboards'
 	},
 	// #region TextEdit
 	textEdit: {
@@ -516,7 +514,6 @@ const getApps = (): {
 			height: 225
 		}
 	},
-
 	trash: {
 		parent: 'finder',
 		Page: Trash,
