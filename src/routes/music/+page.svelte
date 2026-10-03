@@ -20,7 +20,7 @@
 		Volume2
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { getLastFmFeed, type LastFmProfile, type MusicTrack } from './lastfm.remote';
+	import { getLastFmFeed, type LastFmProfile } from './lastfm.remote';
 
 	const windowServer = getWindowServerContext();
 	const { appName } = getAppContext<'music'>();
@@ -122,11 +122,13 @@
 				</div>
 			</div>
 			{#each profile?.recents ?? [] as album}
+				{@const albumName = decode(album.name)}
+				{@const artistName = decode(album.artist)}
 				<div
 					role="rowgroup"
 					class="itunesAlbum aqua-table-body"
 					style:--track-count={album.tracks.length}
-					aria-label="{album.name} - {album.artist}"
+					aria-label="{albumName} - {artistName}"
 				>
 					<div role="row" class="itunesAlbumDetails" aria-label="Album details">
 						<img class="itunesAlbumArt" src={album.image} alt="" loading="lazy" draggable="false" />
@@ -142,22 +144,23 @@
 							class="itunesAlbumName"
 							href={album.link}
 							target="_blank"
-							title={album.name}
-							aria-label="Album - {album.name} - Open on Last.fm">{album.name}</a
+							title={albumName}
+							aria-label="Album - {albumName} - Open on Last.fm">{albumName}</a
 						>
 						<a
 							role="rowheader"
 							class="itunesAlbumArtist"
 							href={album.artistLink}
 							target="_blank"
-							aria-label="Artist - {album.artist} - Open on Last.fm">{album.artist}</a
+							aria-label="Artist - {artistName} - Open on Last.fm">{artistName}</a
 						>
 					</div>
 					{#each album.tracks as track}
+						{@const trackName = decode(track.name)}
 						{@const lastPlayed = intlFormat(fromUnixTime(track.lastPlayed), { dateStyle: 'short' })}
-						<div role="row" class="itunesTrackRow" aria-label={track.name}>
-							<div role="cell" class="itunesTrackNameCell" aria-label={track.name}>
-								<span class="itunesTrackName" title={track.name}>{track.name}</span>
+						<div role="row" class="itunesTrackRow" aria-label={trackName}>
+							<div role="cell" class="itunesTrackNameCell" aria-label={trackName}>
+								<span class="itunesTrackName" title={trackName}>{trackName}</span>
 								<a
 									class="itunesSongLink noJS-pointer"
 									href={track.link}
