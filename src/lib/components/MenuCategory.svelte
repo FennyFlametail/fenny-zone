@@ -44,13 +44,13 @@
 	function onpointerdown(e: PointerEvent) {
 		if (menu?.contains(e.target as Node)) return;
 		pointerDownTime = Date.now();
-		menu!.togglePopover({ source: button });
+		menu?.togglePopover({ source: button });
 	}
 
 	function onpointerup(e: PointerEvent) {
 		if (menu?.contains(e.target as Node)) return;
 		if (Date.now() - pointerDownTime > 500) {
-			menu!.hidePopover();
+			menu?.hidePopover();
 		}
 	}
 </script>
