@@ -8,7 +8,6 @@ import type { Component, Snippet } from 'svelte';
 import AdblockWarning from '$lib/components/apps/AdblockWarning.svelte';
 import CrashDialog from '$lib/components/apps/CrashDialog.svelte';
 import Finder from '$lib/components/apps/Finder.svelte';
-import SystemPreferences from '$lib/components/apps/SystemPreferences.svelte';
 import BlueskyMedia from '$lib/components/bluesky/BlueskyMedia.svelte';
 import AppearancePrefs from '$lib/components/prefpanes/AppearancePrefs.svelte';
 import DesktopPrefs from '$lib/components/prefpanes/DesktopPrefs.svelte';
@@ -32,6 +31,7 @@ import Music from '../routes/music/+page.svelte';
 import Projects from '../routes/projects/+page.svelte';
 import Readme from '../routes/readme/+page.svelte';
 import Sauce from '../routes/sauce/+page.svelte';
+import SystemPreferences from '../routes/system-preferences/+page.svelte';
 import TextEdit from '../routes/textedit/+page.svelte';
 import Toddspin from '../routes/toddspin/+page.svelte';
 import Trash from '../routes/trash/+page.svelte';
@@ -455,15 +455,16 @@ const getApps = (): {
 		icon: SystemPreferencesIcon,
 		hideTitleIcon: true,
 		windowStyle: 'unified',
-		noResize: true,
-		backTo: '/applications',
 		get defaultPosition() {
 			// position to fit the Desktop prefpane (height 525)
 			return {
 				y: WindowServer.getInitialPosition({ height: 525 }).y,
 				height: 175
 			};
-		}
+		},
+		noResize: true,
+		route: '/system-preferences',
+		backTo: '/applications'
 	},
 	prefsAppearance: {
 		parent: 'systemPreferences',

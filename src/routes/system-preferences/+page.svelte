@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import type { AppName, AppProps } from '$lib/apps.svelte';
 	import WindowToolbar from '$lib/components/WindowToolbar.svelte';
 	import { getAppContext, getWindowServerContext } from '$lib/context.svelte';
@@ -23,6 +24,7 @@
 	let transition = $state(false);
 
 	function onPaneChange() {
+		if (!browser) return;
 		app.instance.props.pane = navStack.current;
 		app.instance.windowTitle = pane?.title;
 		app.instance.position.height = Math.min(
@@ -66,6 +68,7 @@
 			onintroend={() => (transition = false)}
 			onoutroend={() => (transition = false)}
 		>
+			<noscript>This app requires JavaScript</noscript>
 			{#each prefPanes as name}
 				{@const pane = windowServer.apps[name]}
 				<button class="systemPreferencesIcon" onclick={() => navStack.push(name)}>
@@ -106,6 +109,14 @@
 		row-gap: 50px;
 	}
 
+	noscript {
+		grid-column: 1 / -1;
+		text-align: center;
+		color: var(--text-secondary);
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
 	.systemPreferencesIcon {
 		background: none;
 		border: none;
@@ -118,6 +129,10 @@
 		text-align: center;
 		-webkit-user-select: none;
 		user-select: none;
+
+		@media (scripting: none) {
+			display: none;
+		}
 
 		&:focus-visible {
 			outline: none;
