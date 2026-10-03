@@ -262,7 +262,7 @@
 		/* needed for the Finder counters to work in Safari */
 		content: counter(iconCount) counter(itemsLabel);
 		position: fixed;
-		top: 100vh;
-		left: 100vw;
+		top: 100lvh;
+		left: 100lvw;
 	}
 </style>
