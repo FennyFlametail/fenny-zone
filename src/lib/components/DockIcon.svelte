@@ -91,7 +91,7 @@
 			--bounce-target: -25px 0;
 		}
 
-		@media not ((prefers-reduced-motion: reduce) or (hover: none)) {
+		@media not ((prefers-reduced-motion: reduce)) {
 			:global(body:not(.loading)) & {
 				/* zoom in and expand Dock */
 				@starting-style {
@@ -104,45 +104,47 @@
 				}
 			}
 
-			&:hover {
-				margin-block-end: 10px;
-				inline-size: calc(var(--dock-icon-size) * 2);
-				block-size: calc(var(--dock-icon-size) * 2);
-			}
+			@media (hover: hover) {
+				&:hover {
+					margin-block-end: 10px;
+					inline-size: calc(var(--dock-icon-size) * 2);
+					block-size: calc(var(--dock-icon-size) * 2);
+				}
 
-			/* icons next to hovered */
-			:global(
-				.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
-					&:nth-last-child(1 of :not(.noJS-hide)),
-				&:has(+ &:hover),
-				&:hover + &,
-				.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
-					+ .dockSection
-					&:nth-child(1 of :not(.noJS-hide))
-			) {
-				margin-block-end: 10px;
-				inline-size: calc(var(--dock-icon-size) * 1.8);
-				block-size: calc(var(--dock-icon-size) * 1.8);
-			}
+				/* icons next to hovered */
+				:global(
+					.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
+						&:nth-last-child(1 of :not(.noJS-hide)),
+					&:has(+ &:hover),
+					&:hover + &,
+					.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
+						+ .dockSection
+						&:nth-child(1 of :not(.noJS-hide))
+				) {
+					margin-block-end: 10px;
+					inline-size: calc(var(--dock-icon-size) * 1.8);
+					block-size: calc(var(--dock-icon-size) * 1.8);
+				}
 
-			/* icons two away from hovered */
-			:global(
-				.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
-					&:nth-last-child(2 of :not(.noJS-hide)),
-				.dockSection:has(+ .dockSection &:nth-child(2 of :not(.noJS-hide)):hover)
-					&:nth-last-child(1 of :not(.noJS-hide)),
-				&:has(+ & + &:hover),
-				&:hover + & + &,
-				.dockSection:has(&:nth-last-child(2 of :not(.noJS-hide)):hover)
-					+ .dockSection
-					&:nth-child(1 of :not(.noJS-hide)),
-				.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
-					+ .dockSection
-					&:nth-child(2 of :not(.noJS-hide))
-			) {
-				margin-block-end: 5px;
-				inline-size: calc(var(--dock-icon-size) * 1.4);
-				block-size: calc(var(--dock-icon-size) * 1.4);
+				/* icons two away from hovered */
+				:global(
+					.dockSection:has(+ .dockSection &:nth-child(1 of :not(.noJS-hide)):hover)
+						&:nth-last-child(2 of :not(.noJS-hide)),
+					.dockSection:has(+ .dockSection &:nth-child(2 of :not(.noJS-hide)):hover)
+						&:nth-last-child(1 of :not(.noJS-hide)),
+					&:has(+ & + &:hover),
+					&:hover + & + &,
+					.dockSection:has(&:nth-last-child(2 of :not(.noJS-hide)):hover)
+						+ .dockSection
+						&:nth-child(1 of :not(.noJS-hide)),
+					.dockSection:has(&:nth-last-child(1 of :not(.noJS-hide)):hover)
+						+ .dockSection
+						&:nth-child(2 of :not(.noJS-hide))
+				) {
+					margin-block-end: 5px;
+					inline-size: calc(var(--dock-icon-size) * 1.4);
+					block-size: calc(var(--dock-icon-size) * 1.4);
+				}
 			}
 		}
 

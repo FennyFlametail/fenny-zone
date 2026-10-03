@@ -54,8 +54,6 @@
 		gap: 1px;
 		block-size: var(--dock-height);
 		outline: 1px solid rgb(0 0 0 / 10%);
-		/* fix incorrect sizing in Safari */
-		max-block-size: calc(var(--dock-icon-size) + var(--dock-padding) * 2);
 
 		:global(body.duoLayout) & {
 			writing-mode: vertical-lr;
